@@ -1,0 +1,3 @@
+/home/kidyan0000/Dropbox/P.Thesis_Seamless_Cloth_Simulation_with_High_Geometric_Fidelity/Workspace/cloth_simulation/build/CMakeFiles/rebuild_cache.dir
+/home/kidyan0000/Dropbox/P.Thesis_Seamless_Cloth_Simulation_with_High_Geometric_Fidelity/Workspace/cloth_simulation/build/CMakeFiles/CLOTH_SIMULATION.dir
+/home/kidyan0000/Dropbox/P.Thesis_Seamless_Cloth_Simulation_with_High_Geometric_Fidelity/Workspace/cloth_simulation/build/CMakeFiles/edit_cache.dir
