@@ -26,23 +26,20 @@ CONFIG += c++11
 
 INCLUDEPATH += $$PWD/src
 SOURCES += \
-    src/clothwindow.cpp \
     src/main.cpp \
     src/ply_Module.cpp \
     src/tinyply.cpp \
-    src/ClothMain.cpp
+
 
 
 
 INCLUDEPATH += $$PWD/headers
 HEADERS += \
-    headers/clothwindow.h \
     headers/ply_Module.h \
     headers/tinyply.h
 
 INCLUDEPATH += $$PWD/GUI
 FORMS += \
-    GUI/clothwindow.ui
 
 # Add some user defined libraries
 INCLUDEPATH += /usr/include/eigen3

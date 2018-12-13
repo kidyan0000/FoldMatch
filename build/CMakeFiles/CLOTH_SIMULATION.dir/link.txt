@@ -1,1 +1,0 @@
-/usr/bin/c++     CMakeFiles/CLOTH_SIMULATION.dir/src/ClothMain.cpp.o CMakeFiles/CLOTH_SIMULATION.dir/src/clothwindow.cpp.o CMakeFiles/CLOTH_SIMULATION.dir/src/main.cpp.o CMakeFiles/CLOTH_SIMULATION.dir/src/ply_Module.cpp.o CMakeFiles/CLOTH_SIMULATION.dir/src/tinyply.cpp.o  -o CLOTH_SIMULATION 

@@ -1,7 +1,3 @@
-/*
-* P.Thesis Seamless Cloth Simulation with High Geometric Fidelity 
-*/
-
 #include <iostream>
 #include <stdlib.h>
 
