@@ -38,8 +38,7 @@ equations in GPU using CUDA - C++)
 [2] Gravitational Approach for Point Set Registration (https://av.dfki.de/publications/gravitational-approach-for-point-set-registration/)
 
 
-[3] NRGA: Gravitational Approach for Non-Rigid Point Set Registration (https://av.dfki.de/publications/nrga-gravitational-approach-fornon-
-rigid-point-set-registration/)
+[3] NRGA: Gravitational Approach for Non-Rigid Point Set Registration (https://av.dfki.de/publications/nrga-gravitational-approach-fornon-rigid-point-set-registration/)
 
 
 [4] Wrinkling Coarse Meshes on the GPU (https://pdfs.semanticscholar.org/edfc/917c2041b9de4c25666182b200096c9fb9ab.pdf)
@@ -48,12 +47,10 @@ rigid-point-set-registration/)
 [5] Nonlinear Material Design Using Principal Stretches (http://run.usc.edu/isotropicMaterialEditor/XuSinZhuBarbic-Siggraph2015.pdf)
 
 
-[6] DeepWrinkles: Accurate and Realistic Clothing Modeling (http://openaccess.thecvf.com/content_ECCV_2018/papers/
-Zorah_Laehner_DeepWrinkles_Accurate_and_ECCV_2018_paper.pdf)
+[6] DeepWrinkles: Accurate and Realistic Clothing Modeling (http://openaccess.thecvf.com/content_ECCV_2018/papers/Zorah_Laehner_DeepWrinkles_Accurate_and_ECCV_2018_paper.pdf)
 
 
-[7] Animation Wrinkling: Augmenting Coarse Cloth Simulations with Realistic-Looking Wrinkles (http://wwwljk.
-imag.fr/Publications/Basilic/com.lmc.publi.PUBLI_Article@12af671f1f1_1358f03/animation_wrinkling.pdf)
+[7] Animation Wrinkling: Augmenting Coarse Cloth Simulations with Realistic-Looking Wrinkles (http://wwwljk.imag.fr/Publications/Basilic/com.lmc.publi.PUBLI_Article@12af671f1f1_1358f03/animation_wrinkling.pdf)
 
 
 [8] Simulation of Clothing with Folds and Wrinkles ( https://graphics.stanford.edu/papers/cloth2003/cloth.pdf )
