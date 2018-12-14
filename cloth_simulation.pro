@@ -29,6 +29,7 @@ SOURCES += \
     src/main.cpp \
     src/ply_Module.cpp \
     src/tinyply.cpp \
+    src/clothwindow.cpp
 
 
 
@@ -36,10 +37,12 @@ SOURCES += \
 INCLUDEPATH += $$PWD/headers
 HEADERS += \
     headers/ply_Module.h \
-    headers/tinyply.h
+    headers/tinyply.h \
+    headers/clothwindow.h
 
 INCLUDEPATH += $$PWD/GUI
 FORMS += \
+    GUI/clothwindow.ui
 
 # Add some user defined libraries
 INCLUDEPATH += /usr/include/eigen3
