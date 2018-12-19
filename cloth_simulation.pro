@@ -4,11 +4,11 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui opengl
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = cloth_simulation
+TARGET =    CLOTH_SIMULATION
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -29,7 +29,9 @@ SOURCES += \
     src/main.cpp \
     src/ply_Module.cpp \
     src/tinyply.cpp \
-    src/clothwindow.cpp
+    src/ply_defo.cpp \
+    src/cloth_glwidget.cpp \
+    src/cloth_window.cpp
 
 
 
@@ -38,11 +40,13 @@ INCLUDEPATH += $$PWD/headers
 HEADERS += \
     headers/ply_Module.h \
     headers/tinyply.h \
-    headers/clothwindow.h
+    headers/ply_defo.h \
+    headers/cloth_glwidget.h \
+    headers/cloth_window.h
 
 INCLUDEPATH += $$PWD/GUI
 FORMS += \
-    GUI/clothwindow.ui
+    GUI/cloth_window.ui
 
 # Add some user defined libraries
 INCLUDEPATH += /usr/include/eigen3

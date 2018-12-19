@@ -41,9 +41,9 @@ SET( HEADERS "${PROJECT_SOURCE_DIR}/headers")
 # INCLUDE_DIRECTORIES ("${PROJECT_SOURCE_DIR}/src")
 # SET( SRC "${PROJECT_SOURCE_DIR}/src")
 
-#
+# it is the old way, should use CMAKE_AUTOMOC instead
 # QT5_WRAP_CPP( MOC ${HEADERS}/clothwindow.h)
-# QT5_WRAP_UI( UIC ${GUI}/clothwindow.ui)
+ QT5_WRAP_UI( UIC ${GUI}/clothwindow.ui)
 
 # set user include
 SET(INCLUDE_DIR "/usr/include")
@@ -57,11 +57,11 @@ ENDIF (USE_OPT)
 
 # add the source diretory
 AUX_SOURCE_DIRECTORY("${PROJECT_SOURCE_DIR}/src" DIR_SRCS)
-# add to enviroment variable
 SET(CLOTH_SRCS ${DIR_SRCS})
  
 # add the executable
 ADD_EXECUTABLE (${PROJECT_NAME} ${CLOTH_SRCS})
+
 
 # Use the Widgets module from Qt 5
 TARGET_LINK_LIBRARIES (${PROJECT_NAME} Qt5::Widgets)

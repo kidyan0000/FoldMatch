@@ -130,7 +130,7 @@ void ply_module::setFaces(Eigen::MatrixXi faces)
 }
 
 // READ/WRITE FUNCTIONS 
-bool ply_module::readPLY(const std::string & filename, bool readColorsFlag, bool readFacesFlag, bool readNormalsFlag, bool readFaceTextureFlag, bool readCurvatureFlag)
+bool ply_module::readPLY(const std::string & filename, bool readColorsFlag, bool readFacesFlag, bool readNormalsFlag, bool readFaceTextureFlag, bool readCurvatureFlag, std::vector<float> &verts)
 {
 	// Tinyply can and will throw exceptions at you!
 	try
@@ -160,7 +160,7 @@ bool ply_module::readPLY(const std::string & filename, bool readColorsFlag, bool
 		// Define containers to hold the extracted data. The type must match
 		// the property type given in the header. Tinyply will interally allocate the
 		// the appropriate amount of memory.
-		std::vector<float> verts;
+        // std::vector<float> verts;
 		std::vector<float> norms;
 		std::vector<uint8_t> colors;
 		std::vector<uint32_t> faces;
@@ -207,16 +207,18 @@ bool ply_module::readPLY(const std::string & filename, bool readColorsFlag, bool
 		if (colorCount != 0)		this->colors = Eigen::Matrix<uint8_t, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>::Map(&colors[0], colorCount, 3).cast<int>();
 		if (curvatureCount != 0)	this->curvatures = (Eigen::Matrix<float, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>::Map(&curvatures[0], curvatureCount, 1)).cast<double>();
 		
-		std::cout << verts[0] << std::endl; 
-		return true;
+        // here to print the vertice in Terminal
+        // std::cout << verts[1] << std::endl;
+
+        return true;
 	}
 	catch (const std::exception & e)
 	{
 		std::cerr << "Caught exception: " << e.what() << std::endl;
-		return false;
+        return false;
 	}
 
-	return false;
+    return false;
 }
 
 bool ply_module::writePLY(const std::string & oFileName, bool writeColorsFlag, bool writeFacesFlag, bool writeNormalsFlag, bool writeCurvatureFlag, bool isBinary)

@@ -1,19 +1,18 @@
 /********************************************************************************
-** Form generated from reading UI file 'clothwindow.ui'
+** Form generated from reading UI file 'cloth_window.ui'
 **
 ** Created by: Qt User Interface Compiler version 5.12.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef UI_CLOTHWINDOW_H
-#define UI_CLOTHWINDOW_H
+#ifndef UI_CLOTH_WINDOW_H
+#define UI_CLOTH_WINDOW_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
-#include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
@@ -24,9 +23,8 @@ QT_BEGIN_NAMESPACE
 class Ui_Cloth_Window
 {
 public:
-    QWidget *MainWidget;
-    Cloth_GLWidget *cloth_qlwidget;
-    QPushButton *pushButton;
+    QWidget *centralWidget;
+    Cloth_GLWidget *widget;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -36,15 +34,12 @@ public:
         if (Cloth_Window->objectName().isEmpty())
             Cloth_Window->setObjectName(QString::fromUtf8("Cloth_Window"));
         Cloth_Window->resize(800, 600);
-        MainWidget = new QWidget(Cloth_Window);
-        MainWidget->setObjectName(QString::fromUtf8("MainWidget"));
-        cloth_qlwidget = new Cloth_GLWidget(MainWidget);
-        cloth_qlwidget->setObjectName(QString::fromUtf8("cloth_qlwidget"));
-        cloth_qlwidget->setGeometry(QRect(20, 20, 500, 500));
-        pushButton = new QPushButton(MainWidget);
-        pushButton->setObjectName(QString::fromUtf8("pushButton"));
-        pushButton->setGeometry(QRect(570, 20, 89, 25));
-        Cloth_Window->setCentralWidget(MainWidget);
+        centralWidget = new QWidget(Cloth_Window);
+        centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
+        widget = new Cloth_GLWidget(centralWidget);
+        widget->setObjectName(QString::fromUtf8("widget"));
+        widget->setGeometry(QRect(20, 20, 500, 500));
+        Cloth_Window->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(Cloth_Window);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
         menuBar->setGeometry(QRect(0, 0, 800, 22));
@@ -63,8 +58,7 @@ public:
 
     void retranslateUi(QMainWindow *Cloth_Window)
     {
-        Cloth_Window->setWindowTitle(QApplication::translate("Cloth_Window", "ClothWindow", nullptr));
-        pushButton->setText(QApplication::translate("Cloth_Window", "PushButton", nullptr));
+        Cloth_Window->setWindowTitle(QApplication::translate("Cloth_Window", "Cloth_Window", nullptr));
     } // retranslateUi
 
 };
@@ -75,4 +69,4 @@ namespace Ui {
 
 QT_END_NAMESPACE
 
-#endif // UI_CLOTHWINDOW_H
+#endif // UI_CLOTH_WINDOW_H
