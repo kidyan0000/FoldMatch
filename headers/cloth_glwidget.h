@@ -12,13 +12,14 @@ public:
 
     explicit Cloth_GLWidget(QWidget *parent = nullptr);
 
+
+protected:
     void initializeGL();
     void paintGL();
     void resizeGL(int w, int h);
 
 private:
     void draw();
-
 
 };
 

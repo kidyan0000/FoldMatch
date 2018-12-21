@@ -12,7 +12,7 @@ public:
 	ply_module();
 	virtual ~ply_module();
 	
-    bool readPLY(const std::string &  ifileName, bool readColorsFlag, bool readFacesFlag, bool readNormalsFlag, bool readFaceTextureFlag, bool readCurvatureFlag, std::vector<float> &verts);
+    bool readPLY(const std::string &  ifileName, bool readColorsFlag, bool readFacesFlag, bool readNormalsFlag, bool readFaceTextureFlag, bool readCurvatureFlag);
 	bool writePLY(const std::string & oFileName, bool writeColorsFlag, bool writeFacesFlag, bool writeNormalsFlag, bool writeCurvatureFlag, bool isBinary);
 
 	int getNumberOfVertices();

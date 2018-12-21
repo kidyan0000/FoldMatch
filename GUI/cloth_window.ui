@@ -13,8 +13,8 @@
   <property name="windowTitle">
    <string>Cloth_Window</string>
   </property>
-  <widget class="QWidget" name="centralWidget">
-   <widget class="Cloth_GLWidget" name="widget" native="true">
+  <widget class="QWidget" name="central_widget">
+   <widget class="Cloth_GLWidget" name="cloth_widget" native="true">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -22,6 +22,47 @@
       <width>500</width>
       <height>500</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QTabWidget" name="cloth_tab">
+    <property name="geometry">
+     <rect>
+      <x>550</x>
+      <y>20</y>
+      <width>200</width>
+      <height>500</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="tab_3">
+     <attribute name="title">
+      <string>Tab 1</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="tab_4">
+     <attribute name="title">
+      <string>Tab 2</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="tab_5">
+     <attribute name="title">
+      <string>Page</string>
+     </attribute>
+    </widget>
+   </widget>
+   <widget class="QPushButton" name="close">
+    <property name="geometry">
+     <rect>
+      <x>749</x>
+      <y>0</y>
+      <width>50</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>close</string>
     </property>
    </widget>
   </widget>
@@ -55,5 +96,22 @@
   </customwidget>
  </customwidgets>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>close</sender>
+   <signal>clicked()</signal>
+   <receiver>Cloth_Window</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>774</x>
+     <y>51</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>777</x>
+     <y>96</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

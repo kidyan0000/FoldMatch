@@ -29,7 +29,6 @@ SOURCES += \
     src/main.cpp \
     src/ply_Module.cpp \
     src/tinyply.cpp \
-    src/ply_defo.cpp \
     src/cloth_glwidget.cpp \
     src/cloth_window.cpp
 
@@ -40,7 +39,6 @@ INCLUDEPATH += $$PWD/headers
 HEADERS += \
     headers/ply_Module.h \
     headers/tinyply.h \
-    headers/ply_defo.h \
     headers/cloth_glwidget.h \
     headers/cloth_window.h
 

@@ -53,14 +53,12 @@ OBJECTS_DIR   = ./
 SOURCES       = ../src/main.cpp \
 		../src/ply_Module.cpp \
 		../src/tinyply.cpp \
-		../src/ply_defo.cpp \
 		../src/cloth_glwidget.cpp \
 		../src/cloth_window.cpp moc_cloth_glwidget.cpp \
 		moc_cloth_window.cpp
 OBJECTS       = main.o \
 		ply_Module.o \
 		tinyply.o \
-		ply_defo.o \
 		cloth_glwidget.o \
 		cloth_window.o \
 		moc_cloth_glwidget.o \
@@ -261,12 +259,10 @@ DIST          = /opt/Qt/5.12.0/gcc_64/mkspecs/features/spec_pre.prf \
 		/opt/Qt/5.12.0/gcc_64/mkspecs/features/lex.prf \
 		../../cloth_simulation.pro ../headers/ply_Module.h \
 		../headers/tinyply.h \
-		../headers/ply_defo.h \
 		../headers/cloth_glwidget.h \
 		../headers/cloth_window.h ../src/main.cpp \
 		../src/ply_Module.cpp \
 		../src/tinyply.cpp \
-		../src/ply_defo.cpp \
 		../src/cloth_glwidget.cpp \
 		../src/cloth_window.cpp
 QMAKE_TARGET  = CLOTH_SIMULATION
@@ -694,8 +690,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /opt/Qt/5.12.0/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../headers/ply_Module.h ../headers/tinyply.h ../headers/ply_defo.h ../headers/cloth_glwidget.h ../headers/cloth_window.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../src/main.cpp ../src/ply_Module.cpp ../src/tinyply.cpp ../src/ply_defo.cpp ../src/cloth_glwidget.cpp ../src/cloth_window.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../headers/ply_Module.h ../headers/tinyply.h ../headers/cloth_glwidget.h ../headers/cloth_window.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../src/main.cpp ../src/ply_Module.cpp ../src/tinyply.cpp ../src/cloth_glwidget.cpp ../src/cloth_window.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../GUI/cloth_window.ui $(DISTDIR)/
 
 
@@ -971,7 +967,8 @@ compiler_uic_make_all: ui_cloth_window.h
 compiler_uic_clean:
 	-$(DEL_FILE) ui_cloth_window.h
 ui_cloth_window.h: ../GUI/cloth_window.ui \
-		/opt/Qt/5.12.0/gcc_64/bin/uic
+		/opt/Qt/5.12.0/gcc_64/bin/uic \
+		../headers/cloth_glwidget.h
 	/opt/Qt/5.12.0/gcc_64/bin/uic ../GUI/cloth_window.ui -o ui_cloth_window.h
 
 compiler_yacc_decl_make_all:
@@ -1106,7 +1103,6 @@ main.o: ../src/main.cpp ../headers/cloth_window.h \
 		/opt/Qt/5.12.0/gcc_64/include/QtOpenGL/qtopenglglobal.h \
 		/opt/Qt/5.12.0/gcc_64/include/QtGui/QSurfaceFormat \
 		/opt/Qt/5.12.0/gcc_64/include/QtGui/qsurfaceformat.h \
-		../headers/ply_defo.h \
 		../headers/ply_Module.h \
 		/opt/Qt/5.12.0/gcc_64/include/QtWidgets/QApplication \
 		/opt/Qt/5.12.0/gcc_64/include/QtWidgets/qapplication.h \
@@ -1123,10 +1119,6 @@ ply_Module.o: ../src/ply_Module.cpp ../headers/tinyply.h \
 
 tinyply.o: ../src/tinyply.cpp ../headers/tinyply.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tinyply.o ../src/tinyply.cpp
-
-ply_defo.o: ../src/ply_defo.cpp ../headers/ply_defo.h \
-		../headers/ply_Module.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ply_defo.o ../src/ply_defo.cpp
 
 cloth_glwidget.o: ../src/cloth_glwidget.cpp ../headers/cloth_glwidget.h \
 		/opt/Qt/5.12.0/gcc_64/include/QtOpenGL/QGLWidget \
@@ -1245,8 +1237,8 @@ cloth_glwidget.o: ../src/cloth_glwidget.cpp ../headers/cloth_glwidget.h \
 		/opt/Qt/5.12.0/gcc_64/include/QtOpenGL/qtopenglglobal.h \
 		/opt/Qt/5.12.0/gcc_64/include/QtGui/QSurfaceFormat \
 		/opt/Qt/5.12.0/gcc_64/include/QtGui/qsurfaceformat.h \
-		/opt/Qt/5.12.0/gcc_64/include/QtWidgets/QtWidgets \
-		/opt/Qt/5.12.0/gcc_64/include/QtWidgets/QtWidgetsDepends \
+		/opt/Qt/5.12.0/gcc_64/include/QtOpenGL/QtOpenGL \
+		/opt/Qt/5.12.0/gcc_64/include/QtOpenGL/QtOpenGLDepends \
 		/opt/Qt/5.12.0/gcc_64/include/QtCore/QtCore \
 		/opt/Qt/5.12.0/gcc_64/include/QtCore/QtCoreDepends \
 		/opt/Qt/5.12.0/gcc_64/include/QtCore/qabstractanimation.h \
@@ -1459,6 +1451,8 @@ cloth_glwidget.o: ../src/cloth_glwidget.cpp ../headers/cloth_glwidget.h \
 		/opt/Qt/5.12.0/gcc_64/include/QtGui/qtexttable.h \
 		/opt/Qt/5.12.0/gcc_64/include/QtGui/qvalidator.h \
 		/opt/Qt/5.12.0/gcc_64/include/QtGui/qtguiversion.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtWidgets/QtWidgets \
+		/opt/Qt/5.12.0/gcc_64/include/QtWidgets/QtWidgetsDepends \
 		/opt/Qt/5.12.0/gcc_64/include/QtWidgets/qabstractbutton.h \
 		/opt/Qt/5.12.0/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
 		/opt/Qt/5.12.0/gcc_64/include/QtWidgets/qstyleoption.h \
@@ -1592,14 +1586,13 @@ cloth_glwidget.o: ../src/cloth_glwidget.cpp ../headers/cloth_glwidget.h \
 		/opt/Qt/5.12.0/gcc_64/include/QtWidgets/qwidgetaction.h \
 		/opt/Qt/5.12.0/gcc_64/include/QtWidgets/qwizard.h \
 		/opt/Qt/5.12.0/gcc_64/include/QtWidgets/qtwidgetsversion.h \
-		/opt/Qt/5.12.0/gcc_64/include/QtOpenGL/QtOpenGL \
-		/opt/Qt/5.12.0/gcc_64/include/QtOpenGL/QtOpenGLDepends \
 		/opt/Qt/5.12.0/gcc_64/include/QtOpenGL/qglbuffer.h \
 		/opt/Qt/5.12.0/gcc_64/include/QtOpenGL/qglframebufferobject.h \
 		/opt/Qt/5.12.0/gcc_64/include/QtOpenGL/qglfunctions.h \
 		/opt/Qt/5.12.0/gcc_64/include/QtOpenGL/qglpixelbuffer.h \
 		/opt/Qt/5.12.0/gcc_64/include/QtOpenGL/qglshaderprogram.h \
-		/opt/Qt/5.12.0/gcc_64/include/QtOpenGL/qtopenglversion.h
+		/opt/Qt/5.12.0/gcc_64/include/QtOpenGL/qtopenglversion.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtGui/QPainter
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o cloth_glwidget.o ../src/cloth_glwidget.cpp
 
 cloth_window.o: ../src/cloth_window.cpp ../headers/cloth_window.h \
@@ -1728,6 +1721,7 @@ cloth_window.o: ../src/cloth_window.cpp ../headers/cloth_window.h \
 		/opt/Qt/5.12.0/gcc_64/include/QtWidgets/qabstractbutton.h \
 		/opt/Qt/5.12.0/gcc_64/include/QtWidgets/QStatusBar \
 		/opt/Qt/5.12.0/gcc_64/include/QtWidgets/qstatusbar.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtWidgets/QTabWidget \
 		/opt/Qt/5.12.0/gcc_64/include/QtWidgets/QToolBar \
 		/opt/Qt/5.12.0/gcc_64/include/QtWidgets/qtoolbar.h \
 		/opt/Qt/5.12.0/gcc_64/include/QtWidgets/QWidget \

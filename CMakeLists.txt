@@ -66,4 +66,62 @@ ADD_EXECUTABLE (${PROJECT_NAME} ${CLOTH_SRCS})
 # Use the Widgets module from Qt 5
 TARGET_LINK_LIBRARIES (${PROJECT_NAME} Qt5::Widgets)
 
+
+
+
+
+
+
+
+# set (LIBNAME kissqt)
+# 
+# file (GLOB HEADERS
+# 	  "*.h"
+# 	  "*.hpp")
+# 
+# file (GLOB SOURCES "*.cpp")
+# file (GLOB UI_FILES "*.ui")
+# 
+# # Create named folders for the sources within the .vcproj
+# # Empty name lists them directly under the .vcproj
+# source_group("headers" FILES ${HEADERS})
+# source_group("src" FILES ${SOURCES})
+# source_group("ui" FILES ${UI_FILES})
+# 
+# # Properties->C/C++->General->Additional Include Directories
+# include_directories (.)
+# include_directories (..)
+# include_directories (/home/ksoft/Qt5.6.0/5.6/gcc_64/include/)
+# 
+# set(CMAKE_AUTOMOC_RELAXED_MODE TRUE)
+# 
+# find_package(Qt5Widgets)
+# QT5_WRAP_CPP(tst_hdr_moc ${HEADERS})
+# QT5_WRAP_UI(tst_form_hdr ${UI_FILES})
+# set(CMAKE_INCLUDE_CURRENT_DIR ON)
+# 
+# # Set Properties->General->Configuration Type to Dynamic Library(.dll)
+# # Creates math.dll with the listed sources collected in the variables
+# # Also adds sources to the Solution Explorer
+# add_library(${LIBNAME} SHARED ${tst_hdr_moc} ${tst_form_hdr})
+# 
+# set_target_properties(${LIBNAME} PROPERTIES 
+# 	AUTOMOC ON
+# 	AUTOUIC ON
+# 	DEFINE_SYMBOL "KISSQT_LIB"
+# 	OUTPUT_NAME ${LIBNAME}${LIB_END}
+# 	OUTPUT_NAME_DEBUG ${LIBNAME}${LIB_END_DEBUG}
+# 	OUTPUT_NAME_RELEASE ${LIBNAME}${LIB_END_RELEASE})
+# 
+# # Set the library dependencies
+# qt5_use_modules(${LIBNAME} Core Widgets Gui OpenGL Designer)
+# 
+# # Creates a folder "libraries" and adds target project (math.vcproj) under it
+# set_property(TARGET ${LIBNAME} PROPERTY FOLDER "lib")
+# 
+# # Adds logic to INSTALL.vcproj to copy math.dll to the destination directory
+# install (TARGETS ${LIBNAME}
+# 		 RUNTIME DESTINATION ${PROJECT_BINARY_DIR}/bin
+# 		 LIBRARY DESTINATION ${PROJECT_BINARY_DIR}/bin)
+
  

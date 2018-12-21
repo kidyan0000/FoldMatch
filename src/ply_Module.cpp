@@ -130,7 +130,7 @@ void ply_module::setFaces(Eigen::MatrixXi faces)
 }
 
 // READ/WRITE FUNCTIONS 
-bool ply_module::readPLY(const std::string & filename, bool readColorsFlag, bool readFacesFlag, bool readNormalsFlag, bool readFaceTextureFlag, bool readCurvatureFlag, std::vector<float> &verts)
+bool ply_module::readPLY(const std::string & filename, bool readColorsFlag, bool readFacesFlag, bool readNormalsFlag, bool readFaceTextureFlag, bool readCurvatureFlag)
 {
 	// Tinyply can and will throw exceptions at you!
 	try
@@ -160,7 +160,8 @@ bool ply_module::readPLY(const std::string & filename, bool readColorsFlag, bool
 		// Define containers to hold the extracted data. The type must match
 		// the property type given in the header. Tinyply will interally allocate the
 		// the appropriate amount of memory.
-        // std::vector<float> verts;
+
+        std::vector<float> verts;
 		std::vector<float> norms;
 		std::vector<uint8_t> colors;
 		std::vector<uint32_t> faces;
