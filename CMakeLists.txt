@@ -31,19 +31,6 @@ INCLUDE_DIRECTORIES ("${PROJECT_BINARY_DIR}")
 # add the head file path
 INCLUDE_DIRECTORIES ("${PROJECT_SOURCE_DIR}/headers")
 SET( HEADERS "${PROJECT_SOURCE_DIR}/headers")
-# add the database path
-# INCLUDE_DIRECTORIES ("${PROJECT_SOURCE_DIR}/data")
-# SET( DATA "${PROJECT_SOURCE_DIR}/data")
-# add the GUI file path
-# INCLUDE_DIRECTORIES ("${PROJECT_SOURCE_DIR}/GUI")
-# SET( GUI "${PROJECT_SOURCE_DIR}/GUI")
-# add the source file path
-# INCLUDE_DIRECTORIES ("${PROJECT_SOURCE_DIR}/src")
-# SET( SRC "${PROJECT_SOURCE_DIR}/src")
-
-# it is the old way, should use CMAKE_AUTOMOC instead
-# QT5_WRAP_CPP( MOC ${HEADERS}/clothwindow.h)
- QT5_WRAP_UI( UIC ${GUI}/clothwindow.ui)
 
 # set user include
 SET(INCLUDE_DIR "/usr/include")

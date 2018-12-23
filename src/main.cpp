@@ -18,15 +18,30 @@ int main(int argc, char *argv[])
 
     // get vertices
     ply_module* _plyModule = new ply_module();
-    _plyModule->readPLY("../data/bunny.ply", true, true, true, true, true);
+    _plyModule->readPLY("../data/Reference-1180330141717.ply", true, true, true, true, true);
 
-    Eigen::MatrixXd verts;
+    Eigen::MatrixXd verts, normals;
+    Eigen::MatrixXi colors;
     verts = _plyModule->getVertices();
+    normals = _plyModule->getNormals();
+    colors = _plyModule->getColors();
 
-    // print the vertices
-    std::cout << verts << std::endl;
+    // change matrix to row-based vector
+    Eigen::MatrixXd verts_t = verts.transpose();
+    Eigen::VectorXd verts_row = Eigen::Map<Eigen::VectorXd>(verts_t.data(), verts_t.size());
+    Eigen::MatrixXd normals_t = normals.transpose();
+    Eigen::VectorXd normals_row = Eigen::Map<Eigen::VectorXd>(normals_t.data(), normals_t.size());
+    Eigen::MatrixXi colors_t = colors.transpose();
+    Eigen::VectorXi colors_row = Eigen::Map<Eigen::VectorXi>(colors_t.data(),colors_t.size());
 
-    // delete _plyModule;
+    /*
+     * use method resize
+     * verts.resize(1,verts.size());
+    */
+
+
+    // debug
+    std::cout << colors_row << std::endl;
 
     return a.exec();
 
