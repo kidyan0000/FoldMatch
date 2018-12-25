@@ -19,18 +19,26 @@ SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 SET(CMAKE_AUTOMOC ON)
 SET(CMAKE_AUTOUIC ON)
 SET(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOMOC_RELAXED_MODE TRUE)
+# QT5_WRAP_MOC(MOC_FILES "${HEADERS}/*.h")
+# QT5_WRAP_UI(UIC_FILES "${GUI}/*.UI")
+ADD_LIBRARY(${PROJECT_NAME} SHARED ${MOC_FILES} ${UIC_FILES})
 
 # Find the QtWidgets library
 FIND_PACKAGE(Qt5Widgets CONFIG REQUIRED)
 FIND_PACKAGE(Qt5Core)
 FIND_PACKAGE(Qt5Gui)
 FIND_PACKAGE(Qt5OpenGL)
+QT5_USE_MODULES(${PROJECT_NAME} Core Widgets Gui OpenGL Designer)
 
 # add the binary tree to the search path for include files so that we will find ClothConfig.h
 INCLUDE_DIRECTORIES ("${PROJECT_BINARY_DIR}")   
 # add the head file path
 INCLUDE_DIRECTORIES ("${PROJECT_SOURCE_DIR}/headers")
 SET( HEADERS "${PROJECT_SOURCE_DIR}/headers")
+# add the gui file path
+INCLUDE_DIRECTORIES ("${PROJECT_SOURCE_DIR}/GUI")
+SET( GUI "${PROJECT_SOURCE_DIR}/GUI")
 
 # set user include
 SET(INCLUDE_DIR "/usr/include")
@@ -48,7 +56,6 @@ SET(CLOTH_SRCS ${DIR_SRCS})
  
 # add the executable
 ADD_EXECUTABLE (${PROJECT_NAME} ${CLOTH_SRCS})
-
 
 # Use the Widgets module from Qt 5
 TARGET_LINK_LIBRARIES (${PROJECT_NAME} Qt5::Widgets)

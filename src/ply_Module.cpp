@@ -319,7 +319,7 @@ bool ply_module::writePLY(const std::string & oFileName, bool writeColorsFlag, b
 		std::cerr << " Some unknown exception has ocurred ";
 		return false;
 	}
-	return false;
+    return false;
 }
 
 

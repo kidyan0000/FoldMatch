@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui opengl
+LIBS += -lGLEW -lGL -lX11 -lXi -lXrandr -lXxf86vm -lXinerama -lXcursor -lrt -lm -pthread
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 

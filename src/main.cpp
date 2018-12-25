@@ -1,8 +1,6 @@
 #include "cloth_window.h"
 #include "cloth_glwidget.h"
 
-#include "ply_Module.h"
-
 #include <QApplication>
 
 int main(int argc, char *argv[])
@@ -41,7 +39,7 @@ int main(int argc, char *argv[])
 
 
     // debug
-    std::cout << colors_row << std::endl;
+    std::cout << &verts << std::endl;
 
     return a.exec();
 
