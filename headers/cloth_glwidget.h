@@ -27,8 +27,14 @@ protected:
 
 private:
 
-    GLuint initVbo();
+    void initVbo();
     void draw();
+
+    Eigen::MatrixXd verts, normals;
+    Eigen::MatrixXi colors;
+
+    // now we will creat our VBO first we need to ask GL for an opject ID
+    GLuint VBOBuffers;
 
 
 };
