@@ -26,6 +26,7 @@ public:
 protected:
 
 private:
+
     GLuint initVbo();
     void draw();
 

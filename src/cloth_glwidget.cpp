@@ -20,16 +20,24 @@ GLuint Cloth_GLWidget::initVbo()
 
     // get vertices
     ply_module* _plyModule = new ply_module();
-    _plyModule->readPLY("../data/Reference-1180330141717.ply", true, true, true, true, true);
-    Eigen::MatrixXd verts;
+    _plyModule->readPLY("../data/Template-1_0001.ply", true, true, true, true, true);
+    Eigen::MatrixXd verts, normals;
+    Eigen::MatrixXi colors;
     verts = _plyModule->getVertices();
+    //normals = (_plyModule->getNormals().rows() != 0) ? _plyModule->getNormals(): ;
+    colors = _plyModule->getColors();
     // change matrix to row-based vector
     Eigen::MatrixXd verts_t = verts.transpose();
     Eigen::VectorXd verts_row = Eigen::Map<Eigen::VectorXd>(verts_t.data(), verts_t.size());
+    //Eigen::MatrixXd normals_t = normals.transpose();
+    //Eigen::VectorXd normals_row = Eigen::Map<Eigen::VectorXd>(normals_t.data(), normals_t.size());
+    Eigen::MatrixXi colors_t = colors.transpose();
+    Eigen::VectorXi colors_row = Eigen::Map<Eigen::VectorXi>(colors_t.data(),colors_t.size());
+
 
     // calclate the size of data
     // int verts_size = _plyModule -> getNumberOfVertices();
-    int verts_size = verts.size();
+    int data_num = verts.size()/3.;
 
     // now we will creat our VBO first we need to ask GL for an opject ID
     GLuint VBOBuffers;
@@ -40,12 +48,19 @@ GLuint Cloth_GLWidget::initVbo()
     // now we bind this ID to an Array buffer
     glBindBuffer(GL_ARRAY_BUFFER, VBOBuffers);
 
+
     // finally we stuff our data into the array object
     // first we tell GL it's an array buffer
     // then the number of bytes we are storing (need to tell it's a sizeof FLOAT)
     // then the point to the actual data
     // then how we are going to draw it (in this case statically at the data will not change)
-    glBufferData(GL_ARRAY_BUFFER, verts_size*sizeof(GL_FLOAT), &verts_row, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, verts.size()*3.*sizeof(GL_FLOAT), 0, GL_STATIC_DRAW);
+    // now we copy the data for the verts into our buffer first
+    glBufferSubData(GL_ARRAY_BUFFER,0,data_num*3*sizeof(GL_FLOAT),verts_row.data());
+    // now we need to tag the normals onto the end of the verts
+    // glBufferSubData(GL_ARRAY_BUFFER,data_num*3*sizeof(GL_FLOAT),data_num*3*sizeof(GL_FLOAT),normals_row.data());
+    // now we need to tag the colours onto the end of the normals
+    glBufferSubData(GL_ARRAY_BUFFER,data_num*2*3*sizeof(GL_FLOAT),data_num*3*sizeof(GL_FLOAT),colors_row.data());
 
     // now we can delete our client side datra as we have store it on the GPU
     // now return the VOB data point to our project so we can later for drawing
@@ -97,47 +112,42 @@ void Cloth_GLWidget::resizeGL(int width, int height)
 
 void Cloth_GLWidget::draw()
 {
-    // M1: Immediate Mode
-    /*
+    #define BUFFER_OFFSET(i) ((float *)NULL + (i))
 
-    qglColor(Qt::red);
-    glBegin(GL_QUADS);
-        glNormal3f(0,0,-1);
-        glVertex3f(-1,-1,0);
-        glVertex3f(-1,1,0);
-        glVertex3f(1,1,0);
-        glVertex3f(1,-1,0);
+    glPushMatrix();
 
-    glEnd();
-    glBegin(GL_TRIANGLES);
-        glNormal3f(0,-1,0.707);
-        glVertex3f(-1,-1,0);
-        glVertex3f(1,-1,0);
-        glVertex3f(0,0,1.2);
-    glEnd();
-    glBegin(GL_TRIANGLES);
-        glNormal3f(1,0, 0.707);
-        glVertex3f(1,-1,0);
-        glVertex3f(1,1,0);
-        glVertex3f(0,0,1.2);
-    glEnd();
-    glBegin(GL_TRIANGLES);
-        glNormal3f(0,1,0.707);
-        glVertex3f(1,1,0);
-        glVertex3f(-1,1,0);
-        glVertex3f(0,0,1.2);
-    glEnd();
-    glBegin(GL_TRIANGLES);
-        glNormal3f(-1,0,0.707);
-        glVertex3f(-1,1,0);
-        glVertex3f(-1,-1,0);
-        glVertex3f(0,0,1.2);
-    glEnd();
-    */
+    static int xrot=0;
+    static int yrot=0;
+    glRotatef(xrot++,1,0,0);
+    glRotatef(yrot++,0,1,0);
 
-    // M2: use VBO to draw our datas
-    // enable vertes
+    // get vertices
+    ply_module* _plyModule = new ply_module();
+    _plyModule->readPLY("../data/Reference-1180330141717.ply", true, true, true, true, true);
+    Eigen::MatrixXd verts, normals;
+    Eigen::MatrixXi colors;
+    verts = _plyModule->getVertices();
+    normals = _plyModule->getNormals();
+    colors = _plyModule->getColors();
+    // change matrix to row-based vector
+    Eigen::MatrixXd verts_t = verts.transpose();
+    Eigen::VectorXd verts_row = Eigen::Map<Eigen::VectorXd>(verts_t.data(), verts_t.size());
+    Eigen::MatrixXd normals_t = normals.transpose();
+    Eigen::VectorXd normals_row = Eigen::Map<Eigen::VectorXd>(normals_t.data(), normals_t.size());
+    Eigen::MatrixXi colors_t = colors.transpose();
+    Eigen::VectorXi colors_row = Eigen::Map<Eigen::VectorXi>(colors_t.data(),colors_t.size());
+
+    // calclate the size of data
+    // int verts_size = _plyModule -> getNumberOfVertices();
+    int data_size = verts.size();
+    int data_num = data_size/3.;
+
+    // enable vertex array drawing
     glEnableClientState(GL_VERTEX_ARRAY);
+    // enable Normal array
+    glEnableClientState(GL_NORMAL_ARRAY);
+    // enable the colour array
+    glEnableClientState(GL_COLOR_ARRAY);
 
     // bind our VBO data to be the currently active one
     glBindBuffer(GL_ARRAY_BUFFER, initVbo());
@@ -145,20 +155,24 @@ void Cloth_GLWidget::draw()
     // tell GL how this data is formated
     // in this case 3 floats tightly packed starting at the beginning of the data
     // (0 = stride, 0 = offset)
-    glVertexPointer(3, GL_FLOAT, 0, 0);
+    // we need to tell GL where the verts start
+    glVertexPointer(3,GL_FLOAT,0,0);
+    // now we tell it where the nornals are (thes are basically at the end of the verts
+    glNormalPointer(GL_FLOAT, 0, BUFFER_OFFSET(data_num*3));
+    // now we tell it where the colours are (thes are basically at the end of the normals
+    glColorPointer(3,GL_FLOAT, 0, BUFFER_OFFSET(data_num*2*3));
 
-    // calcaulate the data size
-    ply_module* _plyModule = new ply_module();
-    _plyModule->readPLY("../data/Reference-1180330141717.ply", true, true, true, true, true);
-    Eigen::MatrixXd verts;
-    verts = _plyModule->getVertices();
-    int verts_size = verts.size();
 
     // draw the VBO as a series of GL_LINES starting at 0 in the buffet
-    glDrawArrays( GL_TRIANGLES, 0, verts_size);
+    glDrawArrays(GL_TRIANGLE_STRIP,0,data_num);
 
-    // now turn off the VBO client state as we habe finished with it
+    // now turn off the VBO client state as we have finished with it
     glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_NORMAL_ARRAY);
+    glDisableClientState(GL_COLOR_ARRAY);
+
+    glPopMatrix();
+
 }
 
 
