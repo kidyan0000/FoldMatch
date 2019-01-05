@@ -42,7 +42,6 @@ void Cloth_GLWidget::initVbo()
     }
 
     // Reshape the matrix to vector
-
     Eigen::Matrix<double,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> verts_t(verts);
     Eigen::RowVectorXd verts_row(Eigen::Map<Eigen::RowVectorXd>(verts_t.data(), verts_t.size()));
     // Eigen::Map<Eigen::RowVectorXd> verts_row(verts_t.data(), verts_t.size());
@@ -55,7 +54,8 @@ void Cloth_GLWidget::initVbo()
     Eigen::RowVectorXi colors_row(Eigen::Map<Eigen::RowVectorXi>(colors_t.data(), colors_t.size()));
     // Eigen::Map<Eigen::RowVectorXi> (colors_t.data(), colors_t.size());
 
-    std::cout << "a" << std::endl;
+    // use to debug
+    // std::cout << "a" << std::endl;
 
     // now creat the VBO
     glGenBuffers(1, &VBOBuffers);
@@ -69,8 +69,18 @@ void Cloth_GLWidget::initVbo()
     glBufferData(GL_ARRAY_BUFFER, (verts.size() + normals.size()) * sizeof(GL_DOUBLE)+(colors.size()*sizeof(GL_INT)), 0, GL_STATIC_DRAW);
 
     // now we copy the data into our subbuffer
-    glBufferSubData(GL_ARRAY_BUFFER,0,verts.rows()*3*sizeof(GL_DOUBLE),verts_row.data());
-    glBufferSubData(GL_ARRAY_BUFFER,(verts.rows()+normals.rows())*3*sizeof(GL_DOUBLE),colors.rows()*3*sizeof(GL_INT),colors_row.data());
+    if (_plyModule->getVertices().rows() != 0)
+    {
+        glBufferSubData(GL_ARRAY_BUFFER,0,verts.rows()*3*sizeof(GL_DOUBLE),verts_row.data());
+    }
+    if (_plyModule->getNormals().rows() != 0)
+    {
+        glBufferSubData(GL_ARRAY_BUFFER,verts.rows()*3*sizeof(GL_DOUBLE),verts.rows()*3*sizeof(GL_DOUBLE),verts_row.data());
+    }
+    if (_plyModule->getColors().rows() != 0)
+    {
+        glBufferSubData(GL_ARRAY_BUFFER,(verts.rows()+normals.rows())*3*sizeof(GL_DOUBLE),colors.rows()*3*sizeof(GL_INT),colors_row.data());
+    }
 
 }
 
@@ -111,7 +121,7 @@ void Cloth_GLWidget::resizeGL(int width, int height)
 #ifdef QT_OPENGL_ES_1
     glOrthof(-2, +2, -2, +2, 1.0, 15.0);
 #else
-    glOrtho(-10, +10, -10, +10, -10, 10);
+    glOrtho(-2, +2, -3, 2, -10, 10);
 #endif
     glMatrixMode(GL_MODELVIEW);
 }
@@ -131,9 +141,7 @@ void Cloth_GLWidget::draw()
 
     // enable vertex array drawing
     glEnableClientState(GL_VERTEX_ARRAY);
-    // enable Normal array
     // glEnableClientState(GL_NORMAL_ARRAY);
-    // enable the colour array
     glEnableClientState(GL_COLOR_ARRAY);
 
     // bind our VBO data to be the currently active one
@@ -141,12 +149,12 @@ void Cloth_GLWidget::draw()
 
     // we need to tell GL where the verts start
     glVertexPointer(3,GL_DOUBLE,0,0);
-    // glNormalPointer(GL_FLOAT, 0, BUFFER_OFFSET(3*25125));
+    // glNormalPointer(GL_FLOAT, 0, BUFFER_OFFSET(3*(verts.rows()));
     glColorPointer(3,GL_INT, 0, BUFFER_OFFSET(3*(verts.rows() + normals.rows())));
 
 
     // draw the VBO as a series of GL_LINES starting at 0 in the buffet
-    glDrawArrays(GL_TRIANGLE_STRIP,0,25125);
+    glDrawArrays(GL_TRIANGLE_STRIP,0,verts.rows());
 
     // now turn off the VBO client state as we have finished with it
     glDisableClientState(GL_VERTEX_ARRAY);
