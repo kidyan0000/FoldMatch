@@ -1,3 +1,6 @@
 // 2018.01.04
 use Eigen::Map change the matrix to vector 
-https://eigen.tuxfamily.org/dox/group__TutorialReshapeSlicing.html
+
+// 2018.01.05
+finally get the cloth visualized, but the codes need to be optimized
+

@@ -49,6 +49,7 @@ FORMS += \
 
 # Add some user defined libraries
 INCLUDEPATH += /usr/include/eigen3
+INCLUDEPATH += /usr/include/eigen3/unsupport
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
