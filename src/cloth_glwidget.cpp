@@ -10,6 +10,13 @@
 
 Cloth_GLWidget::Cloth_GLWidget(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers), parent)
 {
+    xRot = 0;
+    yRot = 0;
+    zRot = 0;
+}
+
+Cloth_GLWidget::~Cloth_GLWidget()
+{
 
 }
 
@@ -54,9 +61,6 @@ void Cloth_GLWidget::initVbo()
     Eigen::RowVectorXi colors_row(Eigen::Map<Eigen::RowVectorXi>(colors_t.data(), colors_t.size()));
     // Eigen::Map<Eigen::RowVectorXi> (colors_t.data(), colors_t.size());
 
-    // use to debug
-    // std::cout << "a" << std::endl;
-
     // now creat the VBO
     glGenBuffers(1, &VBOBuffers);
 
@@ -66,26 +70,25 @@ void Cloth_GLWidget::initVbo()
 
 
     // then how we are going to draw it (in this case statically at the data will not change)
-    glBufferData(GL_ARRAY_BUFFER, (verts.size() + normals.size()) * sizeof(GL_DOUBLE)+(colors.size()*sizeof(GL_INT)), 0, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, (verts.size()+normals.size())*sizeof(GL_DOUBLE) + (colors.size()*sizeof(GL_INT)), 0, GL_STATIC_DRAW);
 
     // now we copy the data into our subbuffer
     if (_plyModule->getVertices().rows() != 0)
     {
-        glBufferSubData(GL_ARRAY_BUFFER,0,verts.rows()*3*sizeof(GL_DOUBLE),verts_row.data());
+        glBufferSubData(GL_ARRAY_BUFFER, 0, verts.rows()*3*sizeof(GL_DOUBLE), verts_row.data());
     }
     if (_plyModule->getNormals().rows() != 0)
     {
-        glBufferSubData(GL_ARRAY_BUFFER,verts.rows()*3*sizeof(GL_DOUBLE),verts.rows()*3*sizeof(GL_DOUBLE),verts_row.data());
+        glBufferSubData(GL_ARRAY_BUFFER, verts.rows()*3*sizeof(GL_DOUBLE), verts.rows()*3*sizeof(GL_DOUBLE), verts_row.data());
     }
     if (_plyModule->getColors().rows() != 0)
     {
-        glBufferSubData(GL_ARRAY_BUFFER,(verts.rows()+normals.rows())*3*sizeof(GL_DOUBLE),colors.rows()*3*sizeof(GL_INT),colors_row.data());
+        glBufferSubData(GL_ARRAY_BUFFER,(verts.rows()+normals.rows())*3*sizeof(GL_DOUBLE), colors.rows()*3*sizeof(GL_INT), colors_row.data());
     }
 
 }
 
 
-// We define the Frusum of the scene inside the function, The depth channel of the frusum is enabled, The CULL Faceb is related to the orientation of the vertices and the faces which can be seen from the EYE or CAMERA positions. The GL_SMOOTH is responsible to smooth the color in transitions of the faces sharing common edges GL_LIGHTING enabling means the lighting condition is enabled. We can also set mutiple GL_LIGHTING e,g LIGHT0 and LIGHT1 etc.
 void Cloth_GLWidget::initializeGL()
 {
    qglClearColor(Qt::black); //use black backgroud
@@ -107,6 +110,11 @@ void Cloth_GLWidget::paintGL()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
+    glTranslatef(0.0, 0.0, -10.0);
+    glRotatef(xRot / 16.0, 1.0, 0.0, 0.0);
+    glRotatef(yRot / 16.0, 0.0, 1.0, 0.0);
+    glRotatef(zRot / 16.0, 0.0, 0.0, 1.0);
+
     draw();
 }
 
@@ -121,7 +129,7 @@ void Cloth_GLWidget::resizeGL(int width, int height)
 #ifdef QT_OPENGL_ES_1
     glOrthof(-2, +2, -2, +2, 1.0, 15.0);
 #else
-    glOrtho(-2, +2, -3, 2, -10, 10);
+    glOrtho(-2, +2, -3, 2, -2, 5);
 #endif
     glMatrixMode(GL_MODELVIEW);
 }
@@ -134,36 +142,122 @@ void Cloth_GLWidget::draw()
 
     glPushMatrix();
 
-    static int xrot=0;
-    static int yrot=0;
-    glRotatef(xrot++,1,0,0);
-    glRotatef(yrot++,0,1,0);
-
-    // enable vertex array drawing
-    glEnableClientState(GL_VERTEX_ARRAY);
-    // glEnableClientState(GL_NORMAL_ARRAY);
-    glEnableClientState(GL_COLOR_ARRAY);
-
     // bind our VBO data to be the currently active one
     glBindBuffer(GL_ARRAY_BUFFER, VBOBuffers);
 
-    // we need to tell GL where the verts start
-    glVertexPointer(3,GL_DOUBLE,0,0);
-    // glNormalPointer(GL_FLOAT, 0, BUFFER_OFFSET(3*(verts.rows()));
-    glColorPointer(3,GL_INT, 0, BUFFER_OFFSET(3*(verts.rows() + normals.rows())));
+    // enable vertex array drawing
+    if (verts.rows() != 0)
+    {
+        glEnableClientState(GL_VERTEX_ARRAY);
+    }
+    if (normals.rows() != 0)
+    {
+        glEnableClientState(GL_NORMAL_ARRAY);
 
+    }
+    if (colors.rows() != 0)
+    {
+        glEnableClientState(GL_COLOR_ARRAY);
+
+    }
+
+
+    // we need to tell GL where the verts start
+    if (verts.rows() != 0)
+    {
+        glVertexPointer(3,GL_DOUBLE,0,0);
+    }
+    if (normals.rows() != 0)
+    {
+        glNormalPointer(GL_DOUBLE, 0, BUFFER_OFFSET(3*(verts.rows())));
+
+    }
+    if (colors.rows() != 0)
+    {
+        glColorPointer(3,GL_INT, 0, BUFFER_OFFSET(3*(verts.rows() + normals.rows())));
+
+    }
 
     // draw the VBO as a series of GL_LINES starting at 0 in the buffet
-    glDrawArrays(GL_TRIANGLE_STRIP,0,verts.rows());
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, verts.rows());
 
     // now turn off the VBO client state as we have finished with it
-    glDisableClientState(GL_VERTEX_ARRAY);
-    // glDisableClientState(GL_NORMAL_ARRAY);
-    glDisableClientState(GL_COLOR_ARRAY);
+    if (verts.rows() != 0)
+    {
+        glDisableClientState(GL_VERTEX_ARRAY);
+    }
+    if (normals.rows() != 0)
+    {
+        glDisableClientState(GL_NORMAL_ARRAY);
+
+    }
+    if (colors.rows() != 0)
+    {
+        glDisableClientState(GL_COLOR_ARRAY);
+
+    }
 
     glPopMatrix();
 
 }
 
+static void qNormalizeAngle(int &angle)
+{
+    while (angle < 0)
+        angle += 360 * 16;
+    while (angle > 360)
+        angle -= 360 * 16;
+}
+
+void Cloth_GLWidget::mousePressEvent(QMouseEvent *event)
+{
+    lastPos = event->pos();
+}
+
+void Cloth_GLWidget::mouseMoveEvent(QMouseEvent *event)
+{
+    int dx = event->x() - lastPos.x();
+    int dy = event->y() - lastPos.y();
+
+    if (event->buttons() & Qt::LeftButton) {
+        setXRotation(xRot + 2 * dy);
+        setYRotation(yRot + 2 * dx);
+    } else if (event->buttons() & Qt::RightButton) {
+        setXRotation(xRot + 2 * dy);
+        setZRotation(zRot + 2 * dx);
+    }
+
+    lastPos = event->pos();
+}
+
+void Cloth_GLWidget::setXRotation(int angle)
+{
+    qNormalizeAngle(angle);
+    if (angle != xRot) {
+        xRot = angle;
+        emit xRotationChanged(angle);
+        updateGL();
+    }
+}
+
+void Cloth_GLWidget::setYRotation(int angle)
+{
+    qNormalizeAngle(angle);
+    if (angle != yRot) {
+        yRot = angle;
+        emit yRotationChanged(angle);
+        updateGL();
+    }
+}
+
+void Cloth_GLWidget::setZRotation(int angle)
+{
+    qNormalizeAngle(angle);
+    if (angle != zRot) {
+        zRot = angle;
+        emit zRotationChanged(angle);
+        updateGL();
+    }
+}
 
 

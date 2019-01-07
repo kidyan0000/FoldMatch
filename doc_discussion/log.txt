@@ -4,3 +4,6 @@ use Eigen::Map change the matrix to vector
 // 2018.01.05
 finally get the cloth visualized, but the codes need to be optimized
 
+// 2018.01.07
+add the geometrit controller
+should use glDrawElements instead of glDrawArrays?

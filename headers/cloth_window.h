@@ -15,6 +15,9 @@ public:
     explicit Cloth_Window(QWidget *parent = nullptr);
     ~Cloth_Window();
 
+protected:
+    void keyPressEvent(QKeyEvent *event);
+
 private:
     Ui::Cloth_Window *ui;
 };
