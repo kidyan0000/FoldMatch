@@ -55,10 +55,10 @@ private:
 
     // clothing parameters
     Eigen::MatrixXd verts, normals;
-    Eigen::MatrixXi colors;
+    Eigen::MatrixXi colors, faces;
 
-    // VBO opject ID
-    GLuint VBOBuffers;
+    //
+    GLuint VBOBuffers, IndexBuffer;
 
 
 };

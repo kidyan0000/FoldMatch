@@ -48,6 +48,12 @@ void Cloth_GLWidget::initVbo()
 
     }
 
+    if (_plyModule->getFaces().rows() != 0)
+    {
+        faces = _plyModule->getFaces();
+    }
+
+
     // Reshape the matrix to vector
     Eigen::Matrix<double,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> verts_t(verts);
     Eigen::RowVectorXd verts_row(Eigen::Map<Eigen::RowVectorXd>(verts_t.data(), verts_t.size()));
@@ -61,10 +67,14 @@ void Cloth_GLWidget::initVbo()
     Eigen::RowVectorXi colors_row(Eigen::Map<Eigen::RowVectorXi>(colors_t.data(), colors_t.size()));
     // Eigen::Map<Eigen::RowVectorXi> (colors_t.data(), colors_t.size());
 
+    Eigen::Matrix<int,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> faces_t(faces);
+    Eigen::RowVectorXi faces_row(Eigen::Map<Eigen::RowVectorXi>(faces_t.data(), faces_t.size()));
+
+
     // now creat the VBO
     glGenBuffers(1, &VBOBuffers);
 
-    // now we bind this ID to an Array buffer
+    // now we bind this ID to an array buffer
     glBindBuffer(GL_ARRAY_BUFFER, VBOBuffers);
 
 
@@ -84,6 +94,16 @@ void Cloth_GLWidget::initVbo()
     if (_plyModule->getColors().rows() != 0)
     {
         glBufferSubData(GL_ARRAY_BUFFER,(verts.rows()+normals.rows())*3*sizeof(GL_DOUBLE), colors.rows()*3*sizeof(GL_INT), colors_row.data());
+    }
+
+    // now creat the index buffer
+    glGenBuffers(1, &IndexBuffer);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexBuffer);
+
+    if (_plyModule->getFaces().rows() != 0)
+    {
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, faces.rows()*3*sizeof(GL_INT), faces_row.data(), GL_STATIC_DRAW);
+
     }
 
 }
@@ -144,6 +164,7 @@ void Cloth_GLWidget::draw()
 
     // bind our VBO data to be the currently active one
     glBindBuffer(GL_ARRAY_BUFFER, VBOBuffers);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexBuffer);
 
     // enable vertex array drawing
     if (verts.rows() != 0)
@@ -178,8 +199,9 @@ void Cloth_GLWidget::draw()
 
     }
 
-    // draw the VBO as a series of GL_LINES starting at 0 in the buffet
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, verts.rows());
+    // draw the VBO as a series of GL_POINTS starting at 0 in the buffet
+    glDrawArrays(GL_POINTS, 0, verts.rows());
+    // glDrawElements(GL_LINE_STRIP, faces.rows(), GL_UNSIGNED_SHORT, 0);
 
     // now turn off the VBO client state as we have finished with it
     if (verts.rows() != 0)
