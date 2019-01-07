@@ -48,11 +48,6 @@ void Cloth_GLWidget::initVbo()
 
     }
 
-    if (_plyModule->getFaces().rows() != 0)
-    {
-        faces = _plyModule->getFaces();
-    }
-
 
     // Reshape the matrix to vector
     Eigen::Matrix<double,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> verts_t(verts);
@@ -67,16 +62,12 @@ void Cloth_GLWidget::initVbo()
     Eigen::RowVectorXi colors_row(Eigen::Map<Eigen::RowVectorXi>(colors_t.data(), colors_t.size()));
     // Eigen::Map<Eigen::RowVectorXi> (colors_t.data(), colors_t.size());
 
-    Eigen::Matrix<int,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> faces_t(faces);
-    Eigen::RowVectorXi faces_row(Eigen::Map<Eigen::RowVectorXi>(faces_t.data(), faces_t.size()));
-
 
     // now creat the VBO
     glGenBuffers(1, &VBOBuffers);
 
     // now we bind this ID to an array buffer
     glBindBuffer(GL_ARRAY_BUFFER, VBOBuffers);
-
 
 
     // then how we are going to draw it (in this case statically at the data will not change)
@@ -96,7 +87,20 @@ void Cloth_GLWidget::initVbo()
         glBufferSubData(GL_ARRAY_BUFFER,(verts.rows()+normals.rows())*3*sizeof(GL_DOUBLE), colors.rows()*3*sizeof(GL_INT), colors_row.data());
     }
 
+    /* Unbind our second VBO object */
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
     // now creat the index buffer
+    /*
+
+    if (_plyModule->getFaces().rows() != 0)
+    {
+        faces = _plyModule->getFaces();
+    }
+
+    Eigen::Matrix<int,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> faces_t(faces);
+    Eigen::RowVectorXi faces_row(Eigen::Map<Eigen::RowVectorXi>(faces_t.data(), faces_t.size()));
+
     glGenBuffers(1, &IndexBuffer);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexBuffer);
 
@@ -105,7 +109,7 @@ void Cloth_GLWidget::initVbo()
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, faces.rows()*3*sizeof(GL_INT), faces_row.data(), GL_STATIC_DRAW);
 
     }
-
+    */
 }
 
 
@@ -164,7 +168,7 @@ void Cloth_GLWidget::draw()
 
     // bind our VBO data to be the currently active one
     glBindBuffer(GL_ARRAY_BUFFER, VBOBuffers);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexBuffer);
+    // glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexBuffer);
 
     // enable vertex array drawing
     if (verts.rows() != 0)
