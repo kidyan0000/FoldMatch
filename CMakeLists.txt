@@ -12,6 +12,20 @@ CONFIGURE_FILE (
   "${PROJECT_BINARY_DIR}/ClothConfig.h"
 )
 
+# add the head file path
+SET( HEADERS "${PROJECT_SOURCE_DIR}/headers/cloth_glwidget.h"
+             "${PROJECT_SOURCE_DIR}/headers/cloth_window.h"
+             "${PROJECT_SOURCE_DIR}/headers/ply_Module.h"
+             "${PROJECT_SOURCE_DIR}/headers/tinyply.h")
+# add the source file path
+SET( SRC "${PROJECT_SOURCE_DIR}/src/cloth_glwidget"
+        "${PROJECT_SOURCE_DIR}/src/cloth_window.cpp"
+        "${PROJECT_SOURCE_DIR}/src/main.cpp"
+        "${PROJECT_SOURCE_DIR}/src/ply_Module.cpp"
+        "${PROJECT_SOURCE_DIR}/src/tinyply.cpp")
+# add the gui file path
+SET( GUI "${PROJECT_SOURCE_DIR}/GUI/cloth_window.ui")
+
 # add current dictory
 SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -19,26 +33,24 @@ SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 SET(CMAKE_AUTOMOC ON)
 SET(CMAKE_AUTOUIC ON)
 SET(CMAKE_AUTORCC ON)
-set(CMAKE_AUTOMOC_RELAXED_MODE TRUE)
-# QT5_WRAP_MOC(MOC_FILES "${HEADERS}/*.h")
-# QT5_WRAP_UI(UIC_FILES "${GUI}/*.UI")
-ADD_LIBRARY(${PROJECT_NAME} SHARED ${MOC_FILES} ${UIC_FILES})
+
+# ADD_LIBRARY(LIB SHARED ${MOC_FILES} ${UIC_FILES})
 
 # Find the QtWidgets library
 FIND_PACKAGE(Qt5Widgets CONFIG REQUIRED)
 FIND_PACKAGE(Qt5Core)
 FIND_PACKAGE(Qt5Gui)
 FIND_PACKAGE(Qt5OpenGL)
-QT5_USE_MODULES(${PROJECT_NAME} Core Widgets Gui OpenGL Designer)
+
+# QT5_USE_MODULES(${PROJECT_NAME} Core Widgets Gui OpenGL)
+# SET(QT_USE_QTOPENGL TRUE)
+
+# SET(CMAKE_AUTOMOC_RELAXED_MODE TRUE)
+QT5_WRAP_CPP(MOC_FILES ${HEADERS})
+QT5_WRAP_UI(UIC_FILES ${GUI})
 
 # add the binary tree to the search path for include files so that we will find ClothConfig.h
 INCLUDE_DIRECTORIES ("${PROJECT_BINARY_DIR}")   
-# add the head file path
-INCLUDE_DIRECTORIES ("${PROJECT_SOURCE_DIR}/headers")
-SET( HEADERS "${PROJECT_SOURCE_DIR}/headers")
-# add the gui file path
-INCLUDE_DIRECTORIES ("${PROJECT_SOURCE_DIR}/GUI")
-SET( GUI "${PROJECT_SOURCE_DIR}/GUI")
 
 # set user include
 SET(INCLUDE_DIR "/usr/include")
@@ -51,71 +63,11 @@ IF (USE_OPT)
 ENDIF (USE_OPT)
 
 # add the source diretory
-AUX_SOURCE_DIRECTORY("${PROJECT_SOURCE_DIR}/src" DIR_SRCS)
-SET(CLOTH_SRCS ${DIR_SRCS})
+# AUX_SOURCE_DIRECTORY("${PROJECT_SOURCE_DIR}/src" DIR_SRCS)
+# SET(CLOTH_SRCS ${DIR_SRCS})
  
 # add the executable
-ADD_EXECUTABLE (${PROJECT_NAME} ${CLOTH_SRCS})
+ADD_EXECUTABLE (${PROJECT_NAME} ${SRC} ${MOC_FILES} ${UIC_FILES})
 
 # Use the Widgets module from Qt 5
 TARGET_LINK_LIBRARIES (${PROJECT_NAME} Qt5::Widgets)
-
-
-
-
-
-
-
-
-# set (LIBNAME kissqt)
-# 
-# file (GLOB HEADERS
-# 	  "*.h"
-# 	  "*.hpp")
-# 
-# file (GLOB SOURCES "*.cpp")
-# file (GLOB UI_FILES "*.ui")
-# 
-# # Create named folders for the sources within the .vcproj
-# # Empty name lists them directly under the .vcproj
-# source_group("headers" FILES ${HEADERS})
-# source_group("src" FILES ${SOURCES})
-# source_group("ui" FILES ${UI_FILES})
-# 
-# # Properties->C/C++->General->Additional Include Directories
-# include_directories (.)
-# include_directories (..)
-# include_directories (/home/ksoft/Qt5.6.0/5.6/gcc_64/include/)
-# 
-# set(CMAKE_AUTOMOC_RELAXED_MODE TRUE)
-# 
-# find_package(Qt5Widgets)
-# QT5_WRAP_CPP(tst_hdr_moc ${HEADERS})
-# QT5_WRAP_UI(tst_form_hdr ${UI_FILES})
-# set(CMAKE_INCLUDE_CURRENT_DIR ON)
-# 
-# # Set Properties->General->Configuration Type to Dynamic Library(.dll)
-# # Creates math.dll with the listed sources collected in the variables
-# # Also adds sources to the Solution Explorer
-# add_library(${LIBNAME} SHARED ${tst_hdr_moc} ${tst_form_hdr})
-# 
-# set_target_properties(${LIBNAME} PROPERTIES 
-# 	AUTOMOC ON
-# 	AUTOUIC ON
-# 	DEFINE_SYMBOL "KISSQT_LIB"
-# 	OUTPUT_NAME ${LIBNAME}${LIB_END}
-# 	OUTPUT_NAME_DEBUG ${LIBNAME}${LIB_END_DEBUG}
-# 	OUTPUT_NAME_RELEASE ${LIBNAME}${LIB_END_RELEASE})
-# 
-# # Set the library dependencies
-# qt5_use_modules(${LIBNAME} Core Widgets Gui OpenGL Designer)
-# 
-# # Creates a folder "libraries" and adds target project (math.vcproj) under it
-# set_property(TARGET ${LIBNAME} PROPERTY FOLDER "lib")
-# 
-# # Adds logic to INSTALL.vcproj to copy math.dll to the destination directory
-# install (TARGETS ${LIBNAME}
-# 		 RUNTIME DESTINATION ${PROJECT_BINARY_DIR}/bin
-# 		 LIBRARY DESTINATION ${PROJECT_BINARY_DIR}/bin)
-
- 

@@ -82,8 +82,11 @@ public:
         rotXSlider->setObjectName(QString::fromUtf8("rotXSlider"));
         rotXSlider->setMinimum(-360);
         rotXSlider->setMaximum(360);
-        rotXSlider->setSingleStep(2);
+        rotXSlider->setSingleStep(16);
+        rotXSlider->setPageStep(15);
         rotXSlider->setOrientation(Qt::Horizontal);
+        rotXSlider->setTickPosition(QSlider::TicksAbove);
+        rotXSlider->setTickInterval(15);
 
         horizontalLayout->addWidget(rotXSlider);
 
@@ -105,8 +108,11 @@ public:
         rotYSlider->setObjectName(QString::fromUtf8("rotYSlider"));
         rotYSlider->setMinimum(-360);
         rotYSlider->setMaximum(360);
-        rotYSlider->setSingleStep(2);
+        rotYSlider->setSingleStep(16);
+        rotYSlider->setPageStep(15);
         rotYSlider->setOrientation(Qt::Horizontal);
+        rotYSlider->setTickPosition(QSlider::TicksAbove);
+        rotYSlider->setTickInterval(15);
 
         horizontalLayout_2->addWidget(rotYSlider);
 
@@ -128,8 +134,11 @@ public:
         rotZSlider->setObjectName(QString::fromUtf8("rotZSlider"));
         rotZSlider->setMinimum(-360);
         rotZSlider->setMaximum(360);
-        rotZSlider->setSingleStep(2);
+        rotZSlider->setSingleStep(16);
+        rotZSlider->setPageStep(15);
         rotZSlider->setOrientation(Qt::Horizontal);
+        rotZSlider->setTickPosition(QSlider::TicksAbove);
+        rotZSlider->setTickInterval(15);
 
         horizontalLayout_3->addWidget(rotZSlider);
 

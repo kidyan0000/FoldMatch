@@ -87,7 +87,7 @@ void Cloth_GLWidget::initVbo()
         glBufferSubData(GL_ARRAY_BUFFER,(verts.rows()+normals.rows())*3*sizeof(GL_DOUBLE), colors.rows()*3*sizeof(GL_INT), colors_row.data());
     }
 
-    /* Unbind our second VBO object */
+    /* Unbind our VBO object */
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     // now creat the index buffer
@@ -153,7 +153,7 @@ void Cloth_GLWidget::resizeGL(int width, int height)
 #ifdef QT_OPENGL_ES_1
     glOrthof(-2, +2, -2, +2, 1.0, 15.0);
 #else
-    glOrtho(-2, +2, -3, 2, -2, 5);
+    glOrtho(-2, +2, -2, 2, 1, 15);
 #endif
     glMatrixMode(GL_MODELVIEW);
 }
@@ -246,11 +246,11 @@ void Cloth_GLWidget::mouseMoveEvent(QMouseEvent *event)
     int dy = event->y() - lastPos.y();
 
     if (event->buttons() & Qt::LeftButton) {
-        setXRotation(xRot + 2 * dy);
-        setYRotation(yRot + 2 * dx);
+        setXRotation(xRot + 8 * dy);
+        setYRotation(yRot + 8 * dx);
     } else if (event->buttons() & Qt::RightButton) {
-        setXRotation(xRot + 2 * dy);
-        setZRotation(zRot + 2 * dx);
+        setXRotation(xRot + 8 * dy);
+        setZRotation(zRot + 8 * dx);
     }
 
     lastPos = event->pos();
