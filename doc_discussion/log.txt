@@ -9,3 +9,6 @@ add the geometrit controller
 should use glDrawElements instead of glDrawArrays?
 
 use here the GL_POINTS to get only the vertexs
+
+// 2018.01.09
+only see the half???

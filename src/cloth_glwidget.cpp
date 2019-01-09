@@ -118,7 +118,9 @@ void Cloth_GLWidget::initializeGL()
    initVbo();
 
    glEnable(GL_DEPTH_TEST);
-   // glEnable(GL_CULL_FACE);
+
+   glEnable(GL_CULL_FACE);
+
    glShadeModel(GL_SMOOTH);
    glEnable(GL_LIGHTING);
    glEnable(GL_LIGHT0);
@@ -130,7 +132,6 @@ void Cloth_GLWidget::initializeGL()
 void Cloth_GLWidget::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
     glLoadIdentity();
 
     glRotatef(xRot / 16.0, 1.0, 0.0, 0.0);
@@ -155,9 +156,10 @@ void Cloth_GLWidget::resizeGL(int width, int height)
 #ifdef QT_OPENGL_ES_1
     glOrthof(-2, +2, -2, +2, 1.0, 15.0);
 #else
-    glOrtho(-2, +2, -2, 2, -4, 4);
+    glOrtho(-2, +2, -2, 2, -2, 2);
 #endif
     glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
 }
 
 
@@ -203,6 +205,7 @@ void Cloth_GLWidget::draw()
     }
 
     // draw the VBO as a series of GL_POINTS starting at 0 in the buffet
+    // glPointSize(2.0);
     glDrawArrays(GL_POINTS, 0, verts.rows());
     // glDrawElements(GL_LINE_STRIP, faces.rows(), GL_UNSIGNED_SHORT, 0);
 
@@ -220,6 +223,16 @@ void Cloth_GLWidget::draw()
         glDisableClientState(GL_COLOR_ARRAY);
     }
 
+}
+
+QSize Cloth_GLWidget::minimumSizeHint() const
+{
+    return QSize(50, 50);
+}
+
+QSize Cloth_GLWidget::sizeHint() const
+{
+    return QSize(400, 400);
 }
 
 static void qNormalizeAngle(int &angle)

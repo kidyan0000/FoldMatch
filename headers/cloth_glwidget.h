@@ -24,6 +24,9 @@ public:
     void paintGL();
     void resizeGL(int w, int h);
 
+    QSize minimumSizeHint() const;
+    QSize sizeHint() const;
+
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
 
