@@ -27,7 +27,7 @@ void Cloth_GLWidget::initVbo()
 
     // get vertices
     ply_module* _plyModule = new ply_module();
-    _plyModule->readPLY("../data/Template-1_0001.ply", true, true, true, true, true);
+    _plyModule->readPLY("../data/Reference-1180330141717.ply", true, true, true, true, true);
 
     //normals = (_plyModule->getNormals().rows() != 0) ? _plyModule->getNormals(): 0 ;
 
@@ -39,13 +39,11 @@ void Cloth_GLWidget::initVbo()
     if (_plyModule->getNormals().rows() != 0)
     {
         normals = _plyModule->getNormals();
-
     }
 
     if (_plyModule->getColors().rows() != 0)
     {
         colors = _plyModule->getColors();
-
     }
 
 
@@ -62,6 +60,7 @@ void Cloth_GLWidget::initVbo()
     Eigen::RowVectorXi colors_row(Eigen::Map<Eigen::RowVectorXi>(colors_t.data(), colors_t.size()));
     // Eigen::Map<Eigen::RowVectorXi> (colors_t.data(), colors_t.size());
 
+    // std::cout << verts.size() << std::endl;
 
     // now creat the VBO
     glGenBuffers(1, &VBOBuffers);
@@ -80,7 +79,7 @@ void Cloth_GLWidget::initVbo()
     }
     if (_plyModule->getNormals().rows() != 0)
     {
-        glBufferSubData(GL_ARRAY_BUFFER, verts.rows()*3*sizeof(GL_DOUBLE), verts.rows()*3*sizeof(GL_DOUBLE), verts_row.data());
+        glBufferSubData(GL_ARRAY_BUFFER, verts.rows()*3*sizeof(GL_DOUBLE), normals.rows()*3*sizeof(GL_DOUBLE), normals_row.data());
     }
     if (_plyModule->getColors().rows() != 0)
     {
@@ -107,7 +106,6 @@ void Cloth_GLWidget::initVbo()
     if (_plyModule->getFaces().rows() != 0)
     {
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, faces.rows()*3*sizeof(GL_INT), faces_row.data(), GL_STATIC_DRAW);
-
     }
     */
 }
@@ -120,7 +118,7 @@ void Cloth_GLWidget::initializeGL()
    initVbo();
 
    glEnable(GL_DEPTH_TEST);
-   glEnable(GL_CULL_FACE);
+   // glEnable(GL_CULL_FACE);
    glShadeModel(GL_SMOOTH);
    glEnable(GL_LIGHTING);
    glEnable(GL_LIGHT0);
@@ -132,14 +130,18 @@ void Cloth_GLWidget::initializeGL()
 void Cloth_GLWidget::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
     glLoadIdentity();
 
-    glTranslatef(0.0, 0.0, -10.0);
     glRotatef(xRot / 16.0, 1.0, 0.0, 0.0);
     glRotatef(yRot / 16.0, 0.0, 1.0, 0.0);
     glRotatef(zRot / 16.0, 0.0, 0.0, 1.0);
 
+    glTranslatef(0.0, 0.0, -6.0);
+
+    glPushMatrix();
     draw();
+    glPopMatrix();
 }
 
 void Cloth_GLWidget::resizeGL(int width, int height)
@@ -153,7 +155,7 @@ void Cloth_GLWidget::resizeGL(int width, int height)
 #ifdef QT_OPENGL_ES_1
     glOrthof(-2, +2, -2, +2, 1.0, 15.0);
 #else
-    glOrtho(-2, +2, -2, 2, 1, 15);
+    glOrtho(-2, +2, -2, 2, -4, 4);
 #endif
     glMatrixMode(GL_MODELVIEW);
 }
@@ -164,10 +166,9 @@ void Cloth_GLWidget::draw()
 
     #define BUFFER_OFFSET(i) ((double *)NULL + (i))
 
-    glPushMatrix();
-
     // bind our VBO data to be the currently active one
     glBindBuffer(GL_ARRAY_BUFFER, VBOBuffers);
+
     // glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexBuffer);
 
     // enable vertex array drawing
@@ -178,12 +179,10 @@ void Cloth_GLWidget::draw()
     if (normals.rows() != 0)
     {
         glEnableClientState(GL_NORMAL_ARRAY);
-
     }
     if (colors.rows() != 0)
     {
         glEnableClientState(GL_COLOR_ARRAY);
-
     }
 
 
@@ -215,15 +214,11 @@ void Cloth_GLWidget::draw()
     if (normals.rows() != 0)
     {
         glDisableClientState(GL_NORMAL_ARRAY);
-
     }
     if (colors.rows() != 0)
     {
         glDisableClientState(GL_COLOR_ARRAY);
-
     }
-
-    glPopMatrix();
 
 }
 

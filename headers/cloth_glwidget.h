@@ -57,7 +57,7 @@ private:
     Eigen::MatrixXd verts, normals;
     Eigen::MatrixXi colors, faces;
 
-    //
+    // opengl parameters
     GLuint VBOBuffers, IndexBuffer;
 
 
