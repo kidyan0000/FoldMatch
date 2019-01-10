@@ -156,7 +156,7 @@ void Cloth_GLWidget::resizeGL(int width, int height)
 #ifdef QT_OPENGL_ES_1
     glOrthof(-2, +2, -2, +2, 1.0, 15.0);
 #else
-    glOrtho(-2, +2, -2, 2, -2, 2);
+    glOrtho(-1.5, +1.5, -1.5, 1.5, -1.5, 1.5);
 #endif
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -222,6 +222,11 @@ void Cloth_GLWidget::draw()
     {
         glDisableClientState(GL_COLOR_ARRAY);
     }
+
+}
+
+void Cloth_GLWidget::test()
+{
 
 }
 
@@ -294,4 +299,8 @@ void Cloth_GLWidget::setZRotation(int angle)
     }
 }
 
+void Cloth_GLWidget::test()
+{
+
+}
 

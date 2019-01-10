@@ -49,6 +49,8 @@ private:
     void initVbo();
     void draw();
 
+    void test();
+
     // widget setting
     int xRot;
     int yRot;
