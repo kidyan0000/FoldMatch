@@ -118,7 +118,6 @@ void Cloth_GLWidget::initializeGL()
    initVbo();
 
    glEnable(GL_DEPTH_TEST);
-
    glEnable(GL_CULL_FACE);
 
    glShadeModel(GL_SMOOTH);
@@ -143,6 +142,8 @@ void Cloth_GLWidget::paintGL()
     glPushMatrix();
     draw();
     glPopMatrix();
+
+    // test();
 }
 
 void Cloth_GLWidget::resizeGL(int width, int height)
@@ -225,11 +226,6 @@ void Cloth_GLWidget::draw()
 
 }
 
-void Cloth_GLWidget::test()
-{
-
-}
-
 QSize Cloth_GLWidget::minimumSizeHint() const
 {
     return QSize(50, 50);
@@ -301,6 +297,18 @@ void Cloth_GLWidget::setZRotation(int angle)
 
 void Cloth_GLWidget::test()
 {
+    glColor3f(1.0f, 0.0f, 0.0f);
+    glPointSize( 10 );
 
+    glBegin(GL_POINTS);
+            glVertex3f(0.0f, 0.0f, -6.0f);
+            glVertex3f(0.0f, 0.0f, 6.0f);
+            glVertex3f(-1.0f, 0.0f, 6.0f);
+            glVertex3f(1.0f, 0.0f, 6.0f);
+            glVertex3f(0.0f, -1.0f, 6.0f);
+            glVertex3f(0.0f, 1.0f, 6.0f);
+
+            glVertex3f(0.0f, 0.0f, 6.0f);
+        glEnd();
 }
 

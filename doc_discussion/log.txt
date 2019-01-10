@@ -12,3 +12,9 @@ use here the GL_POINTS to get only the vertexs
 
 // 2018.01.09
 only see the half???
+
+// 2018.01.10
+test points can be displayed correctly;
+bunny.ply can be displayed correctly;
+
+CMakeList can still not find the .ui in GUI folder, but in src folder
