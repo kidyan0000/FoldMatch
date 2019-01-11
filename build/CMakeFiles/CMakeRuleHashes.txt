@@ -1,0 +1,7 @@
+# Hashes of file build rules.
+3a6ae7e048d40ff40caee34a8ddb3847 CMakeFiles/CLOTH_SIMULATION_autogen
+607fb7f38930a39db741f34d87c99739 headers/moc_cloth_glwidget.cpp
+25c8ee9a807bf432ee34e85bfd33246d headers/moc_cloth_window.cpp
+4552f0cd60bf2357004d68a4cd8b0a0a headers/moc_ply_Module.cpp
+c371fd2c59f254de983e99d908c7ac1d headers/moc_tinyply.cpp
+250a9ba7fc00b5bce50c473b38b2f005 ui_cloth_window.h

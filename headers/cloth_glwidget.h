@@ -6,6 +6,8 @@
 #include <QPainter>
 #include <QGLFunctions>
 
+#include <GL/glut.h>
+
 #include <ply_Module.h>
 
 #include <GL/gl.h>
@@ -22,7 +24,7 @@ public:
 
     void initializeGL();
     void paintGL();
-    void resizeGL(int w, int h);
+    void resizeGL(int w, int h);	
 
     QSize minimumSizeHint() const;
     QSize sizeHint() const;
@@ -47,6 +49,7 @@ signals:
 private:
     // opengl setting
     void initVbo();
+
     void draw();
 
     void test();

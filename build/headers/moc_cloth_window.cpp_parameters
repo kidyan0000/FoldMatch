@@ -1,0 +1,5 @@
+-I/home/kidyan0000/P.Thesis_Seamless_Cloth_Simulation_with_High_Geometric_Fidelity/Workspace/cloth_simulation
+-I/home/kidyan0000/P.Thesis_Seamless_Cloth_Simulation_with_High_Geometric_Fidelity/Workspace/cloth_simulation/build
+-o
+/home/kidyan0000/P.Thesis_Seamless_Cloth_Simulation_with_High_Geometric_Fidelity/Workspace/cloth_simulation/build/headers/moc_cloth_window.cpp
+/home/kidyan0000/P.Thesis_Seamless_Cloth_Simulation_with_High_Geometric_Fidelity/Workspace/cloth_simulation/headers/cloth_window.h
