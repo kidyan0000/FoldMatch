@@ -33,7 +33,7 @@ private:
 
     // Eigen::MatrixXd vertsR, vertsT;
     Eigen::MatrixXi faces;
-    Eigen::MatrixXd eigval, eigvec;
+    Eigen::MatrixXcd eigval, eigvec;
 
 
 };

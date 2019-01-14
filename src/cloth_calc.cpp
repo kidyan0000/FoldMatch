@@ -63,30 +63,30 @@ void cloth_calc::cloth_eig()
             j = j+3;
     }
 
-    // generate the transformation matrix T (2*2)
-    Eigen::MatrixXd Trans(2,2);
 
     // initialize the matrix to store the eigenvalue and eigenvector
     Eigen::Matrix<double,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> eigval(faces.rows()*3,2);
-    Eigen::Matrix<double,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> eigvec(faces.rows()*6,2);
+    Eigen::Matrix<double,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> eigvec(faces.rows()*3,4);
 
+    int l = 0;
     for(int i=0; i<faces.rows()*3; i++)
     {
         // compute the transformation matrix
         // T = [u1, u2] * [u1_, u2_]^-1
-        Eigen::MatrixXd Trans(Eigen::Map<Eigen::RowVectorXd>(VecT.row(i).data(), 2).transpose() * Eigen::Map<Eigen::RowVectorXd>(VecR.row(i).data(), 2));
+        Eigen::MatrixXd Transl(Eigen::Map<Eigen::RowVectorXd>(VecT.row(i).data(), 2).transpose() * Eigen::Map<Eigen::RowVectorXd>(VecR.row(i).data(), 2));
 
         // compute the eigenvalues and eigenvectors of transformation matrix and save it to eigval and eigvec
         // U^2 = T^transpose * T
-        Eigen::EigenSolver<Eigen::Matrix<double, 2,2> > solv(Trans.transpose() * Trans);
-        Eigen::VectorXcd eivals = solv.eigenvalues();
-        Eigen::MatrixXcd eivecs = solv.eigenvectors();
-        // std::cout << eivecs << std::endl;
-    }
+        Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> solv(Transl.transpose() * Transl);
 
-    // this is for debug
-    std::cout << VecT(1,0) << VecT(1,1) << std::endl;
-    std::cout << Eigen::Map<Eigen::RowVectorXd>(VecT.row(1).data(),2).transpose() * Eigen::Map<Eigen::RowVectorXd>(VecR.row(1).data(),2) << std::endl;
+        eigval.row(l) << (solv.eigenvalues()).transpose();
+        eigvec.row(l) << ((solv.eigenvectors()).col(0)).transpose(), ((solv.eigenvectors()).col(1)).transpose();
+    }
+}
+
+void cloth_calc::cloth_defo()
+{
+
 }
 
 cloth_calc::~cloth_calc()
