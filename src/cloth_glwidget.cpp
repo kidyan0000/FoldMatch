@@ -27,10 +27,7 @@ void Cloth_GLWidget::initVbo()
 
     // get vertices
     ply_module* _plyModule = new ply_module();
-    _plyModule->readPLY("../data/Reference-1180330141717_new.ply", true, true, true, true, true);
-    //_plyModule->readPLY("../data/Template-1_0001.ply", true, true, true, true, true);
-
-    //normals = (_plyModule->getNormals().rows() != 0) ? _plyModule->getNormals(): 0 ;
+    _plyModule->readPLY("../data/Reference-1180330141717.ply", true, true, true, true, true);
 
     if (_plyModule->getVertices().rows() != 0)
     {
@@ -53,18 +50,15 @@ void Cloth_GLWidget::initVbo()
 
     Eigen::Matrix<double,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> verts_t(verts);
     Eigen::RowVectorXd verts_row(Eigen::Map<Eigen::RowVectorXd>(verts_t.data(), verts_t.size()));
-    // Eigen::Map<Eigen::RowVectorXd> verts_row(verts_t.data(), verts_t.size());
 
     Eigen::Matrix<double,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> normals_t(normals);
     Eigen::RowVectorXd normals_row(Eigen::Map<Eigen::RowVectorXd>(normals_t.data(), normals_t.size()));
-    // Eigen::Map<Eigen::RowVectorXd> normals_row(normals_t.data(), normals_t.size());
 
     Eigen::Matrix<int,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> colors_t(colors);
     Eigen::RowVectorXi colors_row(Eigen::Map<Eigen::RowVectorXi>(colors_t.data(), colors_t.size()));
-    // Eigen::Map<Eigen::RowVectorXi> (colors_t.data(), colors_t.size());
 
     // this is for debug
-     std::cout << normals.size() << std::endl;
+    // std::cout << verts.size() << std::endl;
 
     // now creat the VBO
     glGenBuffers(1, &VBOBuffers);
@@ -119,8 +113,6 @@ void Cloth_GLWidget::initializeGL()
 {
    qglClearColor(Qt::black); //use black backgroud
 
-   initVbo();
-
    glEnable(GL_DEPTH_TEST);
    glEnable(GL_CULL_FACE);
 
@@ -130,6 +122,8 @@ void Cloth_GLWidget::initializeGL()
 
    static GLfloat lightPosition[4] = { 0, 0, 10, 1.0 };
    glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
+
+   initVbo();
 }
 
 void Cloth_GLWidget::paintGL()
@@ -141,7 +135,7 @@ void Cloth_GLWidget::paintGL()
     glRotatef(yRot / 16.0, 0.0, 1.0, 0.0);
     glRotatef(zRot / 16.0, 0.0, 0.0, 1.0);
 
-    glTranslatef(0.0, 0.0, -5.0);
+     glTranslatef(0.0, 0.0, -6.0);
 
     glPushMatrix();
     draw();
@@ -153,8 +147,8 @@ void Cloth_GLWidget::paintGL()
 void Cloth_GLWidget::resizeGL(int width, int height)
 {
     int side = qMin(width, height);
-    //glViewport((width - side) / 2, (height - side) / 2, side, side);
-    glViewport(0, 0, width, height);
+    glViewport((width - side) / 2, (height - side) / 2, side, side);
+    // glViewport(0, 0, width, height);
 
     glMatrixMode(GL_PROJECTION); //set projection matrix
     glLoadIdentity(); //reload projection matrix
@@ -162,8 +156,7 @@ void Cloth_GLWidget::resizeGL(int width, int height)
 #ifdef QT_OPENGL_ES_1
     glOrthof(-2, +2, -2, +2, 1.0, 15.0);
 #else
-    glOrtho(-2, +2, -2, 2, -2, 2);
-    //glOrtho(-1.5, +1.5, -1.5, 1.5, -1.5, 1.5);
+    glOrtho(-1.5, +1.5, -1.5, 1.5, -1.5, 1.5);
 #endif
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -230,6 +223,7 @@ void Cloth_GLWidget::draw()
         glDisableClientState(GL_COLOR_ARRAY);
     }
 
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 QSize Cloth_GLWidget::minimumSizeHint() const
@@ -304,7 +298,7 @@ void Cloth_GLWidget::setZRotation(int angle)
 void Cloth_GLWidget::test()
 {
     glColor3f(0.5f, 0.5f, 1.0f);
-    glPointSize( 5 );
+    glPointSize( 2 );
 
     glBegin(GL_POINTS);
             glVertex3f(0.0f, 0.0f, 5.9f);
