@@ -72,14 +72,16 @@ void cloth_calc::cloth_eig()
 
     for(int i=0; i<faces.rows()*3; i++)
     {
+        // compute the transformation matrix
         // T = [u1, u2] * [u1_, u2_]^-1
         Eigen::MatrixXd Trans(Eigen::Map<Eigen::RowVectorXd>(VecT.row(i).data(), 2).transpose() * Eigen::Map<Eigen::RowVectorXd>(VecR.row(i).data(), 2));
 
         // compute the eigenvalues and eigenvectors of transformation matrix and save it to eigval and eigvec
-
-        Eigen::VectorXcd eivals = (Trans.transpose() * Trans).eigenvalues();
-        // Eigen::VectorXcd eivecs = (Trans.transpose() * Trans).eigenvectors();
-        // std::cout << eivals << std::endl;
+        // U^2 = T^transpose * T
+        Eigen::EigenSolver<Eigen::Matrix<double, 2,2> > solv(Trans.transpose() * Trans);
+        Eigen::VectorXcd eivals = solv.eigenvalues();
+        Eigen::MatrixXcd eivecs = solv.eigenvectors();
+        // std::cout << eivecs << std::endl;
     }
 
     // this is for debug
