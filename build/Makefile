@@ -54,13 +54,15 @@ SOURCES       = ../src/main.cpp \
 		../src/ply_Module.cpp \
 		../src/tinyply.cpp \
 		../src/cloth_glwidget.cpp \
-		../src/cloth_window.cpp moc_cloth_glwidget.cpp \
+		../src/cloth_window.cpp \
+		../src/cloth_calc.cpp moc_cloth_glwidget.cpp \
 		moc_cloth_window.cpp
 OBJECTS       = main.o \
 		ply_Module.o \
 		tinyply.o \
 		cloth_glwidget.o \
 		cloth_window.o \
+		cloth_calc.o \
 		moc_cloth_glwidget.o \
 		moc_cloth_window.o
 DIST          = /opt/Qt/5.12.0/gcc_64/mkspecs/features/spec_pre.prf \
@@ -260,11 +262,13 @@ DIST          = /opt/Qt/5.12.0/gcc_64/mkspecs/features/spec_pre.prf \
 		../../cloth_simulation.pro ../headers/ply_Module.h \
 		../headers/tinyply.h \
 		../headers/cloth_glwidget.h \
-		../headers/cloth_window.h ../src/main.cpp \
+		../headers/cloth_window.h \
+		../headers/cloth_calc.h ../src/main.cpp \
 		../src/ply_Module.cpp \
 		../src/tinyply.cpp \
 		../src/cloth_glwidget.cpp \
-		../src/cloth_window.cpp
+		../src/cloth_window.cpp \
+		../src/cloth_calc.cpp
 QMAKE_TARGET  = CLOTH_SIMULATION
 DESTDIR       = 
 TARGET        = CLOTH_SIMULATION
@@ -690,8 +694,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /opt/Qt/5.12.0/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../headers/ply_Module.h ../headers/tinyply.h ../headers/cloth_glwidget.h ../headers/cloth_window.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../src/main.cpp ../src/ply_Module.cpp ../src/tinyply.cpp ../src/cloth_glwidget.cpp ../src/cloth_window.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../headers/ply_Module.h ../headers/tinyply.h ../headers/cloth_glwidget.h ../headers/cloth_window.h ../headers/cloth_calc.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../src/main.cpp ../src/ply_Module.cpp ../src/tinyply.cpp ../src/cloth_glwidget.cpp ../src/cloth_window.cpp ../src/cloth_calc.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../GUI/cloth_window.ui $(DISTDIR)/
 
 
@@ -2770,6 +2774,10 @@ cloth_window.o: ../src/cloth_window.cpp ../headers/cloth_window.h \
 		/opt/Qt/5.12.0/gcc_64/include/QtOpenGL/qglfunctions.h \
 		../headers/ply_Module.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o cloth_window.o ../src/cloth_window.cpp
+
+cloth_calc.o: ../src/cloth_calc.cpp ../headers/cloth_calc.h \
+		../headers/ply_Module.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o cloth_calc.o ../src/cloth_calc.cpp
 
 moc_cloth_glwidget.o: moc_cloth_glwidget.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_cloth_glwidget.o moc_cloth_glwidget.cpp

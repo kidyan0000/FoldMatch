@@ -1,5 +1,6 @@
 #include "cloth_window.h"
-#include "cloth_glwidget.h"
+// #include "cloth_glwidget.h"
+#include "cloth_calc.h"
 
 #include <QApplication>
 
@@ -11,6 +12,9 @@ int main(int argc, char *argv[])
     // QApplication::setQuitOnLastWindowClosed(false);
 
     Cloth_Window w;
+
+    cloth_calc test;
+    test.cloth_eig();
 
     w.show();
 

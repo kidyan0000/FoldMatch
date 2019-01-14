@@ -31,8 +31,8 @@ SOURCES += \
     src/ply_Module.cpp \
     src/tinyply.cpp \
     src/cloth_glwidget.cpp \
-    src/cloth_window.cpp
-
+    src/cloth_window.cpp \
+    src/cloth_calc.cpp
 
 
 
@@ -41,7 +41,8 @@ HEADERS += \
     headers/ply_Module.h \
     headers/tinyply.h \
     headers/cloth_glwidget.h \
-    headers/cloth_window.h
+    headers/cloth_window.h \
+    headers/cloth_calc.h
 
 INCLUDEPATH += $$PWD/GUI
 FORMS += \

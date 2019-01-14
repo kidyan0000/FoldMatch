@@ -205,7 +205,6 @@ void Cloth_GLWidget::draw()
     }
 
     // draw the VBO as a series of GL_POINTS starting at 0 in the buffet
-    // glPointSize(2.0);
     glDrawArrays(GL_POINTS, 0, verts.rows());
     // glDrawElements(GL_LINE_STRIP, faces.rows(), GL_UNSIGNED_SHORT, 0);
 
