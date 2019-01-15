@@ -2,6 +2,7 @@
 #define CLOTH_CALC_H
 
 #include <iostream>
+#include <fstream>
 #include <stdlib.h>
 #include <vector>
 
@@ -20,9 +21,9 @@ public:
     cloth_calc();
     ~cloth_calc();
 
-    void cloth_eig();
-    void cloth_defo();
-    void cloth_displ();
+    Eigen::MatrixXd cloth_eig();
+    void cloth_defo( Eigen::MatrixXd );
+    void cloth_displ( Eigen::MatrixXd );
 
     void writeDefo();
     void writeDispl();
@@ -32,7 +33,7 @@ private:
     ply_module* _plyModuleT;
 
     Eigen::MatrixXi faces;
-    Eigen::MatrixXd eigval_sq, eigvec_sq;
+    Eigen::MatrixXd Eig_sq, Defo, Displ;
 
 };
 
