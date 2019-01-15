@@ -31,10 +31,8 @@ private:
     ply_module* _plyModuleR;
     ply_module* _plyModuleT;
 
-    // Eigen::MatrixXd vertsR, vertsT;
     Eigen::MatrixXi faces;
-    Eigen::MatrixXcd eigval, eigvec;
-
+    Eigen::MatrixXd eigval_sq, eigvec_sq;
 
 };
 

@@ -15,6 +15,7 @@ int main(int argc, char *argv[])
 
     cloth_calc test;
     test.cloth_eig();
+    test.cloth_defo();
 
     w.show();
 

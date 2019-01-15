@@ -38,55 +38,68 @@ void cloth_calc::cloth_eig()
 
     // get the verts index of each triangles el=i
     // faces(i,j) is the ith triangle of the vertex j
-    // FOR REFERENCE
-    int k = 0;
+
+    int Vec_index = 0;
     for(int i=0; i<faces.rows(); i++)
     {
-            VecR.row(k) <<   (vertsR.row(faces(i,0)) - vertsR.row(faces(i,1))), // vector at vertex 0
+            // FOR REFERENCE
+            VecR.row(Vec_index) <<   (vertsR.row(faces(i,0)) - vertsR.row(faces(i,1))), // vector at vertex 0
                              (vertsR.row(faces(i,0)) - vertsR.row(faces(i,2)));
-            VecR.row(k+1) << (vertsR.row(faces(i,1)) - vertsR.row(faces(i,0))), // vector at vertex 1
+            VecR.row(Vec_index+1) << (vertsR.row(faces(i,1)) - vertsR.row(faces(i,0))), // vector at vertex 1
                              (vertsR.row(faces(i,1)) - vertsR.row(faces(i,2)));
-            VecR.row(k+2) << (vertsR.row(faces(i,2)) - vertsR.row(faces(i,0))), // vector at vertex 2
+            VecR.row(Vec_index+2) << (vertsR.row(faces(i,2)) - vertsR.row(faces(i,0))), // vector at vertex 2
                              (vertsR.row(faces(i,2)) - vertsR.row(faces(i,1)));
-            k = k+3;
-    }
-    // FOR TEMPLATE
-    int j = 0;
-    for(int i=0; i<faces.rows(); i++)
-    {
-            VecT.row(j) <<   (vertsT.row(faces(i,0)) - vertsT.row(faces(i,1))), // vector at vertex 0
+
+            // FOR TEMPLATE
+            VecT.row(Vec_index) <<   (vertsT.row(faces(i,0)) - vertsT.row(faces(i,1))), // vector at vertex 0
                              (vertsT.row(faces(i,0)) - vertsT.row(faces(i,2)));
-            VecT.row(j+1) << (vertsT.row(faces(i,1)) - vertsT.row(faces(i,0))), // vector at vertex 1
+            VecT.row(Vec_index+1) << (vertsT.row(faces(i,1)) - vertsT.row(faces(i,0))), // vector at vertex 1
                              (vertsT.row(faces(i,1)) - vertsT.row(faces(i,2)));
-            VecT.row(j+2) << (vertsT.row(faces(i,2)) - vertsT.row(faces(i,0))), // vector at vertex 2
+            VecT.row(Vec_index+2) << (vertsT.row(faces(i,2)) - vertsT.row(faces(i,0))), // vector at vertex 2
                              (vertsT.row(faces(i,2)) - vertsT.row(faces(i,1)));
-            j = j+3;
+
+            Vec_index = Vec_index+3;
     }
 
-    // this is for debug
-
+    // initialize the matrix to store the transformation matrix
+    Eigen::MatrixXd Transl;
     // initialize the matrix to store the eigenvalue and eigenvector
-    Eigen::Matrix<double,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> eigval(faces.rows()*3,2);
-    Eigen::Matrix<double,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> eigvec(faces.rows()*3,4);
+    Eigen::Matrix<double,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> eigval_sq(faces.rows()*3,2);
+    Eigen::Matrix<double,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> eigvec_sq(faces.rows()*3,4);
 
-    int l = 0;
+    int Eig_index = 0;
     for(int i=0; i<faces.rows()*3; i++)
     {
         // compute the transformation matrix (Transl)
         // T = [u1, u2] * [u1_, u2_]^-1
-        // we have here 3D triangles, thus we need to transform at first to 2D triangles using projecting
+        // we have here 3D triangles, thus we need to transform at first to 2D triangles using affine transformation
         Eigen::MatrixXd Transl((Eigen::Map<Eigen::Matrix<double,3,2> >(VecT.row(i).data())).block<2,2>(0,0) * ((Eigen::Map<Eigen::Matrix<double,3,2> >(VecR.row(i).data())).block<2,2>(0,0)).inverse());
 
         // compute the eigenvalues and eigenvectors of transformation matrix and save it to eigval and eigvec
         // U^2 = T^transpose * T
         Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> solv(Transl.transpose() * Transl);
 
-        eigval.row(l) << (solv.eigenvalues()).transpose();
-        eigvec.row(l) << ((solv.eigenvectors()).col(0)).transpose(), ((solv.eigenvectors()).col(1)).transpose();
-        l = l+1;
+        eigval_sq.row(Eig_index) << (solv.eigenvalues()).transpose();
+        eigvec_sq.row(Eig_index) << ((solv.eigenvectors()).col(0)).transpose(), ((solv.eigenvectors()).col(1)).transpose();
+
+        Eig_index = Eig_index+1;
     }
+
+    /*
     // this is for debug
-    std::cout << eigvec << std::endl;
+    std::cout << "read the element 1 " << (faces.row(0)) << std::endl;
+    std::cout << "read the vertex 1 for reference " << vertsR.row(faces(0,0)) << std::endl;
+    std::cout << "read the vertex 2 for reference " << vertsR.row(faces(0,1)) << std::endl;
+    std::cout << "read the vertex 3 for reference " << vertsR.row(faces(0,2)) << std::endl;
+    std::cout << "read the vertex 1 for template " << vertsT.row(faces(0,0)) << std::endl;
+    std::cout << "read the vertex 2 for template " << vertsT.row(faces(0,1)) << std::endl;
+    std::cout << "read the vertex 3 for template " << vertsT.row(faces(0,2)) << std::endl;
+    std::cout << "read the vector for reference " << VecR.row(0) << std::endl;
+    std::cout << "read the vector for template " << VecT.row(0) << std::endl;
+    std::cout << "read the transformation matrix " << (Eigen::Map<Eigen::Matrix<double,3,2> >(VecT.row(0).data())).block<2,2>(0,0) * ((Eigen::Map<Eigen::Matrix<double,3,2> >(VecR.row(0).data())).block<2,2>(0,0)).inverse() << std::endl;
+    std::cout << "read the eigenvalues " << eigval_sq.row(0) << std::endl;
+    std::cout << "read the eigenvectors " << eigvec_sq.row(0) << std::endl;
+    */
 
 }
 
