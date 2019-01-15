@@ -23,4 +23,4 @@ CMakeList can still not find the .ui in GUI folder, but in src folder
 compute the eigenvalues and eigenvectors
 
 // 2018.01.15
-compute the right cauchy green tensor
+compute the stretch tensor U

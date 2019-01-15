@@ -62,7 +62,6 @@ Eigen::MatrixXd cloth_calc::cloth_eig()
     }
 
     // initialize the matrix to store the transformation matrix
-    Eigen::MatrixXd Transl;
     // initialize the matrix to store the eigenvalue and eigenvector
     Eigen::Matrix<double,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> Eig_sq(faces.rows()*9,2);
 
@@ -92,7 +91,7 @@ Eigen::MatrixXd cloth_calc::cloth_eig()
         Eig_index = Eig_index+3;
     }
 
-
+    /*
     // this is for debug
     std::ofstream outfile0("../doc_discussion/debug/vertsT.txt");
     outfile0<< vertsT <<std::endl;
@@ -106,9 +105,9 @@ Eigen::MatrixXd cloth_calc::cloth_eig()
     std::ofstream outfile3("../doc_discussion/debug/VecR.txt");
     outfile3<< VecT <<std::endl;
     outfile3.close();
-    std::ofstream outfile4("../doc_discussion/debug/Transl.txt");
-    outfile4<< Transl.data() <<std::endl;
-    outfile4.close();
+    // std::ofstream outfile4("../doc_discussion/debug/Transl.txt");
+    // outfile4<< Transl.data() <<std::endl;
+    // outfile4.close();
     std::ofstream outfile5("../doc_discussion/debug/Eig_sq.txt");
     outfile5<< Eig_sq <<std::endl;
     outfile5.close();
@@ -124,7 +123,7 @@ Eigen::MatrixXd cloth_calc::cloth_eig()
     // std::cout << "read the transformation matrix " << (Eigen::Map<Eigen::Matrix<double,3,2> >(VecT.row(1).data())).block<2,2>(0,0) * ((Eigen::Map<Eigen::Matrix<double,3,2> >(VecR.row(1).data())).block<2,2>(0,0)).inverse() << std::endl;
     // std::cout << "read the eigenvalues " << Eig_sq.row(0) << std::endl;
     // std::cout << "read the eigenvectors " << Eig_sq.row(1) << Eig_sq.row(2) << std::endl;
-
+    */
     return Eig_sq;
 
 }
@@ -139,10 +138,10 @@ void cloth_calc::cloth_defo(Eigen::MatrixXd Eig_sq)
                 ]
     */
 
-    // initialize the matrix to store the Green deformation tensor
+    // initialize the matrix to store the stetch tensor
     Eigen::Matrix<double,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> Defo(faces.rows()*3*2,2);
     int Defo_index = 0;
-    for(int i=0; i<faces.rows(); i++)
+    for(int i=0; i<faces.rows()*3*3; i=i+3)
     {
         /*
            Defo = [
@@ -154,51 +153,19 @@ void cloth_calc::cloth_defo(Eigen::MatrixXd Eig_sq)
                     ]
         */
 
-        Defo.block(Defo_index,0,2,2) << sqrt(Eig_sq(i,0))*(Eig_sq.row(i+1)).transpose()*Eig_sq.row(i+1) + sqrt(Eig_sq(i,1))*(Eig_sq.row(i+2)).transpose()*Eig_sq.row(i+2);
+        Defo.block(Defo_index,0,2,2) << (sqrt(Eig_sq(i,0))*(Eig_sq.row(i+1)).transpose()*Eig_sq.row(i+1)) + (sqrt(Eig_sq(i,1))*(Eig_sq.row(i+2)).transpose()*Eig_sq.row(i+2));
         Defo_index = Defo_index+2;
     }
 
     // for debug
-    std::ofstream outfile0("../doc_discussion/debug/Defo.txt");
-    outfile0<< Eig_sq <<std::endl;
-    outfile0.close();
-    std::cout << Defo.rows() << std::endl;
+    std::ofstream outfile6("../doc_discussion/debug/Defo.txt");
+    outfile6<< Defo <<std::endl;
+    outfile6.close();
+    std::cout <<Defo.rows() << std::endl;
 }
 
 void cloth_calc::cloth_displ(Eigen::MatrixXd Eig_sq)
 {
-    /*
-       Eig_sq = [
-                eig_val1  eig_val2;
-                eig_vec1  eig_vec2;
-                eig_vec3  eig_vec4;
-                ]
-    */
-
-    // initialize the matrix to store the displacement gradient
-    Eigen::Matrix<double,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> Defo(faces.rows()*3*2,2);
-    int Defo_index = 0;
-    for(int i=0; i<faces.rows(); i++)
-    {
-        /*
-           Defo = [
-                    defo_el1_vert1 defo_el1_vert1
-                    defo_el1_vert1 defo_el1_vert1
-
-                    defo_el1_vert2 defo_el1_vert2
-                    defo_el1_vert2 defo_el1_vert2
-                    ]
-        */
-
-        Defo.block(Defo_index,0,2,2) << sqrt(Eig_sq(i,0))*(Eig_sq.row(i+1)).transpose()*Eig_sq.row(i+1) + sqrt(Eig_sq(i,1))*(Eig_sq.row(i+2)).transpose()*Eig_sq.row(i+2);
-        Defo_index = Defo_index+2;
-    }
-
-    // for debug
-    std::ofstream outfile0("../doc_discussion/debug/Defo.txt");
-    outfile0<< Eig_sq <<std::endl;
-    outfile0.close();
-    std::cout << Defo.rows() << std::endl;
 
 }
 
