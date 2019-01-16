@@ -61,7 +61,7 @@ void cloth_calc::cloth_eig()
     }
 
     // initialize the matrix to store the eigenvalue and eigenvector
-    Eigen::Matrix<double,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> Eigval_sq(faces.rows()*3,2);
+    Eigen::Matrix<double,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> Eigval_sq(faces.rows()*6,1);
     Eigen::Matrix<double,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> Eigvec_sq(faces.rows()*6,2);
 
     int Eigval_index = 0;
@@ -77,11 +77,11 @@ void cloth_calc::cloth_eig()
         // U^2 = T^transpose * T
         Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> solv(Transf.transpose() * Transf);
 
-        // we transpose and save the vector and matrix
-        Eigval_sq.row(Eigval_index)   << (solv.eigenvalues()).transpose();
-        Eigvec_sq.block(Eigvec_index,0,2,2) << (solv.eigenvectors()).transpose();
+        // we save the vector and matrix
+        Eigval_sq.block(Eigval_index,0,2,1) << solv.eigenvalues();
+        Eigvec_sq.block(Eigvec_index,0,2,2) << solv.eigenvectors();
 
-        Eigval_index = Eigval_index+1;
+        Eigval_index = Eigval_index+2;
         Eigvec_index = Eigvec_index+2;
     }
 
@@ -99,11 +99,8 @@ void cloth_calc::cloth_defo(Eigen::MatrixXd Eigval_sq, Eigen::MatrixXd Eigvec_sq
 {
     // initialize the matrix to store the stretch tensor
     Eigen::Matrix<double,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> Defo(faces.rows()*3*2,2);
-    int Defo_index = 0;
-    int Eigval_index = 0;
-    int Eigvec_index = 0;
 
-    for(int i=0; i<faces.rows()*3*3; i=i+3)
+    for(int i=0; i<faces.rows()*3*2; i=i+2)
     {
         /*
            Defo = [
@@ -115,11 +112,7 @@ void cloth_calc::cloth_defo(Eigen::MatrixXd Eigval_sq, Eigen::MatrixXd Eigvec_sq
                     ]
         */
         // it is important to get the squart root before calculate the stretch tensor
-        Defo.block(Defo_index,0,2,2) << (sqrt(Eigval_sq(Eigval_index,0))*(Eigvec_sq.row(Eigvec_index)).transpose()*Eigvec_sq.row(Eigvec_index)) + (sqrt(Eigval_sq(Eigval_index,1))*(Eigvec_sq.row(Eigvec_index+1)).transpose()*Eigvec_sq.row(Eigvec_index+1));
-
-        Defo_index = Defo_index+2;
-        Eigval_index = Eigval_index+1;
-        Eigvec_index = Eigvec_index+2;
+        Defo.block(i,0,2,2) << ( sqrt(Eigval_sq(i,0)) * (Eigvec_sq.block(i,0,2,2).col(i)).transpose() * Eigvec_sq.block(i,0,2,2).col(i) ) + ( sqrt(Eigval_sq(i+1,0)) * (Eigvec_sq.block(i,0,2,2).col(i+1)).transpose() * Eigvec_sq.block(i,0,2,2).col(i+1));
     }
 
     // for debug
@@ -207,22 +200,22 @@ void cloth_calc::cloth_displ()
 
 Eigen::MatrixXd cloth_calc::GetEigval()
 {
-    return this -> Eigval_sq;
+    return Eigval_sq;
 }
 
 Eigen::MatrixXd cloth_calc::GetEigvec()
 {
-    return this -> Eigvec_sq;
+    return Eigvec_sq;
 }
 
 Eigen::MatrixXd cloth_calc::GetDefo()
 {
-    return this -> Defo;
+    return Defo;
 }
 
 Eigen::MatrixXd cloth_calc::GetDispl()
 {
-    return this -> Displ;
+    return Displ;
 }
 
 

@@ -135,7 +135,7 @@ void Cloth_GLWidget::paintGL()
     glRotatef(yRot / 16.0, 0.0, 1.0, 0.0);
     glRotatef(zRot / 16.0, 0.0, 0.0, 1.0);
 
-     glTranslatef(0.0, 0.0, -6.0);
+    glTranslatef(0.0, 0.0, -6.0);
 
     glPushMatrix();
     draw();
