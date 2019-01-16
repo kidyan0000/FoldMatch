@@ -24,6 +24,7 @@ public:
     void cloth_eig();
     void cloth_defo( Eigen::MatrixXd, Eigen::MatrixXd );
     void cloth_displ();
+    // void test();
 
     Eigen::MatrixXd GetEigval();
     Eigen::MatrixXd GetEigvec();

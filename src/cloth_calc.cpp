@@ -61,8 +61,8 @@ void cloth_calc::cloth_eig()
     }
 
     // initialize the matrix to store the eigenvalue and eigenvector
-    Eigen::Matrix<double,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> Eigval_sq(faces.rows()*6,1);
-    Eigen::Matrix<double,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> Eigvec_sq(faces.rows()*6,2);
+    Eigval_sq.resize(faces.rows()*6,1);
+    Eigvec_sq.resize(faces.rows()*6,2);
 
     int Eigval_index = 0;
     int Eigvec_index = 0;
@@ -85,22 +85,14 @@ void cloth_calc::cloth_eig()
         Eigvec_index = Eigvec_index+2;
     }
 
-    // this is for debug
-    // std::ofstream outfile0("../doc_discussion/debug/Eigval_sq.txt");
-    // outfile0<< Eigval_sq <<std::endl;
-    // outfile0.close();
-    // std::ofstream outfile1("../doc_discussion/debug/Eigvec_sq.txt");
-    // outfile1<< Eigvec_sq <<std::endl;
-    // outfile1.close();
-
 }
 
 void cloth_calc::cloth_defo(Eigen::MatrixXd Eigval_sq, Eigen::MatrixXd Eigvec_sq)
 {
     // initialize the matrix to store the stretch tensor
-    Eigen::Matrix<double,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> Defo(faces.rows()*3*2,2);
+    Defo.resize(faces.rows()*6,2);
 
-    for(int i=0; i<faces.rows()*3*2; i=i+2)
+    for(int i=0; i<faces.rows()*6; i=i+2)
     {
         /*
            Defo = [
@@ -112,14 +104,9 @@ void cloth_calc::cloth_defo(Eigen::MatrixXd Eigval_sq, Eigen::MatrixXd Eigvec_sq
                     ]
         */
         // it is important to get the squart root before calculate the stretch tensor
-        Defo.block(i,0,2,2) << ( sqrt(Eigval_sq(i,0)) * (Eigvec_sq.block(i,0,2,2).col(i)).transpose() * Eigvec_sq.block(i,0,2,2).col(i) ) + ( sqrt(Eigval_sq(i+1,0)) * (Eigvec_sq.block(i,0,2,2).col(i+1)).transpose() * Eigvec_sq.block(i,0,2,2).col(i+1));
+        // U = sqrt(/lamdba_1)*v1*v1^T + sqrt(/lamdba_2)*v2*v2^T
+        Defo.block(i,0,2,2) << ( sqrt(Eigval_sq(i,0)) * (Eigvec_sq.block(i,0,2,2).col(0)) * Eigvec_sq.block(i,0,2,2).col(0).transpose() ) + ( sqrt(Eigval_sq(i+1,0)) * (Eigvec_sq.block(i,0,2,2).col(1)) * Eigvec_sq.block(i,0,2,2).col(1).transpose());
     }
-
-    // for debug
-    // std::ofstream outfile6("../doc_discussion/debug/Defo.txt");
-    // outfile6<< Defo <<std::endl;
-    // outfile6.close();
-    // std::cout <<Defo.rows() << std::endl;
 }
 
 void cloth_calc::cloth_displ()
@@ -177,7 +164,7 @@ void cloth_calc::cloth_displ()
     }
 
     // initialize the matrix to store the transformation matrix
-    Eigen::Matrix<double,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> Displ(faces.rows()*6,2);
+    Displ.resize(faces.rows()*6,2);
     int Displ_index = 0;
 
     for(int i=0; i<faces.rows()*3; i++)
@@ -190,12 +177,6 @@ void cloth_calc::cloth_displ()
 
         Displ_index = Displ_index+2;
     }
-
-    // this is for debug
-    // std::ofstream outfile0("../doc_discussion/debug/Displ.txt");
-    // outfile0<< Displ <<std::endl;
-    // outfile0.close();
-
 }
 
 Eigen::MatrixXd cloth_calc::GetEigval()
