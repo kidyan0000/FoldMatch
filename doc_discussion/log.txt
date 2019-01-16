@@ -24,3 +24,7 @@ compute the eigenvalues and eigenvectors
 
 // 2018.01.15
 compute the stretch tensor U
+
+// 2018.01.16
+compute the deformation gradient F. here is T = [u1 u2][u1_ u2_]^-1
+some problem to write the data, not acessible???

@@ -38,7 +38,6 @@ void cloth_calc::cloth_eig()
 
     // get the verts index of each triangles el=i
     // faces(i,j) is the ith triangle of the vertex j
-
     int Vec_index = 0;
     for(int i=0; i<faces.rows(); i++)
     {
@@ -78,16 +77,16 @@ void cloth_calc::cloth_eig()
         // U^2 = T^transpose * T
         Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> solv(Transf.transpose() * Transf);
 
+        // we transpose and save the vector and matrix
         Eigval_sq.row(Eigval_index)   << (solv.eigenvalues()).transpose();
-        Eigvec_sq.row(Eigvec_index) << ((solv.eigenvectors()).col(0)).transpose();
-        Eigvec_sq.row(Eigvec_index+1) << ((solv.eigenvectors()).col(1)).transpose();
+        Eigvec_sq.block(Eigvec_index,0,2,2) << (solv.eigenvectors()).transpose();
 
         Eigval_index = Eigval_index+1;
         Eigvec_index = Eigvec_index+2;
     }
 
     // this is for debug
-    //std::ofstream outfile0("../doc_discussion/debug/Eigval_sq.txt");
+    // std::ofstream outfile0("../doc_discussion/debug/Eigval_sq.txt");
     // outfile0<< Eigval_sq <<std::endl;
     // outfile0.close();
     // std::ofstream outfile1("../doc_discussion/debug/Eigvec_sq.txt");
@@ -98,7 +97,7 @@ void cloth_calc::cloth_eig()
 
 void cloth_calc::cloth_defo(Eigen::MatrixXd Eigval_sq, Eigen::MatrixXd Eigvec_sq)
 {
-    // initialize the matrix to store the stetch tensor
+    // initialize the matrix to store the stretch tensor
     Eigen::Matrix<double,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> Defo(faces.rows()*3*2,2);
     int Defo_index = 0;
     int Eigval_index = 0;
@@ -115,8 +114,9 @@ void cloth_calc::cloth_defo(Eigen::MatrixXd Eigval_sq, Eigen::MatrixXd Eigvec_sq
                     defo_el1_vert2 defo_el1_vert2
                     ]
         */
-
+        // it is important to get the squart root before calculate the stretch tensor
         Defo.block(Defo_index,0,2,2) << (sqrt(Eigval_sq(Eigval_index,0))*(Eigvec_sq.row(Eigvec_index)).transpose()*Eigvec_sq.row(Eigvec_index)) + (sqrt(Eigval_sq(Eigval_index,1))*(Eigvec_sq.row(Eigvec_index+1)).transpose()*Eigvec_sq.row(Eigvec_index+1));
+
         Defo_index = Defo_index+2;
         Eigval_index = Eigval_index+1;
         Eigvec_index = Eigvec_index+2;
@@ -151,9 +151,9 @@ void cloth_calc::cloth_displ()
     Eigen::Matrix<double,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> VecT(faces.rows()*3,6);
     /*
      *Vec = [
-     *        el1_vet1_v1_x el1_vet1_v1_y el1_vet1_v1_z el1_vet1_v2_x el1_vet1_v2_y el1_vet1_v2_z
-     *        el1_vet2_v1_x el1_vet2_v1_y el1_vet2_v1_z el1_vet2_v2_x el1_vet2_v2_y el1_vet2_v2_z
-     *        el1_vet3_v1_x el1_vet3_v1_y el1_vet3_v1_z el1_vet3_v2_x el1_vet3_v2_y el1_vet3_v2_z
+     *        el1_vet1_v1_x el1_vet1_v1_y el1_vet1_v1_z  el1_vet1_v2_x el1_vet1_v2_y el1_vet1_v2_z
+     *        el1_vet2_v1_x el1_vet2_v1_y el1_vet2_v1_z  el1_vet2_v2_x el1_vet2_v2_y el1_vet2_v2_z
+     *        el1_vet3_v1_x el1_vet3_v1_y el1_vet3_v1_z  el1_vet3_v2_x el1_vet3_v2_y el1_vet3_v2_z
      *      ]
      */
 
@@ -179,6 +179,7 @@ void cloth_calc::cloth_displ()
             VecT.row(Vec_index+2) << (vertsT.row(faces(i,2)) - vertsT.row(faces(i,0))), // vector at vertex 2
                                      (vertsT.row(faces(i,2)) - vertsT.row(faces(i,1)));
 
+
             Vec_index = Vec_index+3;
     }
 
@@ -192,38 +193,36 @@ void cloth_calc::cloth_displ()
         // T = [u1, u2] * [u1_, u2_]^-1
         // we have here 3D triangles, thus we need to transform at first to 2D triangles using affine transformation
         Eigen::MatrixXd Transf((Eigen::Map<Eigen::Matrix<double,3,2> >(VecT.row(i).data())).block<2,2>(0,0) * ((Eigen::Map<Eigen::Matrix<double,3,2> >(VecR.row(i).data())).block<2,2>(0,0)).inverse());
-
-        Displ.row(Displ_index) << Transf.row(0);
-        Displ.row(Displ_index+1) << Transf.row(1);
+        Displ.block(Displ_index,0,2,2) << Transf;
 
         Displ_index = Displ_index+2;
     }
 
     // this is for debug
-     std::ofstream outfile0("../doc_discussion/debug/Displ.txt");
-     outfile0<< Displ <<std::endl;
-     outfile0.close();
+    // std::ofstream outfile0("../doc_discussion/debug/Displ.txt");
+    // outfile0<< Displ <<std::endl;
+    // outfile0.close();
 
 }
 
-Eigen::MatrixXd cloth_calc::getEigval()
+Eigen::MatrixXd cloth_calc::GetEigval()
 {
-    return Eigval_sq;
+    return this -> Eigval_sq;
 }
 
-Eigen::MatrixXd cloth_calc::getEigvec()
+Eigen::MatrixXd cloth_calc::GetEigvec()
 {
-    return Eigvec_sq;
+    return this -> Eigvec_sq;
 }
 
 Eigen::MatrixXd cloth_calc::GetDefo()
 {
-    return Defo;
+    return this -> Defo;
 }
 
 Eigen::MatrixXd cloth_calc::GetDispl()
 {
-    return Displ;
+    return this -> Displ;
 }
 
 

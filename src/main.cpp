@@ -14,8 +14,13 @@ int main(int argc, char *argv[])
     Cloth_Window w;
 
     cloth_calc test;
-    test.cloth_displ();
-    // std::cout << test.getTest() << std::endl;
+    test.cloth_eig();
+    Eigen::MatrixXd val = test.GetEigvec();
+    Eigen::MatrixXd vec = test.GetEigvec();
+    // test.cloth_defo(val, vec);
+    // test.GetDefo();
+
+    std::cout << val << std::endl;
 
     w.show();
 
