@@ -21,19 +21,24 @@ public:
     cloth_calc();
     ~cloth_calc();
 
-    Eigen::MatrixXd cloth_eig();
-    void cloth_defo( Eigen::MatrixXd );
-    void cloth_displ( Eigen::MatrixXd );
+    void cloth_eig();
+    void cloth_defo( Eigen::MatrixXd, Eigen::MatrixXd );
+    void cloth_displ();
 
-    void writeDefo();
-    void writeDispl();
+    Eigen::MatrixXd getEigval();
+    Eigen::MatrixXd getEigvec();
+
+    Eigen::MatrixXd GetDefo();
+    Eigen::MatrixXd GetDispl();
 
 private:
     ply_module* _plyModuleR;
     ply_module* _plyModuleT;
 
     Eigen::MatrixXi faces;
-    Eigen::MatrixXd Eig_sq, Defo, Displ;
+    Eigen::MatrixXd Eigval_sq, Eigvec_sq;
+    Eigen::MatrixXd Defo;
+    Eigen::MatrixXd Displ;
 
 };
 

@@ -14,8 +14,8 @@ int main(int argc, char *argv[])
     Cloth_Window w;
 
     cloth_calc test;
-    // test.cloth_eig();
-    test.cloth_defo(test.cloth_eig());
+    test.cloth_displ();
+    // std::cout << test.getTest() << std::endl;
 
     w.show();
 
