@@ -64,8 +64,7 @@ void cloth_calc::cloth_eig()
     Eigval_sq.resize(faces.rows()*6,1);
     Eigvec_sq.resize(faces.rows()*6,2);
 
-    int Eigval_index = 0;
-    int Eigvec_index = 0;
+    int Eig_index = 0;
     for(int i=0; i<faces.rows()*3; i++)
     {
         // compute the transformation matrix (Transl)
@@ -78,11 +77,10 @@ void cloth_calc::cloth_eig()
         Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> solv(Transf.transpose() * Transf);
 
         // we save the vector and matrix
-        Eigval_sq.block(Eigval_index,0,2,1) << solv.eigenvalues();
-        Eigvec_sq.block(Eigvec_index,0,2,2) << solv.eigenvectors();
+        Eigval_sq.block(Eig_index,0,2,1) << solv.eigenvalues();
+        Eigvec_sq.block(Eig_index,0,2,2) << solv.eigenvectors();
 
-        Eigval_index = Eigval_index+2;
-        Eigvec_index = Eigvec_index+2;
+        Eig_index = Eig_index+2;
     }
 
 }

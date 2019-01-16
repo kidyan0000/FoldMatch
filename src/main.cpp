@@ -18,14 +18,14 @@ int main(int argc, char *argv[])
     Eigen::MatrixXd val = test->GetEigval();
     Eigen::MatrixXd vec = test->GetEigvec();
     test->cloth_defo(val, vec);
-    test->cloth_displ();
-    test->GetDefo();
-    test->GetDispl();
+    // test->cloth_displ();
+    // test->GetDefo();
+    // test->GetDispl();
 
     // this is for debug
     // std::cout << test->GetDefo() << std::endl;
-    // std::ofstream outfile0("../doc_discussion/debug/Eigval_sq.txt");
-    // outfile0<< Eigval_sq <<std::endl;
+    // std::ofstream outfile0("../doc_discussion/debug/Eigvec_sq.txt");
+    // outfile0<< vec <<std::endl;
     // outfile0.close();
 
     w.show();
