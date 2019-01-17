@@ -46,7 +46,6 @@ void Cloth_GLWidget::initVbo()
 
 
     // Reshape the matrix to vector
-    // https://eigen.tuxfamily.org/dox/group__TutorialReshapeSlicing.html
 
     Eigen::Matrix<double,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> verts_t(verts);
     Eigen::RowVectorXd verts_row(Eigen::Map<Eigen::RowVectorXd>(verts_t.data(), verts_t.size()));
@@ -57,8 +56,8 @@ void Cloth_GLWidget::initVbo()
     Eigen::Matrix<int,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> colors_t(colors);
     Eigen::RowVectorXi colors_row(Eigen::Map<Eigen::RowVectorXi>(colors_t.data(), colors_t.size()));
 
-    // this is for debug
-    // std::cout << verts.size() << std::endl;
+    // THIS IS FOR DEBUG
+    // std::cout << verts_row.col(75374) << std::endl;
 
     // now creat the VBO
     glGenBuffers(1, &VBOBuffers);

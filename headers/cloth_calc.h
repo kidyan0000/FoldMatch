@@ -26,6 +26,8 @@ public:
     void cloth_defo();
     void cloth_displ();
     // void test();
+    Eigen::MatrixXd GetVecR();
+    Eigen::MatrixXd GetVecT();
 
     Eigen::MatrixXd GetEigval();
     Eigen::MatrixXd GetEigvec();
@@ -38,6 +40,7 @@ private:
     ply_module* _plyModuleT;
 
     Eigen::MatrixXi faces;
+    Eigen::MatrixXd VecR, VecT;
     Eigen::MatrixXd Eigval_sq, Eigvec_sq;
     Eigen::MatrixXd Defo;
     Eigen::MatrixXd Displ;
