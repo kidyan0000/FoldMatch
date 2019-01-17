@@ -21,8 +21,9 @@ public:
     cloth_calc();
     ~cloth_calc();
 
+    void cloth_vec();
     void cloth_eig();
-    void cloth_defo( Eigen::MatrixXd, Eigen::MatrixXd );
+    void cloth_defo();
     void cloth_displ();
     // void test();
 
