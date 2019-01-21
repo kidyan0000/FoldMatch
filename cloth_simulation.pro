@@ -6,6 +6,7 @@
 
 QT       += core gui opengl
 LIBS += -lGLEW -lGL -lX11 -lXi -lXrandr -lXxf86vm -lXinerama -lXcursor -lrt -lm -pthread -lglut
+# LIBS += -fopenmp
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -42,7 +43,8 @@ HEADERS += \
     headers/tinyply.h \
     headers/cloth_glwidget.h \
     headers/cloth_window.h \
-    headers/cloth_calc.h
+    headers/cloth_calc.h \
+
 
 INCLUDEPATH += $$PWD/GUI
 FORMS += \

@@ -41,7 +41,9 @@ void cloth_calc::cloth_vec()
     // faces(i,j) is the ith triangle of the vertex j
 
     int Vec_index = 0;
-    for(int i=0; i<faces.rows(); i++)
+    int Vec_num = faces.rows();
+
+    for(int i=0; i<Vec_num; i++)
     {
             // FOR REFERENCE
             this -> VecR.col(Vec_index).transpose()   << (vertsR.row(faces(i,0)) - vertsR.row(faces(i,1))), // vector at vertex 0
@@ -73,7 +75,9 @@ void cloth_calc::cloth_eig()
     this -> Eigvec_sq.resize(faces.rows()*6,2);
 
     int Eig_index = 0;
-    for(int i=0; i<faces.rows()*3; i++)
+    int Eig_num = faces.rows()*3;
+
+    for(int i=0; i<Eig_num; i++)
     {
         // compute the transformation matrix (Transl)
         // T = [u1, u2] * [u1_, u2_]^-1
@@ -101,7 +105,9 @@ void cloth_calc::cloth_defo()
     // initialize the matrix to store the stretch tensor
     this -> Defo.resize(faces.rows()*6,2);
 
-    for(int i=0; i<faces.rows()*6; i=i+2)
+    int Defo_num = faces.rows()*6;
+
+    for(int i=0; i<Defo_num; i=i+2)
     {
         /*
            Defo = [
@@ -124,9 +130,11 @@ void cloth_calc::cloth_displ()
 
     // initialize the matrix to store the transformation matrix
     this -> Displ.resize(faces.rows()*6,2);
-    int Displ_index = 0;
 
-    for(int i=0; i<faces.rows()*3; i++)
+    int Displ_index = 0;
+    int Displ_num = faces.rows()*3;
+
+    for(int i=0; i<Displ_num; i++)
     {
         // compute the transformation matrix (Transf)
         // T = [u1, u2] * [u1_, u2_]^-1
@@ -139,6 +147,37 @@ void cloth_calc::cloth_displ()
         Displ_index = Displ_index+2;
     }
 }
+
+void cloth_calc::test()
+{
+    // trimesh::TriMesh *mymesh = trimesh::TriMesh::read("../data/Template-1_0001.ply");
+
+}
+
+
+void cloth_calc::cloth_vec_infl()
+{
+    Eigen::MatrixXd vertsR, vertsT;
+
+    if (_plyModuleT->getVertices().rows() != 0)
+    {
+        vertsT = _plyModuleT->getVertices();
+    }
+    if (_plyModuleR->getVertices().rows() != 0)
+    {
+        vertsR = _plyModuleR->getVertices();
+    }
+
+    // read for all vertex
+    int verts_num = vertsR.rows();
+    for(int i=0; i<verts_num; i++)
+    {
+
+    }
+
+
+}
+
 
 Eigen::MatrixXd cloth_calc::GetVecR()
 {

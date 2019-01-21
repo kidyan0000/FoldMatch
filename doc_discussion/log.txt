@@ -27,3 +27,7 @@ compute the stretch tensor U
 
 // 2018.01.16
 compute the deformation gradient F. here is T = [u1 u2][u1_ u2_]^-1
+
+// 2018.01.21
+first tried to use trimesh, but doesn't work
+install libmesh correctly

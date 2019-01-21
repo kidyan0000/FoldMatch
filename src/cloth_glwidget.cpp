@@ -67,20 +67,20 @@ void Cloth_GLWidget::initVbo()
 
 
     // then how we are going to draw it (in this case statically at the data will not change)
-    glBufferData(GL_ARRAY_BUFFER, (verts.size() + normals.size())*sizeof(GL_DOUBLE) + (colors.size()*sizeof(GL_INT)), 0, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, (verts.size() + normals.size())*sizeof(double) + (colors.size()*sizeof(int)), 0, GL_STATIC_DRAW);
 
     // now we copy the data into our subbuffer
     if (_plyModule->getVertices().rows() != 0)
     {
-        glBufferSubData(GL_ARRAY_BUFFER, 0, verts.rows()*3*sizeof(GL_DOUBLE), verts_row.data());
+        glBufferSubData(GL_ARRAY_BUFFER, 0, verts.rows()*3*sizeof(double), verts_row.data());
     }
     if (_plyModule->getNormals().rows() != 0)
     {
-        glBufferSubData(GL_ARRAY_BUFFER, verts.rows()*3*sizeof(GL_DOUBLE), normals.rows()*3*sizeof(GL_DOUBLE), normals_row.data());
+        glBufferSubData(GL_ARRAY_BUFFER, verts.rows()*3*sizeof(double), normals.rows()*3*sizeof(double), normals_row.data());
     }
     if (_plyModule->getColors().rows() != 0)
     {
-        glBufferSubData(GL_ARRAY_BUFFER,(verts.rows()+normals.rows())*3*sizeof(GL_DOUBLE), colors.rows()*3*sizeof(GL_INT), colors_row.data());
+        glBufferSubData(GL_ARRAY_BUFFER,(verts.rows()+normals.rows())*3*sizeof(double), colors.rows()*3*sizeof(int), colors_row.data());
     }
 
     // Unbind our VBO object

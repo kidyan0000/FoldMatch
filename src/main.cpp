@@ -14,12 +14,12 @@ int main(int argc, char *argv[])
     Cloth_Window w;
 
     cloth_calc* test = new cloth_calc();
-    test->cloth_vec();
+    // test->cloth_vec();
     // test->cloth_eig();
     // Eigen::MatrixXd val = test->GetEigval();
     // Eigen::MatrixXd vec = test->GetEigvec();
-    test->cloth_defo();
-    test->cloth_displ();
+    // test->cloth_defo();
+    test->test();
     // test->GetDefo();
     // test->GetDispl();
 
