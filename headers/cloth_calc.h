@@ -56,9 +56,9 @@ public:
     Eigen::MatrixXd GetEig_norm();
 
     void cloth_calc_Color(Eigen::MatrixXd Eigval, int dim);
-    Eigen::MatrixXd GetColor_vec1();
-    Eigen::MatrixXd GetColor_vec2();
-    Eigen::MatrixXd GetColor_vec3();
+    Eigen::MatrixXd GetColor_vert1();
+    Eigen::MatrixXd GetColor_vert2();
+    Eigen::MatrixXd GetColor_vert3();
 
     void cloth_WriteColor(Eigen::MatrixXd color);
 
@@ -80,7 +80,7 @@ private:
 
     //
     Eigen::MatrixXd Eigval_norm;
-    Eigen::MatrixXd Color_vec1, Color_vec2, Color_vec3;
+    Eigen::MatrixXd Color_vert1, Color_vert2, Color_vert3;
 };
 
 #endif // CLOTH_CALC_H

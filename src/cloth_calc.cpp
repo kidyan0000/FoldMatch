@@ -143,7 +143,6 @@ void cloth_calc::cloth_displ()
 
         // H = F-1
         this -> Displ.block(Displ_index,0,2,2) << Transf - Eigen::MatrixXd::Identity(2,2);
-
         Displ_index = Displ_index+2;
     }
 }
@@ -168,7 +167,7 @@ void cloth_calc::cloth_vec_infl()
     int verts_num = vertsR.rows();
     for(int i=0; i<verts_num; i++)
     {
-
+        // need to get the neighborred vertex
     }
 
 
@@ -191,48 +190,29 @@ void cloth_calc::cloth_calc_norm(Eigen::MatrixXd Eigval, int dim)
 
 void cloth_calc::cloth_calc_Color(Eigen::MatrixXd Eigval, int dim)
 {
-    // std::cout << Eigval.block(0,0,dim,1).maxCoeff() << std::endl;
-    this -> Color_vec1.resize(faces.rows()*dim, 1);
-    this -> Color_vec2.resize(faces.rows()*dim, 1);
-    this -> Color_vec3.resize(faces.rows()*dim, 1);
-    if (dim == 2)
+    this -> Color_vert1.resize(faces.rows()*dim, 1);
+    this -> Color_vert2.resize(faces.rows()*dim, 1);
+    this -> Color_vert3.resize(faces.rows()*dim, 1);
+
+
+    int El_num = faces.rows(); // number of the element
+    int Color_index = 0, Eig_index = 0;
+
+    for(int i=0; i<El_num; i++)
     {
-        int Eig_num = faces.rows();
-        int Color_index = 0, Eig_index = 0;
-        for(int i=0; i<Eig_num; i++)
-        {
-            this -> Color_vec1.block(Color_index,0,2,1).row(0) << Eigval.block(Eig_index,0,2,1).maxCoeff();
-            this -> Color_vec1.block(Color_index,0,2,1).row(1) << Eigval.block(Eig_index,0,2,1).minCoeff();
+        this -> Color_vert1.block(Color_index,0,2,1).row(0) << Eigval.block(Eig_index,0,dim,1).maxCoeff();
+        this -> Color_vert1.block(Color_index,0,2,1).row(1) << Eigval.block(Eig_index,0,dim,1).minCoeff();
 
-            this -> Color_vec2.block(Color_index,0,2,1).row(0) << Eigval.block(Eig_index+2,0,2,1).maxCoeff();
-            this -> Color_vec2.block(Color_index,0,2,1).row(1) << Eigval.block(Eig_index+2,0,2,1).minCoeff();
+        this -> Color_vert2.block(Color_index,0,2,1).row(0) << Eigval.block(Eig_index+dim,0,dim,1).maxCoeff();
+        this -> Color_vert2.block(Color_index,0,2,1).row(1) << Eigval.block(Eig_index+dim,0,dim,1).minCoeff();
 
-            Color_index = Color_index+2;
-            Eig_index = Eig_index+4;
+        this -> Color_vert3.block(Color_index,0,2,1).row(0) << Eigval.block(Eig_index+dim*2,0,dim,1).maxCoeff();
+        this -> Color_vert3.block(Color_index,0,2,1).row(1) << Eigval.block(Eig_index+dim*2,0,dim,1).minCoeff();
 
-
-        }
-    }
-    if (dim == 3)
-    {
-        int Eig_num = faces.rows();
-        int Color_index = 0, Eig_index = 0;
-        for(int i=0; i<Eig_num; i++)
-        {
-            this -> Color_vec1.block(Color_index,0,2,1).row(0) << Eigval.block(Eig_index,0,3,1).maxCoeff();
-            this -> Color_vec1.block(Color_index,0,2,1).row(1) << Eigval.block(Eig_index,0,3,1).minCoeff();
-
-            this -> Color_vec2.block(Color_index,0,2,1).row(0) << Eigval.block(Eig_index+3,0,3,1).maxCoeff();
-            this -> Color_vec2.block(Color_index,0,2,1).row(1) << Eigval.block(Eig_index+3,0,3,1).minCoeff();
-
-            this -> Color_vec3.block(Color_index,0,2,1).row(0) << Eigval.block(Eig_index+6,0,3,1).maxCoeff();
-            this -> Color_vec3.block(Color_index,0,2,1).row(1) << Eigval.block(Eig_index+6,0,3,1).minCoeff();
-
-            Color_index = Color_index+2;
-            Eig_index = Eig_index+9;
+        Color_index = Color_index+2;
+        Eig_index = Eig_index+dim*3;
 
 
-        }
     }
 }
 
@@ -241,7 +221,10 @@ void cloth_calc::cloth_WriteColor(Eigen::MatrixXd color)
     // initilize the object
     ply_module* _plyModuleColor;
     _plyModuleColor = new ply_module();
+
+    // set the color and write as ply files
     // _plyModuleColor -> setColors(color.cast<int>);
+    // _plyModuleColor -> writePLY("../output/color_vec1.ply", true, true, true, true, true);
 
 }
 
@@ -280,19 +263,19 @@ Eigen::MatrixXd cloth_calc::GetEig_norm()
     return this -> Eigval_norm;
 }
 
-Eigen::MatrixXd cloth_calc::GetColor_vec1()
+Eigen::MatrixXd cloth_calc::GetColor_vert1()
 {
-    return this -> Color_vec1;
+    return this -> Color_vert1;
 }
 
-Eigen::MatrixXd cloth_calc::GetColor_vec2()
+Eigen::MatrixXd cloth_calc::GetColor_vert2()
 {
-    return this -> Color_vec2;
+    return this -> Color_vert2;
 
 }
-Eigen::MatrixXd cloth_calc::GetColor_vec3()
+Eigen::MatrixXd cloth_calc::GetColor_vert3()
 {
-    return this -> Color_vec3;
+    return this -> Color_vert3;
 
 }
 

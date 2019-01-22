@@ -34,11 +34,14 @@ int main(int argc, char *argv[])
     outfile1<< test->GetEig_norm() <<std::endl;
     outfile1.close();
     std::ofstream outfile("../output/debug/Color_vec1.txt");
-    outfile<< test->GetColor_vec1() <<std::endl;
+    outfile<< test->GetColor_vert1() <<std::endl;
     outfile.close();
     std::ofstream outfile2("../output/debug/Color_vec2.txt");
-    outfile2<< test->GetColor_vec2() <<std::endl;
+    outfile2<< test->GetColor_vert2() <<std::endl;
     outfile2.close();
+    std::ofstream outfile3("../output/debug/Color_vec3.txt");
+    outfile3<< test->GetColor_vert3() <<std::endl;
+    outfile3.close();
 
     // test->test();
 
