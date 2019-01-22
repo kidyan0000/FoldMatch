@@ -148,11 +148,6 @@ void cloth_calc::cloth_displ()
     }
 }
 
-void cloth_calc::test()
-{
-    // trimesh::TriMesh *mymesh = trimesh::TriMesh::read("../data/Template-1_0001.ply");
-
-}
 
 
 void cloth_calc::cloth_vec_infl()
@@ -168,6 +163,7 @@ void cloth_calc::cloth_vec_infl()
         vertsR = _plyModuleR->getVertices();
     }
 
+
     // read for all vertex
     int verts_num = vertsR.rows();
     for(int i=0; i<verts_num; i++)
@@ -178,6 +174,76 @@ void cloth_calc::cloth_vec_infl()
 
 }
 
+void cloth_calc::cloth_calc_norm(Eigen::MatrixXd Eigval, int dim)
+{
+    int Eig_num = faces.rows()*3;
+    int Eig_index = 0;
+    Eigval_norm.resize(Eigval.rows(),1);
+
+    // this is to normlize the eigenvalue in order to smooth the solution space
+    for(int i=0; i<Eig_num; i++)
+    {
+        this -> Eigval_norm.block(Eig_index,0,dim,1) = Eigval.block(Eig_index,0,dim,1).normalized();
+        Eig_index = Eig_index+2;
+
+    }
+}
+
+void cloth_calc::cloth_calc_Color(Eigen::MatrixXd Eigval, int dim)
+{
+    // std::cout << Eigval.block(0,0,dim,1).maxCoeff() << std::endl;
+    this -> Color_vec1.resize(faces.rows()*dim, 1);
+    this -> Color_vec2.resize(faces.rows()*dim, 1);
+    this -> Color_vec3.resize(faces.rows()*dim, 1);
+    if (dim == 2)
+    {
+        int Eig_num = faces.rows();
+        int Color_index = 0, Eig_index = 0;
+        for(int i=0; i<Eig_num; i++)
+        {
+            this -> Color_vec1.block(Color_index,0,2,1).row(0) << Eigval.block(Eig_index,0,2,1).maxCoeff();
+            this -> Color_vec1.block(Color_index,0,2,1).row(1) << Eigval.block(Eig_index,0,2,1).minCoeff();
+
+            this -> Color_vec2.block(Color_index,0,2,1).row(0) << Eigval.block(Eig_index+2,0,2,1).maxCoeff();
+            this -> Color_vec2.block(Color_index,0,2,1).row(1) << Eigval.block(Eig_index+2,0,2,1).minCoeff();
+
+            Color_index = Color_index+2;
+            Eig_index = Eig_index+4;
+
+
+        }
+    }
+    if (dim == 3)
+    {
+        int Eig_num = faces.rows();
+        int Color_index = 0, Eig_index = 0;
+        for(int i=0; i<Eig_num; i++)
+        {
+            this -> Color_vec1.block(Color_index,0,2,1).row(0) << Eigval.block(Eig_index,0,3,1).maxCoeff();
+            this -> Color_vec1.block(Color_index,0,2,1).row(1) << Eigval.block(Eig_index,0,3,1).minCoeff();
+
+            this -> Color_vec2.block(Color_index,0,2,1).row(0) << Eigval.block(Eig_index+3,0,3,1).maxCoeff();
+            this -> Color_vec2.block(Color_index,0,2,1).row(1) << Eigval.block(Eig_index+3,0,3,1).minCoeff();
+
+            this -> Color_vec3.block(Color_index,0,2,1).row(0) << Eigval.block(Eig_index+6,0,3,1).maxCoeff();
+            this -> Color_vec3.block(Color_index,0,2,1).row(1) << Eigval.block(Eig_index+6,0,3,1).minCoeff();
+
+            Color_index = Color_index+2;
+            Eig_index = Eig_index+9;
+
+
+        }
+    }
+}
+
+void cloth_calc::cloth_WriteColor(Eigen::MatrixXd color)
+{
+    // initilize the object
+    ply_module* _plyModuleColor;
+    _plyModuleColor = new ply_module();
+    // _plyModuleColor -> setColors(color.cast<int>);
+
+}
 
 Eigen::MatrixXd cloth_calc::GetVecR()
 {
@@ -208,6 +274,28 @@ Eigen::MatrixXd cloth_calc::GetDispl()
 {
     return this -> Displ;
 }
+
+Eigen::MatrixXd cloth_calc::GetEig_norm()
+{
+    return this -> Eigval_norm;
+}
+
+Eigen::MatrixXd cloth_calc::GetColor_vec1()
+{
+    return this -> Color_vec1;
+}
+
+Eigen::MatrixXd cloth_calc::GetColor_vec2()
+{
+    return this -> Color_vec2;
+
+}
+Eigen::MatrixXd cloth_calc::GetColor_vec3()
+{
+    return this -> Color_vec3;
+
+}
+
 
 cloth_calc::~cloth_calc()
 {

@@ -51,6 +51,17 @@ public:
 
     Eigen::MatrixXd GetDefo_infl();
 
+    //
+    void cloth_calc_norm(Eigen::MatrixXd Eigenval, int dim);
+    Eigen::MatrixXd GetEig_norm();
+
+    void cloth_calc_Color(Eigen::MatrixXd Eigval, int dim);
+    Eigen::MatrixXd GetColor_vec1();
+    Eigen::MatrixXd GetColor_vec2();
+    Eigen::MatrixXd GetColor_vec3();
+
+    void cloth_WriteColor(Eigen::MatrixXd color);
+
 
 private:
     ply_module* _plyModuleR;
@@ -67,6 +78,9 @@ private:
     //
     Eigen::MatrixXd VecR_infl, VecT_infl;
 
+    //
+    Eigen::MatrixXd Eigval_norm;
+    Eigen::MatrixXd Color_vec1, Color_vec2, Color_vec3;
 };
 
 #endif // CLOTH_CALC_H

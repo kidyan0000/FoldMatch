@@ -31,3 +31,8 @@ compute the deformation gradient F. here is T = [u1 u2][u1_ u2_]^-1
 // 2018.01.21
 first tried to use trimesh, but doesn't work
 install libmesh correctly
+
+// 2109.01.22
+don't know how to get the neighbor, think need "neighbor_ptr_range" https://libmesh.github.io/doxygen/classlibMesh_1_1NodeElem.html ,need a Elem class? what else?
+
+write the function to normlize and to get color, but if i need to write this as .ply, I need change cast the type from double to int?

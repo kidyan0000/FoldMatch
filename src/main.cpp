@@ -15,19 +15,32 @@ int main(int argc, char *argv[])
 
     cloth_calc* test = new cloth_calc();
     // test->cloth_vec();
-    // test->cloth_eig();
-    // Eigen::MatrixXd val = test->GetEigval();
+    test->cloth_eig();
+    Eigen::MatrixXd val = test->GetEigval();
     // Eigen::MatrixXd vec = test->GetEigvec();
     // test->cloth_defo();
-    test->test();
+    // test->cloth_vec_infl();
+    test->cloth_calc_norm(val, 2);
+
     // test->GetDefo();
     // test->GetDispl();
+    Eigen::MatrixXd val_norm = test->GetEig_norm();
+
+    test->cloth_calc_Color(val_norm, 2);
 
     // this is for debug
-    // std::cout << test->GetVecR().col(0) << std::endl;
-    // std::ofstream outfile("../output/debug/test.txt");
-    // outfile<< test->GetDispl() <<std::endl;
-    // outfile.close();
+    // std::cout << test->GetEig_norm() << std::endl;
+    std::ofstream outfile1("../output/debug/Eigen_norm.txt");
+    outfile1<< test->GetEig_norm() <<std::endl;
+    outfile1.close();
+    std::ofstream outfile("../output/debug/Color_vec1.txt");
+    outfile<< test->GetColor_vec1() <<std::endl;
+    outfile.close();
+    std::ofstream outfile2("../output/debug/Color_vec2.txt");
+    outfile2<< test->GetColor_vec2() <<std::endl;
+    outfile2.close();
+
+    // test->test();
 
     w.show();
 
