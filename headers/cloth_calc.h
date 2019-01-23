@@ -39,28 +39,25 @@ public:
 
 
     //
-    void cloth_vec_infl();
-    void cloth_eig_infl();
-    void cloth_defo_infl();
+    void cloth_eig_neighbor();
+    void cloth_defo_neighbor();
 
-    Eigen::MatrixXd GetVecR_infl();
-    Eigen::MatrixXd GetVecT_infl();
+    Eigen::MatrixXd GetEigval_neighbor();
+    Eigen::MatrixXd GetEigvec_neighbor();
 
-    Eigen::MatrixXd GetEigval_infl();
-    Eigen::MatrixXd GetEigvec_infl();
-
-    Eigen::MatrixXd GetDefo_infl();
+    Eigen::MatrixXd GetDefo_neighbor();
 
     //
     void cloth_calc_norm(Eigen::MatrixXd Eigenval, int dim);
     Eigen::MatrixXd GetEig_norm();
+
 
     void cloth_calc_Color(Eigen::MatrixXd Eigval, int dim);
     Eigen::MatrixXd GetColor_vert1();
     Eigen::MatrixXd GetColor_vert2();
     Eigen::MatrixXd GetColor_vert3();
 
-    void cloth_WriteColor(Eigen::MatrixXd color);
+    void cloth_WriteColor(Eigen::MatrixXd color, std::string &  ifileName);
 
 
 private:
@@ -76,7 +73,9 @@ private:
     Eigen::MatrixXd Displ;
 
     //
-    Eigen::MatrixXd VecR_infl, VecT_infl;
+    Eigen::MatrixXd Eigval_sq_neighbor, Eigvec_sq_neighbor;
+    Eigen::MatrixXd Defo_neighbor;
+    Eigen::MatrixXd Displ_neighbor;
 
     //
     Eigen::MatrixXd Eigval_norm;

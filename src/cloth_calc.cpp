@@ -148,8 +148,7 @@ void cloth_calc::cloth_displ()
 }
 
 
-
-void cloth_calc::cloth_vec_infl()
+void cloth_calc::cloth_eig_neighbor()
 {
     Eigen::MatrixXd vertsR, vertsT;
 
@@ -162,15 +161,48 @@ void cloth_calc::cloth_vec_infl()
         vertsR = _plyModuleR->getVertices();
     }
 
+    // initialize the eigenvalues and eigenvectors
+    this -> Eigval_sq_neighbor.resize(faces.rows()*9,1);
+    this -> Eigvec_sq_neighbor.resize(faces.rows()*9,3);
 
     // read for all vertex
-    int verts_num = vertsR.rows();
-    for(int i=0; i<verts_num; i++)
+    int Vec_num = faces.rows();
+    for(int i=0; i<Vec_num; i++)
     {
-        // need to get the neighborred vertex
+        // for reference
+        vertsR.row(faces(i,0)); // the first vertex of i-th element
+        // need to get the neighborred this vertex
+
+        vertsR.row(faces(i,1)); // the second vertex of i-th element
+
+        vertsR.row(faces(i,2)); // the third vertex of i-th element
+
+        // for template
+        vertsT.row(faces(i,0)); // the first vertex of i-th element
+        // need to get the neighborred this vertex
+
+        vertsT.row(faces(i,1)); // the second vertex of i-th element
+
+        vertsT.row(faces(i,2)); // the third vertex of i-th element
     }
 
 
+}
+
+void cloth_calc::cloth_defo_neighbor()
+{
+    cloth_eig_neighbor();
+
+    this -> Defo_neighbor.resize(faces.rows()*9,3);
+
+    int Defo_num = faces.rows()*9;
+
+    for(int i=0; i<Defo_num; i=i+3)
+    {
+        // it is important to get the squart root before calculate the stretch tensor
+        // U = sqrt(/lamdba_1)*v1*v1^T + sqrt(/lamdba_2)*v2*v2^T
+        Defo_neighbor.block(i,0,3,3) << ( sqrt(this -> Eigval_sq_neighbor(i,0)) * (this -> Eigvec_sq_neighbor.block(i,0,3,3).col(0)) * this -> Eigvec_sq_neighbor.block(i,0,3,3).col(0).transpose() ) + ( sqrt(this -> Eigval_sq_neighbor(i+1,0)) * (this -> Eigvec_sq_neighbor.block(i,0,3,3).col(1)) * this -> Eigvec_sq_neighbor.block(i,0,3,3).col(1).transpose()) + ( sqrt(this -> Eigval_sq_neighbor(i+2,0)) * (this -> Eigvec_sq_neighbor.block(i,0,3,3).col(2)) * this -> Eigvec_sq_neighbor.block(i,0,3,3).col(2).transpose());
+    }
 }
 
 void cloth_calc::cloth_calc_norm(Eigen::MatrixXd Eigval, int dim)
@@ -216,7 +248,7 @@ void cloth_calc::cloth_calc_Color(Eigen::MatrixXd Eigval, int dim)
     }
 }
 
-void cloth_calc::cloth_WriteColor(Eigen::MatrixXd color)
+void cloth_calc::cloth_WriteColor(Eigen::MatrixXd color, std::string &  ifileName)
 {
     // initilize the object
     ply_module* _plyModuleColor;
@@ -224,7 +256,7 @@ void cloth_calc::cloth_WriteColor(Eigen::MatrixXd color)
 
     // set the color and write as ply files
     // _plyModuleColor -> setColors(color.cast<int>);
-    // _plyModuleColor -> writePLY("../output/color_vec1.ply", true, true, true, true, true);
+    // _plyModuleColor -> writePLY(ifileName, true, true, true, true, true);
 
 }
 
