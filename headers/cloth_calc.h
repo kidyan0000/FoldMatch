@@ -4,7 +4,9 @@
 #include <iostream>
 #include <fstream>
 #include <stdlib.h>
-#include <vector>
+
+#include <TriMesh/TriMesh.h>
+// #include <libmesh/node_elem.h>
 
 #include <Eigen/Core>
 #include <Eigen/Dense>
@@ -28,6 +30,7 @@ public:
     void cloth_displ();
 
     void test();
+
     Eigen::MatrixXd GetVecR();
     Eigen::MatrixXd GetVecT();
 

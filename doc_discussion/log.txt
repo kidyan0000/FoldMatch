@@ -38,3 +38,8 @@ don't know how to get the neighbor, think maybe need "neighbor_ptr_range" https:
 write the function to normalize and to get color, but if i need to write this as .ply, I need change cast the type from double to int?
 
 for outr new implement just change dim=2 tp dim=3 for calc_color
+
+// 2019.01.23
+problems:
+<TriMesh>: can't read ply files
+<LibMesh>: need c++14 feature? gcc 5+?

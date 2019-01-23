@@ -161,6 +161,10 @@ void cloth_calc::cloth_eig_neighbor()
         vertsR = _plyModuleR->getVertices();
     }
 
+    // initialize the points set P(reference) and Q(template)
+    Eigen::MatrixXd P, Q;
+    Eigen::MatrixXd H;
+
     // initialize the eigenvalues and eigenvectors
     this -> Eigval_sq_neighbor.resize(faces.rows()*9,1);
     this -> Eigvec_sq_neighbor.resize(faces.rows()*9,3);
@@ -184,8 +188,36 @@ void cloth_calc::cloth_eig_neighbor()
         vertsT.row(faces(i,1)); // the second vertex of i-th element
 
         vertsT.row(faces(i,2)); // the third vertex of i-th element
+
+        // we consider here the covariance matrix H as the approximated deformation gradient F
+        // KABISCH ALGORITHM
+        //  1.Translation to origin
+        //  2.Computation of the covariance matrix
+        //      H = P^T * Q
+        //  3.Computation of the singular value decomposition
+        //      H = U * S * V^T
+        //      def: U, V - rotation informations
+        //      def:    S - stretch informations
     }
 
+    // now we get all the information and to calculate the eigenvalues and eigenvector
+
+
+    int Eig_index = 0;
+    int Eig_num = faces.rows()*3;
+
+    for(int i=0; i<Eig_num; i++)
+    {
+        // compute the eigenvalues and eigenvectors of transformation matrix and save it to eigval and eigvec
+        // U^2 = T^transpose * T
+        Eigen::SelfAdjointEigenSolver<Eigen::Matrix3d> solv(H.transpose() * H);
+
+        // we save the vector and matrix
+        this -> Eigval_sq_neighbor.block(Eig_index,0,3,1) << solv.eigenvalues();
+        this -> Eigvec_sq_neighbor.block(Eig_index,0,3,3) << solv.eigenvectors();
+
+        Eig_index = Eig_index+3;
+    }
 
 }
 
@@ -200,10 +232,12 @@ void cloth_calc::cloth_defo_neighbor()
     for(int i=0; i<Defo_num; i=i+3)
     {
         // it is important to get the squart root before calculate the stretch tensor
-        // U = sqrt(/lamdba_1)*v1*v1^T + sqrt(/lamdba_2)*v2*v2^T
+        // U = sqrt(/lamdba_1)*v1*v1^T + sqrt(/lamdba_2)*v2*v2^T + sqrt(/lamdba_3)*v3*v3^T
         Defo_neighbor.block(i,0,3,3) << ( sqrt(this -> Eigval_sq_neighbor(i,0)) * (this -> Eigvec_sq_neighbor.block(i,0,3,3).col(0)) * this -> Eigvec_sq_neighbor.block(i,0,3,3).col(0).transpose() ) + ( sqrt(this -> Eigval_sq_neighbor(i+1,0)) * (this -> Eigvec_sq_neighbor.block(i,0,3,3).col(1)) * this -> Eigvec_sq_neighbor.block(i,0,3,3).col(1).transpose()) + ( sqrt(this -> Eigval_sq_neighbor(i+2,0)) * (this -> Eigvec_sq_neighbor.block(i,0,3,3).col(2)) * this -> Eigvec_sq_neighbor.block(i,0,3,3).col(2).transpose());
     }
 }
+
+
 
 void cloth_calc::cloth_calc_norm(Eigen::MatrixXd Eigval, int dim)
 {
@@ -220,11 +254,12 @@ void cloth_calc::cloth_calc_norm(Eigen::MatrixXd Eigval, int dim)
     }
 }
 
+
 void cloth_calc::cloth_calc_Color(Eigen::MatrixXd Eigval, int dim)
 {
-    this -> Color_vert1.resize(faces.rows()*dim, 1);
-    this -> Color_vert2.resize(faces.rows()*dim, 1);
-    this -> Color_vert3.resize(faces.rows()*dim, 1);
+    this -> Color_vert1.resize(faces.rows()*2, 1);
+    this -> Color_vert2.resize(faces.rows()*2, 1);
+    this -> Color_vert3.resize(faces.rows()*2, 1);
 
 
     int El_num = faces.rows(); // number of the element
@@ -250,15 +285,13 @@ void cloth_calc::cloth_calc_Color(Eigen::MatrixXd Eigval, int dim)
 
 void cloth_calc::cloth_WriteColor(Eigen::MatrixXd color, std::string &  ifileName)
 {
-    // initilize the object
-    ply_module* _plyModuleColor;
-    _plyModuleColor = new ply_module();
 
     // set the color and write as ply files
-    // _plyModuleColor -> setColors(color.cast<int>);
-    // _plyModuleColor -> writePLY(ifileName, true, true, true, true, true);
+    // _plyModuleR -> setColors(color.cast<int>);
+    // _plyModuleR -> writePLY(ifileName, true, true, true, true, true);
 
 }
+
 
 Eigen::MatrixXd cloth_calc::GetVecR()
 {
@@ -299,7 +332,6 @@ Eigen::MatrixXd cloth_calc::GetColor_vert1()
 {
     return this -> Color_vert1;
 }
-
 Eigen::MatrixXd cloth_calc::GetColor_vert2()
 {
     return this -> Color_vert2;
@@ -311,6 +343,17 @@ Eigen::MatrixXd cloth_calc::GetColor_vert3()
 
 }
 
+void cloth_calc::test()
+{
+    /*
+    trimesh::TriMesh *mymesh = trimesh::TriMesh::read("../data/bunny.ply");
+    if (!mymesh) {
+        printf("Couldn't read mesh!\n");
+        exit(1);
+    }
+    mymesh -> trimesh::TriMesh::need_neighbors();
+    */
+}
 
 cloth_calc::~cloth_calc()
 {

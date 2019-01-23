@@ -15,7 +15,7 @@ CXX           = g++
 DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_QML_DEBUG -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -g -std=gnu++11 -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I../../cloth_simulation -I. -I../src -I../headers -I../GUI -isystem /usr/include/eigen3 -isystem /usr/include/eigen3/unsupport -I/opt/Qt/5.12.0/gcc_64/include -I/opt/Qt/5.12.0/gcc_64/include/QtOpenGL -I/opt/Qt/5.12.0/gcc_64/include/QtWidgets -I/opt/Qt/5.12.0/gcc_64/include/QtGui -I/opt/Qt/5.12.0/gcc_64/include/QtCore -I. -isystem /usr/include/libdrm -I. -I/opt/Qt/5.12.0/gcc_64/mkspecs/linux-g++
+INCPATH       = -I../../cloth_simulation -I. -I../src -I../headers -I../GUI -isystem /usr/include/eigen3 -isystem /usr/include/eigen3/unsupport -I../../cloth_simulation -I/opt/Qt/5.12.0/gcc_64/include -I/opt/Qt/5.12.0/gcc_64/include/QtOpenGL -I/opt/Qt/5.12.0/gcc_64/include/QtWidgets -I/opt/Qt/5.12.0/gcc_64/include/QtGui -I/opt/Qt/5.12.0/gcc_64/include/QtCore -I. -isystem /usr/include/libdrm -I. -I/opt/Qt/5.12.0/gcc_64/mkspecs/linux-g++
 QMAKE         = /opt/Qt/5.12.0/gcc_64/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -38,7 +38,7 @@ DISTNAME      = CLOTH_SIMULATION1.0.0
 DISTDIR = /home/kidyan0000/P.Thesis_Seamless_Cloth_Simulation_with_High_Geometric_Fidelity/Workspace/cloth_simulation/build/.tmp/CLOTH_SIMULATION1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-rpath,/opt/Qt/5.12.0/gcc_64/lib
-LIBS          = $(SUBLIBS) -lGLEW -lX11 -lXi -lXrandr -lXxf86vm -lXinerama -lXcursor -lrt -lm -pthread -lglut -L/opt/Qt/5.12.0/gcc_64/lib -lQt5OpenGL -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread   
+LIBS          = $(SUBLIBS) -lGLEW -lX11 -lXi -lXrandr -lXxf86vm -lXinerama -lXcursor -lrt -lm -pthread -lglut -fopenmp -L/home/kidyan0000/P.Thesis_Seamless_Cloth_Simulation_with_High_Geometric_Fidelity/Workspace/cloth_simulation/lib/ -ltrimesh -L/opt/Qt/5.12.0/gcc_64/lib -lQt5OpenGL -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread   
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -263,7 +263,8 @@ DIST          = /opt/Qt/5.12.0/gcc_64/mkspecs/features/spec_pre.prf \
 		../headers/tinyply.h \
 		../headers/cloth_glwidget.h \
 		../headers/cloth_window.h \
-		../headers/cloth_calc.h ../src/main.cpp \
+		../headers/cloth_calc.h \
+		headers/TriMesh/*h ../src/main.cpp \
 		../src/ply_Module.cpp \
 		../src/tinyply.cpp \
 		../src/cloth_glwidget.cpp \
@@ -277,7 +278,7 @@ TARGET        = CLOTH_SIMULATION
 first: all
 ####### Build rules
 
-CLOTH_SIMULATION: ui_cloth_window.h $(OBJECTS)  
+CLOTH_SIMULATION: /home/kidyan0000/P.Thesis_Seamless_Cloth_Simulation_with_High_Geometric_Fidelity/Workspace/cloth_simulation/lib/libtrimesh.a ui_cloth_window.h $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
 Makefile: ../cloth_simulation.pro /opt/Qt/5.12.0/gcc_64/mkspecs/linux-g++/qmake.conf /opt/Qt/5.12.0/gcc_64/mkspecs/features/spec_pre.prf \
@@ -694,7 +695,7 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /opt/Qt/5.12.0/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../headers/ply_Module.h ../headers/tinyply.h ../headers/cloth_glwidget.h ../headers/cloth_window.h ../headers/cloth_calc.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../headers/ply_Module.h ../headers/tinyply.h ../headers/cloth_glwidget.h ../headers/cloth_window.h ../headers/cloth_calc.h headers/TriMesh/*h $(DISTDIR)/
 	$(COPY_FILE) --parents ../src/main.cpp ../src/ply_Module.cpp ../src/tinyply.cpp ../src/cloth_glwidget.cpp ../src/cloth_window.cpp ../src/cloth_calc.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../GUI/cloth_window.ui $(DISTDIR)/
 
@@ -1201,7 +1202,7 @@ moc_cloth_glwidget.cpp: /opt/Qt/5.12.0/gcc_64/include/QtOpenGL/QGLWidget \
 		../headers/cloth_glwidget.h \
 		moc_predefs.h \
 		/opt/Qt/5.12.0/gcc_64/bin/moc
-	/opt/Qt/5.12.0/gcc_64/bin/moc $(DEFINES) --include /home/kidyan0000/P.Thesis_Seamless_Cloth_Simulation_with_High_Geometric_Fidelity/Workspace/cloth_simulation/build/moc_predefs.h -I/opt/Qt/5.12.0/gcc_64/mkspecs/linux-g++ -I/home/kidyan0000/P.Thesis_Seamless_Cloth_Simulation_with_High_Geometric_Fidelity/Workspace/cloth_simulation -I/home/kidyan0000/P.Thesis_Seamless_Cloth_Simulation_with_High_Geometric_Fidelity/Workspace/cloth_simulation/src -I/home/kidyan0000/P.Thesis_Seamless_Cloth_Simulation_with_High_Geometric_Fidelity/Workspace/cloth_simulation/headers -I/home/kidyan0000/P.Thesis_Seamless_Cloth_Simulation_with_High_Geometric_Fidelity/Workspace/cloth_simulation/GUI -I/usr/include/eigen3 -I/usr/include/eigen3/unsupport -I/opt/Qt/5.12.0/gcc_64/include -I/opt/Qt/5.12.0/gcc_64/include/QtOpenGL -I/opt/Qt/5.12.0/gcc_64/include/QtWidgets -I/opt/Qt/5.12.0/gcc_64/include/QtGui -I/opt/Qt/5.12.0/gcc_64/include/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../headers/cloth_glwidget.h -o moc_cloth_glwidget.cpp
+	/opt/Qt/5.12.0/gcc_64/bin/moc $(DEFINES) --include /home/kidyan0000/P.Thesis_Seamless_Cloth_Simulation_with_High_Geometric_Fidelity/Workspace/cloth_simulation/build/moc_predefs.h -I/opt/Qt/5.12.0/gcc_64/mkspecs/linux-g++ -I/home/kidyan0000/P.Thesis_Seamless_Cloth_Simulation_with_High_Geometric_Fidelity/Workspace/cloth_simulation -I/home/kidyan0000/P.Thesis_Seamless_Cloth_Simulation_with_High_Geometric_Fidelity/Workspace/cloth_simulation/src -I/home/kidyan0000/P.Thesis_Seamless_Cloth_Simulation_with_High_Geometric_Fidelity/Workspace/cloth_simulation/headers -I/home/kidyan0000/P.Thesis_Seamless_Cloth_Simulation_with_High_Geometric_Fidelity/Workspace/cloth_simulation/GUI -I/usr/include/eigen3 -I/usr/include/eigen3/unsupport -I/home/kidyan0000/P.Thesis_Seamless_Cloth_Simulation_with_High_Geometric_Fidelity/Workspace/cloth_simulation -I/opt/Qt/5.12.0/gcc_64/include -I/opt/Qt/5.12.0/gcc_64/include/QtOpenGL -I/opt/Qt/5.12.0/gcc_64/include/QtWidgets -I/opt/Qt/5.12.0/gcc_64/include/QtGui -I/opt/Qt/5.12.0/gcc_64/include/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../headers/cloth_glwidget.h -o moc_cloth_glwidget.cpp
 
 moc_cloth_window.cpp: /opt/Qt/5.12.0/gcc_64/include/QtWidgets/QMainWindow \
 		/opt/Qt/5.12.0/gcc_64/include/QtWidgets/qmainwindow.h \
@@ -1312,7 +1313,7 @@ moc_cloth_window.cpp: /opt/Qt/5.12.0/gcc_64/include/QtWidgets/QMainWindow \
 		../headers/cloth_window.h \
 		moc_predefs.h \
 		/opt/Qt/5.12.0/gcc_64/bin/moc
-	/opt/Qt/5.12.0/gcc_64/bin/moc $(DEFINES) --include /home/kidyan0000/P.Thesis_Seamless_Cloth_Simulation_with_High_Geometric_Fidelity/Workspace/cloth_simulation/build/moc_predefs.h -I/opt/Qt/5.12.0/gcc_64/mkspecs/linux-g++ -I/home/kidyan0000/P.Thesis_Seamless_Cloth_Simulation_with_High_Geometric_Fidelity/Workspace/cloth_simulation -I/home/kidyan0000/P.Thesis_Seamless_Cloth_Simulation_with_High_Geometric_Fidelity/Workspace/cloth_simulation/src -I/home/kidyan0000/P.Thesis_Seamless_Cloth_Simulation_with_High_Geometric_Fidelity/Workspace/cloth_simulation/headers -I/home/kidyan0000/P.Thesis_Seamless_Cloth_Simulation_with_High_Geometric_Fidelity/Workspace/cloth_simulation/GUI -I/usr/include/eigen3 -I/usr/include/eigen3/unsupport -I/opt/Qt/5.12.0/gcc_64/include -I/opt/Qt/5.12.0/gcc_64/include/QtOpenGL -I/opt/Qt/5.12.0/gcc_64/include/QtWidgets -I/opt/Qt/5.12.0/gcc_64/include/QtGui -I/opt/Qt/5.12.0/gcc_64/include/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../headers/cloth_window.h -o moc_cloth_window.cpp
+	/opt/Qt/5.12.0/gcc_64/bin/moc $(DEFINES) --include /home/kidyan0000/P.Thesis_Seamless_Cloth_Simulation_with_High_Geometric_Fidelity/Workspace/cloth_simulation/build/moc_predefs.h -I/opt/Qt/5.12.0/gcc_64/mkspecs/linux-g++ -I/home/kidyan0000/P.Thesis_Seamless_Cloth_Simulation_with_High_Geometric_Fidelity/Workspace/cloth_simulation -I/home/kidyan0000/P.Thesis_Seamless_Cloth_Simulation_with_High_Geometric_Fidelity/Workspace/cloth_simulation/src -I/home/kidyan0000/P.Thesis_Seamless_Cloth_Simulation_with_High_Geometric_Fidelity/Workspace/cloth_simulation/headers -I/home/kidyan0000/P.Thesis_Seamless_Cloth_Simulation_with_High_Geometric_Fidelity/Workspace/cloth_simulation/GUI -I/usr/include/eigen3 -I/usr/include/eigen3/unsupport -I/home/kidyan0000/P.Thesis_Seamless_Cloth_Simulation_with_High_Geometric_Fidelity/Workspace/cloth_simulation -I/opt/Qt/5.12.0/gcc_64/include -I/opt/Qt/5.12.0/gcc_64/include/QtOpenGL -I/opt/Qt/5.12.0/gcc_64/include/QtWidgets -I/opt/Qt/5.12.0/gcc_64/include/QtGui -I/opt/Qt/5.12.0/gcc_64/include/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../headers/cloth_window.h -o moc_cloth_window.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -1444,6 +1445,13 @@ main.o: ../src/main.cpp ../headers/cloth_window.h \
 		/opt/Qt/5.12.0/gcc_64/include/QtWidgets/qtabwidget.h \
 		/opt/Qt/5.12.0/gcc_64/include/QtGui/qicon.h \
 		../headers/cloth_calc.h \
+		../headers/TriMesh/TriMesh.h \
+		../headers/TriMesh/Vec.h \
+		../headers/TriMesh/mathutil.h \
+		../headers/TriMesh/mathcompat.h \
+		../headers/TriMesh/Box.h \
+		../headers/TriMesh/strutil.h \
+		../headers/TriMesh/Color.h \
 		../headers/ply_Module.h \
 		/opt/Qt/5.12.0/gcc_64/include/QtWidgets/QApplication \
 		/opt/Qt/5.12.0/gcc_64/include/QtWidgets/qapplication.h \
@@ -2421,6 +2429,13 @@ cloth_window.o: ../src/cloth_window.cpp ../headers/cloth_window.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o cloth_window.o ../src/cloth_window.cpp
 
 cloth_calc.o: ../src/cloth_calc.cpp ../headers/cloth_calc.h \
+		../headers/TriMesh/TriMesh.h \
+		../headers/TriMesh/Vec.h \
+		../headers/TriMesh/mathutil.h \
+		../headers/TriMesh/mathcompat.h \
+		../headers/TriMesh/Box.h \
+		../headers/TriMesh/strutil.h \
+		../headers/TriMesh/Color.h \
 		../headers/ply_Module.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o cloth_calc.o ../src/cloth_calc.cpp
 

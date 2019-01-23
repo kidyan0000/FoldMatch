@@ -6,7 +6,7 @@
 
 QT       += core gui opengl
 LIBS += -lGLEW -lGL -lX11 -lXi -lXrandr -lXxf86vm -lXinerama -lXcursor -lrt -lm -pthread -lglut
-# LIBS += -fopenmp
+LIBS += -fopenmp
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -33,7 +33,7 @@ SOURCES += \
     src/tinyply.cpp \
     src/cloth_glwidget.cpp \
     src/cloth_window.cpp \
-    src/cloth_calc.cpp
+    src/cloth_calc.cpp \
 
 
 
@@ -44,6 +44,7 @@ HEADERS += \
     headers/cloth_glwidget.h \
     headers/cloth_window.h \
     headers/cloth_calc.h \
+    headers/TriMesh/*h
 
 
 INCLUDEPATH += $$PWD/GUI
@@ -59,3 +60,10 @@ INCLUDEPATH += /usr/include/eigen3/unsupport
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+unix:!macx: LIBS += -L$$PWD/lib/ -ltrimesh
+
+INCLUDEPATH += $$PWD/.
+DEPENDPATH += $$PWD/.
+
+unix:!macx: PRE_TARGETDEPS += $$PWD/lib/libtrimesh.a
