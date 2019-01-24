@@ -60,7 +60,7 @@ public:
     Eigen::MatrixXd GetColor_vert2();
     Eigen::MatrixXd GetColor_vert3();
 
-    void cloth_WriteColor(Eigen::MatrixXd color, std::string &  ifileName);
+    void cloth_WriteColor(Eigen::MatrixXd color, const std::string &  ifileName);
 
 
 private:

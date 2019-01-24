@@ -27,6 +27,9 @@ int main(int argc, char *argv[])
     Eigen::MatrixXd val_norm = test->GetEig_norm();
 
     test->cloth_calc_Color(val_norm, 2);
+    test->cloth_WriteColor(test->GetColor_vert1(), "../output/debug/Color_vert1.ply");
+    test->cloth_WriteColor(test->GetColor_vert2(), "../output/debug/Color_vert2.ply");
+    test->cloth_WriteColor(test->GetColor_vert3(), "../output/debug/Color_vert3.ply");
 
     // this is for debug
     // std::cout << test->GetEig_norm() << std::endl;

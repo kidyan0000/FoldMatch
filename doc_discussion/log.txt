@@ -43,3 +43,6 @@ for outr new implement just change dim=2 tp dim=3 for calc_color
 problems:
 <TriMesh>: can't read ply files
 <LibMesh>: need c++14 feature? gcc 5+?
+
+// 2019.01.24
+add wirtecolor, write as 256 color

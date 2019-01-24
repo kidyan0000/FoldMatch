@@ -190,7 +190,7 @@ void cloth_calc::cloth_eig_neighbor()
         vertsT.row(faces(i,2)); // the third vertex of i-th element
 
         // we consider here the covariance matrix H as the approximated deformation gradient F
-        // KABISCH ALGORITHM
+        // KABSCH ALGORITHM
         //  1.Translation to origin
         //  2.Computation of the covariance matrix
         //      H = P^T * Q
@@ -283,12 +283,16 @@ void cloth_calc::cloth_calc_Color(Eigen::MatrixXd Eigval, int dim)
     }
 }
 
-void cloth_calc::cloth_WriteColor(Eigen::MatrixXd color, std::string &  ifileName)
+void cloth_calc::cloth_WriteColor(Eigen::MatrixXd color, const std::string &  ifileName)
 {
 
     // set the color and write as ply files
-    // _plyModuleR -> setColors(color.cast<int>);
-    // _plyModuleR -> writePLY(ifileName, true, true, true, true, true);
+    ply_module* plyColor;
+    plyColor = new ply_module();
+    // std::cout << color*256 << std::endl;
+    // std::cout << (color*256).cast<int>() << std::endl;
+    plyColor -> setColors((color*256).cast<int>());
+    plyColor -> writePLY(ifileName, true, false, false, false, false);
 
 }
 
@@ -346,7 +350,8 @@ Eigen::MatrixXd cloth_calc::GetColor_vert3()
 void cloth_calc::test()
 {
     /*
-    trimesh::TriMesh *mymesh = trimesh::TriMesh::read("../data/bunny.ply");
+    const char *filename = "../data/bunny.ply";
+    trimesh::TriMesh *mymesh = trimesh::TriMesh::read(filename);
     if (!mymesh) {
         printf("Couldn't read mesh!\n");
         exit(1);
