@@ -289,10 +289,12 @@ void cloth_calc::cloth_WriteColor(Eigen::MatrixXd color, const std::string &  if
     // set the color and write as ply files
     ply_module* plyColor;
     plyColor = new ply_module();
-    // std::cout << color*256 << std::endl;
-    // std::cout << (color*256).cast<int>() << std::endl;
+
     plyColor -> setColors((color*256).cast<int>());
     plyColor -> writePLY(ifileName, true, false, false, false, false);
+
+    // std::cout << color*256 << std::endl;
+    // std::cout << (color*256).cast<int>() << std::endl;
 
 }
 
@@ -349,7 +351,6 @@ Eigen::MatrixXd cloth_calc::GetColor_vert3()
 
 void cloth_calc::test()
 {
-    /*
     const char *filename = "../data/bunny.ply";
     trimesh::TriMesh *mymesh = trimesh::TriMesh::read(filename);
     if (!mymesh) {
@@ -357,7 +358,7 @@ void cloth_calc::test()
         exit(1);
     }
     mymesh -> trimesh::TriMesh::need_neighbors();
-    */
+
 }
 
 cloth_calc::~cloth_calc()

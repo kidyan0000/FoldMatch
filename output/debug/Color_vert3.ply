@@ -1,6 +1,6 @@
 ply
 format ascii 1.0
-comment P.Thesis Seamless Cloth Simulation with High Geometric Fidelitycomment Thu Jan 24 13:31:43 2019
+comment P.Thesis Seamless Cloth Simulation with High Geometric Fidelitycomment Thu Jan 24 14:55:31 2019
 element vertex 19875
 property uchar red
 property uchar green
