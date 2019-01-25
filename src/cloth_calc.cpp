@@ -243,41 +243,30 @@ void cloth_calc::cloth_vec_normalize(Eigen::MatrixXd Eigval, int dim)
 {
     int Eig_num = Eigval.size();
     int Eig_index = 0;
-    Eigval_norm_direc1.resize(faces.size(),1);
-    Eigval_norm_direc2.resize(faces.size(),1);
-    Eigval_norm_direc3.resize(faces.size(),1);
+    Eigval_norm_dir1.resize(faces.size(),1);
+    Eigval_norm_dir2.resize(faces.size(),1);
+    Eigval_norm_dir3.resize(faces.size(),1);
 
     if(dim==2)
     {
         // this is to normlize the eigenvalue in order to smooth the solution space
-        for(int i=0; i<Eig_num; i=i+2)
-        {
-            this -> Eigval_norm_direc1.row(Eig_index) << Eigval.row(i);
-            this -> Eigval_norm_direc2.row(Eig_index) << Eigval.row(i+1);
-            Eig_index = Eig_index+1;
+        Eigen::Map<Eigen::MatrixXd, 0, Eigen::InnerStride<2> >Eigval_norm_dir1(Eigval.data()  ,faces.size(),1);
+        Eigen::Map<Eigen::MatrixXd, 0, Eigen::InnerStride<2> >Eigval_norm_dir2(Eigval.data()+1,faces.size(),1);
 
-        }
-
-        this -> Eigval_norm_direc1 = Eigval_norm_direc1 / (Eigval_norm_direc1.maxCoeff() - Eigval_norm_direc1.minCoeff());
-        this -> Eigval_norm_direc2 = Eigval_norm_direc2 / (Eigval_norm_direc2.maxCoeff() - Eigval_norm_direc2.minCoeff());
+        this -> Eigval_norm_dir1 = Eigval_norm_dir1 / (Eigval_norm_dir1.maxCoeff() - Eigval_norm_dir1.minCoeff());
+        this -> Eigval_norm_dir2 = Eigval_norm_dir2 / (Eigval_norm_dir2.maxCoeff() - Eigval_norm_dir2.minCoeff());
     }
-    // std::cout << Eigval_norm_direc2(Eigval_norm_direc2.maxCoeff()) << std::endl;
 
     if(dim==3)
     {
         // this is to normlize the eigenvalue in order to smooth the solution space
-        for(int i=0; i<Eig_num; i=i+3)
-        {
-            this -> Eigval_norm_direc1.row(Eig_index) << Eigval.row(i);
-            this -> Eigval_norm_direc2.row(Eig_index) << Eigval.row(i+1);
-            this -> Eigval_norm_direc3.row(Eig_index) << Eigval.row(i+2);
-            Eig_index = Eig_index+1;
+        Eigen::Map<Eigen::MatrixXd, 0, Eigen::InnerStride<3> >Eigval_norm_dir1(Eigval.data()  ,faces.size(),1);
+        Eigen::Map<Eigen::MatrixXd, 0, Eigen::InnerStride<3> >Eigval_norm_dir2(Eigval.data()+1,faces.size(),1);
+        Eigen::Map<Eigen::MatrixXd, 0, Eigen::InnerStride<3> >Eigval_norm_dir3(Eigval.data()+2,faces.size(),1);
 
-        }
-
-        this -> Eigval_norm_direc1 = Eigval_norm_direc1 / (Eigval_norm_direc1.maxCoeff() - Eigval_norm_direc1.minCoeff());
-        this -> Eigval_norm_direc2 = Eigval_norm_direc2 / (Eigval_norm_direc2.maxCoeff() - Eigval_norm_direc2.minCoeff());
-        this -> Eigval_norm_direc3 = Eigval_norm_direc3 / (Eigval_norm_direc3.maxCoeff() - Eigval_norm_direc3.minCoeff());
+        this -> Eigval_norm_dir1 = Eigval_norm_dir1 / (Eigval_norm_dir1.maxCoeff() - Eigval_norm_dir1.minCoeff());
+        this -> Eigval_norm_dir2 = Eigval_norm_dir2 / (Eigval_norm_dir2.maxCoeff() - Eigval_norm_dir2.minCoeff());
+        this -> Eigval_norm_dir3 = Eigval_norm_dir3 / (Eigval_norm_dir3.maxCoeff() - Eigval_norm_dir3.minCoeff());
     }
 }
 
@@ -328,19 +317,19 @@ Eigen::MatrixXd cloth_calc::GetDispl()
     return this -> Displ;
 }
 
-Eigen::MatrixXd cloth_calc::GetEigval_norm_direc1()
+Eigen::MatrixXd cloth_calc::GetEigval_norm_dir1()
 {
-    return this -> Eigval_norm_direc1;
+    return this -> Eigval_norm_dir1;
 }
 
-Eigen::MatrixXd cloth_calc::GetEigval_norm_direc2()
+Eigen::MatrixXd cloth_calc::GetEigval_norm_dir2()
 {
-    return this -> Eigval_norm_direc2;
+    return this -> Eigval_norm_dir2;
 }
 
-Eigen::MatrixXd cloth_calc::GetEigval_norm_direc3()
+Eigen::MatrixXd cloth_calc::GetEigval_norm_dir3()
 {
-    return this -> Eigval_norm_direc3;
+    return this -> Eigval_norm_dir3;
 }
 
 

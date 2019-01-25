@@ -52,9 +52,9 @@ public:
 
     //
     void cloth_vec_normalize(Eigen::MatrixXd Eigenval, int dim);
-    Eigen::MatrixXd GetEigval_norm_direc1();
-    Eigen::MatrixXd GetEigval_norm_direc2();
-    Eigen::MatrixXd GetEigval_norm_direc3();
+    Eigen::MatrixXd GetEigval_norm_dir1();
+    Eigen::MatrixXd GetEigval_norm_dir2();
+    Eigen::MatrixXd GetEigval_norm_dir3();
 
     void cloth_WriteColor(Eigen::MatrixXd color, const std::string &  ifileName);
 
@@ -77,7 +77,7 @@ private:
     Eigen::MatrixXd Displ_neighbor;
 
     //
-    Eigen::MatrixXd Eigval_norm_direc1, Eigval_norm_direc2, Eigval_norm_direc3;
+    Eigen::MatrixXd Eigval_norm_dir1, Eigval_norm_dir2, Eigval_norm_dir3;
 };
 
 #endif // CLOTH_CALC_H

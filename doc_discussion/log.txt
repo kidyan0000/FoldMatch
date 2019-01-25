@@ -50,3 +50,4 @@ need a projection from one value to (256,256,256)?
 
 // 2019.01.25
 correct eigenvalue_normalize
+using Eigen::Map instead of loop

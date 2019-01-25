@@ -29,14 +29,14 @@ int main(int argc, char *argv[])
     // this is for debug
     // std::cout << test->GetEig_norm() << std::endl;
 
-    std::ofstream outfile1("../output/debug/test.txt");
-    outfile1<< val <<std::endl;
-    outfile1.close();
+    // std::ofstream outfile1("../output/debug/test.txt");
+    // outfile1<< test->GetEigval_norm_dir1() <<std::endl;
+    // outfile1.close();
     std::ofstream outfile("../output/debug/GetEigval_norm_direc1.txt");
-    outfile<< test->GetEigval_norm_direc1() <<std::endl;
+    outfile<< test->GetEigval_norm_dir1() <<std::endl;
     outfile.close();
     std::ofstream outfile3("../output/debug/GetEigval_norm_direc2.txt");
-    outfile3<< test->GetEigval_norm_direc2() <<std::endl;
+    outfile3<< test->GetEigval_norm_dir2() <<std::endl;
     outfile3.close();
     // std::ofstream outfile3("../output/debug/Color_vec3.txt");
     // outfile3<< test->GetColor_vert3() <<std::endl;
