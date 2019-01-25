@@ -239,58 +239,57 @@ void cloth_calc::cloth_defo_neighbor()
 
 
 
-void cloth_calc::cloth_calc_norm(Eigen::MatrixXd Eigval, int dim)
+void cloth_calc::cloth_vec_normalize(Eigen::MatrixXd Eigval, int dim)
 {
-    int Eig_num = faces.rows()*3;
+    int Eig_num = Eigval.size();
     int Eig_index = 0;
-    Eigval_norm.resize(Eigval.rows(),1);
+    Eigval_norm_direc1.resize(faces.size(),1);
+    Eigval_norm_direc2.resize(faces.size(),1);
+    Eigval_norm_direc3.resize(faces.size(),1);
 
-    // this is to normlize the eigenvalue in order to smooth the solution space
-    for(int i=0; i<Eig_num; i++)
+    if(dim==2)
     {
-        this -> Eigval_norm.block(Eig_index,0,dim,1) = Eigval.block(Eig_index,0,dim,1).normalized();
-        Eig_index = Eig_index+2;
+        // this is to normlize the eigenvalue in order to smooth the solution space
+        for(int i=0; i<Eig_num; i=i+2)
+        {
+            this -> Eigval_norm_direc1.row(Eig_index) << Eigval.row(i);
+            this -> Eigval_norm_direc2.row(Eig_index) << Eigval.row(i+1);
+            Eig_index = Eig_index+1;
 
+        }
+
+        this -> Eigval_norm_direc1 = Eigval_norm_direc1 / (Eigval_norm_direc1.maxCoeff() - Eigval_norm_direc1.minCoeff());
+        this -> Eigval_norm_direc2 = Eigval_norm_direc2 / (Eigval_norm_direc2.maxCoeff() - Eigval_norm_direc2.minCoeff());
+    }
+    // std::cout << Eigval_norm_direc2(Eigval_norm_direc2.maxCoeff()) << std::endl;
+
+    if(dim==3)
+    {
+        // this is to normlize the eigenvalue in order to smooth the solution space
+        for(int i=0; i<Eig_num; i=i+3)
+        {
+            this -> Eigval_norm_direc1.row(Eig_index) << Eigval.row(i);
+            this -> Eigval_norm_direc2.row(Eig_index) << Eigval.row(i+1);
+            this -> Eigval_norm_direc3.row(Eig_index) << Eigval.row(i+2);
+            Eig_index = Eig_index+1;
+
+        }
+
+        this -> Eigval_norm_direc1 = Eigval_norm_direc1 / (Eigval_norm_direc1.maxCoeff() - Eigval_norm_direc1.minCoeff());
+        this -> Eigval_norm_direc2 = Eigval_norm_direc2 / (Eigval_norm_direc2.maxCoeff() - Eigval_norm_direc2.minCoeff());
+        this -> Eigval_norm_direc3 = Eigval_norm_direc3 / (Eigval_norm_direc3.maxCoeff() - Eigval_norm_direc3.minCoeff());
     }
 }
 
 
-void cloth_calc::cloth_calc_Color(Eigen::MatrixXd Eigval, int dim)
-{
-    this -> Color_vert1.resize(faces.rows()*2, 1);
-    this -> Color_vert2.resize(faces.rows()*2, 1);
-    this -> Color_vert3.resize(faces.rows()*2, 1);
-
-
-    int El_num = faces.rows(); // number of the element
-    int Color_index = 0, Eig_index = 0;
-
-    for(int i=0; i<El_num; i++)
-    {
-        this -> Color_vert1.block(Color_index,0,2,1).row(0) << Eigval.block(Eig_index,0,dim,1).maxCoeff();
-        this -> Color_vert1.block(Color_index,0,2,1).row(1) << Eigval.block(Eig_index,0,dim,1).minCoeff();
-
-        this -> Color_vert2.block(Color_index,0,2,1).row(0) << Eigval.block(Eig_index+dim,0,dim,1).maxCoeff();
-        this -> Color_vert2.block(Color_index,0,2,1).row(1) << Eigval.block(Eig_index+dim,0,dim,1).minCoeff();
-
-        this -> Color_vert3.block(Color_index,0,2,1).row(0) << Eigval.block(Eig_index+dim*2,0,dim,1).maxCoeff();
-        this -> Color_vert3.block(Color_index,0,2,1).row(1) << Eigval.block(Eig_index+dim*2,0,dim,1).minCoeff();
-
-        Color_index = Color_index+2;
-        Eig_index = Eig_index+dim*3;
-
-
-    }
-}
-
-void cloth_calc::cloth_WriteColor(Eigen::MatrixXd color, const std::string &  ifileName)
+void cloth_calc::cloth_WriteColor(Eigen::MatrixXd Eigval_norm, const std::string &  ifileName)
 {
 
     // set the color and write as ply files
     ply_module* plyColor;
     plyColor = new ply_module();
 
-    plyColor -> setColors((color*256).cast<int>());
+    plyColor -> setColors(Eigval_norm.cast<int>());
     plyColor -> writePLY(ifileName, true, false, false, false, false);
 
     // std::cout << color*256 << std::endl;
@@ -329,29 +328,25 @@ Eigen::MatrixXd cloth_calc::GetDispl()
     return this -> Displ;
 }
 
-Eigen::MatrixXd cloth_calc::GetEig_norm()
+Eigen::MatrixXd cloth_calc::GetEigval_norm_direc1()
 {
-    return this -> Eigval_norm;
+    return this -> Eigval_norm_direc1;
 }
 
-Eigen::MatrixXd cloth_calc::GetColor_vert1()
+Eigen::MatrixXd cloth_calc::GetEigval_norm_direc2()
 {
-    return this -> Color_vert1;
+    return this -> Eigval_norm_direc2;
 }
-Eigen::MatrixXd cloth_calc::GetColor_vert2()
-{
-    return this -> Color_vert2;
 
-}
-Eigen::MatrixXd cloth_calc::GetColor_vert3()
+Eigen::MatrixXd cloth_calc::GetEigval_norm_direc3()
 {
-    return this -> Color_vert3;
-
+    return this -> Eigval_norm_direc3;
 }
+
 
 void cloth_calc::test()
 {
-    const char *filename = "../data/bunny.ply";
+    const char *filename = "../data/bunny_bi.ply";
     trimesh::TriMesh *mymesh = trimesh::TriMesh::read(filename);
     if (!mymesh) {
         printf("Couldn't read mesh!\n");

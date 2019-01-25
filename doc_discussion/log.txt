@@ -47,3 +47,6 @@ problems:
 // 2019.01.24
 add wirtecolor, write as 256 color
 need a projection from one value to (256,256,256)?
+
+// 2019.01.25
+correct eigenvalue_normalize

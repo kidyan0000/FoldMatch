@@ -1,5 +1,6 @@
 #include "cloth_window.h"
 #include "ui_cloth_window.h"
+// #include "cloth_calc.h"
 
 Cloth_Window::Cloth_Window(QWidget *parent) :
     QMainWindow(parent),
