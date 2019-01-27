@@ -42,6 +42,7 @@ public:
 
 
     //
+    void cloth_init_neighbor();
     void cloth_eig_neighbor();
     void cloth_defo_neighbor();
 
@@ -62,6 +63,9 @@ public:
 private:
     ply_module* _plyModuleR;
     ply_module* _plyModuleT;
+
+    trimesh::TriMesh *_plyMeshR;
+    trimesh::TriMesh *_plyMeshT;
 
     Eigen::MatrixXi faces;
 

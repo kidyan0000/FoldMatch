@@ -2,10 +2,20 @@
 
 cloth_calc::cloth_calc()
 {
-    _plyModuleT = new ply_module();
     _plyModuleR = new ply_module();
+    _plyModuleT = new ply_module();
     _plyModuleR->readPLY("../data/Template-1_0001.ply", true, true, true, true, true);
     _plyModuleT->readPLY("../data/Template-5_0005.ply", true, true, true, true, true);
+}
+
+void cloth_calc::cloth_init_neighbor()
+{
+    _plyMeshR = trimesh::TriMesh::read("../data/Template-1_0001_bi.ply");
+    _plyMeshT = trimesh::TriMesh::read("../data/Template-5_0005_bi.ply");
+
+    _plyMeshR -> trimesh::TriMesh::need_neighbors();
+    _plyMeshT -> trimesh::TriMesh::need_neighbors();
+
 }
 
 void cloth_calc::cloth_vec()
@@ -169,40 +179,73 @@ void cloth_calc::cloth_eig_neighbor()
     this -> Eigval_sq_neighbor.resize(faces.rows()*9,1);
     this -> Eigvec_sq_neighbor.resize(faces.rows()*9,3);
 
-    // read for all vertex
-    int Vec_num = faces.rows();
-    for(int i=0; i<Vec_num; i++)
+    // initialize the trimesh
+    cloth_init_neighbor();
+    std::cout << faces(0,0) << std::endl;
+    std::cout << vertsR.row(_plyMeshR -> trimesh::TriMesh::neighbors.at(faces(0,0)).at(0)) << std::endl;
+    std::cout << _plyMeshR -> trimesh::TriMesh::neighbors.at(faces(0,0)).size() << std::endl;
+
+    for(int neighbor_index=0; neighbor_index < _plyMeshR -> trimesh::TriMesh::neighbors.at(faces(0,0)).size(); neighbor_index++)
     {
+        std::cout << vertsR.row(_plyMeshR -> trimesh::TriMesh::neighbors.at(faces(0,0)).at(neighbor_index)) << std::endl;
+    }
+
+    // read for all vertex
+
+    // we consider here the covariance matrix H as the approximated deformation gradient F
+    // KABSCH ALGORITHM
+    //  1.Translation to origin
+    //  2.Computation of the covariance matrix
+    //      H = P^T * Q
+    //  3.Computation of the singular value decomposition
+    //      H = U * S * V^T
+    //      def: U, V - rotation informations
+    //      def:    S - stretch informations
+
+    int Vec_num = faces.rows();
+    int Eig_num = 0;
+
+    for(int Vec_index=0; Vec_index<Vec_num; Vec_index++)
+    {
+        for(int Vert_dir=0; Vert_dir<3; Vert_dir++)
+        {
+            for(int Neighbor_index=0; Neighbor_index < _plyMeshR -> trimesh::TriMesh::neighbors.at(faces(Vec_index,Vert_dir)).size(); Neighbor_index++)
+            {
+
+                // for reference
+                P.resize(_plyMeshR -> trimesh::TriMesh::neighbors.at(faces(Vec_index,Vert_dir)).size(), 3);
+                P.row(Neighbor_index) << vertsR.row(_plyMeshR -> trimesh::TriMesh::neighbors.at(faces(Vec_index,Vert_dir)).at(Neighbor_index));
+
+                // for template
+                Q.resize(_plyMeshR -> trimesh::TriMesh::neighbors.at(faces(Vec_index,Vert_dir)).size(), 3);
+                Q.row(Neighbor_index) << vertsT.row(_plyMeshT -> trimesh::TriMesh::neighbors.at(faces(Vec_index,Vert_dir)).at(Neighbor_index));
+
+                P.transpose()*Q;
+            }
+
+            // std::cout<< P<<std::endl;
+        }
+
         // for reference
-        vertsR.row(faces(i,0)); // the first vertex of i-th element
-        // need to get the neighborred this vertex
+        // vertsR.row(faces(i,0)); // the first vertex of i-th element
 
-        vertsR.row(faces(i,1)); // the second vertex of i-th element
+        // vertsR.row(faces(i,1)); // the second vertex of i-th element
 
-        vertsR.row(faces(i,2)); // the third vertex of i-th element
+        // vertsR.row(faces(i,2)); // the third vertex of i-th element
 
         // for template
+        /*
         vertsT.row(faces(i,0)); // the first vertex of i-th element
-        // need to get the neighborred this vertex
 
         vertsT.row(faces(i,1)); // the second vertex of i-th element
 
         vertsT.row(faces(i,2)); // the third vertex of i-th element
-
-        // we consider here the covariance matrix H as the approximated deformation gradient F
-        // KABSCH ALGORITHM
-        //  1.Translation to origin
-        //  2.Computation of the covariance matrix
-        //      H = P^T * Q
-        //  3.Computation of the singular value decomposition
-        //      H = U * S * V^T
-        //      def: U, V - rotation informations
-        //      def:    S - stretch informations
+        */
     }
 
     // now we get all the information and to calculate the eigenvalues and eigenvector
 
-
+    /*
     int Eig_index = 0;
     int Eig_num = faces.rows()*3;
 
@@ -218,6 +261,7 @@ void cloth_calc::cloth_eig_neighbor()
 
         Eig_index = Eig_index+3;
     }
+    */
 
 }
 
@@ -241,8 +285,7 @@ void cloth_calc::cloth_defo_neighbor()
 
 void cloth_calc::cloth_vec_normalize(Eigen::MatrixXd Eigval, int dim)
 {
-    int Eig_num = Eigval.size();
-    int Eig_index = 0;
+
     Eigval_norm_dir1.resize(faces.size(),1);
     Eigval_norm_dir2.resize(faces.size(),1);
     Eigval_norm_dir3.resize(faces.size(),1);
@@ -281,9 +324,6 @@ void cloth_calc::cloth_WriteColor(Eigen::MatrixXd Eigval_norm, const std::string
     plyColor -> setColors(Eigval_norm.cast<int>());
     plyColor -> writePLY(ifileName, true, false, false, false, false);
 
-    // std::cout << color*256 << std::endl;
-    // std::cout << (color*256).cast<int>() << std::endl;
-
 }
 
 
@@ -317,6 +357,7 @@ Eigen::MatrixXd cloth_calc::GetDispl()
     return this -> Displ;
 }
 
+
 Eigen::MatrixXd cloth_calc::GetEigval_norm_dir1()
 {
     return this -> Eigval_norm_dir1;
@@ -342,6 +383,13 @@ void cloth_calc::test()
         exit(1);
     }
     mymesh -> trimesh::TriMesh::need_neighbors();
+
+    //neighbor.at( vertex_index ).at( num_vertex )
+    double num_neighbor = mymesh -> trimesh::TriMesh::neighbors.at(35946).at(1);
+    double a = mymesh -> trimesh::TriMesh::vertices.at(35483)[0];
+
+    std::cout << num_neighbor << std::endl;
+    std::cout << a << std::endl;
 
 }
 

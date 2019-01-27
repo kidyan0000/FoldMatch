@@ -20,6 +20,7 @@ int main(int argc, char *argv[])
     // Eigen::MatrixXd vec = test->GetEigvec();
     // test->cloth_defo();
 
+    test->cloth_eig_neighbor();
     test->cloth_vec_normalize(val, 2);
 
     // test->GetDefo();
@@ -42,7 +43,7 @@ int main(int argc, char *argv[])
     // outfile3<< test->GetColor_vert3() <<std::endl;
     // outfile3.close();
 
-    test->test();
+    // test->test();
 
     w.show();
 
