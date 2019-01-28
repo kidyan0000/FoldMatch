@@ -76,7 +76,7 @@ private:
     Eigen::MatrixXd Displ;
 
     //
-    Eigen::MatrixXd Eigval_sq_neighbor, Eigvec_sq_neighbor;
+    Eigen::MatrixXd Eigval_neighbor, Eigvec_neighbor;
     Eigen::MatrixXd Defo_neighbor;
     Eigen::MatrixXd Displ_neighbor;
 

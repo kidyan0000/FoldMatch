@@ -117,7 +117,7 @@ void cloth_calc::cloth_defo()
 
     int Defo_num = faces.rows()*6;
 
-    for(int i=0; i<Defo_num; i=i+2)
+    for(int Defo_index=0; Defo_index<Defo_num; Defo_index=Defo_index+2)
     {
         /*
            Defo = [
@@ -130,7 +130,7 @@ void cloth_calc::cloth_defo()
         */
         // it is important to get the squart root before calculate the stretch tensor
         // U = sqrt(/lamdba_1)*v1*v1^T + sqrt(/lamdba_2)*v2*v2^T
-        Defo.block(i,0,2,2) << ( sqrt(this -> Eigval_sq(i,0)) * (this -> Eigvec_sq.block(i,0,2,2).col(0)) * this -> Eigvec_sq.block(i,0,2,2).col(0).transpose() ) + ( sqrt(this -> Eigval_sq(i+1,0)) * (this -> Eigvec_sq.block(i,0,2,2).col(1)) * this -> Eigvec_sq.block(i,0,2,2).col(1).transpose());
+        Defo.block(Defo_index,0,2,2) << ( sqrt(this -> Eigval_sq(Defo_index,0)) * (this -> Eigvec_sq.block(Defo_index,0,2,2).col(0)) * this -> Eigvec_sq.block(Defo_index,0,2,2).col(0).transpose() ) + ( sqrt(this -> Eigval_sq(Defo_index+1,0)) * (this -> Eigvec_sq.block(Defo_index,0,2,2).col(1)) * this -> Eigvec_sq.block(Defo_index,0,2,2).col(1).transpose());
     }
 }
 
@@ -144,12 +144,12 @@ void cloth_calc::cloth_displ()
     int Displ_index = 0;
     int Displ_num = faces.rows()*3;
 
-    for(int i=0; i<Displ_num; i++)
+    for(int Vec_index=0; Vec_index<Displ_num; Vec_index++)
     {
         // compute the transformation matrix (Transf)
         // T = [u1, u2] * [u1_, u2_]^-1
         // we have here 3D triangles, thus we need to transform at first to 2D triangles using affine transformation
-        Eigen::MatrixXd Transf((Eigen::Map<Eigen::Matrix<double,3,2> >(this -> VecT.col(i).data())).block<2,2>(0,0) * ((Eigen::Map<Eigen::Matrix<double,3,2> >(this -> VecR.col(i).data())).block<2,2>(0,0)).inverse());
+        Eigen::MatrixXd Transf((Eigen::Map<Eigen::Matrix<double,3,2> >(this -> VecT.col(Vec_index).data())).block<2,2>(0,0) * ((Eigen::Map<Eigen::Matrix<double,3,2> >(this -> VecR.col(Vec_index).data())).block<2,2>(0,0)).inverse());
 
         // H = F-1
         this -> Displ.block(Displ_index,0,2,2) << Transf - Eigen::MatrixXd::Identity(2,2);
@@ -170,99 +170,95 @@ void cloth_calc::cloth_eig_neighbor()
     {
         vertsR = _plyModuleR->getVertices();
     }
+    if (_plyModuleR->getFaces().rows() != 0)
+    {
+        faces = _plyModuleR->getFaces();
+    }
 
     // initialize the points set P(reference) and Q(template)
     Eigen::MatrixXd P, Q;
-    Eigen::MatrixXd H;
+    // Eigen::MatrixXd H;
 
     // initialize the eigenvalues and eigenvectors
-    this -> Eigval_sq_neighbor.resize(faces.rows()*9,1);
-    this -> Eigvec_sq_neighbor.resize(faces.rows()*9,3);
+    this -> Eigval_neighbor.resize(faces.rows()*9,1);
+    this -> Eigvec_neighbor.resize(faces.rows()*9,3);
 
     // initialize the trimesh
     cloth_init_neighbor();
-    std::cout << faces(0,0) << std::endl;
-    std::cout << vertsR.row(_plyMeshR -> trimesh::TriMesh::neighbors.at(faces(0,0)).at(0)) << std::endl;
-    std::cout << _plyMeshR -> trimesh::TriMesh::neighbors.at(faces(0,0)).size() << std::endl;
-
-    for(int neighbor_index=0; neighbor_index < _plyMeshR -> trimesh::TriMesh::neighbors.at(faces(0,0)).size(); neighbor_index++)
-    {
-        std::cout << vertsR.row(_plyMeshR -> trimesh::TriMesh::neighbors.at(faces(0,0)).at(neighbor_index)) << std::endl;
-    }
-
-    // read for all vertex
 
     // we consider here the covariance matrix H as the approximated deformation gradient F
     // KABSCH ALGORITHM
     //  1.Translation to origin
     //  2.Computation of the covariance matrix
-    //      H = P^T * Q
+    //      H = P^T * Q -> F = P^T * Q
     //  3.Computation of the singular value decomposition
     //      H = U * S * V^T
     //      def: U, V - rotation informations
     //      def:    S - stretch informations
 
-    int Vec_num = faces.rows();
-    int Eig_num = 0;
+    int El_num = faces.rows();
+    int Eig_index = 0;
 
-    for(int Vec_index=0; Vec_index<Vec_num; Vec_index++)
+    for(int El_index=0; El_index<El_num; El_index++) // for all elements
     {
-        for(int Vert_dir=0; Vert_dir<3; Vert_dir++)
+        for(int Vert_index=0; Vert_index<3; Vert_index++) // for all vertice in each element
         {
-            for(int Neighbor_index=0; Neighbor_index < _plyMeshR -> trimesh::TriMesh::neighbors.at(faces(Vec_index,Vert_dir)).size(); Neighbor_index++)
+            // face has the structure of face(i.j)
+            // where i is the i-th element, j is the j-th vertex of i-th element
+            // calculate the number of the nerghborred vertice of vertex i
+            int Neighbor_num = _plyMeshR -> trimesh::TriMesh::neighbors.at(faces(El_index,Vert_index)).size();
+
+            P.resize(Neighbor_num, 3);
+            Q.resize(Neighbor_num, 3);
+
+            for(int Neighbor_index=0; Neighbor_index < Neighbor_num; Neighbor_index++) // for all neighbors in each vertex
             {
 
                 // for reference
-                P.resize(_plyMeshR -> trimesh::TriMesh::neighbors.at(faces(Vec_index,Vert_dir)).size(), 3);
-                P.row(Neighbor_index) << vertsR.row(_plyMeshR -> trimesh::TriMesh::neighbors.at(faces(Vec_index,Vert_dir)).at(Neighbor_index));
-
+                P.row(Neighbor_index) << vertsR.row(_plyMeshR -> trimesh::TriMesh::neighbors.at(faces(El_index, Vert_index)).at(Neighbor_index)) - vertsR.row(faces(El_index, Vert_index));
                 // for template
-                Q.resize(_plyMeshR -> trimesh::TriMesh::neighbors.at(faces(Vec_index,Vert_dir)).size(), 3);
-                Q.row(Neighbor_index) << vertsT.row(_plyMeshT -> trimesh::TriMesh::neighbors.at(faces(Vec_index,Vert_dir)).at(Neighbor_index));
+                Q.row(Neighbor_index) << vertsT.row(_plyMeshT -> trimesh::TriMesh::neighbors.at(faces(El_index, Vert_index)).at(Neighbor_index)) - vertsT.row(faces(El_index, Vert_index));
 
-                P.transpose()*Q;
-            }
+                // std::cout << P << std::endl;
 
-            // std::cout<< P<<std::endl;
+            }  
+
+            Eigen::SelfAdjointEigenSolver<Eigen::Matrix3d> solv(P.transpose()*Q);
+            this -> Eigval_neighbor.block(Eig_index,0,3,1) << solv.eigenvalues();
+            this -> Eigvec_neighbor.block(Eig_index,0,3,3) << solv.eigenvectors();
+
+            P.resize(0,0);
+            Q.resize(0,0);
+
+            Eig_index = Eig_index+3;
+
         }
-
-        // for reference
-        // vertsR.row(faces(i,0)); // the first vertex of i-th element
-
-        // vertsR.row(faces(i,1)); // the second vertex of i-th element
-
-        // vertsR.row(faces(i,2)); // the third vertex of i-th element
-
-        // for template
         /*
+        // for reference
+        vertsR.row(faces(i,0)); // the first vertex of i-th element
+        vertsR.row(faces(i,1)); // the second vertex of i-th elemet
+        vertsR.row(faces(i,2)); // the third vertex of i-th element
+        // for template
         vertsT.row(faces(i,0)); // the first vertex of i-th element
-
         vertsT.row(faces(i,1)); // the second vertex of i-th element
-
         vertsT.row(faces(i,2)); // the third vertex of i-th element
         */
     }
 
-    // now we get all the information and to calculate the eigenvalues and eigenvector
-
+    // this is for debug
     /*
-    int Eig_index = 0;
-    int Eig_num = faces.rows()*3;
+    std::cout << vertsR.row(_plyMeshR -> trimesh::TriMesh::neighbors.at(faces(0,0)).at(0)) << std::endl;
+    std::cout << vertsR.row(faces(0,0)) << std::endl;
+    std::cout << vertsR.row(_plyMeshR -> trimesh::TriMesh::neighbors.at(faces(0,0)).at(0)) - vertsR.row(faces(0,0)) << std::endl;
 
-    for(int i=0; i<Eig_num; i++)
+    for(int neighbor_index=0; neighbor_index < _plyMeshR -> trimesh::TriMesh::neighbors.at(faces(0,0)).size(); neighbor_index++)
     {
-        // compute the eigenvalues and eigenvectors of transformation matrix and save it to eigval and eigvec
-        // U^2 = T^transpose * T
-        Eigen::SelfAdjointEigenSolver<Eigen::Matrix3d> solv(H.transpose() * H);
-
-        // we save the vector and matrix
-        this -> Eigval_sq_neighbor.block(Eig_index,0,3,1) << solv.eigenvalues();
-        this -> Eigvec_sq_neighbor.block(Eig_index,0,3,3) << solv.eigenvectors();
-
-        Eig_index = Eig_index+3;
+         std::cout << vertsR.row(_plyMeshR -> trimesh::TriMesh::neighbors.at(faces(0,0)).at(neighbor_index)) << std::endl;
     }
-    */
 
+    std::cout << Eigval_neighbor.rows() << std::endl;
+    std::cout << Eigvec_neighbor.rows() << std::endl;
+    */
 }
 
 void cloth_calc::cloth_defo_neighbor()
@@ -273,17 +269,15 @@ void cloth_calc::cloth_defo_neighbor()
 
     int Defo_num = faces.rows()*9;
 
-    for(int i=0; i<Defo_num; i=i+3)
+    for(int Defo_index=0; Defo_index<Defo_num; Defo_index=Defo_index+3)
     {
-        // it is important to get the squart root before calculate the stretch tensor
         // U = sqrt(/lamdba_1)*v1*v1^T + sqrt(/lamdba_2)*v2*v2^T + sqrt(/lamdba_3)*v3*v3^T
-        Defo_neighbor.block(i,0,3,3) << ( sqrt(this -> Eigval_sq_neighbor(i,0)) * (this -> Eigvec_sq_neighbor.block(i,0,3,3).col(0)) * this -> Eigvec_sq_neighbor.block(i,0,3,3).col(0).transpose() ) + ( sqrt(this -> Eigval_sq_neighbor(i+1,0)) * (this -> Eigvec_sq_neighbor.block(i,0,3,3).col(1)) * this -> Eigvec_sq_neighbor.block(i,0,3,3).col(1).transpose()) + ( sqrt(this -> Eigval_sq_neighbor(i+2,0)) * (this -> Eigvec_sq_neighbor.block(i,0,3,3).col(2)) * this -> Eigvec_sq_neighbor.block(i,0,3,3).col(2).transpose());
+        Defo_neighbor.block(Defo_index,0,3,3) << ( (this -> Eigval_neighbor(Defo_index,0)) * (this -> Eigvec_neighbor.block(Defo_index,0,3,3).col(0)) * this -> Eigvec_neighbor.block(Defo_index,0,3,3).col(0).transpose() ) + ( (this -> Eigval_neighbor(Defo_index+1,0)) * (this -> Eigvec_neighbor.block(Defo_index,0,3,3).col(1)) * this -> Eigvec_neighbor.block(Defo_index,0,3,3).col(1).transpose()) + ( (this -> Eigval_neighbor(Defo_index+2,0)) * (this -> Eigvec_neighbor.block(Defo_index,0,3,3).col(2)) * this -> Eigvec_neighbor.block(Defo_index,0,3,3).col(2).transpose());
     }
 }
 
 
-
-void cloth_calc::cloth_vec_normalize(Eigen::MatrixXd Eigval, int dim)
+void cloth_calc::cloth_vec_normalize(Eigen::MatrixXd Eigenval, int dim)
 {
 
     Eigval_norm_dir1.resize(faces.size(),1);
@@ -293,8 +287,8 @@ void cloth_calc::cloth_vec_normalize(Eigen::MatrixXd Eigval, int dim)
     if(dim==2)
     {
         // this is to normlize the eigenvalue in order to smooth the solution space
-        Eigen::Map<Eigen::MatrixXd, 0, Eigen::InnerStride<2> >Eigval_norm_dir1(Eigval.data()  ,faces.size(),1);
-        Eigen::Map<Eigen::MatrixXd, 0, Eigen::InnerStride<2> >Eigval_norm_dir2(Eigval.data()+1,faces.size(),1);
+        Eigen::Map<Eigen::MatrixXd, 0, Eigen::InnerStride<2> >Eigval_norm_dir1(Eigenval.data()  ,faces.size(),1);
+        Eigen::Map<Eigen::MatrixXd, 0, Eigen::InnerStride<2> >Eigval_norm_dir2(Eigenval.data()+1,faces.size(),1);
 
         this -> Eigval_norm_dir1 = Eigval_norm_dir1 / (Eigval_norm_dir1.maxCoeff() - Eigval_norm_dir1.minCoeff());
         this -> Eigval_norm_dir2 = Eigval_norm_dir2 / (Eigval_norm_dir2.maxCoeff() - Eigval_norm_dir2.minCoeff());
@@ -303,9 +297,9 @@ void cloth_calc::cloth_vec_normalize(Eigen::MatrixXd Eigval, int dim)
     if(dim==3)
     {
         // this is to normlize the eigenvalue in order to smooth the solution space
-        Eigen::Map<Eigen::MatrixXd, 0, Eigen::InnerStride<3> >Eigval_norm_dir1(Eigval.data()  ,faces.size(),1);
-        Eigen::Map<Eigen::MatrixXd, 0, Eigen::InnerStride<3> >Eigval_norm_dir2(Eigval.data()+1,faces.size(),1);
-        Eigen::Map<Eigen::MatrixXd, 0, Eigen::InnerStride<3> >Eigval_norm_dir3(Eigval.data()+2,faces.size(),1);
+        Eigen::Map<Eigen::MatrixXd, 0, Eigen::InnerStride<3> >Eigval_norm_dir1(Eigenval.data()  ,faces.size(),1);
+        Eigen::Map<Eigen::MatrixXd, 0, Eigen::InnerStride<3> >Eigval_norm_dir2(Eigenval.data()+1,faces.size(),1);
+        Eigen::Map<Eigen::MatrixXd, 0, Eigen::InnerStride<3> >Eigval_norm_dir3(Eigenval.data()+2,faces.size(),1);
 
         this -> Eigval_norm_dir1 = Eigval_norm_dir1 / (Eigval_norm_dir1.maxCoeff() - Eigval_norm_dir1.minCoeff());
         this -> Eigval_norm_dir2 = Eigval_norm_dir2 / (Eigval_norm_dir2.maxCoeff() - Eigval_norm_dir2.minCoeff());
@@ -358,6 +352,17 @@ Eigen::MatrixXd cloth_calc::GetDispl()
 }
 
 
+Eigen::MatrixXd cloth_calc::GetEigval_neighbor()
+{
+    return this -> Eigval_neighbor;
+}
+
+Eigen::MatrixXd cloth_calc::GetEigvec_neighbor()
+{
+    return this -> Eigvec_neighbor;
+}
+
+
 Eigen::MatrixXd cloth_calc::GetEigval_norm_dir1()
 {
     return this -> Eigval_norm_dir1;
@@ -386,10 +391,10 @@ void cloth_calc::test()
 
     //neighbor.at( vertex_index ).at( num_vertex )
     double num_neighbor = mymesh -> trimesh::TriMesh::neighbors.at(35946).at(1);
-    double a = mymesh -> trimesh::TriMesh::vertices.at(35483)[0];
+    double vert_x = mymesh -> trimesh::TriMesh::vertices.at(35483)[0];
 
     std::cout << num_neighbor << std::endl;
-    std::cout << a << std::endl;
+    std::cout << vert_x << std::endl;
 
 }
 

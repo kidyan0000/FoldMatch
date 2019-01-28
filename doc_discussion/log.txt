@@ -50,3 +50,13 @@ need a projection from one value to (256,256,256)?
 
 // 2019.01.25
 correct eigenvalue_normalize
+
+// 2019.01.28
+if use this 
+            // F = R * U
+            // ->
+            // C = F^T * F = (R*U)^T * (R*U) = U^T * R^T * R * U
+            // ->
+            // C = U^T * U
+get really small eigenvalues, so I calculate directly from P^T*Q, this results are more comvinced compared to using traditional U decomposition. I don't know why
+important to notice
