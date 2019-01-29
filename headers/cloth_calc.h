@@ -25,7 +25,9 @@ public:
 
     // Rohmer et al.
     void cloth_vec();
-    void cloth_eig();
+    void cloth_eig_2D();
+    // void cloth_eig_3D();
+
     void cloth_defo();
     void cloth_displ();
 
@@ -33,10 +35,8 @@ public:
 
     Eigen::MatrixXd GetVecR();
     Eigen::MatrixXd GetVecT();
-
     Eigen::MatrixXd GetEigval();
     Eigen::MatrixXd GetEigvec();
-
     Eigen::MatrixXd GetDefo();
     Eigen::MatrixXd GetDispl();
 
@@ -48,8 +48,6 @@ public:
 
     Eigen::MatrixXd GetEigval_neighbor();
     Eigen::MatrixXd GetEigvec_neighbor();
-
-    Eigen::MatrixXd GetDefo_neighbor();
 
     //
     void cloth_vec_normalize(Eigen::MatrixXd Eigenval, int dim);
@@ -71,7 +69,8 @@ private:
 
     // Rohmer et al.
     Eigen::MatrixXd VecR, VecT;
-    Eigen::MatrixXd Eigval_sq, Eigvec_sq;
+    Eigen::MatrixXd Eigval_2D, Eigvec_2D;
+    // Eigen::MatrixXd Eigval_3D, Eigvec_3D;
     Eigen::MatrixXd Defo;
     Eigen::MatrixXd Displ;
 

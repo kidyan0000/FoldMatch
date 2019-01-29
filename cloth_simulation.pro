@@ -44,6 +44,7 @@ HEADERS += \
     headers/cloth_glwidget.h \
     headers/cloth_window.h \
     headers/cloth_calc.h \
+    headers/nanoflann.hpp \
     headers/TriMesh/*h
 
 

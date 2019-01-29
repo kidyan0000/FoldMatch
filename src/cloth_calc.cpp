@@ -76,13 +76,13 @@ void cloth_calc::cloth_vec()
     }
 }
 
-void cloth_calc::cloth_eig()
+void cloth_calc::cloth_eig_2D()
 {
     cloth_vec();
 
     // initialize the matrix to store the eigenvalue and eigenvector
-    this -> Eigval_sq.resize(faces.rows()*6,1);
-    this -> Eigvec_sq.resize(faces.rows()*6,2);
+    this -> Eigval_2D.resize(faces.rows()*6,1);
+    this -> Eigvec_2D.resize(faces.rows()*6,2);
 
     int Eig_index = 0;
     int Eig_num = faces.rows()*3;
@@ -99,8 +99,8 @@ void cloth_calc::cloth_eig()
         Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> solv(Transf.transpose() * Transf);
 
         // we save the vector and matrix
-        this -> Eigval_sq.block(Eig_index,0,2,1) << solv.eigenvalues();
-        this -> Eigvec_sq.block(Eig_index,0,2,2) << solv.eigenvectors();
+        this -> Eigval_2D.block(Eig_index,0,2,1) << solv.eigenvalues().cwiseSqrt();
+        this -> Eigvec_2D.block(Eig_index,0,2,2) << solv.eigenvectors();
 
         Eig_index = Eig_index+2;
     }
@@ -108,9 +108,10 @@ void cloth_calc::cloth_eig()
 
 }
 
+
 void cloth_calc::cloth_defo()
 {
-    cloth_eig();
+    cloth_eig_2D();
 
     // initialize the matrix to store the stretch tensor
     this -> Defo.resize(faces.rows()*6,2);
@@ -128,9 +129,9 @@ void cloth_calc::cloth_defo()
                     defo_el1_vert2 defo_el1_vert2
                     ]
         */
-        // it is important to get the squart root before calculate the stretch tensor
+
         // U = sqrt(/lamdba_1)*v1*v1^T + sqrt(/lamdba_2)*v2*v2^T
-        Defo.block(Defo_index,0,2,2) << ( sqrt(this -> Eigval_sq(Defo_index,0)) * (this -> Eigvec_sq.block(Defo_index,0,2,2).col(0)) * this -> Eigvec_sq.block(Defo_index,0,2,2).col(0).transpose() ) + ( sqrt(this -> Eigval_sq(Defo_index+1,0)) * (this -> Eigvec_sq.block(Defo_index,0,2,2).col(1)) * this -> Eigvec_sq.block(Defo_index,0,2,2).col(1).transpose());
+        Defo.block(Defo_index,0,2,2) << ( (this -> Eigval_2D(Defo_index,0)) * (this -> Eigvec_2D.block(Defo_index,0,2,2).col(0)) * this -> Eigvec_2D.block(Defo_index,0,2,2).col(0).transpose() ) + ( (this -> Eigval_2D(Defo_index+1,0)) * (this -> Eigvec_2D.block(Defo_index,0,2,2).col(1)) * this -> Eigvec_2D.block(Defo_index,0,2,2).col(1).transpose());
     }
 }
 
@@ -205,6 +206,7 @@ void cloth_calc::cloth_eig_neighbor()
         {
             // face has the structure of face(i.j)
             // where i is the i-th element, j is the j-th vertex of i-th element
+
             // calculate the number of the nerghborred vertice of vertex i
             int Neighbor_num = _plyMeshR -> trimesh::TriMesh::neighbors.at(faces(El_index,Vert_index)).size();
 
@@ -219,13 +221,18 @@ void cloth_calc::cloth_eig_neighbor()
                 // for template
                 Q.row(Neighbor_index) << vertsT.row(_plyMeshT -> trimesh::TriMesh::neighbors.at(faces(El_index, Vert_index)).at(Neighbor_index)) - vertsT.row(faces(El_index, Vert_index));
 
-                // std::cout << P << std::endl;
-
             }  
 
-            Eigen::SelfAdjointEigenSolver<Eigen::Matrix3d> solv(P.transpose()*Q);
-            this -> Eigval_neighbor.block(Eig_index,0,3,1) << solv.eigenvalues();
+            Eigen::SelfAdjointEigenSolver<Eigen::Matrix3d> solv((P.transpose()*Q).transpose() * (P.transpose()*Q));
+
+            this -> Eigval_neighbor.block(Eig_index,0,3,1) << solv.eigenvalues().cwiseSqrt();
             this -> Eigvec_neighbor.block(Eig_index,0,3,3) << solv.eigenvectors();
+
+            // Eigen::SelfAdjointEigenSolver<Eigen::Matrix3d> solv(P.transpose()*Q);
+
+            // this -> Eigval_neighbor.block(Eig_index,0,3,1) << solv.eigenvalues();
+            // this -> Eigvec_neighbor.block(Eig_index,0,3,3) << solv.eigenvectors();
+
 
             P.resize(0,0);
             Q.resize(0,0);
@@ -233,16 +240,6 @@ void cloth_calc::cloth_eig_neighbor()
             Eig_index = Eig_index+3;
 
         }
-        /*
-        // for reference
-        vertsR.row(faces(i,0)); // the first vertex of i-th element
-        vertsR.row(faces(i,1)); // the second vertex of i-th elemet
-        vertsR.row(faces(i,2)); // the third vertex of i-th element
-        // for template
-        vertsT.row(faces(i,0)); // the first vertex of i-th element
-        vertsT.row(faces(i,1)); // the second vertex of i-th element
-        vertsT.row(faces(i,2)); // the third vertex of i-th element
-        */
     }
 
     // this is for debug
@@ -333,12 +330,12 @@ Eigen::MatrixXd cloth_calc::GetVecT()
 
 Eigen::MatrixXd cloth_calc::GetEigval()
 {
-    return this -> Eigval_sq;
+    return this -> Eigval_2D;
 }
 
 Eigen::MatrixXd cloth_calc::GetEigvec()
 {
-    return this -> Eigvec_sq;
+    return this -> Eigvec_2D;
 }
 
 Eigen::MatrixXd cloth_calc::GetDefo()

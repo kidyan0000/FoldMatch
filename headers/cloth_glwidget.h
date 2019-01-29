@@ -49,9 +49,7 @@ signals:
 private:
     // opengl setting
     void initVbo();
-
     void draw();
-
     void test();
 
     // widget setting

@@ -58,5 +58,6 @@ if use this
             // C = F^T * F = (R*U)^T * (R*U) = U^T * R^T * R * U
             // ->
             // C = U^T * U
-get really small eigenvalues, so I calculate directly from P^T*Q, this results are more comvinced compared to using traditional U decomposition. I don't know why
-important to notice
+and
+H=USV 
+both got really small eigenvalues compared to Rohmer et al.
