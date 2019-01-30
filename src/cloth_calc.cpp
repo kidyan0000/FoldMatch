@@ -89,7 +89,7 @@ void cloth_calc::cloth_eig_2D()
 
     for(int i=0; i<Eig_num; i++)
     {
-        // compute the transformation matrix (Transl)
+        // compute the transformation matrix (Transf)
         // T = [u1, u2] * [u1_, u2_]^-1
         // we have here 3D triangles, thus we need to transform at first to 2D triangles using affine transformation
         Eigen::MatrixXd Transf((Eigen::Map<Eigen::Matrix<double,3,2> >(this -> VecT.col(i).data())).block<2,2>(0,0) * ((Eigen::Map<Eigen::Matrix<double,3,2> >(this -> VecR.col(i).data())).block<2,2>(0,0)).inverse());
@@ -281,15 +281,10 @@ void cloth_calc::cloth_eig_neighbor()
 
     // this is for debug
     /*
-    std::cout << vertsR.row(_plyMeshR -> trimesh::TriMesh::neighbors.at(faces(0,0)).at(0)) << std::endl;
-    std::cout << vertsR.row(faces(0,0)) << std::endl;
-    std::cout << vertsR.row(_plyMeshR -> trimesh::TriMesh::neighbors.at(faces(0,0)).at(0)) - vertsR.row(faces(0,0)) << std::endl;
-
     for(int neighbor_index=0; neighbor_index < _plyMeshR -> trimesh::TriMesh::neighbors.at(faces(0,0)).size(); neighbor_index++)
     {
          std::cout << vertsR.row(_plyMeshR -> trimesh::TriMesh::neighbors.at(faces(0,0)).at(neighbor_index)) << std::endl;
     }
-
     std::cout << Eigval_neighbor.rows() << std::endl;
     std::cout << Eigvec_neighbor.rows() << std::endl;
     */
@@ -305,7 +300,7 @@ void cloth_calc::cloth_defo_neighbor()
 
     for(int Defo_index=0; Defo_index<Defo_num; Defo_index=Defo_index+3)
     {
-        // U = sqrt(/lamdba_1)*v1*v1^T + sqrt(/lamdba_2)*v2*v2^T + sqrt(/lamdba_3)*v3*v3^T
+        // U = /lamdba_1*v1*v1^T + /lamdba_2*v2*v2^T + /lamdba_3*v3*v3^T
         Defo_neighbor.block(Defo_index,0,3,3) << ( (this -> Eigval_neighbor(Defo_index,0)) * (this -> Eigvec_neighbor.block(Defo_index,0,3,3).col(0)) * this -> Eigvec_neighbor.block(Defo_index,0,3,3).col(0).transpose() ) + ( (this -> Eigval_neighbor(Defo_index+1,0)) * (this -> Eigvec_neighbor.block(Defo_index,0,3,3).col(1)) * this -> Eigvec_neighbor.block(Defo_index,0,3,3).col(1).transpose()) + ( (this -> Eigval_neighbor(Defo_index+2,0)) * (this -> Eigvec_neighbor.block(Defo_index,0,3,3).col(2)) * this -> Eigvec_neighbor.block(Defo_index,0,3,3).col(2).transpose());
     }
 }

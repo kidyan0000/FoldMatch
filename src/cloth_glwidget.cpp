@@ -56,9 +56,6 @@ void Cloth_GLWidget::initVbo()
     Eigen::Matrix<int,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> colors_t(colors);
     Eigen::RowVectorXi colors_row(Eigen::Map<Eigen::RowVectorXi>(colors_t.data(), colors_t.size()));
 
-    // THIS IS FOR DEBUG
-    // std::cout << verts_row.col(75374) << std::endl;
-
     // now creat the VBO
     glGenBuffers(1, &VBOBuffers);
 
