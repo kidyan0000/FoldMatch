@@ -26,7 +26,7 @@ public:
     // Rohmer et al.
     void cloth_vec();
     void cloth_eig_2D();
-    // void cloth_eig_3D();
+    void cloth_eig_3D();
 
     void cloth_defo();
     void cloth_displ();
@@ -70,7 +70,7 @@ private:
     // Rohmer et al.
     Eigen::MatrixXd VecR, VecT;
     Eigen::MatrixXd Eigval_2D, Eigvec_2D;
-    // Eigen::MatrixXd Eigval_3D, Eigvec_3D;
+    Eigen::MatrixXd Eigval_3D, Eigvec_3D;
     Eigen::MatrixXd Defo;
     Eigen::MatrixXd Displ;
 

@@ -19,9 +19,9 @@ int main(int argc, char *argv[])
     Eigen::MatrixXd val = test->GetEigval_neighbor();
     test->cloth_vec_normalize(val, 3);
 
-    std::ofstream outfile("../output/debug/test.txt");
-    outfile<< test->GetEigval_norm_dir3() <<std::endl;
-    outfile.close();
+    // std::ofstream outfile("../output/debug/test.txt");
+    // outfile<< test->GetEigval_norm_dir3() <<std::endl;
+    // outfile.close();
 
     // test->test();
 

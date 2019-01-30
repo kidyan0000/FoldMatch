@@ -108,6 +108,41 @@ void cloth_calc::cloth_eig_2D()
 
 }
 
+void cloth_calc::cloth_eig_3D()
+{
+    // ***************************************************
+    // FAIL TO USE PSEUDOINVERSE BECAUSE OF THE DIMENSIONS
+    // ***************************************************
+    /*
+    cloth_vec();
+
+    // initialize the matrix to store the eigenvalue and eigenvector
+    this -> Eigval_3D.resize(faces.rows()*9,1);
+    this -> Eigvec_3D.resize(faces.rows()*9,2);
+
+    int Eig_index = 0;
+    int Eig_num = faces.rows()*3;
+
+    for(int i=0; i<Eig_num; i++)
+    {
+        // compute the transformation matrix (Transl)
+        // T = [u1, u2] * [u1_, u2_]^-1
+        // we have here 3D triangles, and we tried to use pseudoinverse
+        Eigen::MatrixXd Transf((Eigen::Map<Eigen::Matrix<double,3,2> >(this -> VecT.col(i).data())) * (Eigen::Map<Eigen::Matrix<double,3,2> >(this -> VecR.col(i).data())).completeOrthogonalDecomposition().pseudoInverse());
+
+        // compute the eigenvalues and eigenvectors of transformation matrix and save it to eigval and eigvec
+        // U^2 = T^transpose * T
+        Eigen::SelfAdjointEigenSolver<Eigen::Matrix3d> solv(Transf.transpose() * Transf);
+
+        // we save the vector and matrix
+        this -> Eigval_3D.block(Eig_index,0,3,1) << solv.eigenvalues().cwiseSqrt();
+        this -> Eigvec_3D.block(Eig_index,0,3,3) << solv.eigenvectors();
+
+        Eig_index = Eig_index+3;
+    }
+    */
+}
+
 
 void cloth_calc::cloth_defo()
 {
@@ -223,10 +258,12 @@ void cloth_calc::cloth_eig_neighbor()
 
             }  
 
+            // Irving et al. - Invertible Finite Elements For Robust Simulation of Large Deformation
             Eigen::SelfAdjointEigenSolver<Eigen::Matrix3d> solv((P.transpose()*Q).transpose() * (P.transpose()*Q));
 
             this -> Eigval_neighbor.block(Eig_index,0,3,1) << solv.eigenvalues().cwiseSqrt();
             this -> Eigvec_neighbor.block(Eig_index,0,3,3) << solv.eigenvectors();
+
 
             // Eigen::SelfAdjointEigenSolver<Eigen::Matrix3d> solv(P.transpose()*Q);
 

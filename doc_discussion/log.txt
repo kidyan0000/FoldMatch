@@ -61,3 +61,7 @@ if use this
 and
 H=USV 
 both got really small eigenvalues compared to Rohmer et al.
+
+// 2019.01.30
+I tried to use pseudoinverse but doesn't work
+
