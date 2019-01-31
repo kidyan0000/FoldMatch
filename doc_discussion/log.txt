@@ -46,7 +46,7 @@ problems:
 
 // 2019.01.24
 add wirtecolor, write as 256 color
-need a projection from one value to (256,256,256)?
+need map from one value to (256,256,256)?
 
 // 2019.01.25
 correct eigenvalue_normalize
@@ -63,5 +63,14 @@ H=USV
 both got really small eigenvalues compared to Rohmer et al.
 
 // 2019.01.30
-I tried to use pseudoinverse but doesn't work
+which library use for color map? there are many in internet
+
+// 2019.01.31
+summary:
+1. USE kabisch algorithm on neighbor, and directly discomposition of H : Peoblem(negative eigenvalues -> negativ volumen see Smith et al.)
+2. USR kabisch algorithm on neighbor, and calcaute U at first like traditional Conti, no negative eigenvalues
+	maybe colth could have neg. eigval because it is not rigid body???
+	both kabisch algorthim got really small eigenvalues???
+3. USR pseudoinverse followed by Rohmer et al at 3D.. Can;t use U? directly decomposistion on F -> negative eigenvalues.
+furthture works, use pseudoinverse on neighbor? need to be discussed...
 

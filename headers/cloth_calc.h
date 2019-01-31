@@ -40,6 +40,9 @@ public:
     Eigen::MatrixXd GetDefo();
     Eigen::MatrixXd GetDispl();
 
+    Eigen::MatrixXd GetEigval_3D();
+    Eigen::MatrixXd GetEigvec_3D();
+
 
     //
     void cloth_init_neighbor();
