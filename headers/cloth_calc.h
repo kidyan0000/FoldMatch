@@ -72,6 +72,7 @@ private:
     trimesh::TriMesh *_plyMeshT;
 
     Eigen::MatrixXi faces;
+    Eigen::MatrixXd vertsR, vertsT;
 
     // Rohmer et al.
     Eigen::MatrixXd VecR, VecT;

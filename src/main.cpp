@@ -17,19 +17,20 @@ int main(int argc, char *argv[])
 
     // THIS IS FOR NEIGHBOR
 
-    // test -> cloth_eig_neighbor();
-    // Eigen::MatrixXd val = test->GetEigval_neighbor();
-    // test -> cloth_vec_normalize(val, 3);
+    test -> cloth_eig_neighbor();
+    Eigen::MatrixXd val = test->GetEigval_neighbor();
+    test -> cloth_vec_normalize(val, 3);
 
 
     // THIS IS FOR 3D
 
-    test -> cloth_eig_3D();
-    Eigen::MatrixXd val = test -> GetEigval_3D();
-    test -> cloth_vec_normalize(val, 3);
+    // test -> cloth_eig_3D();
+    // Eigen::MatrixXd val = test -> GetEigval_3D();
+    // test -> cloth_vec_normalize(val, 3);
 
     // WRITE AS PLY
     // test -> cloth_WriteColor(test->GetEigval_norm_dir3(), "../output/debug/lambda3.ply");
+
     // std::ofstream outfile("../output/debug/Eigval_norm_dir3.txt");
     // outfile<< test->GetEigval_norm_dir3() <<std::endl;
     // outfile.close();

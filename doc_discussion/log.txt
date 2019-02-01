@@ -75,6 +75,9 @@ summary:
 use colormap from http://www.kennethmoreland.com/color-advice/ 
 	          https://gist.github.com/ialhashim/f52e1a4788e9feaf7d51
 colormap -> need to be discussed. I divide by max again because some eigenval>1;
+
+// 2019.02.01
+colormap can be displayed correctly -> see Eigenval_loop_for_vertice 
 	both kabisch algorthim got really small eigenvalues???
 3. USR pseudoinverse followed by Rohmer et al at 3D.. Can;t use U? directly decomposistion on F -> negative eigenvalues.
 furthture works, use pseudoinverse on neighbor? need to be discussed...
