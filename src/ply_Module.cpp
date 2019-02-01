@@ -302,7 +302,7 @@ bool ply_module::writePLY(const std::string & oFileName, bool writeColorsFlag, b
 
 		time_t _tm = time(NULL);
 		struct tm * curtime = localtime(&_tm);
-		myFile.comments.push_back("P.Thesis Seamless Cloth Simulation with High Geometric Fidelity");
+        myFile.comments.push_back("Seamless Cloth Simulation with High Geometric Fidelity");
 		myFile.comments.push_back(asctime(curtime));
 		myFile.write(static_cast < std::ostringstream & > (outputStream), isBinary);
 

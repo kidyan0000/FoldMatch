@@ -110,6 +110,9 @@ void cloth_calc::cloth_eig_2D()
 
 void cloth_calc::cloth_eig_3D()
 {
+    // ERROR BECAUSE OF DIMENSION
+
+    /*
     cloth_vec();
 
     // initialize the matrix to store the eigenvalue and eigenvector
@@ -119,6 +122,8 @@ void cloth_calc::cloth_eig_3D()
     int Eig_index = 0;
     int Eig_num = faces.rows()*3;
 
+    std::ofstream outfile("../output/debug/Test.txt");
+
     for(int i=0; i<Eig_num; i++)
     {
         // we have here 3D triangles, and we tried to use pseudoinverse
@@ -127,6 +132,9 @@ void cloth_calc::cloth_eig_3D()
         Eigen::MatrixXd Transf = Transf_T * Transf_R.completeOrthogonalDecomposition().pseudoInverse().transpose();
         // compute the eigenvalues and eigenvectors of transformation matrix and save it to eigval and eigvec
         // U^2 = T^transpose * T
+
+        outfile<< Transf_R.completeOrthogonalDecomposition().pseudoInverse() <<std::endl;
+
         Eigen::SelfAdjointEigenSolver<Eigen::Matrix3d> solv(Transf);
 
         // we save the vector and matrix
@@ -135,7 +143,15 @@ void cloth_calc::cloth_eig_3D()
 
         Eig_index = Eig_index+3;
     }
+    */
 
+    // THIS IS FOR DEBUG
+    /*
+    Eigen::MatrixXd Transf_T(Eigen::Map<Eigen::Matrix<double,3,2> >(this -> VecT.col(0).data()));
+    Eigen::MatrixXd Transf_R(Eigen::Map<Eigen::Matrix<double,3,2> >(this -> VecR.col(0).data()));
+    Transf_T * Transf_R.completeOrthogonalDecomposition().pseudoInverse().transpose();
+    outfile.close();
+    */
 }
 
 
@@ -340,7 +356,22 @@ void cloth_calc::cloth_WriteColor(Eigen::MatrixXd Eigval_norm, const std::string
     ply_module* plyColor;
     plyColor = new ply_module();
 
-    plyColor -> setColors(Eigval_norm.cast<int>());
+    int Eigval_num = Eigval_norm.rows();
+
+    std::vector< std::vector<double> > cmap = makeColorMap();
+    Eigen::MatrixXi Eigval_color;
+    Eigval_color.resize(Eigval_num, 3);
+
+    // calculate the max-coefficient of eigenvalues
+    double Eigval_max = Eigval_norm.maxCoeff();
+
+    for(int Eigval_index=0; Eigval_index<Eigval_num; Eigval_index++)
+    {
+        int idx = Eigval_norm(Eigval_index, 0) /Eigval_max * (cmap.size()-1);
+        Eigval_color.row(Eigval_index) << cmap[idx][0], cmap[idx][1], cmap[idx][2];
+    }
+
+    plyColor -> setColors(Eigval_color);
     plyColor -> writePLY(ifileName, true, false, false, false, false);
 
 }
@@ -412,6 +443,8 @@ Eigen::MatrixXd cloth_calc::GetEigval_norm_dir3()
 {
     return this -> Eigval_norm_dir3;
 }
+
+
 
 
 void cloth_calc::test()

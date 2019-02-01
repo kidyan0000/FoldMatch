@@ -70,6 +70,11 @@ summary:
 1. USE kabisch algorithm on neighbor, and directly discomposition of H : Peoblem(negative eigenvalues -> negativ volumen see Smith et al.)
 2. USR kabisch algorithm on neighbor, and calcaute U at first like traditional Conti, no negative eigenvalues
 	maybe colth could have neg. eigval because it is not rigid body???
+
+// 2019.02.01
+use colormap from http://www.kennethmoreland.com/color-advice/ 
+	          https://gist.github.com/ialhashim/f52e1a4788e9feaf7d51
+colormap -> need to be discussed. I divide by max again because some eigenval>1;
 	both kabisch algorthim got really small eigenvalues???
 3. USR pseudoinverse followed by Rohmer et al at 3D.. Can;t use U? directly decomposistion on F -> negative eigenvalues.
 furthture works, use pseudoinverse on neighbor? need to be discussed...

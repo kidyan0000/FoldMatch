@@ -265,7 +265,7 @@ DIST          = /opt/Qt/5.12.0/gcc_64/mkspecs/features/spec_pre.prf \
 		../headers/cloth_window.h \
 		../headers/cloth_calc.h \
 		../headers/nanoflann.hpp \
-		headers/TriMesh/*h ../src/main.cpp \
+		../headers/DivergingColorMaps.hpp ../src/main.cpp \
 		../src/ply_Module.cpp \
 		../src/tinyply.cpp \
 		../src/cloth_glwidget.cpp \
@@ -696,7 +696,7 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /opt/Qt/5.12.0/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../headers/ply_Module.h ../headers/tinyply.h ../headers/cloth_glwidget.h ../headers/cloth_window.h ../headers/cloth_calc.h ../headers/nanoflann.hpp headers/TriMesh/*h $(DISTDIR)/
+	$(COPY_FILE) --parents ../headers/ply_Module.h ../headers/tinyply.h ../headers/cloth_glwidget.h ../headers/cloth_window.h ../headers/cloth_calc.h ../headers/nanoflann.hpp ../headers/DivergingColorMaps.hpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../src/main.cpp ../src/ply_Module.cpp ../src/tinyply.cpp ../src/cloth_glwidget.cpp ../src/cloth_window.cpp ../src/cloth_calc.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../GUI/cloth_window.ui $(DISTDIR)/
 
@@ -1446,6 +1446,8 @@ main.o: ../src/main.cpp ../headers/cloth_window.h \
 		/opt/Qt/5.12.0/gcc_64/include/QtWidgets/qtabwidget.h \
 		/opt/Qt/5.12.0/gcc_64/include/QtGui/qicon.h \
 		../headers/cloth_calc.h \
+		../headers/DivergingColorMaps.hpp \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/QVector \
 		../headers/TriMesh/TriMesh.h \
 		../headers/TriMesh/Vec.h \
 		../headers/TriMesh/mathutil.h \
@@ -2430,6 +2432,50 @@ cloth_window.o: ../src/cloth_window.cpp ../headers/cloth_window.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o cloth_window.o ../src/cloth_window.cpp
 
 cloth_calc.o: ../src/cloth_calc.cpp ../headers/cloth_calc.h \
+		../headers/DivergingColorMaps.hpp \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/QVector \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qvector.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qglobal.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qconfig.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qtcore-config.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qsystemdetection.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qprocessordetection.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qcompilerdetection.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qtypeinfo.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qsysinfo.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qlogging.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qflags.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qatomic.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qbasicatomic.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qgenericatomic.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qatomic_msvc.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qglobalstatic.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qmutex.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qnumeric.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qversiontagging.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qiterator.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qrefcount.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qarraydata.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qhashfunctions.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qstring.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qchar.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qbytearray.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qnamespace.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qstringliteral.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qstringalgorithms.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qstringview.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qpair.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qbytearraylist.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qstringlist.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qregexp.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qstringmatcher.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/qpoint.h \
 		../headers/TriMesh/TriMesh.h \
 		../headers/TriMesh/Vec.h \
 		../headers/TriMesh/mathutil.h \

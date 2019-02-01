@@ -45,6 +45,7 @@ HEADERS += \
     headers/cloth_window.h \
     headers/cloth_calc.h \
     headers/nanoflann.hpp \
+    headers/DivergingColorMaps.hpp
     headers/TriMesh/*h
 
 

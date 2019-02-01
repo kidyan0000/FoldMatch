@@ -1,6 +1,8 @@
 #ifndef CLOTH_CALC_H
 #define CLOTH_CALC_H
 
+#include <DivergingColorMaps.hpp>
+
 #include <iostream>
 #include <fstream>
 #include <stdlib.h>
@@ -58,6 +60,7 @@ public:
     Eigen::MatrixXd GetEigval_norm_dir2();
     Eigen::MatrixXd GetEigval_norm_dir3();
 
+    // COLLORMAP
     void cloth_WriteColor(Eigen::MatrixXd color, const std::string &  ifileName);
 
 
