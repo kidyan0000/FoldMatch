@@ -56,11 +56,11 @@ void cloth_calc::cloth_vec()
     {
             // FOR REFERENCE
             this -> VecR.col(Vec_index).transpose()   << (vertsR.row(faces(i,0)) - vertsR.row(faces(i,1))), // vector at vertex 0
-                                     (vertsR.row(faces(i,0)) - vertsR.row(faces(i,2)));
+                                                         (vertsR.row(faces(i,0)) - vertsR.row(faces(i,2)));
             this -> VecR.col(Vec_index+1).transpose() << (vertsR.row(faces(i,1)) - vertsR.row(faces(i,0))), // vector at vertex 1
-                                     (vertsR.row(faces(i,1)) - vertsR.row(faces(i,2)));
+                                                         (vertsR.row(faces(i,1)) - vertsR.row(faces(i,2)));
             this -> VecR.col(Vec_index+2).transpose() << (vertsR.row(faces(i,2)) - vertsR.row(faces(i,0))), // vector at vertex 2
-                                     (vertsR.row(faces(i,2)) - vertsR.row(faces(i,1)));
+                                                         (vertsR.row(faces(i,2)) - vertsR.row(faces(i,1)));
 
             // FOR TEMPLATE
             this -> VecT.col(Vec_index).transpose()   << (vertsT.row(faces(i,0)) - vertsT.row(faces(i,1))), // vector at vertex 0
@@ -116,8 +116,8 @@ void cloth_calc::cloth_eig_3D()
     // Eigen::MatrixXd H;
 
     // initialize the eigenvalues and eigenvectors
-    this -> Eigval_neighbor.resize(faces.rows()*9,1);
-    this -> Eigvec_neighbor.resize(faces.rows()*9,3);
+    this -> Eigval_3D.resize(faces.rows()*9,1);
+    this -> Eigvec_3D.resize(faces.rows()*9,3);
 
     // initialize the trimesh
     cloth_init_neighbor();
@@ -162,8 +162,8 @@ void cloth_calc::cloth_eig_3D()
             // Irving et al. - Invertible Finite Elements For Robust Simulation of Large Deformation
             Eigen::SelfAdjointEigenSolver<Eigen::Matrix3d> solv((P.transpose()*Q).transpose() * (P.transpose()*Q));
 
-            this -> Eigval_neighbor.block(Eig_index,0,3,1) << solv.eigenvalues().cwiseSqrt();
-            this -> Eigvec_neighbor.block(Eig_index,0,3,3) << solv.eigenvectors();
+            this -> Eigval_3D.block(Eig_index,0,3,1) << solv.eigenvalues().cwiseSqrt();
+            this -> Eigvec_3D.block(Eig_index,0,3,3) << solv.eigenvectors();
 
             P.resize(0,0);
             Q.resize(0,0);
@@ -172,7 +172,6 @@ void cloth_calc::cloth_eig_3D()
 
         }
     }
-
 
     // this is for debug
     /*
@@ -186,12 +185,12 @@ void cloth_calc::cloth_eig_3D()
 }
 
 
-void cloth_calc::cloth_defo()
+void cloth_calc::cloth_defo_2D()
 {
     cloth_eig_2D();
 
     // initialize the matrix to store the stretch tensor
-    this -> Defo.resize(faces.rows()*6,2);
+    this -> Defo_2D.resize(faces.rows()*6,2);
 
     int Defo_num = faces.rows()*6;
 
@@ -208,8 +207,129 @@ void cloth_calc::cloth_defo()
         */
 
         // U = sqrt(/lamdba_1)*v1*v1^T + sqrt(/lamdba_2)*v2*v2^T
-        Defo.block(Defo_index,0,2,2) << ( (this -> Eigval_2D(Defo_index,0)) * (this -> Eigvec_2D.block(Defo_index,0,2,2).col(0)) * this -> Eigvec_2D.block(Defo_index,0,2,2).col(0).transpose() ) + ( (this -> Eigval_2D(Defo_index+1,0)) * (this -> Eigvec_2D.block(Defo_index,0,2,2).col(1)) * this -> Eigvec_2D.block(Defo_index,0,2,2).col(1).transpose());
+        Defo_2D.block(Defo_index,0,2,2) << ( (this -> Eigval_2D(Defo_index,0)) * (this -> Eigvec_2D.block(Defo_index,0,2,2).col(0)) * this -> Eigvec_2D.block(Defo_index,0,2,2).col(0).transpose() ) + ( (this -> Eigval_2D(Defo_index+1,0)) * (this -> Eigvec_2D.block(Defo_index,0,2,2).col(1)) * this -> Eigvec_2D.block(Defo_index,0,2,2).col(1).transpose());
     }
+}
+
+void cloth_calc::cloth_defo_3D()
+{
+    cloth_eig_3D();
+
+    // initialize the matrix to store the stretch tensor
+    this -> Defo_3D.resize(faces.rows()*9,3);
+
+    int Defo_num = faces.rows()*9;
+
+    for(int Defo_index=0; Defo_index<Defo_num; Defo_index=Defo_index+3)
+    {
+        // U = (/lamdba_1)*v1*v1^T + (/lamdba_2)*v2*v2^T + (/lamdba_3)*v3*v3^T
+        Defo_3D.block(Defo_index,0,3,3) << ( (this -> Eigval_3D(Defo_index,0)) * (this -> Eigvec_3D.block(Defo_index,0,3,3).col(0)) * this -> Eigvec_3D.block(Defo_index,0,3,3).col(0).transpose() ) + ( (this -> Eigval_3D(Defo_index+1,0)) * (this -> Eigvec_3D.block(Defo_index,0,3,3).col(1)) * this -> Eigvec_3D.block(Defo_index,0,3,3).col(1).transpose()) + ( (this -> Eigval_3D(Defo_index+2,0)) * (this -> Eigvec_3D.block(Defo_index,0,3,3).col(2)) * this -> Eigvec_3D.block(Defo_index,0,3,3).col(2).transpose());
+    }
+
+}
+
+void cloth_calc::cloth_defo_assemble()
+{
+    cloth_defo_3D();
+
+    // now we assemble all the stretch tensor U by the vertex index
+
+    // adjacentfaces is a list of lists of faces adjacent to each vertex.
+    // That is, mesh->adjacentfaces[i][j] is the index of the jth triangle that touches vertex i.
+    _plyMeshR -> trimesh::TriMesh::need_adjacentfaces();
+
+    // we calculate at fiest the trianglearea based weights
+    int Vert_num = vertsR.rows();
+
+    for(int Vert_index=0; Vert_index<Vert_num; Vert_index++) // for all vertice
+    {
+        int El_num = _plyMeshR -> trimesh::TriMesh::adjacentfaces.at(Vert_index).size();
+
+        // we calculate here the adjacent area
+        // for adjacent triangles
+        double Area = 0;
+        double weight;
+        for(int El_index=0; El_index<El_num; El_index++)
+        {
+            Eigen::MatrixXd Triangle_adjacent;
+            Triangle_adjacent.resize(3,3);
+            // we need the coordinate of each triangles
+            Triangle_adjacent.col(0) << (this -> VecR(0, _plyMeshR -> trimesh::TriMesh::adjacentfaces.at(Vert_index).at(El_index)*3)),
+                                        (this -> VecR(1, _plyMeshR -> trimesh::TriMesh::adjacentfaces.at(Vert_index).at(El_index)*3)),
+                                        (this -> VecR(2, _plyMeshR -> trimesh::TriMesh::adjacentfaces.at(Vert_index).at(El_index)*3));
+            Triangle_adjacent.col(1) << (this -> VecR(3, _plyMeshR -> trimesh::TriMesh::adjacentfaces.at(Vert_index).at(El_index)*3)),
+                                        (this -> VecR(4, _plyMeshR -> trimesh::TriMesh::adjacentfaces.at(Vert_index).at(El_index)*3)),
+                                        (this -> VecR(5, _plyMeshR -> trimesh::TriMesh::adjacentfaces.at(Vert_index).at(El_index)*3));
+            Triangle_adjacent.col(2) << 1,
+                                        1,
+                                        1;
+
+            double Area_tmp = 1./2.*Triangle_adjacent.determinant();
+            Area = Area + Area_tmp;
+
+            Triangle_adjacent.resize(0,0);
+        }
+        // for based triangles
+            Eigen::MatrixXd Triangle_base;
+            Triangle_base.resize(3,3);
+            Triangle_base.col(0) << (this -> VecR(0, Vert_index*3)),
+                                    (this -> VecR(1, Vert_index*3)),
+                                    (this -> VecR(2, Vert_index*3));
+            Triangle_base.col(1) << (this -> VecR(3, Vert_index*3)),
+                                    (this -> VecR(4, Vert_index*3)),
+                                    (this -> VecR(5, Vert_index*3));
+            Triangle_base.col(2) << 1,
+                                    1,
+                                    1;
+
+            double Area_base = 1./2.*Triangle_base.determinant();
+
+            Triangle_base.resize(0,0);
+
+            // we calculate here the weight
+            if(Area == 0 ) // if there are no adjacent triangles ogf vertex
+            {
+                weight = 1;
+            }
+            else
+            {
+                weight = abs(Area_base / Area);
+            }
+
+            // assemble stretch tensor U applied by formular
+            // U_i = U_i^{1/2} * exp(/sum_j {/omega_j */log(U_i^{1/2}*U_j*U_i^{-1/2})) * U_i^{1/2}
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    std::cout << _plyMeshR -> trimesh::TriMesh::adjacentfaces.at(6).at(1) << std::endl;
+    // this is the jth triangle
+    std::cout << VecR.cols();
+    std::cout << VecR.col(_plyMeshR -> trimesh::TriMesh::adjacentfaces.at(6).at(1)*3) << std::endl;
+
+    Eigen::MatrixXd A;
+    A.resize(3,3);
+    A.col(0) << VecR(0,0), VecR(1,0), VecR(2,0);
+    A.col(1) << VecR(3,0), VecR(4,0), VecR(5,0);
+    A.col(2) << 1, 1, 1;
+    std::cout << A << std::endl;
+    double Area = 1./2.*A.determinant();
+    std::cout << Area << std::endl;
+
+    std::cout << _plyMeshR -> trimesh::TriMesh::adjacentfaces.at(15059).size() << std::endl;
+
+
 }
 
 void cloth_calc::cloth_displ()
@@ -286,7 +406,6 @@ void cloth_calc::cloth_eig_neighbor()
 
         }
 
-        // Smith et al. - Stable Neo-Hookean Flesh Simulation
         // Irving et al. - Invertible Finite Elements For Robust Simulation of Large Deformation
         Eigen::SelfAdjointEigenSolver<Eigen::Matrix3d> solv((P.transpose()*Q).transpose() * (P.transpose()*Q));
 
@@ -299,17 +418,6 @@ void cloth_calc::cloth_eig_neighbor()
         Eig_index = Eig_index+3;
 
     }
-
-    // this is for debug
-
-    for(int neighbor_index=0; neighbor_index < _plyMeshR -> trimesh::TriMesh::neighbors.at(0).size(); neighbor_index++)
-    {
-         std::cout << vertsR.row(_plyMeshR -> trimesh::TriMesh::neighbors.at(1).at(neighbor_index)) << std::endl;
-    }
-    std::cout << Vert_num << std::endl;
-    std::cout << Eigval_neighbor.rows() << std::endl;
-    std::cout << Eigvec_neighbor.rows() << std::endl;
-
 }
 
 void cloth_calc::cloth_defo_neighbor()
@@ -400,9 +508,14 @@ Eigen::MatrixXd cloth_calc::GetEigvec()
     return this -> Eigvec_2D;
 }
 
-Eigen::MatrixXd cloth_calc::GetDefo()
+Eigen::MatrixXd cloth_calc::GetDefo_2D()
 {
-    return this -> Defo;
+    return this -> Defo_2D;
+}
+
+Eigen::MatrixXd cloth_calc::GetDefo_3D()
+{
+    return this -> Defo_3D;
 }
 
 Eigen::MatrixXd cloth_calc::GetDispl()

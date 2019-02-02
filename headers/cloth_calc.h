@@ -30,16 +30,18 @@ public:
     void cloth_eig_2D();
     void cloth_eig_3D();
 
-    void cloth_defo();
+    void cloth_defo_2D();
+    void cloth_defo_3D();
+    void cloth_defo_assemble();
     void cloth_displ();
+
 
     void test();
 
-    Eigen::MatrixXd GetVecR();
-    Eigen::MatrixXd GetVecT();
     Eigen::MatrixXd GetEigval();
     Eigen::MatrixXd GetEigvec();
-    Eigen::MatrixXd GetDefo();
+    Eigen::MatrixXd GetDefo_2D();
+    Eigen::MatrixXd GetDefo_3D();
     Eigen::MatrixXd GetDispl();
 
     Eigen::MatrixXd GetEigval_3D();
@@ -78,7 +80,8 @@ private:
     Eigen::MatrixXd VecR, VecT;
     Eigen::MatrixXd Eigval_2D, Eigvec_2D;
     Eigen::MatrixXd Eigval_3D, Eigvec_3D;
-    Eigen::MatrixXd Defo;
+    Eigen::MatrixXd Defo_2D;
+    Eigen::MatrixXd Defo_3D;
     Eigen::MatrixXd Displ;
 
     //
