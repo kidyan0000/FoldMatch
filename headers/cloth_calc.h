@@ -82,6 +82,7 @@ private:
     Eigen::MatrixXd Eigval_3D, Eigvec_3D;
     Eigen::MatrixXd Defo_2D;
     Eigen::MatrixXd Defo_3D;
+    Eigen::MatrixXd Defo_3D_assemble;
     Eigen::MatrixXd Displ;
 
     //

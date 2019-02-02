@@ -75,13 +75,16 @@ summary:
 use colormap from http://www.kennethmoreland.com/color-advice/ 
 	          https://gist.github.com/ialhashim/f52e1a4788e9feaf7d51
 colormap -> need to be discussed. I divide by max again because some eigenval>1;
+	both kabisch algorthim got really small eigenvalues???
+3. USR pseudoinverse followed by Rohmer et al at 3D.. Can;t use U? directly decomposistion on F -> negative eigenvalues.
+furthture works, use pseudoinverse on neighbor? need to be discussed...
 
 // 2019.02.01
 colormap can be displayed correctly -> see Eigenval_loop_for_vertice
 
 // 2019.02.02
-add codes to calculate the weights 
-	both kabisch algorthim got really small eigenvalues???
-3. USR pseudoinverse followed by Rohmer et al at 3D.. Can;t use U? directly decomposistion on F -> negative eigenvalues.
-furthture works, use pseudoinverse on neighbor? need to be discussed...
-
+add codes to calculate the weights
+can't use expotiental map, because we use another algorithm to get U
+	Rohmer -> in each triangle the 3 vertice has the same U -> refer to 2D folder
+	kabisch -> in each triangle the 3 vertice has not the same U
+	 

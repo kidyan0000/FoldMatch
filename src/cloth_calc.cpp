@@ -240,18 +240,26 @@ void cloth_calc::cloth_defo_assemble()
 
     // we calculate at fiest the trianglearea based weights
     int Vert_num = vertsR.rows();
+    Defo_3D_assemble.resize(Vert_num*3,3);
+
 
     for(int Vert_index=0; Vert_index<Vert_num; Vert_index++) // for all vertice
     {
+        // initialize the adjacent triangles of each vertex
         int El_num = _plyMeshR -> trimesh::TriMesh::adjacentfaces.at(Vert_index).size();
 
         // we calculate here the adjacent area
+        Eigen::MatrixXd Triangle_base;
+        Eigen::MatrixXd Triangle_adjacent;
+
+        Eigen::MatrixXd Area, weight;
+        Area.resize(El_num,1);
+        weight.resize(El_num,1);
+
         // for adjacent triangles
-        double Area = 0;
-        double weight;
-        for(int El_index=0; El_index<El_num; El_index++)
+        for(int El_index=0; El_index<El_num; El_index++) // do loop for all adjacent triangles and save the area
         {
-            Eigen::MatrixXd Triangle_adjacent;
+
             Triangle_adjacent.resize(3,3);
             // we need the coordinate of each triangles
             Triangle_adjacent.col(0) << (this -> VecR(0, _plyMeshR -> trimesh::TriMesh::adjacentfaces.at(Vert_index).at(El_index)*3)),
@@ -264,58 +272,28 @@ void cloth_calc::cloth_defo_assemble()
                                         1,
                                         1;
 
-            double Area_tmp = 1./2.*Triangle_adjacent.determinant();
-            Area = Area + Area_tmp;
+            Area.row(El_index) << 1./2.*Triangle_adjacent.determinant();
 
             Triangle_adjacent.resize(0,0);
         }
-        // for based triangles
-            Eigen::MatrixXd Triangle_base;
-            Triangle_base.resize(3,3);
-            Triangle_base.col(0) << (this -> VecR(0, Vert_index*3)),
-                                    (this -> VecR(1, Vert_index*3)),
-                                    (this -> VecR(2, Vert_index*3));
-            Triangle_base.col(1) << (this -> VecR(3, Vert_index*3)),
-                                    (this -> VecR(4, Vert_index*3)),
-                                    (this -> VecR(5, Vert_index*3));
-            Triangle_base.col(2) << 1,
-                                    1,
-                                    1;
 
-            double Area_base = 1./2.*Triangle_base.determinant();
+        double Area_sum = Area.sum();
 
-            Triangle_base.resize(0,0);
+        // we calculate here the weight
+        if( El_num != 0 ) // if there exisit adjacent triangles of vertex
+        {
+            weight = (Area / Area_sum).cwiseAbs();
+        }
 
-            // we calculate here the weight
-            if(Area == 0 ) // if there are no adjacent triangles ogf vertex
-            {
-                weight = 1;
-            }
-            else
-            {
-                weight = abs(Area_base / Area);
-            }
-
-            // assemble stretch tensor U applied by formular
-            // U_i = U_i^{1/2} * exp(/sum_j {/omega_j */log(U_i^{1/2}*U_j*U_i^{-1/2})) * U_i^{1/2}
+        // assemble stretch tensor U applied by formular
+        // U_i = U_i^{1/2} * exp(/sum_j {/omega_j */log(U_i^{1/2}*U_j*U_i^{-1/2})) * U_i^{1/2}
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+    /*
+    std::cout << Defo_3D.block(0,0,3,3) << std::endl;
     std::cout << _plyMeshR -> trimesh::TriMesh::adjacentfaces.at(6).at(1) << std::endl;
     // this is the jth triangle
-    std::cout << VecR.cols();
+    std::cout << _plyMeshR -> trimesh::TriMesh::adjacentfaces.at(6).at(1) << std::endl;
     std::cout << VecR.col(_plyMeshR -> trimesh::TriMesh::adjacentfaces.at(6).at(1)*3) << std::endl;
 
     Eigen::MatrixXd A;
@@ -328,7 +306,7 @@ void cloth_calc::cloth_defo_assemble()
     std::cout << Area << std::endl;
 
     std::cout << _plyMeshR -> trimesh::TriMesh::adjacentfaces.at(15059).size() << std::endl;
-
+    */
 
 }
 
