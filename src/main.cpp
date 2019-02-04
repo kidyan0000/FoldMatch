@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     Cloth_Window w;
 
     // read all the ply in current folde
-    std::vector<std::string> filename_;
+    std::vector<std::string> _filename;
     std::string current_path = "../data";
     boost::filesystem::path path(current_path);
     boost::filesystem::recursive_directory_iterator end_iter;
@@ -28,11 +28,11 @@ int main(int argc, char *argv[])
     {
         current_file = iter -> path().filename().string();
         current_file = current_path + current_file;
-        filename_.push_back(current_file);
+        _filename.push_back(current_file);
 
     }
-    std::sort(filename_.begin(),filename_.end());
-    std::cout<< filename_[2] << std::endl;
+    std::sort(_filename.begin(),_filename.end());
+    std::cout<< _filename[2] << std::endl;
 
     cloth_calc* test = new cloth_calc("../data/Template-1_0001_bi.ply", "../data/Template-5_0005_bi.ply");
 

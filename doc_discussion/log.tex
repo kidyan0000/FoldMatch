@@ -1,0 +1,225 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Beamer Presentation
+% LaTeX Template
+% Version 1.0 (10/11/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
+
+\documentclass{beamer}
+
+\mode<presentation> {
+
+% The Beamer class comes with a number of default slide themes
+% which change the colors and layouts of slides. Below this is a list
+% of all the themes, uncomment each in turn to see what they look like.
+
+%\usetheme{default}
+%\usetheme{AnnArbor}
+%\usetheme{Antibes}
+%\usetheme{Bergen}
+%\usetheme{Berkeley}
+%\usetheme{Berlin}
+%\usetheme{Boadilla}
+%\usetheme{CambridgeUS}
+%\usetheme{Copenhagen}
+%\usetheme{Darmstadt}
+%\usetheme{Dresden}
+%\usetheme{Frankfurt}
+%\usetheme{Goettingen}
+%\usetheme{Hannover}
+%\usetheme{Ilmenau}
+%\usetheme{JuanLesPins}
+%\usetheme{Luebeck}
+\usetheme{Madrid}
+%\usetheme{Malmoe}
+%\usetheme{Marburg}
+%\usetheme{Montpellier}
+%\usetheme{PaloAlto}
+%\usetheme{Pittsburgh}
+%\usetheme{Rochester}
+%\usetheme{Singapore}
+%\usetheme{Szeged}
+%\usetheme{Warsaw}
+
+% As well as themes, the Beamer class has a number of color themes
+% for any slide theme. Uncomment each of these in turn to see how it
+% changes the colors of your current slide theme.
+
+%\usecolortheme{albatross}
+%\usecolortheme{beaver}
+%\usecolortheme{beetle}
+%\usecolortheme{crane}
+%\usecolortheme{dolphin}
+%\usecolortheme{dove}
+%\usecolortheme{fly}
+%\usecolortheme{lily}
+%\usecolortheme{orchid}
+%\usecolortheme{rose}
+%\usecolortheme{seagull}
+%\usecolortheme{seahorse}
+%\usecolortheme{whale}
+%\usecolortheme{wolverine}
+
+%\setbeamertemplate{footline} % To remove the footer line in all slides uncomment this line
+%\setbeamertemplate{footline}[page number] % To replace the footer line in all slides with a simple slide count uncomment this line
+
+%\setbeamertemplate{navigation symbols}{} % To remove the navigation symbols from the bottom of all slides uncomment this line
+}
+
+\usepackage{graphicx} % Allows including images
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title[Short title]{DISCUSSION LOG} % The short title appears at the bottom of every slide, the full title is only on the title page
+
+\author{Sikang Yan} % Your name
+\institute[TUK] % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
+{
+University of Kaiserslautern \\ % Your institution for the title page
+\medskip
+\textit{yan@rhrk.uni-kl.de} % Your email address
+}
+\date{\today} % Date, can be changed to a custom date
+
+\begin{document}
+
+\begin{frame}
+\titlepage % Print the title page as the first slide
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{KW13}
+In our cloth simulation, we follow the precedure written by Rohmer et al..
+
+
+We consider to begin with the \emph{Defomation gradient} $\mathbf{F}$, which is defined by
+\begin{align}
+\mathbf{F} = \dfrac{\partial\mathbf{x}}{\partial\mathbf{X}},  
+\end{align}
+where the $\mathbf{x}$ denotes the deformed vector and the $\mathbf{X}$ denotes the reference vector.
+
+
+Since we have no further information about the mapping from $\mathbf{X}$ to 
+$\mathbf{x}$, we use the vector $\big(\mathbf{u_1},\mathbf{u_2}\big)$ and $\big(\overline{\mathbf{u_1}},\overline{\mathbf{u_2}}\big)$ to approximate the Defomation gradient, which is defined as
+\begin{align}
+\mathbf{F} = 
+\big[\mathbf{u_1},\mathbf{u_2}\big]
+\big[\overline{\mathbf{u_1}},\overline{\mathbf{u_2}}\big]^{-1}, 
+\label{eq:Defomation_gradient_el} 
+\end{align}
+
+Attention should be paid especially:
+\begin{itemize}
+\item eq.\eqref{eq:Defomation_gradient_el} characrize only the 2D deformation of each triangle.
+\item in Rohmer et al. $\mathbf{F}$ is symbolised as $\mathbf{T}$.
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{KW13}
+We provide here our code preceed with concrete data:
+\begin{itemize}
+\item $faces(i,j)$ is the $j$th vertex of the $i$th triangle, here we choose the $face(0,0),face(0,1),face(0,2)$ as examples. 
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\begin{block}{$cloth\_vec$}
+\begin{align}
+VecT=&el_1VertT_1-el_1VertT_2;el_1VertT_1-el_1VertT_3 \\ 
+VecR=&el_1VertR_1-el_1VertR_2;el_1VertR_1-el_1VertR_3 
+\end{align}
+\end{block}
+\begin{block}{$cloth\_vec$}
+\begin{align}
+VecT=&[ 0.771842 \ -0.0144887 \ 6.39045 ]-[ 0.780121 \ -0.0186188 \ 6.37318 ];\\
+     &[ 0.771842 \ -0.0144887 \ 6.39045 ]-[ 0.737177\ -0.00912791 \ 6.39292 ] \\
+VecR=&[ 0.759919 \ -0.015194 \ 6.38401 ]-[ 0.767822 \ -0.0212492 \ 6.3669  ];\\
+	 &[ 0.759919 \-0.015194  \ 6.38401 ]-[ 0.726977 \ -0.00749985 \ 6.38692 ] \\
+\end{align}
+\end{block}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+\begin{frame}
+such that
+\begin{block}{$cloth\_vec$}
+\begin{align}
+VecT=&[ -0.0079  \  0.0061 \  0.0171 \ 0.0329 \ -0.0077 \ -0.0029  ];\\ 
+VecR=&[ -0.0083  \  0.0041 \  0.0173 \ 0.0347 \ -0.0054 \ -0.0025  ];\\
+\end{align}
+\end{block} 
+where the first 3 entries of $VecR$ is the vector $\mathbf{u_1}$ and the last 3 entries of $VecT$ is the vector $\mathbf{u_2}$. $VecT$ analogiously.
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+\begin{frame}
+\begin{block}{$cloth\_eig\_2D$}
+we use here $Eigen::Map$ to transform the vector $VecT$ and $VecR$ to $2*2$ 2D deformation gradient $\mathbf{F}$.
+\begin{align}
+\mathbf{F}
+=
+\biggl[
+\begin{matrix}
+   -0.0083 & 0.0347 \\
+   0.0041 & -0.0054 \\
+\end{matrix}
+\biggr]
+\biggl[
+\begin{matrix}
+   -0.0079 & 0.0329 \\
+   0.0061 & -0.0077 \\
+\end{matrix}
+\biggr]^{-1}
+\end{align} 
+\end{block} 
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+\begin{frame}
+hence the $\mathbf{F}$ has a rotation information $\mathbf{R}$ and a stretch information $\mathbf{U}$,
+\begin{align}
+\mathbf{F}=\mathbf{R}\mathbf{U}.
+\end{align}
+we use $\mathbf{F}^T\mathbf{F}$ to eliminate the ratotion information to obtain $\det\mathbf{R}=1$ 
+\begin{align}
+\mathbf{F}^T\mathbf{F}=&
+\bigl( \mathbf{R}\mathbf{U} \bigr) ^T\mathbf{R}\mathbf{U} \\
+=&\mathbf{U}^T\mathbf{R}^T\mathbf{R}\mathbf{U} \\
+=&\mathbf{U}^2 \\
+=&\mathbf{C}
+\end{align}
+and using decomposition, if we have the form
+\begin{align}
+\mathbf{C} = \lambda_1^2\mathbf{v}_1\mathbf{v}_1^T+\lambda_2^2\mathbf{v}_2\mathbf{v}_2^T
+\end{align} 
+then we could obtain the $\mathbf{U}$ by applying
+\begin{align}
+\mathbf{U} = \lambda_1\mathbf{v}_1\mathbf{v}_1^T+\lambda_2\mathbf{v}_2\mathbf{v}_2^T
+\end{align}
+\end{frame}
+
+
+\end{document} 
