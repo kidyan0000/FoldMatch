@@ -22,7 +22,7 @@ class cloth_calc
 {
 
 public:
-    cloth_calc();
+    cloth_calc(std::string Cloth_Template, std::string Cloth_Reference );
     ~cloth_calc();
 
     // Rohmer et al.
@@ -67,17 +67,22 @@ public:
 
 
 private:
-    ply_module* _plyModuleR;
+    std::string CT;
+    std::string CR;
     ply_module* _plyModuleT;
+    ply_module* _plyModuleR;
+    ply_module* _plyModule;
 
-    trimesh::TriMesh *_plyMeshR;
     trimesh::TriMesh *_plyMeshT;
+    trimesh::TriMesh *_plyMeshR;
+    trimesh::TriMesh *_plyMesh;
+
 
     Eigen::MatrixXi faces;
-    Eigen::MatrixXd vertsR, vertsT;
+    Eigen::MatrixXd vertsT, vertsR, verts;
 
     // Rohmer et al.
-    Eigen::MatrixXd VecR, VecT;
+    Eigen::MatrixXd VecT, VecR;
     Eigen::MatrixXd Eigval_2D, Eigvec_2D;
     Eigen::MatrixXd Eigval_3D, Eigvec_3D;
     Eigen::MatrixXd Defo_2D;

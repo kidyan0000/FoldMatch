@@ -1,25 +1,49 @@
 #include "cloth_calc.h"
 
-cloth_calc::cloth_calc()
+cloth_calc::cloth_calc(std::string Cloth_Template, std::string Cloth_Reference )
 {
-    _plyModuleR = new ply_module();
+    CT = Cloth_Template;
+    CR = Cloth_Reference;
+
     _plyModuleT = new ply_module();
-    _plyModuleR->readPLY("../data/Template-1_0001.ply", true, true, true, true, true);
-    _plyModuleT->readPLY("../data/Template-5_0005.ply", true, true, true, true, true);
+    _plyModuleR = new ply_module();
+
+    _plyModuleT->readPLY(CT, true, true, true, true, true);
+    _plyModuleR->readPLY(CR, true, true, true, true, true);
+
+
+    // this is just for vertice
+    _plyModule  = new ply_module();
+    _plyModule->readPLY("../data/Template-1_0001_bi.ply", true, true, true, true, true);
 }
 
 void cloth_calc::cloth_init_neighbor()
 {
-    _plyMeshR = trimesh::TriMesh::read("../data/Template-1_0001_bi.ply");
-    _plyMeshT = trimesh::TriMesh::read("../data/Template-5_0005_bi.ply");
+    _plyMesh  -> trimesh::TriMesh::need_neighbors();
+    _plyMesh  = trimesh::TriMesh::read("../data/Template-1_0001_bi.ply");
 
-    _plyMeshR -> trimesh::TriMesh::need_neighbors();
+    _plyMeshT = trimesh::TriMesh::read(CT);
+    _plyMeshR = trimesh::TriMesh::read(CR);
+
+
     _plyMeshT -> trimesh::TriMesh::need_neighbors();
+    _plyMeshR -> trimesh::TriMesh::need_neighbors();
+
 
 }
 
 void cloth_calc::cloth_vec()
 {
+    // this is just for vertice
+    if (_plyModule->getFaces().rows() != 0)
+    {
+        faces = _plyModule->getFaces();
+    }
+    if (_plyModule->getVertices().rows() != 0)
+    {
+        verts = _plyModule->getVertices();
+    }
+
 
     if (_plyModuleT->getVertices().rows() != 0)
     {
@@ -29,15 +53,12 @@ void cloth_calc::cloth_vec()
     {
         vertsR = _plyModuleR->getVertices();
     }
-    if (_plyModuleR->getFaces().rows() != 0)
-    {
-        faces = _plyModuleR->getFaces();
-    }
+
 
     // initialize the matrix to store the vector values of each triangles
     // here is ColMajor
-    this -> VecR.resize(6,faces.rows()*3);
     this -> VecT.resize(6,faces.rows()*3);
+    this -> VecR.resize(6,faces.rows()*3);
     /*
      *Vec = [
      *        el1_vet1_v1_x el1_vet1_v1_y el1_vet1_v1_z  el1_vet1_v2_x el1_vet1_v2_y el1_vet1_v2_z
@@ -54,6 +75,13 @@ void cloth_calc::cloth_vec()
 
     for(int i=0; i<Vec_num; i++)
     {
+            // FOR TEMPLATE
+            this -> VecT.col(Vec_index).transpose()   << (vertsT.row(faces(i,0)) - vertsT.row(faces(i,1))), // vector at vertex 0
+                                                         (vertsT.row(faces(i,0)) - vertsT.row(faces(i,2)));
+            this -> VecT.col(Vec_index+1).transpose() << (vertsT.row(faces(i,1)) - vertsT.row(faces(i,0))), // vector at vertex 1
+                                                         (vertsT.row(faces(i,1)) - vertsT.row(faces(i,2)));
+            this -> VecT.col(Vec_index+2).transpose() << (vertsT.row(faces(i,2)) - vertsT.row(faces(i,0))), // vector at vertex 2
+                                                         (vertsT.row(faces(i,2)) - vertsT.row(faces(i,1)));
             // FOR REFERENCE
             this -> VecR.col(Vec_index).transpose()   << (vertsR.row(faces(i,0)) - vertsR.row(faces(i,1))), // vector at vertex 0
                                                          (vertsR.row(faces(i,0)) - vertsR.row(faces(i,2)));
@@ -62,13 +90,7 @@ void cloth_calc::cloth_vec()
             this -> VecR.col(Vec_index+2).transpose() << (vertsR.row(faces(i,2)) - vertsR.row(faces(i,0))), // vector at vertex 2
                                                          (vertsR.row(faces(i,2)) - vertsR.row(faces(i,1)));
 
-            // FOR TEMPLATE
-            this -> VecT.col(Vec_index).transpose()   << (vertsT.row(faces(i,0)) - vertsT.row(faces(i,1))), // vector at vertex 0
-                                     (vertsT.row(faces(i,0)) - vertsT.row(faces(i,2)));
-            this -> VecT.col(Vec_index+1).transpose() << (vertsT.row(faces(i,1)) - vertsT.row(faces(i,0))), // vector at vertex 1
-                                     (vertsT.row(faces(i,1)) - vertsT.row(faces(i,2)));
-            this -> VecT.col(Vec_index+2).transpose() << (vertsT.row(faces(i,2)) - vertsT.row(faces(i,0))), // vector at vertex 2
-                                     (vertsT.row(faces(i,2)) - vertsT.row(faces(i,1)));
+
 
 
             Vec_index = Vec_index+3;
@@ -91,7 +113,7 @@ void cloth_calc::cloth_eig_2D()
         // compute the transformation matrix (Transf)
         // T = [u1, u2] * [u1_, u2_]^-1
         // we have here 3D triangles, thus we need to transform at first to 2D triangles using affine transformation
-        Eigen::MatrixXd Transf((Eigen::Map<Eigen::Matrix<double,3,2> >(this -> VecT.col(i).data())).block<2,2>(0,0) * ((Eigen::Map<Eigen::Matrix<double,3,2> >(this -> VecR.col(i).data())).block<2,2>(0,0)).inverse());
+        Eigen::MatrixXd Transf((Eigen::Map<Eigen::Matrix<double,3,2> >(this -> VecR.col(i).data())).block<2,2>(0,0) * ((Eigen::Map<Eigen::Matrix<double,3,2> >(this -> VecT.col(i).data())).block<2,2>(0,0)).inverse());
 
         // compute the eigenvalues and eigenvectors of transformation matrix and save it to eigval and eigvec
         // U^2 = T^transpose * T
@@ -151,14 +173,13 @@ void cloth_calc::cloth_eig_3D()
             for(int Neighbor_index=0; Neighbor_index < Neighbor_num; Neighbor_index++) // for all neighbors in each vertex
             {
 
-                // for reference
-                P.row(Neighbor_index) << vertsR.row(_plyMeshR -> trimesh::TriMesh::neighbors.at(faces(El_index, Vert_index)).at(Neighbor_index)) - vertsR.row(faces(El_index, Vert_index));
                 // for template
-                Q.row(Neighbor_index) << vertsT.row(_plyMeshT -> trimesh::TriMesh::neighbors.at(faces(El_index, Vert_index)).at(Neighbor_index)) - vertsT.row(faces(El_index, Vert_index));
+                P.row(Neighbor_index) << vertsT.row(_plyMeshT -> trimesh::TriMesh::neighbors.at(faces(El_index, Vert_index)).at(Neighbor_index)) - vertsT.row(faces(El_index, Vert_index));
+                // for reference
+                Q.row(Neighbor_index) << vertsR.row(_plyMeshR -> trimesh::TriMesh::neighbors.at(faces(El_index, Vert_index)).at(Neighbor_index)) - vertsR.row(faces(El_index, Vert_index));
 
             }
 
-            // Smith et al. - Stable Neo-Hookean Flesh Simulation
             // Irving et al. - Invertible Finite Elements For Robust Simulation of Large Deformation
             Eigen::SelfAdjointEigenSolver<Eigen::Matrix3d> solv((P.transpose()*Q).transpose() * (P.transpose()*Q));
 
@@ -239,14 +260,14 @@ void cloth_calc::cloth_defo_assemble()
     _plyMeshR -> trimesh::TriMesh::need_adjacentfaces();
 
     // we calculate at fiest the trianglearea based weights
-    int Vert_num = vertsR.rows();
+    int Vert_num = verts.rows();
     Defo_3D_assemble.resize(Vert_num*3,3);
 
 
     for(int Vert_index=0; Vert_index<Vert_num; Vert_index++) // for all vertice
     {
         // initialize the adjacent triangles of each vertex
-        int El_num = _plyMeshR -> trimesh::TriMesh::adjacentfaces.at(Vert_index).size();
+        int El_num = _plyMesh -> trimesh::TriMesh::adjacentfaces.at(Vert_index).size();
 
         // we calculate here the adjacent area
         Eigen::MatrixXd Triangle_base;
@@ -295,16 +316,6 @@ void cloth_calc::cloth_defo_assemble()
     // this is the jth triangle
     std::cout << _plyMeshR -> trimesh::TriMesh::adjacentfaces.at(6).at(1) << std::endl;
     std::cout << VecR.col(_plyMeshR -> trimesh::TriMesh::adjacentfaces.at(6).at(1)*3) << std::endl;
-
-    Eigen::MatrixXd A;
-    A.resize(3,3);
-    A.col(0) << VecR(0,0), VecR(1,0), VecR(2,0);
-    A.col(1) << VecR(3,0), VecR(4,0), VecR(5,0);
-    A.col(2) << 1, 1, 1;
-    std::cout << A << std::endl;
-    double Area = 1./2.*A.determinant();
-    std::cout << Area << std::endl;
-
     std::cout << _plyMeshR -> trimesh::TriMesh::adjacentfaces.at(15059).size() << std::endl;
     */
 
@@ -343,7 +354,7 @@ void cloth_calc::cloth_eig_neighbor()
     // Eigen::MatrixXd H;
 
     // initialize the eigenvalues and eigenvectors
-    int Vert_num = vertsR.rows();
+    int Vert_num = verts.rows();
     this -> Eigval_neighbor.resize(Vert_num*3,1);
     this -> Eigvec_neighbor.resize(Vert_num*3,3);
 
@@ -377,10 +388,11 @@ void cloth_calc::cloth_eig_neighbor()
         for(int Neighbor_index=0; Neighbor_index < Neighbor_num; Neighbor_index++) // for all neighbors in each vertex
         {
 
-            // for reference
-            P.row(Neighbor_index) << vertsR.row(_plyMeshR -> trimesh::TriMesh::neighbors.at(Vert_index).at(Neighbor_index)) - vertsR.row(Vert_index);
             // for template
-            Q.row(Neighbor_index) << vertsT.row(_plyMeshT -> trimesh::TriMesh::neighbors.at(Vert_index).at(Neighbor_index)) - vertsT.row(Vert_index);
+            P.row(Neighbor_index) << vertsT.row(_plyMeshT -> trimesh::TriMesh::neighbors.at(Vert_index).at(Neighbor_index)) - vertsT.row(Vert_index);
+            // for reference
+            Q.row(Neighbor_index) << vertsR.row(_plyMeshR -> trimesh::TriMesh::neighbors.at(Vert_index).at(Neighbor_index)) - vertsR.row(Vert_index);
+
 
         }
 
@@ -468,7 +480,7 @@ void cloth_calc::cloth_WriteColor(Eigen::MatrixXd Eigval_norm, const std::string
     }
 
     // set vertice and colors
-    plyColor -> setVertices(vertsR);
+    plyColor -> setVertices(verts);
     plyColor -> setColors(Eigval_color);
 
     plyColor -> writePLY(ifileName, true, false, false, false, false);

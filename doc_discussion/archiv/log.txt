@@ -1,0 +1,90 @@
+// 2018.01.04
+use Eigen::Map change the matrix to vector 
+
+// 2018.01.05
+finally get the cloth visualized, but the codes need to be optimized
+
+// 2018.01.07
+add the geometrit controller
+should use glDrawElements instead of glDrawArrays?
+
+use here the GL_POINTS to get only the vertexs
+
+// 2018.01.09
+only see the half???
+
+// 2018.01.10
+test points can be displayed correctly;
+bunny.ply can be displayed correctly;
+
+CMakeList can still not find the .ui in GUI folder, but in src folder
+
+// 2018.01.14
+compute the eigenvalues and eigenvectors
+
+// 2018.01.15
+compute the stretch tensor U
+
+// 2018.01.16
+compute the deformation gradient F. here is T = [u1 u2][u1_ u2_]^-1
+
+// 2018.01.21
+first tried to use trimesh, but doesn't work
+install libmesh correctly
+
+// 2109.01.22
+don't know how to get the neighbor, think maybe need "neighbor_ptr_range" https://libmesh.github.io/doxygen/classlibMesh_1_1NodeElem.html ,need a Elem class? what else?
+
+write the function to normalize and to get color, but if i need to write this as .ply, I need change cast the type from double to int?
+
+for outr new implement just change dim=2 tp dim=3 for calc_color
+
+// 2019.01.23
+problems:
+<TriMesh>: can't read ply files
+<LibMesh>: need c++14 feature? gcc 5+?
+
+// 2019.01.24
+add wirtecolor, write as 256 color
+need map from one value to (256,256,256)?
+
+// 2019.01.25
+correct eigenvalue_normalize
+
+// 2019.01.28
+if use this 
+            // F = R * U
+            // ->
+            // C = F^T * F = (R*U)^T * (R*U) = U^T * R^T * R * U
+            // ->
+            // C = U^T * U
+and
+H=USV 
+both got really small eigenvalues compared to Rohmer et al.
+
+// 2019.01.30
+which library use for color map? there are many in internet
+
+// 2019.01.31
+summary:
+1. USE kabisch algorithm on neighbor, and directly discomposition of H : Peoblem(negative eigenvalues -> negativ volumen see Smith et al.)
+2. USR kabisch algorithm on neighbor, and calcaute U at first like traditional Conti, no negative eigenvalues
+	maybe colth could have neg. eigval because it is not rigid body???
+
+// 2019.02.01
+use colormap from http://www.kennethmoreland.com/color-advice/ 
+	          https://gist.github.com/ialhashim/f52e1a4788e9feaf7d51
+colormap -> need to be discussed. I divide by max again because some eigenval>1;
+	both kabisch algorthim got really small eigenvalues???
+3. USR pseudoinverse followed by Rohmer et al at 3D.. Can;t use U? directly decomposistion on F -> negative eigenvalues.
+furthture works, use pseudoinverse on neighbor? need to be discussed...
+
+// 2019.02.01
+colormap can be displayed correctly -> see Eigenval_loop_for_vertice
+
+// 2019.02.02
+add codes to calculate the weights
+can't use expotiental map, because we use another algorithm to get U
+	Rohmer -> in each triangle the 3 vertice has the same U -> refer to 2D folder
+	kabisch -> in each triangle the 3 vertice has not the same U
+	 

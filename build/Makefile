@@ -38,7 +38,7 @@ DISTNAME      = CLOTH_SIMULATION1.0.0
 DISTDIR = /home/kidyan0000/P.Thesis_Seamless_Cloth_Simulation_with_High_Geometric_Fidelity/Workspace/cloth_simulation/build/.tmp/CLOTH_SIMULATION1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-rpath,/opt/Qt/5.12.0/gcc_64/lib
-LIBS          = $(SUBLIBS) -lGLEW -lX11 -lXi -lXrandr -lXxf86vm -lXinerama -lXcursor -lrt -lm -pthread -lglut -fopenmp -L/home/kidyan0000/P.Thesis_Seamless_Cloth_Simulation_with_High_Geometric_Fidelity/Workspace/cloth_simulation/lib/ -ltrimesh -L/opt/Qt/5.12.0/gcc_64/lib -lQt5OpenGL -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread   
+LIBS          = $(SUBLIBS) -lGLEW -lX11 -lXi -lXrandr -lXxf86vm -lXinerama -lXcursor -lrt -lm -pthread -lglut -fopenmp -lboost_filesystem -lboost_system -L/home/kidyan0000/P.Thesis_Seamless_Cloth_Simulation_with_High_Geometric_Fidelity/Workspace/cloth_simulation/lib/ -ltrimesh -L/opt/Qt/5.12.0/gcc_64/lib -lQt5OpenGL -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread   
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -265,7 +265,8 @@ DIST          = /opt/Qt/5.12.0/gcc_64/mkspecs/features/spec_pre.prf \
 		../headers/cloth_window.h \
 		../headers/cloth_calc.h \
 		../headers/nanoflann.hpp \
-		../headers/DivergingColorMaps.hpp ../src/main.cpp \
+		../headers/DivergingColorMaps.hpp \
+		headers/TriMesh/*h ../src/main.cpp \
 		../src/ply_Module.cpp \
 		../src/tinyply.cpp \
 		../src/cloth_glwidget.cpp \
@@ -696,7 +697,7 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /opt/Qt/5.12.0/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../headers/ply_Module.h ../headers/tinyply.h ../headers/cloth_glwidget.h ../headers/cloth_window.h ../headers/cloth_calc.h ../headers/nanoflann.hpp ../headers/DivergingColorMaps.hpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../headers/ply_Module.h ../headers/tinyply.h ../headers/cloth_glwidget.h ../headers/cloth_window.h ../headers/cloth_calc.h ../headers/nanoflann.hpp ../headers/DivergingColorMaps.hpp headers/TriMesh/*h $(DISTDIR)/
 	$(COPY_FILE) --parents ../src/main.cpp ../src/ply_Module.cpp ../src/tinyply.cpp ../src/cloth_glwidget.cpp ../src/cloth_window.cpp ../src/cloth_calc.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../GUI/cloth_window.ui $(DISTDIR)/
 

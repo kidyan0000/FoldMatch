@@ -4,13 +4,14 @@
 #
 #-------------------------------------------------
 
-QT       += core gui opengl
+QT   += core gui opengl
 LIBS += -lGLEW -lGL -lX11 -lXi -lXrandr -lXxf86vm -lXinerama -lXcursor -lrt -lm -pthread -lglut
 LIBS += -fopenmp
+LIBS += -lboost_filesystem -lboost_system
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET =    CLOTH_SIMULATION
+TARGET = CLOTH_SIMULATION
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -45,7 +46,7 @@ HEADERS += \
     headers/cloth_window.h \
     headers/cloth_calc.h \
     headers/nanoflann.hpp \
-    headers/DivergingColorMaps.hpp
+    headers/DivergingColorMaps.hpp \
     headers/TriMesh/*h
 
 
