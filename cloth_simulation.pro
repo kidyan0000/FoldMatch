@@ -47,7 +47,8 @@ HEADERS += \
     headers/cloth_calc.h \
     headers/nanoflann.hpp \
     headers/DivergingColorMaps.hpp \
-    headers/TriMesh/*h
+    headers/TriMesh/*h \
+
 
 
 INCLUDEPATH += $$PWD/GUI
