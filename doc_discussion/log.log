@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.2.4)  5 FEB 2019 16:09
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.2.4)  5 FEB 2019 20:09
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -862,6 +862,10 @@ Overfull \vbox (2.0067pt too high) detected at line 160
 
 ] [7
 
+] [8
+
+] [9
+
 ]
 \tf@nav=\write6
 \openout6 = `log.nav'.
@@ -872,19 +876,19 @@ Overfull \vbox (2.0067pt too high) detected at line 160
 \tf@snm=\write8
 \openout8 = `log.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 225.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 225.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 244.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 244.
  (./log.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 225.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 225.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 244.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 244.
 Package rerunfilecheck Info: File `log.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 16957 strings out of 494880
- 323034 string characters out of 6179602
+ 16965 strings out of 494880
+ 323100 string characters out of 6179602
  395425 words of memory out of 5000000
- 19885 multiletter control sequences out of 15000+600000
+ 19889 multiletter control sequences out of 15000+600000
  13347 words of font info for 49 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  48i,17n,57p,770b,557s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -899,10 +903,10 @@ ype1/public/amsfonts/cm/cmssi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/
 public/amsfonts/cm/cmssi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
 /amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
 nts/cm/cmsy8.pfb>
-Output written on log.pdf (7 pages, 118038 bytes).
+Output written on log.pdf (9 pages, 123449 bytes).
 PDF statistics:
- 264 PDF objects out of 1000 (max. 8388607)
- 229 compressed objects within 3 object streams
- 16 named destinations out of 1000 (max. 500000)
+ 317 PDF objects out of 1000 (max. 8388607)
+ 280 compressed objects within 3 object streams
+ 20 named destinations out of 1000 (max. 500000)
  73 words of extra memory for PDF output out of 10000 (max. 10000000)
 
