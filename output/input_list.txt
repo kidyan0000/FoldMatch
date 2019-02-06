@@ -1,13 +1,12 @@
-../data/Reference-1180330141717.ply
-../data/Template-01_0001.ply
-../data/Template-02_0002.ply
-../data/Template-03_0003.ply
-../data/Template-04_0004.ply
-../data/Template-05_0005.ply
-../data/Template-06_0006.ply
-../data/Template-07_0007.ply
-../data/Template-08_0008.ply
-../data/Template-09_0009.ply
+../data/Template-1_0001.ply
+../data/Template-2_0002.ply
+../data/Template-3_0003.ply
+../data/Template-4_0004.ply
+../data/Template-5_0005.ply
+../data/Template-6_0006.ply
+../data/Template-7_0007.ply
+../data/Template-8_0008.ply
+../data/Template-9_0009.ply
 ../data/Template-10_0010.ply
 ../data/Template-11_0011.ply
 ../data/Template-12_0012.ply
@@ -18,7 +17,6 @@
 ../data/Template-17_0017.ply
 ../data/Template-18_0018.ply
 ../data/Template-19_0019.ply
-../data/Template-1_0001_bi.ply
 ../data/Template-20_0020.ply
 ../data/Template-21_0021.ply
 ../data/Template-22_0022.ply
@@ -59,7 +57,6 @@
 ../data/Template-57_0057.ply
 ../data/Template-58_0058.ply
 ../data/Template-59_0059.ply
-../data/Template-5_0005_bi.ply
 ../data/Template-60_0060.ply
 ../data/Template-61_0061.ply
 ../data/Template-62_0062.ply
@@ -76,5 +73,4 @@
 ../data/Template-73_0073.ply
 ../data/Template-74_0074.ply
 ../data/Template-75_0075.ply
-../data/bunny.ply
-../data/bunny_bi.ply
+../data/Reference-1180330141717.ply

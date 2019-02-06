@@ -35,6 +35,7 @@ SOURCES += \
     src/cloth_glwidget.cpp \
     src/cloth_window.cpp \
     src/cloth_calc.cpp \
+    src/cloth_control.cpp \
 
 
 
@@ -45,6 +46,8 @@ HEADERS += \
     headers/cloth_glwidget.h \
     headers/cloth_window.h \
     headers/cloth_calc.h \
+    headers/cloth_controll.h \
+    headers/cloth_control.h \
     headers/nanoflann.hpp \
     headers/DivergingColorMaps.hpp \
     headers/TriMesh/*h \

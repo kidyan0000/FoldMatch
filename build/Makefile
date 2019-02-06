@@ -55,7 +55,8 @@ SOURCES       = ../src/main.cpp \
 		../src/tinyply.cpp \
 		../src/cloth_glwidget.cpp \
 		../src/cloth_window.cpp \
-		../src/cloth_calc.cpp moc_cloth_glwidget.cpp \
+		../src/cloth_calc.cpp \
+		../src/cloth_control.cpp moc_cloth_glwidget.cpp \
 		moc_cloth_window.cpp
 OBJECTS       = main.o \
 		ply_Module.o \
@@ -63,6 +64,7 @@ OBJECTS       = main.o \
 		cloth_glwidget.o \
 		cloth_window.o \
 		cloth_calc.o \
+		cloth_control.o \
 		moc_cloth_glwidget.o \
 		moc_cloth_window.o
 DIST          = /opt/Qt/5.12.0/gcc_64/mkspecs/features/spec_pre.prf \
@@ -264,6 +266,8 @@ DIST          = /opt/Qt/5.12.0/gcc_64/mkspecs/features/spec_pre.prf \
 		../headers/cloth_glwidget.h \
 		../headers/cloth_window.h \
 		../headers/cloth_calc.h \
+		headers/cloth_controll.h \
+		../headers/cloth_control.h \
 		../headers/nanoflann.hpp \
 		../headers/DivergingColorMaps.hpp \
 		headers/TriMesh/*h ../src/main.cpp \
@@ -271,7 +275,8 @@ DIST          = /opt/Qt/5.12.0/gcc_64/mkspecs/features/spec_pre.prf \
 		../src/tinyply.cpp \
 		../src/cloth_glwidget.cpp \
 		../src/cloth_window.cpp \
-		../src/cloth_calc.cpp
+		../src/cloth_calc.cpp \
+		../src/cloth_control.cpp
 QMAKE_TARGET  = CLOTH_SIMULATION
 DESTDIR       = 
 TARGET        = CLOTH_SIMULATION
@@ -697,8 +702,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /opt/Qt/5.12.0/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../headers/ply_Module.h ../headers/tinyply.h ../headers/cloth_glwidget.h ../headers/cloth_window.h ../headers/cloth_calc.h ../headers/nanoflann.hpp ../headers/DivergingColorMaps.hpp headers/TriMesh/*h $(DISTDIR)/
-	$(COPY_FILE) --parents ../src/main.cpp ../src/ply_Module.cpp ../src/tinyply.cpp ../src/cloth_glwidget.cpp ../src/cloth_window.cpp ../src/cloth_calc.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../headers/ply_Module.h ../headers/tinyply.h ../headers/cloth_glwidget.h ../headers/cloth_window.h ../headers/cloth_calc.h headers/cloth_controll.h ../headers/cloth_control.h ../headers/nanoflann.hpp ../headers/DivergingColorMaps.hpp headers/TriMesh/*h $(DISTDIR)/
+	$(COPY_FILE) --parents ../src/main.cpp ../src/ply_Module.cpp ../src/tinyply.cpp ../src/cloth_glwidget.cpp ../src/cloth_window.cpp ../src/cloth_calc.cpp ../src/cloth_control.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../GUI/cloth_window.ui $(DISTDIR)/
 
 
@@ -1457,6 +1462,7 @@ main.o: ../src/main.cpp ../headers/cloth_window.h \
 		../headers/TriMesh/strutil.h \
 		../headers/TriMesh/Color.h \
 		../headers/ply_Module.h \
+		../headers/cloth_control.h \
 		/opt/Qt/5.12.0/gcc_64/include/QtWidgets/QApplication \
 		/opt/Qt/5.12.0/gcc_64/include/QtWidgets/qapplication.h \
 		/opt/Qt/5.12.0/gcc_64/include/QtCore/qcoreapplication.h \
@@ -2486,6 +2492,9 @@ cloth_calc.o: ../src/cloth_calc.cpp ../headers/cloth_calc.h \
 		../headers/TriMesh/Color.h \
 		../headers/ply_Module.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o cloth_calc.o ../src/cloth_calc.cpp
+
+cloth_control.o: ../src/cloth_control.cpp ../headers/cloth_control.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o cloth_control.o ../src/cloth_control.cpp
 
 moc_cloth_glwidget.o: moc_cloth_glwidget.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_cloth_glwidget.o moc_cloth_glwidget.cpp

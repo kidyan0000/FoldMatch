@@ -14,13 +14,13 @@ cloth_calc::cloth_calc(std::string Cloth_Template, std::string Cloth_Reference )
 
     // this is just for vertice
     _plyModule  = new ply_module();
-    _plyModule->readPLY("../data/Template-1_0001_bi.ply", true, true, true, true, true);
+    _plyModule->readPLY("../data/Template-1_0001.ply", true, true, true, true, true);
 }
 
 void cloth_calc::cloth_init_neighbor()
 {
     _plyMesh  -> trimesh::TriMesh::need_neighbors();
-    _plyMesh  = trimesh::TriMesh::read("../data/Template-1_0001_bi.ply");
+    _plyMesh  = trimesh::TriMesh::read("../data/Template-1_0001.ply");
 
     _plyMeshT = trimesh::TriMesh::read(CT);
     _plyMeshR = trimesh::TriMesh::read(CR);

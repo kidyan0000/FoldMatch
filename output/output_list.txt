@@ -67,3 +67,8 @@
 ../output/debug/regulation-67/lambda1.ply
 ../output/debug/regulation-68/lambda1.ply
 ../output/debug/regulation-69/lambda1.ply
+../output/debug/regulation-70/lambda1.ply
+../output/debug/regulation-71/lambda1.ply
+../output/debug/regulation-72/lambda1.ply
+../output/debug/regulation-73/lambda1.ply
+../output/debug/regulation-74/lambda1.ply
