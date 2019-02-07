@@ -103,7 +103,7 @@ University of Kaiserslautern \\ % Your institution for the title page
 %------------------------------------------------
 
 \begin{frame}
-\frametitle{KW13}
+\frametitle{THEORY}
 In our cloth simulation, we follow the precedure written by Rohmer et al..
 
 
@@ -232,11 +232,13 @@ the main backdraw of Rohmer et al. is that this is only applied for 2D problem, 
 %----------------------------------------------------------------------------------------
 
 \begin{frame}
-use $<boost>$ to collect all ply files name, which are stored in $\_filename$ as well as $\_output$ in $std::vector$. Later I could only pass the index $i$ and $i+1$ for the inputs, and the eigenvector can be calculated automatically and saved.
+\frametitle{KW13}
+%use $<boost>$ to collect all ply files name, which are stored in $\_filename$ as well as $\_output$ in $std::vector$. Later I could only pass the index $i$ and $i+1$ for the inputs, and the eigenvector can be calculated automatically and saved.
 
-Problem might be the allocation memory (?) since I don't delete any temporary datas while the calculation. Let's see.
 
-from 0-1 EigNorm1 8758 NaN?
+from 0-2 EigNorm1 8759 NaN, Problrm:: 26278 has -0 eigenvalues, can't be squre. So I use a if(isnan) and define idx=0.
+
+add lambda1,2,3 for all, which is in debug
 \end{frame}
 
 

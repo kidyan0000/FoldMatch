@@ -4,6 +4,7 @@
 #include <DivergingColorMaps.hpp>
 
 #include <iostream>
+#include <math.h>
 #include <fstream>
 #include <stdlib.h>
 

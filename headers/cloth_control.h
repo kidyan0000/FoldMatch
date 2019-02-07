@@ -19,9 +19,11 @@ public:
 
     std::string GetInput(int i);
     std::string GetOutput(int i);
+    std::string Readme(int i);
 
 private:
     std::vector<std::string> _inputname, _outputname;
+    std::vector<std::string> _readme;
     std::string lambda;
 };
 

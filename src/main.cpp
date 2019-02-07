@@ -19,32 +19,39 @@ int main(int argc, char *argv[])
 
     cloth_control *control = new cloth_control;
 
-    control -> cloth_lambda("/lambda1.ply");
+    control -> cloth_lambda("lambda3.ply");
     control -> cloth_input("../data/");
     control -> cloth_output("../output/debug/regulation-");
+
+    // the input and output list can be found in the output folder
+    // from 0 to 73
+    int i=73;
 
     ////////////////////////////////
     /// NOW START THE SIMULATION ///
     ////////////////////////////////
 
-    cloth_calc* cloth = new cloth_calc(control->GetInput(0) , control->GetInput(2));
+    cloth_calc* cloth = new cloth_calc(control->GetInput(i) , control->GetInput(i+1));
 
     cloth -> cloth_eig_neighbor();
     Eigen::MatrixXd val = cloth->GetEigval_neighbor();
     cloth -> cloth_vec_normalize(val, 3);
 
-     Eigen::Map<Eigen::MatrixXd, 0, Eigen::InnerStride<3> >Eigval_norm_dir1(val.data()  ,val.size()/3,1);
+    cloth -> cloth_WriteColor(cloth->GetEigval_norm_dir3(), control->GetOutput(i));
 
-    // cloth -> cloth_WriteColor(cloth->GetEigval_norm_dir1(), control->GetOutput(0));
+    std::ofstream outfile(control->Readme(i));
+    outfile << "Template is: " << control->GetInput(i) << std::endl;
+    outfile << "Reference is: " << control->GetInput(i+1) << std::endl;
+    outfile.close();
 
     ///////////////////////////////
     ////// THIS IS FOR DEBUG //////
     ///////////////////////////////
 
     // std::cout << control->GetInput(0) << std::endl;
-    std::ofstream outfile("../output/Test.txt");
-    outfile<< Eigval_norm_dir1 << std::endl;
-    outfile.close();
+    // std::ofstream outfile("../output/Test.txt");
+    // outfile<< Eigval_norm_dir1 << std::endl;
+    // outfile.close();
 
     w.show();
 

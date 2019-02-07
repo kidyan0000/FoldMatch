@@ -69,8 +69,14 @@ void cloth_control::cloth_output(std::string outputpath)
     std::string output_file;
     for(int i=1; i<75; i++)
     {
-        output_file = outputpath + std::to_string(i) + lambda;
+        output_file = outputpath + std::to_string(i) +"/" + lambda;
         this -> _outputname.push_back(output_file);
+    }
+    std::string readme_file;
+    for(int i=1; i<75; i++)
+    {
+        readme_file = outputpath + std::to_string(i) + "/readme.txt";
+        this -> _readme.push_back(readme_file);
     }
 
     std::ofstream output_list("../output/output_list.txt");
@@ -81,6 +87,7 @@ void cloth_control::cloth_output(std::string outputpath)
 }
 
 
+
 std::string cloth_control::GetInput(int i)
 {
     return this -> _inputname[i];
@@ -89,4 +96,9 @@ std::string cloth_control::GetInput(int i)
 std::string cloth_control::GetOutput(int i)
 {
     return this -> _outputname[i];
+}
+
+std::string cloth_control::Readme(int i)
+{
+    return this -> _readme[i];
 }

@@ -347,6 +347,7 @@ void cloth_calc::cloth_displ()
 
 void cloth_calc::cloth_eig_neighbor()
 {
+
     cloth_vec();
 
     // initialize the points set P(reference) and Q(template)
@@ -401,6 +402,8 @@ void cloth_calc::cloth_eig_neighbor()
 
         this -> Eigval_neighbor.block(Eig_index,0,3,1) << solv.eigenvalues().cwiseSqrt();
         this -> Eigvec_neighbor.block(Eig_index,0,3,3) << solv.eigenvectors();
+
+
 
         P.resize(0,0);
         Q.resize(0,0);
@@ -475,7 +478,11 @@ void cloth_calc::cloth_WriteColor(Eigen::MatrixXd Eigval_norm, const std::string
 
     for(int Eigval_index=0; Eigval_index<Eigval_num; Eigval_index++)
     {
-        int idx = Eigval_norm(Eigval_index, 0) * (cmap.size()-1);
+        int idx;
+
+        if(isnan(Eigval_norm(Eigval_index, 0))){idx = 0;}
+        else{idx = Eigval_norm(Eigval_index, 0) * (cmap.size()-1);}
+
         Eigval_color.row(Eigval_index) << cmap[idx][0], cmap[idx][1], cmap[idx][2];
     }
 
