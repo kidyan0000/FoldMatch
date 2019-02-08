@@ -224,9 +224,73 @@ then we could obtain the $\mathbf{U}$ by applying
 %----------------------------------------------------------------------------------------
 
 \begin{frame}
+\begin{figure}
+\centering
+\includegraphics[width=0.5\textwidth]{image//Singular_Value_Decomposition_svd.png}
+\caption{Singular Value Decomposition SVD}
+\end{figure}
 the main backdraw of Rohmer et al. is that this is only applied for 2D problem, thus we need a new algorithm, which can also take the consideration for the vertical deformation. Therefore, the \emph{Kabisch Algorithm} is introduced.
+\end{frame}
 
-// to do 
+%----------------------------------------------------------------------------------------
+
+\begin{frame}
+\begin{block}{Kabisch Algorithm}
+Let $\mathbf{P}$ denotes the points set of template frame, and $\mathbf{Q}$ denotes the points set of reference frame. The \emph{optimal rotation matrix} $\mathbf{R}$ can be calculted as
+\begin{align}
+\mathbf{R}=\mathbf{V}\biggl[
+\begin{matrix}
+   1 & 0 &0\\
+   0 & 1 &0 \\
+   0 & 0 &d
+\end{matrix}
+\biggr]\mathbf{U}^T
+\end{align}
+where $\mathbf{V}$ and $\mathbf{U}$ and the \emph{SVD} of \emph{cross-covariance matrix} $\mathbf{H}$, which is determined by
+\begin{theorem}[cross-covariance matrix]
+\begin{align}
+\mathbf{H} =\mathbf{P}^T \mathbf{Q}
+\end{align}
+\end{theorem}
+and $d=\det\mathbf{V}\mathbf{U}^T$
+\end{block}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+\begin{frame}
+The cross-covariance matrix discribe the covariance of one process with the other at pairs of time points and measure of similarity. We use therefore the cross-covariance matrix $\mathbf{H}$ to approximate our deformation gradient $\mathbf{F}$.
+\begin{figure}
+\centering
+\includegraphics[width=0.5\textwidth]{image//Procrustes_superimposition.png}
+\caption{Procrustes superimposition}
+\end{figure}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+\begin{frame}
+Let $i$ be the all index set of the nearst vertice of vertex $I$ in the template frame and $\overline{i}$ be the all index set of the nearst vertice of vertex $I$ in the template frame. Process define
+\begin{align}
+\mathbf{P}=&\bigg[\begin{matrix}
+   \vec{x}_1 \ \vec{y}_1 \ \vec{z}_1\\
+   \vec{x}_2 \ \vec{y}_2 \ \vec{z}_2 \\
+   \vdots 	\\   
+   \vec{x}_N \ \vec{y}_N \ \vec{z}_N \\
+\end{matrix}\biggr] \quad 1,2,\dots,N \in i 
+\end{align}
+\begin{align}
+\mathbf{Q}=&\bigg[\begin{matrix}
+   \overline{\vec{x}}_1 \ \overline{\vec{y}}_1 \ \overline{\vec{z}}_1\\
+   \overline{\vec{x}}_2 \ \overline{\vec{y}}_2 \ \overline{\vec{z}}_2\\
+   \vdots 	\\
+   \overline{\vec{x}}_N \ \overline{\vec{y}}_N \ \overline{\vec{z}}_N\\
+\end{matrix}\biggr] \quad 1,2,\dots,N \in \overline{i} 
+\end{align} 
+and we apply to obtain the deformation gradient $\mathbf{F}$ of vertex $I$
+\begin{align}
+\mathbf{F} =\mathbf{P}^T \mathbf{Q}
+\end{align}
 \end{frame}
 
 %----------------------------------------------------------------------------------------

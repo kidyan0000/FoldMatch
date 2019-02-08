@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.2.4)  7 FEB 2019 11:54
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.2.4)  8 FEB 2019 13:24
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -862,9 +862,30 @@ Overfull \vbox (2.0067pt too high) detected at line 160
 
 ] [7
 
-] [8
+]
+<image//Singular_Value_Decomposition_svd.png, id=224, 331.2375pt x 301.125pt>
+File: image//Singular_Value_Decomposition_svd.png Graphic file (type png)
+<use image//Singular_Value_Decomposition_svd.png>
+Package pdftex.def Info: image//Singular_Value_Decomposition_svd.png  used on i
+nput line 233.
+(pdftex.def)             Requested size: 171.14764pt x 155.58882pt.
+ [8
 
-] [9
+ <./image//Singular_Value_Decomposition_svd.png>] [9
+
+]
+<image//Procrustes_superimposition.png, id=288, 308.352pt x 240.6591pt>
+File: image//Procrustes_superimposition.png Graphic file (type png)
+<use image//Procrustes_superimposition.png>
+Package pdftex.def Info: image//Procrustes_superimposition.png  used on input l
+ine 268.
+(pdftex.def)             Requested size: 171.14764pt x 133.57838pt.
+
+[10
+
+ <./image//Procrustes_superimposition.png>] [11
+
+] [12
 
 ]
 \tf@nav=\write6
@@ -876,22 +897,22 @@ Overfull \vbox (2.0067pt too high) detected at line 160
 \tf@snm=\write8
 \openout8 = `log.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 246.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 246.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 310.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 310.
  (./log.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 246.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 246.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 310.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 310.
 Package rerunfilecheck Info: File `log.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 16965 strings out of 494880
- 323100 string characters out of 6179602
+ 17017 strings out of 494880
+ 324398 string characters out of 6179602
  395425 words of memory out of 5000000
- 19889 multiletter control sequences out of 15000+600000
- 13347 words of font info for 49 fonts, out of 8000000 for 9000
+ 19931 multiletter control sequences out of 15000+600000
+ 13652 words of font info for 50 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 48i,17n,57p,770b,557s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 48i,17n,57p,770b,862s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/share/texl
@@ -903,10 +924,10 @@ ype1/public/amsfonts/cm/cmssi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/
 public/amsfonts/cm/cmssi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
 /amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
 nts/cm/cmsy8.pfb>
-Output written on log.pdf (9 pages, 123100 bytes).
+Output written on log.pdf (12 pages, 530981 bytes).
 PDF statistics:
- 317 PDF objects out of 1000 (max. 8388607)
- 280 compressed objects within 3 object streams
- 20 named destinations out of 1000 (max. 500000)
- 73 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 410 PDF objects out of 1000 (max. 8388607)
+ 361 compressed objects within 4 object streams
+ 26 named destinations out of 1000 (max. 500000)
+ 107 words of extra memory for PDF output out of 10000 (max. 10000000)
 
