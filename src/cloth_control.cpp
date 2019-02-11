@@ -67,15 +67,15 @@ void cloth_control::cloth_input(std::string inputpath)
 void cloth_control::cloth_output(std::string outputpath)
 {
     std::string output_file;
-    for(int i=1; i<75; i++)
+    for(int i=1; i<=75; i++)
     {
-        output_file = outputpath + std::to_string(i) +"/" + lambda;
+        output_file = outputpath + lambda + "_" + std::to_string(i) +".ply";
         this -> _outputname.push_back(output_file);
     }
     std::string readme_file;
-    for(int i=1; i<75; i++)
+    for(int i=1; i<=75; i++)
     {
-        readme_file = outputpath + std::to_string(i) + "/readme.txt";
+        readme_file = outputpath + "readme/" + lambda + "_" + std::to_string(i) + "_readme.txt";
         this -> _readme.push_back(readme_file);
     }
 

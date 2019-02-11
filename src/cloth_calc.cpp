@@ -11,17 +11,12 @@ cloth_calc::cloth_calc(std::string Cloth_Template, std::string Cloth_Reference )
     _plyModuleT->readPLY(CT, true, true, true, true, true);
     _plyModuleR->readPLY(CR, true, true, true, true, true);
 
-
-    // this is just for vertice
     _plyModule  = new ply_module();
     _plyModule->readPLY("../data/Template-1_0001.ply", true, true, true, true, true);
 }
 
 void cloth_calc::cloth_init_neighbor()
 {
-    _plyMesh  -> trimesh::TriMesh::need_neighbors();
-    _plyMesh  = trimesh::TriMesh::read("../data/Template-1_0001.ply");
-
     _plyMeshT = trimesh::TriMesh::read(CT);
     _plyMeshR = trimesh::TriMesh::read(CR);
 
@@ -29,6 +24,8 @@ void cloth_calc::cloth_init_neighbor()
     _plyMeshT -> trimesh::TriMesh::need_neighbors();
     _plyMeshR -> trimesh::TriMesh::need_neighbors();
 
+    _plyMesh  = trimesh::TriMesh::read("../data/Template-1_0001.ply");
+    _plyMesh  -> trimesh::TriMesh::need_neighbors();
 
 }
 
@@ -76,19 +73,19 @@ void cloth_calc::cloth_vec()
     for(int i=0; i<Vec_num; i++)
     {
             // FOR TEMPLATE
-            this -> VecT.col(Vec_index).transpose()   << (vertsT.row(faces(i,0)) - vertsT.row(faces(i,1))), // vector at vertex 0
-                                                         (vertsT.row(faces(i,0)) - vertsT.row(faces(i,2)));
-            this -> VecT.col(Vec_index+1).transpose() << (vertsT.row(faces(i,1)) - vertsT.row(faces(i,0))), // vector at vertex 1
-                                                         (vertsT.row(faces(i,1)) - vertsT.row(faces(i,2)));
-            this -> VecT.col(Vec_index+2).transpose() << (vertsT.row(faces(i,2)) - vertsT.row(faces(i,0))), // vector at vertex 2
+            this -> VecT.col(Vec_index).transpose()   << (vertsT.row(faces(i,1)) - vertsT.row(faces(i,0))), // vector at vertex 0
+                                                         (vertsT.row(faces(i,2)) - vertsT.row(faces(i,0)));
+            this -> VecT.col(Vec_index+1).transpose() << (vertsT.row(faces(i,0)) - vertsT.row(faces(i,1))), // vector at vertex 1
                                                          (vertsT.row(faces(i,2)) - vertsT.row(faces(i,1)));
+            this -> VecT.col(Vec_index+2).transpose() << (vertsT.row(faces(i,0)) - vertsT.row(faces(i,2))), // vector at vertex 2
+                                                         (vertsT.row(faces(i,1)) - vertsT.row(faces(i,2)));
             // FOR REFERENCE
-            this -> VecR.col(Vec_index).transpose()   << (vertsR.row(faces(i,0)) - vertsR.row(faces(i,1))), // vector at vertex 0
-                                                         (vertsR.row(faces(i,0)) - vertsR.row(faces(i,2)));
-            this -> VecR.col(Vec_index+1).transpose() << (vertsR.row(faces(i,1)) - vertsR.row(faces(i,0))), // vector at vertex 1
-                                                         (vertsR.row(faces(i,1)) - vertsR.row(faces(i,2)));
-            this -> VecR.col(Vec_index+2).transpose() << (vertsR.row(faces(i,2)) - vertsR.row(faces(i,0))), // vector at vertex 2
+            this -> VecR.col(Vec_index).transpose()   << (vertsR.row(faces(i,1)) - vertsR.row(faces(i,0))), // vector at vertex 0
+                                                         (vertsR.row(faces(i,2)) - vertsR.row(faces(i,0)));
+            this -> VecR.col(Vec_index+1).transpose() << (vertsR.row(faces(i,0)) - vertsR.row(faces(i,1))), // vector at vertex 1
                                                          (vertsR.row(faces(i,2)) - vertsR.row(faces(i,1)));
+            this -> VecR.col(Vec_index+2).transpose() << (vertsR.row(faces(i,0)) - vertsR.row(faces(i,2))), // vector at vertex 2
+                                                         (vertsR.row(faces(i,1)) - vertsR.row(faces(i,2)));
 
 
 
@@ -480,8 +477,10 @@ void cloth_calc::cloth_WriteColor(Eigen::MatrixXd Eigval_norm, const std::string
     {
         int idx;
 
-        if(isnan(Eigval_norm(Eigval_index, 0))){idx = 0;}
-        else{idx = Eigval_norm(Eigval_index, 0) * (cmap.size()-1);}
+        if(isnan(Eigval_norm(Eigval_index, 0)))
+            {idx = 0;}
+        else
+            {idx = Eigval_norm(Eigval_index, 0) * (cmap.size()-1);}
 
         Eigval_color.row(Eigval_index) << cmap[idx][0], cmap[idx][1], cmap[idx][2];
     }

@@ -2,6 +2,10 @@
 // #include "cloth_glwidget.h"
 #include "cloth_calc.h"
 #include "cloth_control.h"
+
+#include <stdio.h>
+
+#include <QTextStream>
 #include <QApplication>
 
 int main(int argc, char *argv[])
@@ -19,39 +23,44 @@ int main(int argc, char *argv[])
 
     cloth_control *control = new cloth_control;
 
-    control -> cloth_lambda("lambda3.ply");
+    control -> cloth_lambda("lambda1");
+
     control -> cloth_input("../data/");
-    control -> cloth_output("../output/debug/regulation-");
+    control -> cloth_output("../output/debug/");
 
     // the input and output list can be found in the output folder
-    // from 0 to 73
-    int i=73;
+    // the label of our cloth is from 1-0001 to 75-0075
+
+    int CT=0;
+    int CR=39;
+
+    int FILE=CR-1;
 
     ////////////////////////////////
-    /// NOW START THE SIMULATION ///
+    ///// START THE SIMULATION /////
     ////////////////////////////////
 
-    cloth_calc* cloth = new cloth_calc(control->GetInput(i) , control->GetInput(i+1));
+    cloth_calc* cloth = new cloth_calc(control->GetInput(CT) , control->GetInput(CR));
 
     cloth -> cloth_eig_neighbor();
     Eigen::MatrixXd val = cloth->GetEigval_neighbor();
     cloth -> cloth_vec_normalize(val, 3);
 
-    cloth -> cloth_WriteColor(cloth->GetEigval_norm_dir3(), control->GetOutput(i));
+    cloth -> cloth_WriteColor(cloth->GetEigval_norm_dir1(), control->GetOutput(FILE));
 
-    std::ofstream outfile(control->Readme(i));
-    outfile << "Template is: " << control->GetInput(i) << std::endl;
-    outfile << "Reference is: " << control->GetInput(i+1) << std::endl;
+    std::ofstream outfile(control->Readme(FILE));
+    outfile << "Template is: "  << control->GetInput(CT) << std::endl;
+    outfile << "Reference is: " << control->GetInput(CR) << std::endl;
     outfile.close();
 
     ///////////////////////////////
     ////// THIS IS FOR DEBUG //////
     ///////////////////////////////
 
-    // std::cout << control->GetInput(0) << std::endl;
-    // std::ofstream outfile("../output/Test.txt");
-    // outfile<< Eigval_norm_dir1 << std::endl;
-    // outfile.close();
+    // std::cout << control->Readme(i) << std::endl;
+    std::ofstream Test("../output/val40.txt");
+    Test<< val  << std::endl;
+    Test.close();
 
     w.show();
 
