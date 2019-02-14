@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
 
     cloth_control *control = new cloth_control;
 
-    control -> cloth_lambda("lambda2");
+    control -> cloth_lambda("lambda3");
 
     control -> cloth_input("../data/");
     control -> cloth_output("../output/debug/");
@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
     Eigen::MatrixXd val = cloth->GetEigval_neighbor();
     cloth -> cloth_vec_normalize(val, 3);
 
-    cloth -> cloth_WriteColor(cloth->GetEigval_norm_dir2(), control->GetOutput(FILE));
+    cloth -> cloth_WriteColor(cloth->GetEigval_norm_dir3(), control->GetOutput(FILE));
 
     std::ofstream outfile(control->Readme(FILE));
     outfile << "Template is: "  << control->GetInput(CT) << std::endl;
