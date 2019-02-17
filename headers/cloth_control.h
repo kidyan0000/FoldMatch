@@ -19,6 +19,7 @@ public:
 
     std::string GetInput(int i);
     std::string GetOutput(int i);
+    std::string GetLambda();
     std::string Readme(int i);
 
 private:

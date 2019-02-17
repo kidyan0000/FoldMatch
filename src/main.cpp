@@ -4,6 +4,13 @@
 #include "cloth_control.h"
 
 #include <stdio.h>
+#include <unistd.h>
+#include <cstdlib>
+#include <dirent.h>
+
+
+#include <sys/types.h>
+#include <sys/stat.h>
 
 #include <QTextStream>
 #include <QApplication>
@@ -31,28 +38,43 @@ int main(int argc, char *argv[])
     // the input and output list can be found in the output folder
     // the label of our cloth is from 1-0001 to 75-0075
 
-    int CT=0;
-    int CR=74;
+    int CT;   // cloth template
+    int CR;   // cloth reference
+    int BS;   // cloth base
+    int FILE; // file name
 
-    int FILE=CR-1;
+    // create the folder
+    std::string dir = "../output/debug/readme";
+    if (access(dir.c_str(), 0) == -1)
+    {
+        mkdir(dir.c_str(), 0777);
+    }
 
     ////////////////////////////////
     ///// START THE SIMULATION /////
     ////////////////////////////////
 
-    cloth_calc* cloth = new cloth_calc(control->GetInput(CT) , control->GetInput(CR));
+    for(CR=3; CR<75; CR++)
+    {
+        CT = CR-3;
+        BS = CR-3;
+        FILE = CR-3;
 
-    cloth -> cloth_eig_neighbor();
-    Eigen::MatrixXd val = cloth->GetEigval_neighbor();
-    cloth -> cloth_vec_normalize(val, 3);
+        cloth_calc* cloth = new cloth_calc(control->GetInput(CT) , control->GetInput(CR), control->GetInput(BS));
 
-    cloth -> cloth_WriteColor(cloth->GetEigval_norm_dir3(), control->GetOutput(FILE));
+        cloth -> cloth_eig_neighbor();
+        Eigen::MatrixXd val = cloth->GetEigval_neighbor();
+        cloth -> cloth_vec_normalize(val, 3);
 
-    std::ofstream outfile(control->Readme(FILE));
-    outfile << "Template is: "  << control->GetInput(CT) << std::endl;
-    outfile << "Reference is: " << control->GetInput(CR) << std::endl;
-    outfile.close();
+        cloth -> cloth_WriteColor(cloth->GetEigval_norm_dir3(), control->GetOutput(FILE));
 
+        std::ofstream outfile(control->Readme(FILE));
+        outfile << "Template is: "  << control->GetInput(CT) << std::endl;
+        outfile << "Reference is: " << control->GetInput(CR) << std::endl;
+        outfile << "Base is: "      << control->GetInput(BS) << std::endl;
+        outfile << "Lambda is: "    << control->GetLambda() << std::endl;
+        outfile.close();
+    }
     ///////////////////////////////
     ////// THIS IS FOR DEBUG //////
     ///////////////////////////////

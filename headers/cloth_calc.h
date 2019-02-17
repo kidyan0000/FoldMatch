@@ -23,7 +23,7 @@ class cloth_calc
 {
 
 public:
-    cloth_calc(std::string Cloth_Template, std::string Cloth_Reference );
+    cloth_calc(std::string Cloth_Template, std::string Cloth_Reference, std::string Cloth_Base );
     ~cloth_calc();
 
     // Rohmer et al.
@@ -70,6 +70,7 @@ public:
 private:
     std::string CT;
     std::string CR;
+    std::string BS;
     ply_module* _plyModuleT;
     ply_module* _plyModuleR;
     ply_module* _plyModule;

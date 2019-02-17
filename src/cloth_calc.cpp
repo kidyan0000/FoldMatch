@@ -1,30 +1,28 @@
 #include "cloth_calc.h"
 
-cloth_calc::cloth_calc(std::string Cloth_Template, std::string Cloth_Reference )
+cloth_calc::cloth_calc(std::string Cloth_Template, std::string Cloth_Reference, std::string Cloth_Base )
 {
-    CT = Cloth_Template;
-    CR = Cloth_Reference;
+    this -> CT = Cloth_Template;
+    this -> CR = Cloth_Reference;
+    this -> BS = Cloth_Base;
 
     _plyModuleT = new ply_module();
     _plyModuleR = new ply_module();
+    _plyModule  = new ply_module();
 
     _plyModuleT->readPLY(CT, true, true, true, true, true);
     _plyModuleR->readPLY(CR, true, true, true, true, true);
-
-    _plyModule  = new ply_module();
-    _plyModule->readPLY("../data/Template-1_0001.ply", true, true, true, true, true);
+    _plyModule->readPLY(BS, true, true, true, true, true);
 }
 
 void cloth_calc::cloth_init_neighbor()
 {
     _plyMeshT = trimesh::TriMesh::read(CT);
     _plyMeshR = trimesh::TriMesh::read(CR);
-
+    _plyMesh  = trimesh::TriMesh::read(BS);
 
     _plyMeshT -> trimesh::TriMesh::need_neighbors();
-    _plyMeshR -> trimesh::TriMesh::need_neighbors();
-
-    _plyMesh  = trimesh::TriMesh::read("../data/Template-1_0001.ply");
+    _plyMeshR -> trimesh::TriMesh::need_neighbors();   
     _plyMesh  -> trimesh::TriMesh::need_neighbors();
 
 }
@@ -75,15 +73,19 @@ void cloth_calc::cloth_vec()
             // FOR TEMPLATE
             this -> VecT.col(Vec_index).transpose()   << (vertsT.row(faces(i,1)) - vertsT.row(faces(i,0))), // vector at vertex 0
                                                          (vertsT.row(faces(i,2)) - vertsT.row(faces(i,0)));
+
             this -> VecT.col(Vec_index+1).transpose() << (vertsT.row(faces(i,0)) - vertsT.row(faces(i,1))), // vector at vertex 1
                                                          (vertsT.row(faces(i,2)) - vertsT.row(faces(i,1)));
+
             this -> VecT.col(Vec_index+2).transpose() << (vertsT.row(faces(i,0)) - vertsT.row(faces(i,2))), // vector at vertex 2
                                                          (vertsT.row(faces(i,1)) - vertsT.row(faces(i,2)));
             // FOR REFERENCE
             this -> VecR.col(Vec_index).transpose()   << (vertsR.row(faces(i,1)) - vertsR.row(faces(i,0))), // vector at vertex 0
                                                          (vertsR.row(faces(i,2)) - vertsR.row(faces(i,0)));
+
             this -> VecR.col(Vec_index+1).transpose() << (vertsR.row(faces(i,0)) - vertsR.row(faces(i,1))), // vector at vertex 1
                                                          (vertsR.row(faces(i,2)) - vertsR.row(faces(i,1)));
+
             this -> VecR.col(Vec_index+2).transpose() << (vertsR.row(faces(i,0)) - vertsR.row(faces(i,2))), // vector at vertex 2
                                                          (vertsR.row(faces(i,1)) - vertsR.row(faces(i,2)));
 
@@ -468,6 +470,20 @@ void cloth_calc::cloth_WriteColor(Eigen::MatrixXd Eigval_norm, const std::string
 
     int Eigval_num = Eigval_norm.rows();
 
+    for(int Eigval_index=0; Eigval_index<Eigval_num; Eigval_index++)
+    {
+        if(isnan(Eigval_norm(Eigval_index, 0)))
+            {Eigval_norm(Eigval_index, 0) = 0;}
+    }
+
+    // set vertice and colors
+    plyColor -> setVertices(verts);
+    plyColor -> setCurvatures(Eigval_norm);
+
+    plyColor -> writePLY(ifileName, true, false, false, true, false);
+
+    // using color-map
+    /*
     std::vector< std::vector<double> > cmap = makeColorMap();
 
     Eigen::MatrixXi Eigval_color;
@@ -484,12 +500,7 @@ void cloth_calc::cloth_WriteColor(Eigen::MatrixXd Eigval_norm, const std::string
 
         Eigval_color.row(Eigval_index) << cmap[idx][0], cmap[idx][1], cmap[idx][2];
     }
-
-    // set vertice and colors
-    plyColor -> setVertices(verts);
-    plyColor -> setColors(Eigval_color);
-
-    plyColor -> writePLY(ifileName, true, false, false, false, false);
+    */
 
 }
 

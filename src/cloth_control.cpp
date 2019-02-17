@@ -98,6 +98,11 @@ std::string cloth_control::GetOutput(int i)
     return this -> _outputname[i];
 }
 
+std::string cloth_control::GetLambda()
+{
+    return this -> lambda;
+}
+
 std::string cloth_control::Readme(int i)
 {
     return this -> _readme[i];
