@@ -53,9 +53,12 @@ public:
     void cloth_init_neighbor();
     void cloth_eig_neighbor();
     void cloth_defo_neighbor();
+    void cloth_eig_neighbor2x();
 
     Eigen::MatrixXd GetEigval_neighbor();
     Eigen::MatrixXd GetEigvec_neighbor();
+    Eigen::MatrixXd GetEigval_neighbor2x();
+    Eigen::MatrixXd GetEigvec_neighbor2x();
 
     //
     void cloth_vec_normalize(Eigen::MatrixXd Eigenval, int dim);
@@ -94,6 +97,7 @@ private:
 
     //
     Eigen::MatrixXd Eigval_neighbor, Eigvec_neighbor;
+    Eigen::MatrixXd Eigval_neighbor2x, Eigvec_neighbor2x;
     Eigen::MatrixXd Defo_neighbor;
     Eigen::MatrixXd Displ_neighbor;
 

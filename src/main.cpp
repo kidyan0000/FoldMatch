@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
 
     cloth_control *control = new cloth_control;
 
-    control -> cloth_lambda("lambda3");
+    control -> cloth_lambda("lambda1");
 
     control -> cloth_input("../data/");
     control -> cloth_output("../output/debug/");
@@ -54,19 +54,23 @@ int main(int argc, char *argv[])
     ///// START THE SIMULATION /////
     ////////////////////////////////
 
-    for(CR=3; CR<75; CR++)
+    for(CR=1; CR<2; CR++)
     {
-        CT = CR-3;
-        BS = CR-3;
-        FILE = CR-3;
+        CT = 0;
+        BS = 0;
+        FILE = 0;
 
         cloth_calc* cloth = new cloth_calc(control->GetInput(CT) , control->GetInput(CR), control->GetInput(BS));
 
         cloth -> cloth_eig_neighbor();
         Eigen::MatrixXd val = cloth->GetEigval_neighbor();
+
+        // cloth -> cloth_eig_neighbor2x();
+        // Eigen::MatrixXd val = cloth->GetEigval_neighbor2x();
+
         cloth -> cloth_vec_normalize(val, 3);
 
-        cloth -> cloth_WriteColor(cloth->GetEigval_norm_dir3(), control->GetOutput(FILE));
+        cloth -> cloth_WriteColor(cloth->GetEigval_norm_dir1(), control->GetOutput(FILE));
 
         std::ofstream outfile(control->Readme(FILE));
         outfile << "Template is: "  << control->GetInput(CT) << std::endl;
@@ -74,15 +78,17 @@ int main(int argc, char *argv[])
         outfile << "Base is: "      << control->GetInput(BS) << std::endl;
         outfile << "Lambda is: "    << control->GetLambda() << std::endl;
         outfile.close();
-    }
-    ///////////////////////////////
-    ////// THIS IS FOR DEBUG //////
-    ///////////////////////////////
 
-    // std::cout << control->Readme(i) << std::endl;
-    // std::ofstream Test("../output/val40.txt");
-    // Test<< val  << std::endl;
-    // Test.close();
+        ///////////////////////////////
+        ////// THIS IS FOR DEBUG //////
+        ///////////////////////////////
+
+        // std::cout << control->Readme(i) << std::endl;
+        // std::ofstream Test("../output/Test.txt");
+        // Test<< val << std::endl;
+        // Test.close();
+    }
+
 
     w.show();
 
