@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
 
     cloth_control *control = new cloth_control;
 
-    control -> cloth_lambda("lambda1");
+    control -> cloth_lambda("lambda3");
 
     control -> cloth_input("../data/");
     control -> cloth_output("../output/debug/");
@@ -54,23 +54,23 @@ int main(int argc, char *argv[])
     ///// START THE SIMULATION /////
     ////////////////////////////////
 
-    for(CR=1; CR<2; CR++)
+    for(CR=3; CR<75; CR++)
     {
-        CT = 0;
-        BS = 0;
-        FILE = 0;
+        CT = CR-3;
+        BS = CR-3;
+        FILE = CR-3;
 
         cloth_calc* cloth = new cloth_calc(control->GetInput(CT) , control->GetInput(CR), control->GetInput(BS));
 
-        cloth -> cloth_eig_neighbor();
-        Eigen::MatrixXd val = cloth->GetEigval_neighbor();
+        // cloth -> cloth_eig_neighbor();
+        // Eigen::MatrixXd val = cloth->GetEigval_neighbor();
 
-        // cloth -> cloth_eig_neighbor2x();
-        // Eigen::MatrixXd val = cloth->GetEigval_neighbor2x();
+        cloth -> cloth_eig_neighbor2x();
+        Eigen::MatrixXd val = cloth->GetEigval_neighbor2x();
 
         cloth -> cloth_vec_normalize(val, 3);
 
-        cloth -> cloth_WriteColor(cloth->GetEigval_norm_dir1(), control->GetOutput(FILE));
+        cloth -> cloth_WriteColor(cloth->GetEigval_norm_dir3(), control->GetOutput(FILE));
 
         std::ofstream outfile(control->Readme(FILE));
         outfile << "Template is: "  << control->GetInput(CT) << std::endl;
