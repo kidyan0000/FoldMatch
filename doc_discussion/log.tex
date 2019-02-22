@@ -78,6 +78,7 @@
 
 \usepackage{graphicx} % Allows including images
 \usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+\usepackage{bm}
 
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
@@ -291,6 +292,27 @@ and we apply to obtain the deformation gradient $\mathbf{F}$ of vertex $I$
 \begin{align}
 \mathbf{F} =\mathbf{P}^T \mathbf{Q}
 \end{align}
+\end{frame}
+
+%-----------------------------------------------------------------------%
+
+\begin{frame}
+Whereas the deformation gradient measures the local deformation, the \emph{spacial velocity gradient} $\mathbf{L}$ describes the rate of deformation, given by
+\begin{align}
+\mathbf{L} = grad \bm{v} = \dot{\mathbf{F}} \mathbf{F}^{-1},
+\end{align}
+where $\bm{v}$ denotes the \emph{velocity} of the material point $\mathbf{X}$, and $\dot{\mathbf{F}}$ denotes the material time derivative of deformation gradient $\mathbf{F}$. 
+
+Analogically, we apply the polar decomposition on the spacial velocity gradient $\mathbf{L}$\cite{liu2002continuum}, and obtain
+\begin{align}
+\mathbf{L} = \mathbf{D}+\mathbf{W}.
+\end{align}
+Thus, we could decompose the tensor $\mathbf{L}$ into its symmetric part $\mathbf{D}$ and skew-symmetric part $\mathbf{W}$
+\begin{align}
+\mathbf{D}=&\dfrac{1}{2}(\mathbf{L}+\mathbf{L}^T), \\
+\mathbf{W}=&\dfrac{1}{2}(\mathbf{L}-\mathbf{L}^T).
+\end{align}
+where $\mathbf{D}$ is called the \emph{rate of strain tensor} and $\mathbf{W}$ is called the \emph{rate of rotation tensor}.
 \end{frame}
 
 %----------------------------------------------------------------------------------------
