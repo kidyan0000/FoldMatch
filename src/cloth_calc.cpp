@@ -15,19 +15,7 @@ cloth_calc::cloth_calc(std::string Cloth_Template, std::string Cloth_Reference, 
     _plyModule->readPLY(BS, true, true, true, true, true);
 }
 
-void cloth_calc::cloth_init_neighbor()
-{
-    _plyMeshT = trimesh::TriMesh::read(CT);
-    _plyMeshR = trimesh::TriMesh::read(CR);
-    _plyMesh  = trimesh::TriMesh::read(BS);
-
-    _plyMeshT -> trimesh::TriMesh::need_neighbors();
-    _plyMeshR -> trimesh::TriMesh::need_neighbors();   
-    _plyMesh  -> trimesh::TriMesh::need_neighbors();
-
-}
-
-void cloth_calc::cloth_vec()
+void cloth_calc::cloth_init_vert()
 {
     // this is just for vertice
     if (_plyModule->getFaces().rows() != 0)
@@ -48,7 +36,23 @@ void cloth_calc::cloth_vec()
     {
         vertsR = _plyModuleR->getVertices();
     }
+}
 
+void cloth_calc::cloth_init_neighbor()
+{
+    _plyMeshT = trimesh::TriMesh::read(CT);
+    _plyMeshR = trimesh::TriMesh::read(CR);
+    _plyMesh  = trimesh::TriMesh::read(BS);
+
+    _plyMeshT -> trimesh::TriMesh::need_neighbors();
+    _plyMeshR -> trimesh::TriMesh::need_neighbors();   
+    _plyMesh  -> trimesh::TriMesh::need_neighbors();
+
+}
+
+void cloth_calc::cloth_vec()
+{
+    cloth_init_vert();
 
     // initialize the matrix to store the vector values of each triangles
     // here is ColMajor
@@ -347,7 +351,7 @@ void cloth_calc::cloth_displ()
 void cloth_calc::cloth_eig_neighbor()
 {
 
-    cloth_vec();
+    cloth_init_vert();
 
     // initialize the points set P(reference) and Q(template)
     Eigen::MatrixXd P, Q;
@@ -428,7 +432,7 @@ void cloth_calc::cloth_defo_neighbor()
 
 void cloth_calc::cloth_eig_neighbor2x()
 {
-    cloth_vec();
+    cloth_init_vert();
 
     // initialize the points set P(reference) and Q(template)
     Eigen::MatrixXd P, Q;
@@ -454,9 +458,11 @@ void cloth_calc::cloth_eig_neighbor2x()
 
         // calculate the number of the nerghborred vertice of vertex i
         Neighbor_num = _plyMesh -> trimesh::TriMesh::neighbors.at(Vert_index).size();
+
         Neighbor2x_num = 0;
 
-        for(int Neighbor_index=0; Neighbor_index < Neighbor_num; Neighbor_index++) // for all neighbors in each vertex
+        // evaluate the size of Neighbor2x
+        for(int Neighbor_index=0; Neighbor_index < Neighbor_num; Neighbor_index++) // for all neighbors in each base vertex i
         {
             int Neighbor2x_Vert_index = _plyMesh -> trimesh::TriMesh::neighbors.at(Vert_index).at(Neighbor_index);
             Neighbor2x_num = Neighbor2x_num + _plyMesh -> trimesh::TriMesh::neighbors.at(Neighbor2x_Vert_index).size();
@@ -673,4 +679,6 @@ cloth_calc::~cloth_calc()
 {
 
 }
+
+
 

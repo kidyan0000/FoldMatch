@@ -26,6 +26,8 @@ public:
     cloth_calc(std::string Cloth_Template, std::string Cloth_Reference, std::string Cloth_Base );
     ~cloth_calc();
 
+    void cloth_init_vert();
+
     // Rohmer et al.
     void cloth_vec();
     void cloth_eig_2D();

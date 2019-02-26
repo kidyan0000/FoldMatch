@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
     ///// START THE SIMULATION /////
     ////////////////////////////////
 
-    for(CR=3; CR<75; CR++)
+    for(CR=3; CR<4; CR++)
     {
         CT = CR-3;
         BS = CR-3;

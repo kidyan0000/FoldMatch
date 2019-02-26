@@ -15,6 +15,7 @@
 %	PACKAGES AND THEMES
 %----------------------------------------------------------------------------------------
 
+
 \documentclass{beamer}
 
 \mode<presentation> {
@@ -219,6 +220,7 @@ and using decomposition, if we have the form
 then we could obtain the $\mathbf{U}$ by applying
 \begin{align}
 \mathbf{U} = \lambda_1\mathbf{v}_1\mathbf{v}_1^T+\lambda_2\mathbf{v}_2\mathbf{v}_2^T
+\label{eq:strech_tensor_diagonalized}
 \end{align}
 \end{frame}
 
@@ -318,6 +320,22 @@ where $\mathbf{D}$ is called the \emph{rate of strain tensor} and $\mathbf{W}$ i
 %----------------------------------------------------------------------------------------
 
 \begin{frame}
+Assuming $\rm{d}\mathbf{x}$ is a material line element in the current configuration, the rate of change of its length $\dot{\epsilon}_{ii}$ and angle $\dot{\gamma}_{ij}$ is measured by means of $\mathbf{D}$\cite{haupt2013continuum}.
+\begin{align}
+\dot{\epsilon}_{ii}=&\mathbf{e}_i\mathbf{D}\mathbf{e}_i=D_{ii} \\
+\dot{\gamma}_{ij}=&2\mathbf{e}_i\mathbf{D}\mathbf{e}_j=D_{ij}
+\end{align}
+where $D_{ij}$ are the $ij$-entries of $\mathbf{D}$. Additionally, if $\mathbf{D}$ has the same base ${\mathbf{e_1},\mathbf{e_2},\mathbf{e_3}}$ as in eq.\eqref{eq:strech_tensor_diagonalized}, than
+\begin{align}
+D_{11}=&\dfrac{\dot{\lambda_1}}{\lambda_1} \\
+D_{22}=&\dfrac{\dot{\lambda_2}}{\lambda_3} \\
+D_{33}=&\dfrac{\dot{\lambda_2}}{\lambda_3} 
+\end{align}
+
+\end{frame}
+%----------------------------------------------------------------------------------------
+
+\begin{frame}
 \frametitle{KW13}
 %use $<boost>$ to collect all ply files name, which are stored in $\_filename$ as well as $\_output$ in $std::vector$. Later I could only pass the index $i$ and $i+1$ for the inputs, and the eigenvector can be calculated automatically and saved.
 
@@ -356,6 +374,15 @@ add neighbor2x
 
 
 Neo Hook matrial
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{KW15}
+please refer
+\href{http://web.mit.edu/abeyaratne/Volumes/RCA_Vol_II.pdf}{"click me!!!"} p68-70 $\lambda$ and $\mathbf{D}$ relationship
+
 \end{frame}
 
 \end{document} 
