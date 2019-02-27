@@ -133,7 +133,7 @@ for i in range(1, 72):
     #clrs = plt.cm.jet(norms(q))
     color_255 = np.ceil(clrs * 255)
     
-    with open('lambdaQuality1_' + str(i) + '.ply', 'w') as fp:
+    with open('lambdaQuality_' + str(i) + '.ply', 'w') as fp:
 	    fp.write('ply\n')
 	    fp.write('format ascii 1.0\n')
 	    fp.write('comment VCGLIB generated\n')

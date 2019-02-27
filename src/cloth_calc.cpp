@@ -383,7 +383,7 @@ void cloth_calc::cloth_eig_neighbor()
         // face has the structure of face(i.j)
         // where i is the i-th element, j is the j-th vertex of i-th element
 
-        // calculate the number of the nerghborred vertice of vertex i
+        // calculate the number of the nerghboring vertice of vertex i
         int Neighbor_num = _plyMesh -> trimesh::TriMesh::neighbors.at(Vert_index).size();
 
         P.resize(Neighbor_num, 3);
@@ -447,56 +447,71 @@ void cloth_calc::cloth_eig_neighbor2x()
     cloth_init_neighbor();
 
     int Eig_index = 0;
+
     int Neighbor_num;
     int Neighbor2x_num;
 
+    std::vector<int> Neighbor_Vert;
 
     for(int Vert_index=0; Vert_index<Vert_num; Vert_index++) // for all elements
     {
         // face has the structure of face(i.j)
         // where i is the i-th element, j is the j-th vertex of i-th element
 
-        // calculate the number of the nerghborred vertice of vertex i
+        // base vertex index
+        // Vert_index
+
+        // size of the 1st Neighbor vertice
         Neighbor_num = _plyMesh -> trimesh::TriMesh::neighbors.at(Vert_index).size();
 
-        Neighbor2x_num = 0;
-
-        // evaluate the size of Neighbor2x
+        // evaluate the 1st Neighbor
         for(int Neighbor_index=0; Neighbor_index < Neighbor_num; Neighbor_index++) // for all neighbors in each base vertex i
         {
-            int Neighbor2x_Vert_index = _plyMesh -> trimesh::TriMesh::neighbors.at(Vert_index).at(Neighbor_index);
-            Neighbor2x_num = Neighbor2x_num + _plyMesh -> trimesh::TriMesh::neighbors.at(Neighbor2x_Vert_index).size();
-        }
+            // 1st Neighbor vertex index
+            int Neighbor_Vert_index = _plyMesh -> trimesh::TriMesh::neighbors.at(Vert_index).at(Neighbor_index);
+            // size of the 2nd Neighbor vertice
+            Neighbor2x_num = _plyMesh -> trimesh::TriMesh::neighbors.at(Neighbor_Vert_index).size();
 
-        P.resize(Neighbor2x_num, 3);
-        Q.resize(Neighbor2x_num, 3);
+            // store the index of the 1st Neighbor vertex index
+            Neighbor_Vert.push_back(Neighbor_Vert_index);
 
-        int index=0;
-
-        for(int Neighbor_index=0; Neighbor_index < Neighbor_num; Neighbor_index++) // for all neighbors in each vertex
-        {
-            // calculate the neighbor2x vertex index
-            int Neighbor2x_Vert_index = _plyMesh -> trimesh::TriMesh::neighbors.at(Vert_index).at(Neighbor_index);
-            // the number of the neighbor2x vertex
-            Neighbor2x_num = _plyMesh -> trimesh::TriMesh::neighbors.at(Neighbor2x_Vert_index).size();
-
+            // evaluate the 2nd Neighbor
             for(int Neighbor2x_index=0; Neighbor2x_index<Neighbor2x_num; Neighbor2x_index++) //for all neighbor in each neighbor2x vertex
             {
-                // for template
-                P.row(index) << vertsT.row(_plyMeshT -> trimesh::TriMesh::neighbors.at(Neighbor2x_Vert_index).at(Neighbor2x_index)) - vertsT.row(Neighbor2x_Vert_index);
-                // for reference
-                Q.row(index) << vertsR.row(_plyMeshR -> trimesh::TriMesh::neighbors.at(Neighbor2x_Vert_index).at(Neighbor2x_index)) - vertsR.row(Neighbor2x_Vert_index);
+                // 2nd Neighbor vertex index
+                int Neighbor2x_Vert_index = _plyMeshT -> trimesh::TriMesh::neighbors.at(Neighbor_Vert_index).at(Neighbor2x_index);
 
-                index++;
+                // store the index of the 2nd Neighbor vertex index
+                Neighbor_Vert.push_back(Neighbor2x_Vert_index);
             }
         }
+
+        // erase the doppel vertex index
+        sort(Neighbor_Vert.begin(), Neighbor_Vert.end());
+        Neighbor_Vert.erase(unique(Neighbor_Vert.begin(), Neighbor_Vert.end()), Neighbor_Vert.end());
+
+        int Neighbor_Vert_size = Neighbor_Vert.size();
+
+        P.resize(Neighbor_Vert_size, 3);
+        Q.resize(Neighbor_Vert_size, 3);
+
+        for(int i=0; i<Neighbor_Vert_size; i++)
+        {
+            // for template
+            P.row(i) << vertsT.row(Neighbor_Vert[i]) - vertsT.row(Vert_index);
+            // for reference
+            Q.row(i) << vertsR.row(Neighbor_Vert[i]) - vertsR.row(Vert_index);
+        }
+
         Eigen::SelfAdjointEigenSolver<Eigen::Matrix3d> solv((P.transpose()*Q).transpose() * (P.transpose()*Q));
 
         this -> Eigval_neighbor2x.block(Eig_index,0,3,1) << solv.eigenvalues().cwiseSqrt();
         this -> Eigvec_neighbor2x.block(Eig_index,0,3,3) << solv.eigenvectors();
 
+        // initialize
         P.resize(0,0);
         Q.resize(0,0);
+        Neighbor_Vert.clear();
 
         Eig_index = Eig_index+3;
     }
@@ -557,26 +572,6 @@ void cloth_calc::cloth_WriteColor(Eigen::MatrixXd Eigval_norm, const std::string
     plyColor -> setCurvatures(Eigval_norm);
 
     plyColor -> writePLY(ifileName, true, false, false, true, false);
-
-    // using color-map
-    /*
-    std::vector< std::vector<double> > cmap = makeColorMap();
-
-    Eigen::MatrixXi Eigval_color;
-    Eigval_color.resize(Eigval_num, 3);
-
-    for(int Eigval_index=0; Eigval_index<Eigval_num; Eigval_index++)
-    {
-        int idx;
-
-        if(isnan(Eigval_norm(Eigval_index, 0)))
-            {idx = 0;}
-        else
-            {idx = Eigval_norm(Eigval_index, 0) * (cmap.size()-1);}
-
-        Eigval_color.row(Eigval_index) << cmap[idx][0], cmap[idx][1], cmap[idx][2];
-    }
-    */
 
 }
 

@@ -54,11 +54,11 @@ int main(int argc, char *argv[])
     ///// START THE SIMULATION /////
     ////////////////////////////////
 
-    for(CR=3; CR<4; CR++)
+    for(CR=1; CR<75; CR++)
     {
-        CT = CR-3;
-        BS = CR-3;
-        FILE = CR-3;
+        CT = 0;
+        BS = 0;
+        FILE = CR-1;
 
         cloth_calc* cloth = new cloth_calc(control->GetInput(CT) , control->GetInput(CR), control->GetInput(BS));
 
