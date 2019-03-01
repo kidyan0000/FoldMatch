@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.2.4)  27 FEB 2019 14:38
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.2.4)  1 MAR 2019 11:23
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -878,42 +878,56 @@ nput line 236.
  <./image//Singular_Value_Decomposition_svd.png>] [9
 
 ]
-<image//Procrustes_superimposition.png, id=289, 308.352pt x 240.6591pt>
-File: image//Procrustes_superimposition.png Graphic file (type png)
-<use image//Procrustes_superimposition.png>
-Package pdftex.def Info: image//Procrustes_superimposition.png  used on input l
-ine 271.
-(pdftex.def)             Requested size: 171.14764pt x 133.57838pt.
+
+LaTeX Warning: Citation `schonemann1966generalized' on page 10 undefined on inp
+ut line 273.
+
+
+LaTeX Warning: Citation `zhang2000flexible' on page 10 undefined on input line 
+273.
+
+
+LaTeX Warning: Reference `eq:deformation_gradient' on page 10 undefined on inpu
+t line 273.
 
 [10
 
- <./image//Procrustes_superimposition.png>] [11
+]
+<image//Procrustes_superimposition.png, id=317, 308.352pt x 240.6591pt>
+File: image//Procrustes_superimposition.png Graphic file (type png)
+<use image//Procrustes_superimposition.png>
+Package pdftex.def Info: image//Procrustes_superimposition.png  used on input l
+ine 284.
+(pdftex.def)             Requested size: 171.14764pt x 133.57838pt.
+ [11
+
+ <./image//Procrustes_superimposition.png>] [12
 
 ]
 
 LaTeX Font Warning: Font shape `OT1/cmss/bx/it' undefined
-(Font)              using `OT1/cmss/bx/n' instead on input line 318.
+(Font)              using `OT1/cmss/bx/n' instead on input line 331.
 
 
-LaTeX Warning: Citation `liu2002continuum' on page 12 undefined on input line 3
-18.
-
-[12
-
-]
-
-LaTeX Warning: Citation `haupt2013continuum' on page 13 undefined on input line
- 335.
+LaTeX Warning: Citation `liu2002continuum' on page 13 undefined on input line 3
+31.
 
 [13
 
-] [14
+]
+
+LaTeX Warning: Citation `haupt2013continuum' on page 14 undefined on input line
+ 348.
+
+[14
 
 ] [15
 
 ] [16
 
 ] [17
+
+] [18
 
 ]
 \tf@nav=\write6
@@ -925,11 +939,11 @@ LaTeX Warning: Citation `haupt2013continuum' on page 13 undefined on input line
 \tf@snm=\write8
 \openout8 = `log.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 390.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 390.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 403.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 403.
  (./log.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 390.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 390.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 403.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 403.
 Package rerunfilecheck Info: File `log.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 
@@ -941,29 +955,32 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 17136 strings out of 494880
- 325714 string characters out of 6179602
+ 17142 strings out of 494880
+ 325821 string characters out of 6179602
  396816 words of memory out of 5000000
- 20024 multiletter control sequences out of 15000+600000
+ 20027 multiletter control sequences out of 15000+600000
  17942 words of font info for 64 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  48i,17n,57p,770b,862s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></us
-r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/shar
-e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texli
-ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/share/texlive/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/share/texlive/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/share/texlive/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmssbx10.pfb></usr/share/texlive/texmf-dist/fonts/typ
-e1/public/amsfonts/cm/cmssi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
-blic/amsfonts/cm/cmssi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmssi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmsy8.pfb>
-Output written on log.pdf (17 pages, 551859 bytes).
+pdfTeX warning (dest): name{eq:deformation_gradient} has been referenced but 
+does not exist, replaced by a fixed one
+
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/
+share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/
+texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/share/texlive/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/share/texlive/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/share/texlive/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmssbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmssi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmssi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmssi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+sy8.pfb>
+Output written on log.pdf (18 pages, 555804 bytes).
 PDF statistics:
- 553 PDF objects out of 1000 (max. 8388607)
- 497 compressed objects within 5 object streams
- 37 named destinations out of 1000 (max. 500000)
+ 582 PDF objects out of 1000 (max. 8388607)
+ 524 compressed objects within 6 object streams
+ 40 named destinations out of 1000 (max. 500000)
  107 words of extra memory for PDF output out of 10000 (max. 10000000)
 

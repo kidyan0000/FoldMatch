@@ -262,6 +262,19 @@ and $d=\det\mathbf{V}\mathbf{U}^T$
 %----------------------------------------------------------------------------------------
 
 \begin{frame}
+The matrix $\mathbf{H}$ is derived from the \emph{orthogonal Procrustes problem}\cite{schonemann1966generalized}. It is defined as the least-squares problem of transforming a given matrix $\mathbf{P}$ into a given matrix $\mathbf{Q}$ by an orthogonal transformation matrix $\mathbf{R}$, such that the sums of squares of the residual matrix $\mathbf{E}=\mathbf{\Omega} \mathbf{P} - \mathbf{Q}$ is a minimum
+\begin{align}
+\mathbf{R}=\mathop{\arg\min}_{\mathbf{\Omega}} \| \mathbf{\Omega} \mathbf{P} - \mathbf{Q} \|_{F} \quad \mbox{subject to} \quad \mathbf{\Omega}^T\mathbf{\Omega}=\mathbf{I},
+\end{align}
+where $\| \cdot \|_{F}$ is the Frobenius norm. This problem is equivalent to find the nearest orthogonal matrix $\mathbf{R}$ to a given matrix $\mathbf{H} = \mathbf{P}^T \mathbf{Q}$ \cite{zhang2000flexible}, which most closely maps $\mathbf{P}$ to $\mathbf{Q}$. Thus, we use $\mathbf{H}$ to approximate the deformation gradient $\mathbf{F}$ in Eq. \eqref{eq:deformation_gradient}
+\begin{align}
+\widetilde{\mathbf{F}} = \mathbf{H}.
+\end{align}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+\begin{frame}
 The cross-covariance matrix discribe the covariance of one process with the other at pairs of time points and measure of similarity. We use therefore the cross-covariance matrix $\mathbf{H}$ to approximate our deformation gradient $\mathbf{F}$.
 \begin{figure}
 \centering
