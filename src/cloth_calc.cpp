@@ -362,7 +362,7 @@ void cloth_calc::cloth_L_3D(Eigen::MatrixXd F_CT, Eigen::MatrixXd F_CR, double d
     int Defo_index = 0;
     for(int Vert_index=0; Vert_index<Vert_num; Vert_index++)
     {
-        this -> F_3D_inv.block(Defo_index,0,3,3) << F_CT.block(Defo_index,0,3,3).inverse();
+        this -> F_3D_inv.block(Defo_index,0,3,3) << F_CR.block(Defo_index,0,3,3).inverse();
         Defo_index = Defo_index+3;
     }
     // calculate the L

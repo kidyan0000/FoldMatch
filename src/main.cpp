@@ -64,17 +64,17 @@ int main(int argc, char *argv[])
         deltaT = 0.005;
 
 
-        cloth_calc* cloth_T = new cloth_calc(control->GetInput(CT) , control->GetInput(CR), control->GetInput(BS));
-        cloth_calc* cloth_R = new cloth_calc(control->GetInput(CT+1) , control->GetInput(CR+1), control->GetInput(BS));
+        cloth_calc* slot_CT = new cloth_calc(control->GetInput(CT) , control->GetInput(CR), control->GetInput(BS));
+        cloth_calc* slot_CR = new cloth_calc(control->GetInput(CT+1) , control->GetInput(CR+1), control->GetInput(BS));
 
-        cloth_T -> cloth_eig_neighbor2x();
-        cloth_R -> cloth_eig_neighbor2x();
+        slot_CT -> cloth_eig_neighbor2x();
+        slot_CR -> cloth_eig_neighbor2x();
 
-        Eigen::MatrixXd val = cloth_T->GetEigval_neighbor2x();
-        cloth_T -> cloth_vec_normalize(val, 3);
-        cloth_T -> cloth_WriteColor(cloth_T->GetEigval_norm_dir1(), control->GetOutput(FILE));
+        Eigen::MatrixXd val = slot_CR->GetEigval_neighbor2x();
+        slot_CR -> cloth_vec_normalize(val, 3);
+        slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), control->GetOutput(FILE));
 
-        cloth_T -> cloth_L_3D(cloth_T->GetF_3D(), cloth_R->GetF_3D(), deltaT);
+        slot_CR -> cloth_L_3D(slot_CT->GetF_3D(), slot_CR->GetF_3D(), deltaT);
 
         std::ofstream outfile(control->Readme(FILE));
         outfile << "Template is: "  << control->GetInput(CT) << std::endl;
@@ -88,8 +88,8 @@ int main(int argc, char *argv[])
         ///////////////////////////////
 
         // std::cout << control->Readme(i) << std::endl;
-        std::ofstream Test("../output/TEST.txt");
-        Test<< cloth_T->GetD_3D() << std::endl;
+        std::ofstream Test("../output/F_inv.txt");
+        Test<< slot_CR->GetW_3D() << std::endl;
         Test.close();
     }
 
