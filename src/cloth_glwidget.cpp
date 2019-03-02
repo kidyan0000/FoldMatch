@@ -27,7 +27,7 @@ void Cloth_GLWidget::initVbo()
 
     // get vertices
     ply_module* _plyModule = new ply_module();
-    _plyModule->readPLY("../data/Reference-1180330141717.ply", true, true, true, true, true);
+    _plyModule->readPLY("../data/Template-1_0001.ply", true, true, true, true, true);
 
     if (_plyModule->getVertices().rows() != 0)
     {

@@ -73,4 +73,3 @@
 ../data/Template-73_0073.ply
 ../data/Template-74_0074.ply
 ../data/Template-75_0075.ply
-../data/Reference-1180330141717.ply

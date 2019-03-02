@@ -30,8 +30,7 @@ int main(int argc, char *argv[])
 
     cloth_control *control = new cloth_control;
 
-    control -> cloth_lambda("lambda3");
-
+    control -> cloth_lambda("lambda1");
     control -> cloth_input("../data/");
     control -> cloth_output("../output/debug/");
 
@@ -42,6 +41,8 @@ int main(int argc, char *argv[])
     int CR;   // cloth reference
     int BS;   // cloth base
     int FILE; // file name
+
+    double deltaT;
 
     // create the folder
     std::string dir = "../output/debug/readme";
@@ -54,23 +55,26 @@ int main(int argc, char *argv[])
     ///// START THE SIMULATION /////
     ////////////////////////////////
 
-    for(CR=1; CR<75; CR++)
+    for(int slot=0; slot<2; slot++)
     {
-        CT = 0;
-        BS = 0;
-        FILE = CR-1;
+        CT = slot;
+        CR = slot+3;
+        BS = slot;
+        FILE = slot;
+        deltaT = 0.005;
 
-        cloth_calc* cloth = new cloth_calc(control->GetInput(CT) , control->GetInput(CR), control->GetInput(BS));
 
-        // cloth -> cloth_eig_neighbor();
-        // Eigen::MatrixXd val = cloth->GetEigval_neighbor();
+        cloth_calc* cloth_T = new cloth_calc(control->GetInput(CT) , control->GetInput(CR), control->GetInput(BS));
+        cloth_calc* cloth_R = new cloth_calc(control->GetInput(CT+1) , control->GetInput(CR+1), control->GetInput(BS));
 
-        cloth -> cloth_eig_neighbor2x();
-        Eigen::MatrixXd val = cloth->GetEigval_neighbor2x();
+        cloth_T -> cloth_eig_neighbor2x();
+        cloth_R -> cloth_eig_neighbor2x();
 
-        cloth -> cloth_vec_normalize(val, 3);
+        Eigen::MatrixXd val = cloth_T->GetEigval_neighbor2x();
+        cloth_T -> cloth_vec_normalize(val, 3);
+        cloth_T -> cloth_WriteColor(cloth_T->GetEigval_norm_dir1(), control->GetOutput(FILE));
 
-        cloth -> cloth_WriteColor(cloth->GetEigval_norm_dir3(), control->GetOutput(FILE));
+        cloth_T -> cloth_L_3D(cloth_T->GetF_3D(), cloth_R->GetF_3D(), deltaT);
 
         std::ofstream outfile(control->Readme(FILE));
         outfile << "Template is: "  << control->GetInput(CT) << std::endl;
@@ -84,9 +88,9 @@ int main(int argc, char *argv[])
         ///////////////////////////////
 
         // std::cout << control->Readme(i) << std::endl;
-        // std::ofstream Test("../output/Test.txt");
-        // Test<< val << std::endl;
-        // Test.close();
+        std::ofstream Test("../output/TEST.txt");
+        Test<< cloth_T->GetD_3D() << std::endl;
+        Test.close();
     }
 
 

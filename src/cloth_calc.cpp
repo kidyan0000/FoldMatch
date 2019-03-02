@@ -209,12 +209,12 @@ void cloth_calc::cloth_eig_3D()
 }
 
 
-void cloth_calc::cloth_defo_2D()
+void cloth_calc::cloth_U_2D()
 {
     cloth_eig_2D();
 
     // initialize the matrix to store the stretch tensor
-    this -> Defo_2D.resize(faces.rows()*6,2);
+    this -> U_2D.resize(faces.rows()*6,2);
 
     int Defo_num = faces.rows()*6;
 
@@ -231,30 +231,30 @@ void cloth_calc::cloth_defo_2D()
         */
 
         // U = sqrt(/lamdba_1)*v1*v1^T + sqrt(/lamdba_2)*v2*v2^T
-        Defo_2D.block(Defo_index,0,2,2) << ( (this -> Eigval_2D(Defo_index,0)) * (this -> Eigvec_2D.block(Defo_index,0,2,2).col(0)) * this -> Eigvec_2D.block(Defo_index,0,2,2).col(0).transpose() ) + ( (this -> Eigval_2D(Defo_index+1,0)) * (this -> Eigvec_2D.block(Defo_index,0,2,2).col(1)) * this -> Eigvec_2D.block(Defo_index,0,2,2).col(1).transpose());
+        U_2D.block(Defo_index,0,2,2) << ( (this -> Eigval_2D(Defo_index,0)) * (this -> Eigvec_2D.block(Defo_index,0,2,2).col(0)) * this -> Eigvec_2D.block(Defo_index,0,2,2).col(0).transpose() ) + ( (this -> Eigval_2D(Defo_index+1,0)) * (this -> Eigvec_2D.block(Defo_index,0,2,2).col(1)) * this -> Eigvec_2D.block(Defo_index,0,2,2).col(1).transpose());
     }
 }
 
-void cloth_calc::cloth_defo_3D()
+void cloth_calc::cloth_U_3D()
 {
     cloth_eig_3D();
 
     // initialize the matrix to store the stretch tensor
-    this -> Defo_3D.resize(faces.rows()*9,3);
+    this -> U_3D.resize(faces.rows()*9,3);
 
     int Defo_num = faces.rows()*9;
 
     for(int Defo_index=0; Defo_index<Defo_num; Defo_index=Defo_index+3)
     {
         // U = (/lamdba_1)*v1*v1^T + (/lamdba_2)*v2*v2^T + (/lamdba_3)*v3*v3^T
-        Defo_3D.block(Defo_index,0,3,3) << ( (this -> Eigval_3D(Defo_index,0)) * (this -> Eigvec_3D.block(Defo_index,0,3,3).col(0)) * this -> Eigvec_3D.block(Defo_index,0,3,3).col(0).transpose() ) + ( (this -> Eigval_3D(Defo_index+1,0)) * (this -> Eigvec_3D.block(Defo_index,0,3,3).col(1)) * this -> Eigvec_3D.block(Defo_index,0,3,3).col(1).transpose()) + ( (this -> Eigval_3D(Defo_index+2,0)) * (this -> Eigvec_3D.block(Defo_index,0,3,3).col(2)) * this -> Eigvec_3D.block(Defo_index,0,3,3).col(2).transpose());
+        U_3D.block(Defo_index,0,3,3) << ( (this -> Eigval_3D(Defo_index,0)) * (this -> Eigvec_3D.block(Defo_index,0,3,3).col(0)) * this -> Eigvec_3D.block(Defo_index,0,3,3).col(0).transpose() ) + ( (this -> Eigval_3D(Defo_index+1,0)) * (this -> Eigvec_3D.block(Defo_index,0,3,3).col(1)) * this -> Eigvec_3D.block(Defo_index,0,3,3).col(1).transpose()) + ( (this -> Eigval_3D(Defo_index+2,0)) * (this -> Eigvec_3D.block(Defo_index,0,3,3).col(2)) * this -> Eigvec_3D.block(Defo_index,0,3,3).col(2).transpose());
     }
 
 }
 
-void cloth_calc::cloth_defo_assemble()
+void cloth_calc::cloth_U_assemble()
 {
-    cloth_defo_3D();
+    cloth_U_3D();
 
     // now we assemble all the stretch tensor U by the vertex index
 
@@ -264,7 +264,7 @@ void cloth_calc::cloth_defo_assemble()
 
     // we calculate at fiest the trianglearea based weights
     int Vert_num = verts.rows();
-    Defo_3D_assemble.resize(Vert_num*3,3);
+    U_3D_assem.resize(Vert_num*3,3);
 
 
     for(int Vert_index=0; Vert_index<Vert_num; Vert_index++) // for all vertice
@@ -324,12 +324,12 @@ void cloth_calc::cloth_defo_assemble()
 
 }
 
-void cloth_calc::cloth_displ()
+void cloth_calc::cloth_H_2D()
 {
     cloth_vec();
 
     // initialize the matrix to store the transformation matrix
-    this -> Displ.resize(faces.rows()*6,2);
+    this -> H_2D.resize(faces.rows()*6,2);
 
     int Displ_index = 0;
     int Displ_num = faces.rows()*3;
@@ -342,8 +342,43 @@ void cloth_calc::cloth_displ()
         Eigen::MatrixXd Transf((Eigen::Map<Eigen::Matrix<double,3,2> >(this -> VecT.col(Vec_index).data())).block<2,2>(0,0) * ((Eigen::Map<Eigen::Matrix<double,3,2> >(this -> VecR.col(Vec_index).data())).block<2,2>(0,0)).inverse());
 
         // H = F-1
-        this -> Displ.block(Displ_index,0,2,2) << Transf - Eigen::MatrixXd::Identity(2,2);
+        this -> H_2D.block(Displ_index,0,2,2) << Transf - Eigen::MatrixXd::Identity(2,2);
         Displ_index = Displ_index+2;
+    }
+}
+
+void cloth_calc::cloth_L_3D(Eigen::MatrixXd F_CT, Eigen::MatrixXd F_CR, double deltaT)
+{
+    int Vert_num = verts.rows();
+    this -> F_3D_der.resize(Vert_num*3,3);
+    this -> F_3D_inv.resize(Vert_num*3,3);
+    this -> L_3D.resize(Vert_num*3,3);
+    this -> D_3D.resize(Vert_num*3,3);
+    this -> W_3D.resize(Vert_num*3,3);
+
+    // calculate the time derivation of F
+    this -> F_3D_der = (F_CR - F_CT) / deltaT;
+    // calculate the time inverse of F
+    int Defo_index = 0;
+    for(int Vert_index=0; Vert_index<Vert_num; Vert_index++)
+    {
+        this -> F_3D_inv.block(Defo_index,0,3,3) << F_CT.block(Defo_index,0,3,3).inverse();
+        Defo_index = Defo_index+3;
+    }
+    // calculate the L
+    int Vel_index = 0;
+    for(int Vert_index=0; Vert_index<Vert_num; Vert_index++)
+    {
+        this -> L_3D.block(Vel_index,0,3,3) << F_3D_der.block(Vel_index,0,3,3) * F_3D_inv.block(Vel_index,0,3,3);
+        Vel_index = Vel_index+3;
+    }
+    // claculate the D and W
+    int index = 0;
+    for(int Vert_index=0; Vert_index<Vert_num; Vert_index++)
+    {
+        this -> D_3D.block(index,0,3,3) << 1/2.*(L_3D.block(index,0,3,3) + L_3D.block(index,0,3,3).transpose());
+        this -> W_3D.block(index,0,3,3) << 1/2.*(L_3D.block(index,0,3,3) - L_3D.block(index,0,3,3).transpose());
+        index = index+3;
     }
 }
 
@@ -415,18 +450,18 @@ void cloth_calc::cloth_eig_neighbor()
     }
 }
 
-void cloth_calc::cloth_defo_neighbor()
+void cloth_calc::cloth_U_neighbor()
 {
     cloth_eig_neighbor();
 
-    this -> Defo_neighbor.resize(faces.rows()*9,3);
+    this -> U_neighbor.resize(faces.rows()*9,3);
 
     int Defo_num = faces.rows()*9;
 
     for(int Defo_index=0; Defo_index<Defo_num; Defo_index=Defo_index+3)
     {
         // U = /lamdba_1*v1*v1^T + /lamdba_2*v2*v2^T + /lamdba_3*v3*v3^T
-        Defo_neighbor.block(Defo_index,0,3,3) << ( (this -> Eigval_neighbor(Defo_index,0)) * (this -> Eigvec_neighbor.block(Defo_index,0,3,3).col(0)) * this -> Eigvec_neighbor.block(Defo_index,0,3,3).col(0).transpose() ) + ( (this -> Eigval_neighbor(Defo_index+1,0)) * (this -> Eigvec_neighbor.block(Defo_index,0,3,3).col(1)) * this -> Eigvec_neighbor.block(Defo_index,0,3,3).col(1).transpose()) + ( (this -> Eigval_neighbor(Defo_index+2,0)) * (this -> Eigvec_neighbor.block(Defo_index,0,3,3).col(2)) * this -> Eigvec_neighbor.block(Defo_index,0,3,3).col(2).transpose());
+        U_neighbor.block(Defo_index,0,3,3) << ( (this -> Eigval_neighbor(Defo_index,0)) * (this -> Eigvec_neighbor.block(Defo_index,0,3,3).col(0)) * this -> Eigvec_neighbor.block(Defo_index,0,3,3).col(0).transpose() ) + ( (this -> Eigval_neighbor(Defo_index+1,0)) * (this -> Eigvec_neighbor.block(Defo_index,0,3,3).col(1)) * this -> Eigvec_neighbor.block(Defo_index,0,3,3).col(1).transpose()) + ( (this -> Eigval_neighbor(Defo_index+2,0)) * (this -> Eigvec_neighbor.block(Defo_index,0,3,3).col(2)) * this -> Eigvec_neighbor.block(Defo_index,0,3,3).col(2).transpose());
     }
 }
 
@@ -436,12 +471,14 @@ void cloth_calc::cloth_eig_neighbor2x()
 
     // initialize the points set P(reference) and Q(template)
     Eigen::MatrixXd P, Q;
-    // Eigen::MatrixXd H;
+    Eigen::MatrixXd H;
+    Eigen::MatrixXd C;
 
     // initialize the eigenvalues and eigenvectors
     int Vert_num = verts.rows();
     this -> Eigval_neighbor2x.resize(Vert_num*3,1);
     this -> Eigvec_neighbor2x.resize(Vert_num*3,3);
+    this -> F.resize(Vert_num*3,3);
 
     // initialize the trimesh
     cloth_init_neighbor();
@@ -494,6 +531,8 @@ void cloth_calc::cloth_eig_neighbor2x()
 
         P.resize(Neighbor_Vert_size, 3);
         Q.resize(Neighbor_Vert_size, 3);
+        H.resize(3,3);
+        C.resize(3,3);
 
         for(int i=0; i<Neighbor_Vert_size; i++)
         {
@@ -503,14 +542,19 @@ void cloth_calc::cloth_eig_neighbor2x()
             Q.row(i) << vertsR.row(Neighbor_Vert[i]) - vertsR.row(Vert_index);
         }
 
-        Eigen::SelfAdjointEigenSolver<Eigen::Matrix3d> solv((P.transpose()*Q).transpose() * (P.transpose()*Q));
+        H = P.transpose() * Q;
+        C = H.transpose() * H;
+        Eigen::SelfAdjointEigenSolver<Eigen::Matrix3d> solv(C);
 
         this -> Eigval_neighbor2x.block(Eig_index,0,3,1) << solv.eigenvalues().cwiseSqrt();
         this -> Eigvec_neighbor2x.block(Eig_index,0,3,3) << solv.eigenvectors();
+        this -> F.block(Eig_index,0,3,3) << H;
 
         // initialize
         P.resize(0,0);
         Q.resize(0,0);
+        H.resize(0,0);
+        C.resize(0,0);
         Neighbor_Vert.clear();
 
         Eig_index = Eig_index+3;
@@ -586,19 +630,19 @@ Eigen::MatrixXd cloth_calc::GetEigvec()
     return this -> Eigvec_2D;
 }
 
-Eigen::MatrixXd cloth_calc::GetDefo_2D()
+Eigen::MatrixXd cloth_calc::GetF_3D()
 {
-    return this -> Defo_2D;
+    return this -> F;
 }
 
-Eigen::MatrixXd cloth_calc::GetDefo_3D()
+Eigen::MatrixXd cloth_calc::GetU_2D()
 {
-    return this -> Defo_3D;
+    return this -> U_2D;
 }
 
-Eigen::MatrixXd cloth_calc::GetDispl()
+Eigen::MatrixXd cloth_calc::GetU_3D()
 {
-    return this -> Displ;
+    return this -> U_3D;
 }
 
 Eigen::MatrixXd cloth_calc::GetEigval_3D()
@@ -610,7 +654,6 @@ Eigen::MatrixXd cloth_calc::GetEigvec_3D()
 {
     return this -> Eigvec_3D;
 }
-
 
 Eigen::MatrixXd cloth_calc::GetEigval_neighbor()
 {
@@ -646,6 +689,16 @@ Eigen::MatrixXd cloth_calc::GetEigval_norm_dir2()
 Eigen::MatrixXd cloth_calc::GetEigval_norm_dir3()
 {
     return this -> Eigval_norm_dir3;
+}
+
+Eigen::MatrixXd cloth_calc::GetD_3D()
+{
+    return this -> D_3D;
+}
+
+Eigen::MatrixXd cloth_calc::GetW_3D()
+{
+    return this -> W_3D;
 }
 
 
