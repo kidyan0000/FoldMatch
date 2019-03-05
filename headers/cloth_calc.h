@@ -2,6 +2,7 @@
 #define CLOTH_CALC_H
 
 #include <DivergingColorMaps.hpp>
+#include <nanoflann.hpp>
 
 #include <iostream>
 #include <math.h>
@@ -33,16 +34,18 @@ public:
     void cloth_vec();
     void cloth_eig_2D();
     void cloth_eig_3D();
-    void cloth_U_2D();
-    void cloth_H_2D();
-    void cloth_U_3D();
-    void cloth_U_assemble();
+    void cloth_stretchTensor_2D();
+    void cloth_displGrad_2D();
+    void cloth_stretchTensor_3D();
+    void cloth_stretchTensor_assemble();
     // USING NEIGHBOR
     void cloth_eig_neighbor();
     void cloth_eig_neighbor2x();
-    void cloth_U_neighbor();
+    void cloth_stretchTensor_neighbor();
+    // USING KD-TREE
+    void cloth_stretchTensor_kdTree();
 
-    void cloth_L_3D(Eigen::MatrixXd F_CT, Eigen::MatrixXd F_CR, double deltaT);
+    void cloth_velGrad_3D(Eigen::MatrixXd F_CT, Eigen::MatrixXd F_CR, double deltaT);
 
     // COLLORMAP
     void cloth_vec_normalize(Eigen::MatrixXd Eigenval, int dim);
@@ -52,9 +55,9 @@ public:
 
     Eigen::MatrixXd GetEigval();
     Eigen::MatrixXd GetEigvec();
-    Eigen::MatrixXd GetU_2D();
-    Eigen::MatrixXd GetU_3D();
-    Eigen::MatrixXd GetF_3D();
+    Eigen::MatrixXd GetStretchTensor_2D();
+    Eigen::MatrixXd GetStretchTensor_3D();
+    Eigen::MatrixXd GetDefoGrad();
     Eigen::MatrixXd GetEigval_3D();
     Eigen::MatrixXd GetEigvec_3D();
     Eigen::MatrixXd GetEigval_neighbor();
@@ -64,8 +67,8 @@ public:
     Eigen::MatrixXd GetEigval_norm_dir1();
     Eigen::MatrixXd GetEigval_norm_dir2();
     Eigen::MatrixXd GetEigval_norm_dir3();
-    Eigen::MatrixXd GetD_3D();
-    Eigen::MatrixXd GetW_3D();
+    Eigen::MatrixXd GetVelTensor();
+    Eigen::MatrixXd GetRotTensor();
 
 
 private:
@@ -94,11 +97,11 @@ private:
     Eigen::MatrixXd U_3D;
     Eigen::MatrixXd U_3D_assem;
 
-    Eigen::MatrixXd F_3D_der;
-    Eigen::MatrixXd F_3D_inv;
-    Eigen::MatrixXd L_3D;
-    Eigen::MatrixXd D_3D;
-    Eigen::MatrixXd W_3D;
+    Eigen::MatrixXd F_der;
+    Eigen::MatrixXd F_inv;
+    Eigen::MatrixXd L;
+    Eigen::MatrixXd D;
+    Eigen::MatrixXd W;
 
     //
     Eigen::MatrixXd Eigval_neighbor, Eigvec_neighbor;

@@ -268,9 +268,9 @@ DIST          = /opt/Qt/5.12.0/gcc_64/mkspecs/features/spec_pre.prf \
 		../headers/cloth_calc.h \
 		headers/cloth_controll.h \
 		../headers/cloth_control.h \
-		../headers/nanoflann.hpp \
 		../headers/DivergingColorMaps.hpp \
-		headers/TriMesh/*h ../src/main.cpp \
+		headers/TriMesh/*h \
+		../headers/nanoflann.hpp ../src/main.cpp \
 		../src/ply_Module.cpp \
 		../src/tinyply.cpp \
 		../src/cloth_glwidget.cpp \
@@ -702,7 +702,7 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /opt/Qt/5.12.0/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../headers/ply_Module.h ../headers/tinyply.h ../headers/cloth_glwidget.h ../headers/cloth_window.h ../headers/cloth_calc.h headers/cloth_controll.h ../headers/cloth_control.h ../headers/nanoflann.hpp ../headers/DivergingColorMaps.hpp headers/TriMesh/*h $(DISTDIR)/
+	$(COPY_FILE) --parents ../headers/ply_Module.h ../headers/tinyply.h ../headers/cloth_glwidget.h ../headers/cloth_window.h ../headers/cloth_calc.h headers/cloth_controll.h ../headers/cloth_control.h ../headers/DivergingColorMaps.hpp headers/TriMesh/*h ../headers/nanoflann.hpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../src/main.cpp ../src/ply_Module.cpp ../src/tinyply.cpp ../src/cloth_glwidget.cpp ../src/cloth_window.cpp ../src/cloth_calc.cpp ../src/cloth_control.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../GUI/cloth_window.ui $(DISTDIR)/
 
@@ -1454,6 +1454,7 @@ main.o: ../src/main.cpp ../headers/cloth_window.h \
 		../headers/cloth_calc.h \
 		../headers/DivergingColorMaps.hpp \
 		/opt/Qt/5.12.0/gcc_64/include/QtCore/QVector \
+		../headers/nanoflann.hpp \
 		../headers/TriMesh/TriMesh.h \
 		../headers/TriMesh/Vec.h \
 		../headers/TriMesh/mathutil.h \
@@ -1463,6 +1464,7 @@ main.o: ../src/main.cpp ../headers/cloth_window.h \
 		../headers/TriMesh/Color.h \
 		../headers/ply_Module.h \
 		../headers/cloth_control.h \
+		/opt/Qt/5.12.0/gcc_64/include/QtCore/QTextStream \
 		/opt/Qt/5.12.0/gcc_64/include/QtWidgets/QApplication \
 		/opt/Qt/5.12.0/gcc_64/include/QtWidgets/qapplication.h \
 		/opt/Qt/5.12.0/gcc_64/include/QtCore/qcoreapplication.h \
@@ -2483,6 +2485,7 @@ cloth_calc.o: ../src/cloth_calc.cpp ../headers/cloth_calc.h \
 		/opt/Qt/5.12.0/gcc_64/include/QtCore/qregexp.h \
 		/opt/Qt/5.12.0/gcc_64/include/QtCore/qstringmatcher.h \
 		/opt/Qt/5.12.0/gcc_64/include/QtCore/qpoint.h \
+		../headers/nanoflann.hpp \
 		../headers/TriMesh/TriMesh.h \
 		../headers/TriMesh/Vec.h \
 		../headers/TriMesh/mathutil.h \

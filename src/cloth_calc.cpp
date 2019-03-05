@@ -209,7 +209,7 @@ void cloth_calc::cloth_eig_3D()
 }
 
 
-void cloth_calc::cloth_U_2D()
+void cloth_calc::cloth_stretchTensor_2D()
 {
     cloth_eig_2D();
 
@@ -235,7 +235,7 @@ void cloth_calc::cloth_U_2D()
     }
 }
 
-void cloth_calc::cloth_U_3D()
+void cloth_calc::cloth_stretchTensor_3D()
 {
     cloth_eig_3D();
 
@@ -252,9 +252,9 @@ void cloth_calc::cloth_U_3D()
 
 }
 
-void cloth_calc::cloth_U_assemble()
+void cloth_calc::cloth_stretchTensor_assemble()
 {
-    cloth_U_3D();
+    cloth_stretchTensor_3D();
 
     // now we assemble all the stretch tensor U by the vertex index
 
@@ -324,7 +324,7 @@ void cloth_calc::cloth_U_assemble()
 
 }
 
-void cloth_calc::cloth_H_2D()
+void cloth_calc::cloth_displGrad_2D()
 {
     cloth_vec();
 
@@ -347,37 +347,37 @@ void cloth_calc::cloth_H_2D()
     }
 }
 
-void cloth_calc::cloth_L_3D(Eigen::MatrixXd F_CT, Eigen::MatrixXd F_CR, double deltaT)
+void cloth_calc::cloth_velGrad_3D(Eigen::MatrixXd F_CT, Eigen::MatrixXd F_CR, double deltaT)
 {
     int Vert_num = verts.rows();
-    this -> F_3D_der.resize(Vert_num*3,3);
-    this -> F_3D_inv.resize(Vert_num*3,3);
-    this -> L_3D.resize(Vert_num*3,3);
-    this -> D_3D.resize(Vert_num*3,3);
-    this -> W_3D.resize(Vert_num*3,3);
+    this -> F_der.resize(Vert_num*3,3);
+    this -> F_inv.resize(Vert_num*3,3);
+    this -> L.resize(Vert_num*3,3);
+    this -> D.resize(Vert_num*3,3);
+    this -> W.resize(Vert_num*3,3);
 
     // calculate the time derivation of F
-    this -> F_3D_der = (F_CR - F_CT) / deltaT;
+    this -> F_der = (F_CR - F_CT) / deltaT;
     // calculate the time inverse of F
     int Defo_index = 0;
     for(int Vert_index=0; Vert_index<Vert_num; Vert_index++)
     {
-        this -> F_3D_inv.block(Defo_index,0,3,3) << F_CR.block(Defo_index,0,3,3).inverse();
+        this -> F_inv.block(Defo_index,0,3,3) << F_CR.block(Defo_index,0,3,3).inverse();
         Defo_index = Defo_index+3;
     }
     // calculate the L
     int Vel_index = 0;
     for(int Vert_index=0; Vert_index<Vert_num; Vert_index++)
     {
-        this -> L_3D.block(Vel_index,0,3,3) << F_3D_der.block(Vel_index,0,3,3) * F_3D_inv.block(Vel_index,0,3,3);
+        this -> L.block(Vel_index,0,3,3) << F_der.block(Vel_index,0,3,3) * F_inv.block(Vel_index,0,3,3);
         Vel_index = Vel_index+3;
     }
     // claculate the D and W
     int index = 0;
     for(int Vert_index=0; Vert_index<Vert_num; Vert_index++)
     {
-        this -> D_3D.block(index,0,3,3) << 1/2.*(L_3D.block(index,0,3,3) + L_3D.block(index,0,3,3).transpose());
-        this -> W_3D.block(index,0,3,3) << 1/2.*(L_3D.block(index,0,3,3) - L_3D.block(index,0,3,3).transpose());
+        this -> D.block(index,0,3,3) << 1/2.*(L.block(index,0,3,3) + L.block(index,0,3,3).transpose());
+        this -> W.block(index,0,3,3) << 1/2.*(L.block(index,0,3,3) - L.block(index,0,3,3).transpose());
         index = index+3;
     }
 }
@@ -450,7 +450,7 @@ void cloth_calc::cloth_eig_neighbor()
     }
 }
 
-void cloth_calc::cloth_U_neighbor()
+void cloth_calc::cloth_stretchTensor_neighbor()
 {
     cloth_eig_neighbor();
 
@@ -463,6 +463,36 @@ void cloth_calc::cloth_U_neighbor()
         // U = /lamdba_1*v1*v1^T + /lamdba_2*v2*v2^T + /lamdba_3*v3*v3^T
         U_neighbor.block(Defo_index,0,3,3) << ( (this -> Eigval_neighbor(Defo_index,0)) * (this -> Eigvec_neighbor.block(Defo_index,0,3,3).col(0)) * this -> Eigvec_neighbor.block(Defo_index,0,3,3).col(0).transpose() ) + ( (this -> Eigval_neighbor(Defo_index+1,0)) * (this -> Eigvec_neighbor.block(Defo_index,0,3,3).col(1)) * this -> Eigvec_neighbor.block(Defo_index,0,3,3).col(1).transpose()) + ( (this -> Eigval_neighbor(Defo_index+2,0)) * (this -> Eigvec_neighbor.block(Defo_index,0,3,3).col(2)) * this -> Eigvec_neighbor.block(Defo_index,0,3,3).col(2).transpose());
     }
+}
+
+void cloth_calc::cloth_stretchTensor_kdTree()
+{
+    cloth_init_vert();
+
+    std::vector<double> query_pt(3);
+    for (size_t d = 0; d < 3; d++)
+      query_pt[d] = verts(20, d);
+
+    typedef nanoflann::KDTreeEigenMatrixAdaptor<Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>> kd_tree;
+
+    kd_tree vert_index(3, std::cref(verts),10);
+    vert_index.index -> buildIndex();
+
+    const size_t num_results = verts.rows() * 0.02;
+    std::vector<size_t> ret_indexes(num_results);
+    std::vector<double> out_dists_sqr(num_results);
+
+
+    nanoflann::KNNResultSet<double> resultSet(num_results);
+
+    resultSet.init(&ret_indexes[0], &out_dists_sqr[0]);
+    vert_index.index->findNeighbors(resultSet, &query_pt[0], nanoflann::SearchParams(10));
+
+    std::cout << "base vertex is " << 20 << std::endl;
+    std::cout << "knnSearch(nn=" << num_results << "): \n";
+    for (size_t i = 0; i < num_results; i++)
+      std::cout << "ret_index[" << i << "]=" << ret_indexes[i]
+                << " out_dist_sqr=" << out_dists_sqr[i] << std::endl;
 }
 
 void cloth_calc::cloth_eig_neighbor2x()
@@ -630,17 +660,17 @@ Eigen::MatrixXd cloth_calc::GetEigvec()
     return this -> Eigvec_2D;
 }
 
-Eigen::MatrixXd cloth_calc::GetF_3D()
+Eigen::MatrixXd cloth_calc::GetDefoGrad()
 {
     return this -> F;
 }
 
-Eigen::MatrixXd cloth_calc::GetU_2D()
+Eigen::MatrixXd cloth_calc::GetStretchTensor_2D()
 {
     return this -> U_2D;
 }
 
-Eigen::MatrixXd cloth_calc::GetU_3D()
+Eigen::MatrixXd cloth_calc::GetStretchTensor_3D()
 {
     return this -> U_3D;
 }
@@ -691,14 +721,14 @@ Eigen::MatrixXd cloth_calc::GetEigval_norm_dir3()
     return this -> Eigval_norm_dir3;
 }
 
-Eigen::MatrixXd cloth_calc::GetD_3D()
+Eigen::MatrixXd cloth_calc::GetVelTensor()
 {
-    return this -> D_3D;
+    return this -> D;
 }
 
-Eigen::MatrixXd cloth_calc::GetW_3D()
+Eigen::MatrixXd cloth_calc::GetRotTensor()
 {
-    return this -> W_3D;
+    return this -> W;
 }
 
 

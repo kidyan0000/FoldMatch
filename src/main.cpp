@@ -73,8 +73,7 @@ int main(int argc, char *argv[])
         Eigen::MatrixXd val = slot_CR->GetEigval_neighbor2x();
         slot_CR -> cloth_vec_normalize(val, 3);
         slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), control->GetOutput(FILE));
-
-        slot_CR -> cloth_L_3D(slot_CT->GetF_3D(), slot_CR->GetF_3D(), deltaT);
+        slot_CR -> cloth_velGrad_3D(slot_CT->GetDefoGrad(), slot_CR->GetDefoGrad(), deltaT);
 
         std::ofstream outfile(control->Readme(FILE));
         outfile << "Template is: "  << control->GetInput(CT) << std::endl;
@@ -83,13 +82,15 @@ int main(int argc, char *argv[])
         outfile << "Lambda is: "    << control->GetLambda() << std::endl;
         outfile.close();
 
+        slot_CR -> cloth_stretchTensor_kdTree();
+
         ///////////////////////////////
         ////// THIS IS FOR DEBUG //////
         ///////////////////////////////
 
         // std::cout << control->Readme(i) << std::endl;
-        std::ofstream Test("../output/F_inv.txt");
-        Test<< slot_CR->GetW_3D() << std::endl;
+        std::ofstream Test("../output/TEST.txt");
+        Test<< slot_CR->GetVelTensor() << std::endl;
         Test.close();
     }
 

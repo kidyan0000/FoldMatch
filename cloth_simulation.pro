@@ -48,9 +48,9 @@ HEADERS += \
     headers/cloth_calc.h \
     headers/cloth_controll.h \
     headers/cloth_control.h \
-    headers/nanoflann.hpp \
     headers/DivergingColorMaps.hpp \
     headers/TriMesh/*h \
+    headers/nanoflann.hpp
 
 
 
