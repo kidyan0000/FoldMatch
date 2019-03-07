@@ -465,34 +465,85 @@ void cloth_calc::cloth_stretchTensor_neighbor()
     }
 }
 
-void cloth_calc::cloth_stretchTensor_kdTree()
+void cloth_calc::cloth_eig_kdTree()
 {
     cloth_init_vert();
 
+    // initialize the points set P(reference) and Q(template)
+    Eigen::MatrixXd P, Q;
+    Eigen::MatrixXd H;
+    Eigen::MatrixXd C;
+
+    // initialize the eigenvalues and eigenvectors
+    int Vert_num = verts.rows();
+    this -> Eigval_neighborKdTree.resize(Vert_num*3,1);
+    this -> Eigvec_neighborKdTree.resize(Vert_num*3,3);
+    this -> F.resize(Vert_num*3,3);
+
     std::vector<double> query_pt(3);
-    for (size_t d = 0; d < 3; d++)
-      query_pt[d] = verts(20, d);
 
     typedef nanoflann::KDTreeEigenMatrixAdaptor<Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>> kd_tree;
 
-    kd_tree vert_index(3, std::cref(verts),10);
+    kd_tree vert_index(3, std::cref(verts),10 /* max leaf */ );
     vert_index.index -> buildIndex();
 
-    const size_t num_results = verts.rows() * 0.02;
-    std::vector<size_t> ret_indexes(num_results);
-    std::vector<double> out_dists_sqr(num_results);
+    const size_t num_results = verts.rows() * 0.02; // using 2% total vertice
 
+    int Eig_index = 0;
 
-    nanoflann::KNNResultSet<double> resultSet(num_results);
+    for(int Vert_index=0; Vert_index<Vert_num; Vert_index++) // for all Vertice
+    {
+        for (size_t d = 0; d < 3; d++)
+          query_pt[d] = this -> verts(Vert_index, d);
 
-    resultSet.init(&ret_indexes[0], &out_dists_sqr[0]);
-    vert_index.index->findNeighbors(resultSet, &query_pt[0], nanoflann::SearchParams(10));
+        std::vector<size_t> ret_indexes(num_results); // the neighbor vertice index
+        std::vector<double> out_dists_sqr(num_results); // the distance to the neighbor
 
-    std::cout << "base vertex is " << 20 << std::endl;
+        nanoflann::KNNResultSet<double> resultSet(num_results);
+
+        P.resize(num_results, 3);
+        Q.resize(num_results, 3);
+        H.resize(3,3);
+        C.resize(3,3);
+
+        resultSet.init(&ret_indexes[0], &out_dists_sqr[0]);
+        vert_index.index->findNeighbors(resultSet, &query_pt[0], nanoflann::SearchParams(10));
+
+        for(int i=0; i<num_results; i++)
+        {
+            // for template
+            P.row(i) << vertsT.row(ret_indexes[i]) - vertsT.row(Vert_index);
+            // for reference
+            Q.row(i) << vertsR.row(ret_indexes[i]) - vertsR.row(Vert_index);
+        }
+
+        H = P.transpose() * Q;
+        C = H.transpose() * H;
+
+        Eigen::SelfAdjointEigenSolver<Eigen::Matrix3d> solv(C);
+        this -> Eigval_neighborKdTree.block(Eig_index,0,3,1) << solv.eigenvalues().cwiseSqrt();
+        this -> Eigvec_neighborKdTree.block(Eig_index,0,3,3) << solv.eigenvectors();
+        this -> F.block(Eig_index,0,3,3) << H;
+
+        // initialize
+        P.resize(0,0);
+        Q.resize(0,0);
+        H.resize(0,0);
+        C.resize(0,0);
+
+        query_pt.clear();
+        ret_indexes.clear();
+        out_dists_sqr.clear();
+
+        Eig_index = Eig_index+3;
+    }
+
+    /*
     std::cout << "knnSearch(nn=" << num_results << "): \n";
     for (size_t i = 0; i < num_results; i++)
       std::cout << "ret_index[" << i << "]=" << ret_indexes[i]
                 << " out_dist_sqr=" << out_dists_sqr[i] << std::endl;
+    */
 }
 
 void cloth_calc::cloth_eig_neighbor2x()
@@ -520,7 +571,7 @@ void cloth_calc::cloth_eig_neighbor2x()
 
     std::vector<int> Neighbor_Vert;
 
-    for(int Vert_index=0; Vert_index<Vert_num; Vert_index++) // for all elements
+    for(int Vert_index=0; Vert_index<Vert_num; Vert_index++) // for all Vertice
     {
         // face has the structure of face(i.j)
         // where i is the i-th element, j is the j-th vertex of i-th element
@@ -705,6 +756,15 @@ Eigen::MatrixXd cloth_calc::GetEigvec_neighbor2x()
     return this -> Eigvec_neighbor2x;
 }
 
+Eigen::MatrixXd cloth_calc::GetEigval_neighborKdTree()
+{
+    return this -> Eigval_neighborKdTree;
+}
+
+Eigen::MatrixXd cloth_calc::GetEigvec_neighborKdTree()
+{
+    return this -> Eigvec_neighborKdTree;
+}
 
 Eigen::MatrixXd cloth_calc::GetEigval_norm_dir1()
 {

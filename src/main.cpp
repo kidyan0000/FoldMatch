@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
     ///// START THE SIMULATION /////
     ////////////////////////////////
 
-    for(int slot=0; slot<2; slot++)
+    for(int slot=0; slot<72; slot++)
     {
         CT = slot;
         CR = slot+3;
@@ -64,9 +64,10 @@ int main(int argc, char *argv[])
         deltaT = 0.005;
 
 
-        cloth_calc* slot_CT = new cloth_calc(control->GetInput(CT) , control->GetInput(CR), control->GetInput(BS));
-        cloth_calc* slot_CR = new cloth_calc(control->GetInput(CT+1) , control->GetInput(CR+1), control->GetInput(BS));
+        // cloth_calc* slot_CT = new cloth_calc(control->GetInput(CT-1) , control->GetInput(CR-1), control->GetInput(BS-1));
+        cloth_calc* slot_CR = new cloth_calc(control->GetInput(CT) , control->GetInput(CR), control->GetInput(BS));
 
+        /*
         slot_CT -> cloth_eig_neighbor2x();
         slot_CR -> cloth_eig_neighbor2x();
 
@@ -74,6 +75,12 @@ int main(int argc, char *argv[])
         slot_CR -> cloth_vec_normalize(val, 3);
         slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), control->GetOutput(FILE));
         slot_CR -> cloth_velGrad_3D(slot_CT->GetDefoGrad(), slot_CR->GetDefoGrad(), deltaT);
+        */
+
+        slot_CR -> cloth_eig_kdTree();
+        Eigen::MatrixXd val = slot_CR->GetEigval_neighborKdTree();
+        slot_CR -> cloth_vec_normalize(val, 3);
+        slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), control->GetOutput(FILE));
 
         std::ofstream outfile(control->Readme(FILE));
         outfile << "Template is: "  << control->GetInput(CT) << std::endl;
@@ -82,16 +89,16 @@ int main(int argc, char *argv[])
         outfile << "Lambda is: "    << control->GetLambda() << std::endl;
         outfile.close();
 
-        slot_CR -> cloth_stretchTensor_kdTree();
+
 
         ///////////////////////////////
         ////// THIS IS FOR DEBUG //////
         ///////////////////////////////
 
         // std::cout << control->Readme(i) << std::endl;
-        std::ofstream Test("../output/TEST.txt");
-        Test<< slot_CR->GetVelTensor() << std::endl;
-        Test.close();
+        // std::ofstream Test("../output/eigval_kdtree.txt");
+        // Test<< slot_CR->GetEigval_neighborKdTree() << std::endl;
+        // Test.close();
     }
 
 

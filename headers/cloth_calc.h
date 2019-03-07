@@ -35,15 +35,17 @@ public:
     void cloth_eig_2D();
     void cloth_eig_3D();
     void cloth_stretchTensor_2D();
-    void cloth_displGrad_2D();
     void cloth_stretchTensor_3D();
     void cloth_stretchTensor_assemble();
+    void cloth_displGrad_2D();
+
     // USING NEIGHBOR
     void cloth_eig_neighbor();
     void cloth_eig_neighbor2x();
     void cloth_stretchTensor_neighbor();
+
     // USING KD-TREE
-    void cloth_stretchTensor_kdTree();
+    void cloth_eig_kdTree();
 
     void cloth_velGrad_3D(Eigen::MatrixXd F_CT, Eigen::MatrixXd F_CR, double deltaT);
 
@@ -64,6 +66,8 @@ public:
     Eigen::MatrixXd GetEigvec_neighbor();
     Eigen::MatrixXd GetEigval_neighbor2x();
     Eigen::MatrixXd GetEigvec_neighbor2x();
+    Eigen::MatrixXd GetEigval_neighborKdTree();
+    Eigen::MatrixXd GetEigvec_neighborKdTree();
     Eigen::MatrixXd GetEigval_norm_dir1();
     Eigen::MatrixXd GetEigval_norm_dir2();
     Eigen::MatrixXd GetEigval_norm_dir3();
@@ -106,6 +110,7 @@ private:
     //
     Eigen::MatrixXd Eigval_neighbor, Eigvec_neighbor;
     Eigen::MatrixXd Eigval_neighbor2x, Eigvec_neighbor2x;
+    Eigen::MatrixXd Eigval_neighborKdTree, Eigvec_neighborKdTree;
     Eigen::MatrixXd U_neighbor;
     Eigen::MatrixXd H_neighbor;
 
