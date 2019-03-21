@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
 
     cloth_control *control = new cloth_control;
 
-    control -> cloth_lambda("lambda1");
+    control -> cloth_lambda("lambda3");
     control -> cloth_input("../data/");
     control -> cloth_output("../output/debug/");
 
@@ -61,7 +61,7 @@ int main(int argc, char *argv[])
         CR = slot+3;
         BS = slot;
         FILE = slot;
-        deltaT = 0.005;
+        deltaT = 0.003;
 
 
         // cloth_calc* slot_CT = new cloth_calc(control->GetInput(CT-1) , control->GetInput(CR-1), control->GetInput(BS-1));
@@ -70,7 +70,6 @@ int main(int argc, char *argv[])
         /*
         slot_CT -> cloth_eig_neighbor2x();
         slot_CR -> cloth_eig_neighbor2x();
-
         Eigen::MatrixXd val = slot_CR->GetEigval_neighbor2x();
         slot_CR -> cloth_vec_normalize(val, 3);
         slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), control->GetOutput(FILE));
@@ -80,7 +79,7 @@ int main(int argc, char *argv[])
         slot_CR -> cloth_eig_kdTree();
         Eigen::MatrixXd val = slot_CR->GetEigval_neighborKdTree();
         slot_CR -> cloth_vec_normalize(val, 3);
-        slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), control->GetOutput(FILE));
+        slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir3(), control->GetOutput(FILE));
 
         std::ofstream outfile(control->Readme(FILE));
         outfile << "Template is: "  << control->GetInput(CT) << std::endl;
@@ -95,10 +94,12 @@ int main(int argc, char *argv[])
         ////// THIS IS FOR DEBUG //////
         ///////////////////////////////
 
-        // std::cout << control->Readme(i) << std::endl;
-        // std::ofstream Test("../output/eigval_kdtree.txt");
-        // Test<< slot_CR->GetEigval_neighborKdTree() << std::endl;
-        // Test.close();
+        /*
+        // std::cout << control->Readme(FILE) << std::endl;
+        std::ofstream Test("../output/D.txt");
+        Test<< slot_CR->GetStrTensor() << std::endl;
+        Test.close();
+        */
     }
 
 

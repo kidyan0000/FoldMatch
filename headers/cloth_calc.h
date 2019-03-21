@@ -71,7 +71,7 @@ public:
     Eigen::MatrixXd GetEigval_norm_dir1();
     Eigen::MatrixXd GetEigval_norm_dir2();
     Eigen::MatrixXd GetEigval_norm_dir3();
-    Eigen::MatrixXd GetVelTensor();
+    Eigen::MatrixXd GetStrTensor();
     Eigen::MatrixXd GetRotTensor();
 
 

@@ -350,6 +350,7 @@ void cloth_calc::cloth_displGrad_2D()
 void cloth_calc::cloth_velGrad_3D(Eigen::MatrixXd F_CT, Eigen::MatrixXd F_CR, double deltaT)
 {
     int Vert_num = verts.rows();
+
     this -> F_der.resize(Vert_num*3,3);
     this -> F_inv.resize(Vert_num*3,3);
     this -> L.resize(Vert_num*3,3);
@@ -376,8 +377,8 @@ void cloth_calc::cloth_velGrad_3D(Eigen::MatrixXd F_CT, Eigen::MatrixXd F_CR, do
     int index = 0;
     for(int Vert_index=0; Vert_index<Vert_num; Vert_index++)
     {
-        this -> D.block(index,0,3,3) << 1/2.*(L.block(index,0,3,3) + L.block(index,0,3,3).transpose());
-        this -> W.block(index,0,3,3) << 1/2.*(L.block(index,0,3,3) - L.block(index,0,3,3).transpose());
+        this -> D.block(index,0,3,3) << 1./2.*(L.block(index,0,3,3) + L.block(index,0,3,3).transpose());
+        this -> W.block(index,0,3,3) << 1./2.*(L.block(index,0,3,3) - L.block(index,0,3,3).transpose());
         index = index+3;
     }
 }
@@ -487,11 +488,12 @@ void cloth_calc::cloth_eig_kdTree()
     kd_tree vert_index(3, std::cref(verts),10 /* max leaf */ );
     vert_index.index -> buildIndex();
 
-    const size_t num_results = verts.rows() * 0.02; // using 2% total vertice
+    // const size_t num_results = verts.rows() * 0.02; // using 2% total vertices
+    const size_t num_results = 30; // using 30 neighboring vertices
 
     int Eig_index = 0;
 
-    for(int Vert_index=0; Vert_index<Vert_num; Vert_index++) // for all Vertice
+    for(int Vert_index=0; Vert_index<Vert_num; Vert_index++) // for all Vertices
     {
         for (size_t d = 0; d < 3; d++)
           query_pt[d] = this -> verts(Vert_index, d);
@@ -781,7 +783,7 @@ Eigen::MatrixXd cloth_calc::GetEigval_norm_dir3()
     return this -> Eigval_norm_dir3;
 }
 
-Eigen::MatrixXd cloth_calc::GetVelTensor()
+Eigen::MatrixXd cloth_calc::GetStrTensor()
 {
     return this -> D;
 }
