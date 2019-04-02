@@ -1,4 +1,5 @@
 #include "cloth_glwidget.h"
+#include "cloth_control.h"
 
 #include <QtOpenGL>
 #include <QtWidgets>

@@ -30,7 +30,27 @@ int main(int argc, char *argv[])
 
     cloth_control *control = new cloth_control;
 
-    control -> cloth_lambda("lambda3");
+    // setting calculation mode
+    // MODE 1: Neighbor1x
+    // MODE 2: Neighbor2x
+    // MODE 3: KD-TREE
+    int MODE = 3;
+
+    // setting calculation lambda
+    int LAMBDA = 1;
+
+    switch(LAMBDA)
+    {
+        case 1:
+        control -> cloth_lambda("lambda1");
+        break;
+        case 2:
+        control -> cloth_lambda("lambda2");
+        break;
+        case 3:
+        control -> cloth_lambda("lambda3");
+        break;
+    }
     control -> cloth_input("../data/");
     control -> cloth_output("../output/debug/");
 
@@ -55,7 +75,8 @@ int main(int argc, char *argv[])
     ///// START THE SIMULATION /////
     ////////////////////////////////
 
-    for(int slot=0; slot<72; slot++)
+    // slot should be chosen from 1 to 74
+    for(int slot=1; slot<2; slot++)
     {
         CT = slot;
         CR = slot+3;
@@ -64,23 +85,75 @@ int main(int argc, char *argv[])
         deltaT = 0.003;
 
 
-        // cloth_calc* slot_CT = new cloth_calc(control->GetInput(CT-1) , control->GetInput(CR-1), control->GetInput(BS-1));
+        cloth_calc* slot_CT = new cloth_calc(control->GetInput(CT-1) , control->GetInput(CR-1), control->GetInput(BS-1));
         cloth_calc* slot_CR = new cloth_calc(control->GetInput(CT) , control->GetInput(CR), control->GetInput(BS));
 
-        /*
-        slot_CT -> cloth_eig_neighbor2x();
-        slot_CR -> cloth_eig_neighbor2x();
-        Eigen::MatrixXd val = slot_CR->GetEigval_neighbor2x();
-        slot_CR -> cloth_vec_normalize(val, 3);
-        slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), control->GetOutput(FILE));
-        slot_CR -> cloth_velGrad_3D(slot_CT->GetDefoGrad(), slot_CR->GetDefoGrad(), deltaT);
-        */
+        switch(MODE)
+        {
+            case 1:
+            {
+                slot_CT -> cloth_eig_neighbor();
 
-        slot_CR -> cloth_eig_kdTree();
-        Eigen::MatrixXd val = slot_CR->GetEigval_neighborKdTree();
-        slot_CR -> cloth_vec_normalize(val, 3);
-        slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir3(), control->GetOutput(FILE));
+                slot_CR -> cloth_eig_neighbor();
+                slot_CR -> cloth_vec_normalize(slot_CR->GetEigval_neighbor(), 3);
+                switch(LAMBDA)
+                {
+                    case 1:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), control->GetOutput(FILE));
+                    break;
+                    case 2:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir2(), control->GetOutput(FILE));
+                    break;
+                    case 3:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir3(), control->GetOutput(FILE));
+                    break;
+                }
+                slot_CR -> cloth_velGrad_3D(slot_CT->GetDefoGrad(), slot_CR->GetDefoGrad(), deltaT);
+                break;
+            }
+            case 2:
+            {
+                slot_CT -> cloth_eig_neighbor2x();
 
+                slot_CR -> cloth_eig_neighbor2x();
+                slot_CR -> cloth_vec_normalize(slot_CR->GetEigval_neighbor2x(), 3);
+                switch(LAMBDA)
+                {
+                    case 1:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), control->GetOutput(FILE));
+                    break;
+                    case 2:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir2(), control->GetOutput(FILE));
+                    break;
+                    case 3:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir3(), control->GetOutput(FILE));
+                    break;
+                }
+                slot_CR -> cloth_velGrad_3D(slot_CT->GetDefoGrad(), slot_CR->GetDefoGrad(), deltaT);
+                break;
+            }
+            case 3:
+            {
+                slot_CT -> cloth_eig_kdTree();
+
+                slot_CR -> cloth_eig_kdTree();
+                slot_CR -> cloth_vec_normalize(slot_CR->GetEigval_neighborKdTree(), 3);
+                switch(LAMBDA)
+                {
+                    case 1:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), control->GetOutput(FILE));
+                    break;
+                    case 2:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir2(), control->GetOutput(FILE));
+                    break;
+                    case 3:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir3(), control->GetOutput(FILE));
+                    break;
+                }
+                slot_CR -> cloth_velGrad_3D(slot_CT->GetDefoGrad(), slot_CR->GetDefoGrad(), deltaT);
+                break;
+            }
+        }
         std::ofstream outfile(control->Readme(FILE));
         outfile << "Template is: "  << control->GetInput(CT) << std::endl;
         outfile << "Reference is: " << control->GetInput(CR) << std::endl;
@@ -89,17 +162,15 @@ int main(int argc, char *argv[])
         outfile.close();
 
 
-
         ///////////////////////////////
         ////// THIS IS FOR DEBUG //////
         ///////////////////////////////
 
-        /*
         // std::cout << control->Readme(FILE) << std::endl;
-        std::ofstream Test("../output/D.txt");
+        std::ofstream Test("../output/D_kdtree.txt");
         Test<< slot_CR->GetStrTensor() << std::endl;
         Test.close();
-        */
+
     }
 
 

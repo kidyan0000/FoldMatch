@@ -643,6 +643,9 @@ void cloth_calc::cloth_eig_neighbor2x()
         Eig_index = Eig_index+3;
     }
 
+    // this is for debug
+    std::cout<< "the number of neighboring vertives is " << _plyMesh -> trimesh::TriMesh::neighbors.at(0).size()<<std::endl;
+
 }
 
 
