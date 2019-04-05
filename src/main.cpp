@@ -154,7 +154,9 @@ int main(int argc, char *argv[])
                 break;
             }
         }
+
         std::ofstream outfile(control->Readme(FILE));
+        outfile << "Selected mode is: " << MODE << std::endl;
         outfile << "Template is: "  << control->GetInput(CT) << std::endl;
         outfile << "Reference is: " << control->GetInput(CR) << std::endl;
         outfile << "Base is: "      << control->GetInput(BS) << std::endl;
@@ -167,7 +169,7 @@ int main(int argc, char *argv[])
         ///////////////////////////////
 
         // std::cout << control->Readme(FILE) << std::endl;
-        std::ofstream Test("../output/D_kdtree.txt");
+        std::ofstream Test("../output/D_Kdtree60.txt");
         Test<< slot_CR->GetStrTensor() << std::endl;
         Test.close();
 
