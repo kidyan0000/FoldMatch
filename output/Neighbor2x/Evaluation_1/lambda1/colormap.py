@@ -108,7 +108,7 @@ def getVolumericFrequencyNormalization(bbMaxR, bbMinR, bbMaxT, bbMinT, ptsT, pts
 currentpath = os.getcwd()
 os.chdir(currentpath)
  
-for i in range(1, 75):
+for i in range(2, 72):
     plyFileName = 'lambda1_' + str(i) + '.ply'
     plydata = PlyData.read(plyFileName)
 
@@ -123,7 +123,7 @@ for i in range(1, 75):
     ax = fig.add_subplot(111, projection='3d')
 
     orig_Jetcmap = plt.cm.jet
-    shiftedJet_cmap = shiftedColorMap(orig_Jetcmap, start=0.0, midpoint=0.09, stop=1.0, name='shifted')
+    shiftedJet_cmap = shiftedColorMap(orig_Jetcmap, start=0.0, midpoint=0.05, stop=1.0, name='shifted')
 
     clrs = shiftedJet_cmap(q)
     clrs_jet =  plt.cm.jet(q)
@@ -133,7 +133,7 @@ for i in range(1, 75):
     #clrs = plt.cm.jet(norms(q))
     color_255 = np.ceil(clrs * 255)
     
-    with open('lambdaQuality_' + str(i) + '.ply', 'w') as fp:
+    with open('lambdaQuality1_' + str(i) + '.ply', 'w') as fp:
 	    fp.write('ply\n')
 	    fp.write('format ascii 1.0\n')
 	    fp.write('comment VCGLIB generated\n')

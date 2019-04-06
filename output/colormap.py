@@ -123,7 +123,7 @@ for i in range(1, 72):
     ax = fig.add_subplot(111, projection='3d')
 
     orig_Jetcmap = plt.cm.jet
-    shiftedJet_cmap = shiftedColorMap(orig_Jetcmap, start=0.0, midpoint=0.09, stop=1.0, name='shifted')
+    shiftedJet_cmap = shiftedColorMap(orig_Jetcmap, start=0.0, midpoint=0.05, stop=1.0, name='shifted')
 
     clrs = shiftedJet_cmap(q)
     clrs_jet =  plt.cm.jet(q)

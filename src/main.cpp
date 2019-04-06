@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
     int BS;   // cloth base
     int FILE; // file name
 
-    double deltaT;
+    double deltaT; // time step
 
     // create the folder
     std::string dir = "../output/debug/readme";
@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
     ////////////////////////////////
 
     // slot should be chosen from 1 to 74
-    for(int slot=1; slot<30; slot++)
+    for(int slot=1; slot<72; slot++)
     {
         CT = slot;
         CR = slot+3;
@@ -169,7 +169,7 @@ int main(int argc, char *argv[])
         ///////////////////////////////
 
         // std::cout << control->Readme(FILE) << std::endl;
-        std::ofstream Test("../output/D.txt");
+        std::ofstream Test("../output/D_KdTree.txt");
         Test<< slot_CR->GetStrTensor() << std::endl;
         Test.close();
 
