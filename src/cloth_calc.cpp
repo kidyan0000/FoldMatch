@@ -489,7 +489,7 @@ void cloth_calc::cloth_eig_kdTree()
     vert_index.index -> buildIndex();
 
     // const size_t num_results = verts.rows() * 0.02; // using 2% total vertices
-    const size_t num_results = 60; // using 30 neighboring vertices
+    const size_t num_results = 200; // using 30 neighboring vertices
 
     int Eig_index = 0;
 

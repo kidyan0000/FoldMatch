@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
     ////////////////////////////////
 
     // slot should be chosen from 1 to 74
-    for(int slot=1; slot<2; slot++)
+    for(int slot=1; slot<30; slot++)
     {
         CT = slot;
         CR = slot+3;
@@ -169,7 +169,7 @@ int main(int argc, char *argv[])
         ///////////////////////////////
 
         // std::cout << control->Readme(FILE) << std::endl;
-        std::ofstream Test("../output/D_Kdtree60.txt");
+        std::ofstream Test("../output/D.txt");
         Test<< slot_CR->GetStrTensor() << std::endl;
         Test.close();
 

@@ -1,0 +1,27 @@
+Please find below some guidelines/ restrictions for your submission:
+
+·         Discuss the seminar submission with your supervisor (2-3 iterations)
+
+·         The written seminar has length of exactly 8 pages including references (no more, not less)
+
+·         Please submit the seminar as “.pdf” via email to oliver.wasenmueller@dfki.de
+
+·         Please add line numbers to your submission; add the following code to “llncs.tex” in line 28:
+				\usepackage{lineno}
+				\linenumbers
+
+·         The submitted seminar should have as less white-space as possible. Therefore, you can:
+
+·         	Combine Figures using „\subfigure“
+
+·         	Tune the white space after Figures with “\vspace{-1mm}” (do not use more than 3mm!)
+
+·         	You can re-create figures/diagrams to reduce the white-space
+
+·         	Do not use too many headlines
+
+·         Please use references advisedly: not too many not too less
+
+·         Please reference if you copy figures by “Figure is taken from [xxx]”
+
+·         We do not accept plagiarism --> no copy of sentences
