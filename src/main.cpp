@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
     ////////////////////////////////
 
     // slot should be chosen from 1 to 74
-    for(int slot=1; slot<72; slot++)
+    for(int slot=1; slot<3; slot++)
     {
         CT = slot;
         CR = slot+3;
@@ -151,9 +151,15 @@ int main(int argc, char *argv[])
                     break;
                 }
                 slot_CR -> cloth_velGrad_3D(slot_CT->GetDefoGrad(), slot_CR->GetDefoGrad(), deltaT);
+
+                slot_CR -> cloth_velGrad_assemble(slot_CR->GetStrTensor());
                 break;
+
+
             }
         }
+
+
 
         std::ofstream outfile(control->Readme(FILE));
         outfile << "Selected mode is: " << MODE << std::endl;
@@ -169,9 +175,9 @@ int main(int argc, char *argv[])
         ///////////////////////////////
 
         // std::cout << control->Readme(FILE) << std::endl;
-        std::ofstream Test("../output/D_KdTree.txt");
-        Test<< slot_CR->GetStrTensor() << std::endl;
-        Test.close();
+        // std::ofstream Test("../output/D_KdTree.txt");
+        // Test<< slot_CR->GetStrTensor() << std::endl;
+        // Test.close();
 
     }
 

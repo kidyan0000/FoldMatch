@@ -49,6 +49,9 @@ public:
 
     void cloth_velGrad_3D(Eigen::MatrixXd F_CT, Eigen::MatrixXd F_CR, double deltaT);
 
+    // Stretching Tensor
+    void cloth_velGrad_assemble(Eigen::MatrixXd VelGrad);
+
     // COLLORMAP
     void cloth_vec_normalize(Eigen::MatrixXd Eigenval, int dim);
     void cloth_WriteColor(Eigen::MatrixXd color, const std::string &  ifileName);

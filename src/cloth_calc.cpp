@@ -260,12 +260,10 @@ void cloth_calc::cloth_stretchTensor_assemble()
 
     // adjacentfaces is a list of lists of faces adjacent to each vertex.
     // That is, mesh->adjacentfaces[i][j] is the index of the jth triangle that touches vertex i.
-    _plyMeshR -> trimesh::TriMesh::need_adjacentfaces();
+    _plyMesh -> trimesh::TriMesh::need_adjacentfaces();
 
     // we calculate at fiest the trianglearea based weights
     int Vert_num = verts.rows();
-    U_3D_assem.resize(Vert_num*3,3);
-
 
     for(int Vert_index=0; Vert_index<Vert_num; Vert_index++) // for all vertice
     {
@@ -286,12 +284,12 @@ void cloth_calc::cloth_stretchTensor_assemble()
 
             Triangle_adjacent.resize(3,3);
             // we need the coordinate of each triangles
-            Triangle_adjacent.col(0) << (this -> VecR(0, _plyMeshR -> trimesh::TriMesh::adjacentfaces.at(Vert_index).at(El_index)*3)),
-                                        (this -> VecR(1, _plyMeshR -> trimesh::TriMesh::adjacentfaces.at(Vert_index).at(El_index)*3)),
-                                        (this -> VecR(2, _plyMeshR -> trimesh::TriMesh::adjacentfaces.at(Vert_index).at(El_index)*3));
-            Triangle_adjacent.col(1) << (this -> VecR(3, _plyMeshR -> trimesh::TriMesh::adjacentfaces.at(Vert_index).at(El_index)*3)),
-                                        (this -> VecR(4, _plyMeshR -> trimesh::TriMesh::adjacentfaces.at(Vert_index).at(El_index)*3)),
-                                        (this -> VecR(5, _plyMeshR -> trimesh::TriMesh::adjacentfaces.at(Vert_index).at(El_index)*3));
+            Triangle_adjacent.col(0) << (this -> VecR(0, _plyMesh -> trimesh::TriMesh::adjacentfaces.at(Vert_index).at(El_index)*3)),
+                                        (this -> VecR(1, _plyMesh -> trimesh::TriMesh::adjacentfaces.at(Vert_index).at(El_index)*3)),
+                                        (this -> VecR(2, _plyMesh -> trimesh::TriMesh::adjacentfaces.at(Vert_index).at(El_index)*3));
+            Triangle_adjacent.col(1) << (this -> VecR(3, _plyMesh -> trimesh::TriMesh::adjacentfaces.at(Vert_index).at(El_index)*3)),
+                                        (this -> VecR(4, _plyMesh -> trimesh::TriMesh::adjacentfaces.at(Vert_index).at(El_index)*3)),
+                                        (this -> VecR(5, _plyMesh -> trimesh::TriMesh::adjacentfaces.at(Vert_index).at(El_index)*3));
             Triangle_adjacent.col(2) << 1,
                                         1,
                                         1;
@@ -381,6 +379,80 @@ void cloth_calc::cloth_velGrad_3D(Eigen::MatrixXd F_CT, Eigen::MatrixXd F_CR, do
         this -> W.block(index,0,3,3) << 1./2.*(L.block(index,0,3,3) - L.block(index,0,3,3).transpose());
         index = index+3;
     }
+}
+
+void cloth_calc::cloth_velGrad_assemble(Eigen::MatrixXd VelGrad)
+{
+    cloth_vec();
+    cloth_init_neighbor();
+
+    // now we assemble all the stretch tensor U by the vertex index
+
+    // adjacentfaces is a list of lists of faces adjacent to each vertex.
+    // That is, mesh->adjacentfaces[i][j] is the index of the jth triangle that touches vertex i.
+    _plyMesh -> trimesh::TriMesh::need_adjacentfaces();
+
+    // we calculate at fiest the trianglearea based weights
+    int Vert_num = verts.rows();
+
+    for(int Vert_index=0; Vert_index<Vert_num; Vert_index++) // for all vertice
+    {
+        // initialize the adjacent triangles of each vertex
+        int El_num = _plyMesh -> trimesh::TriMesh::adjacentfaces.at(Vert_index).size();
+
+        // we calculate here the adjacent area
+        Eigen::MatrixXd Triangle_base;
+        Eigen::MatrixXd Triangle_adjacent;
+        Eigen::MatrixXd Area, weight;
+
+        Area.resize(El_num,1);
+        weight.resize(El_num,1);
+
+        // for adjacent triangles
+        for(int El_index=0; El_index<El_num; El_index++) // do loop for all adjacent triangles and save the area
+        {
+
+            Triangle_adjacent.resize(3,3);
+            // we need the coordinate of each triangles
+            Triangle_adjacent.col(0) << (this -> VecR(0, _plyMesh -> trimesh::TriMesh::adjacentfaces.at(Vert_index).at(El_index)*3)),
+                                        (this -> VecR(1, _plyMesh -> trimesh::TriMesh::adjacentfaces.at(Vert_index).at(El_index)*3)),
+                                        (this -> VecR(2, _plyMesh -> trimesh::TriMesh::adjacentfaces.at(Vert_index).at(El_index)*3));
+            Triangle_adjacent.col(1) << (this -> VecR(3, _plyMesh -> trimesh::TriMesh::adjacentfaces.at(Vert_index).at(El_index)*3)),
+                                        (this -> VecR(4, _plyMesh -> trimesh::TriMesh::adjacentfaces.at(Vert_index).at(El_index)*3)),
+                                        (this -> VecR(5, _plyMesh -> trimesh::TriMesh::adjacentfaces.at(Vert_index).at(El_index)*3));
+            Triangle_adjacent.col(2) << 1,
+                                        1,
+                                        1;
+
+            Area.row(El_index) << 1./2.*Triangle_adjacent.determinant();
+
+            Triangle_adjacent.resize(0,0);
+        }
+
+        double Area_sum = Area.sum();
+
+        // we calculate here the weight
+        if( El_num != 0 ) // if there exisit adjacent triangles of vertex
+        {
+            weight = (Area / Area_sum).cwiseAbs();
+        }
+        // assemble stretch tensor L applied by formular
+        // L_i = L_i^{1/2} * exp(/sum_j {/omega_j */log(L_i^{1/2}*L_j*L_i^{-1/2})) * L_i^{1/2}
+
+        Eigen::MatrixXd L_j, L_i;
+        L_i.resize(3,3);
+        L_i = VelGrad.block(Vert_index*3,0,3,3);
+
+        for(int El_index=0; El_index<El_num; El_index++)
+        {
+            L_j.resize(3,3);
+            L_j = VelGrad.block(this -> _plyMesh -> trimesh::TriMesh::adjacentfaces.at(Vert_index).at(El_index)*3,0,3,3);
+
+
+        }
+
+    }
+
 }
 
 
