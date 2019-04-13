@@ -29,7 +29,7 @@ class MidpointNormalize(colors.Normalize):
         return np.ma.masked_array(np.interp(value, x, y))
 
 
-def shiftedColorMap(cmap, start=0, midpoint=0.5, stop=1.0, name='shiftedcmap'):
+def shiftedColorMap(cmap, start=0.0, midpoint=0.5, stop=1.0, name='shiftedcmap'):
     '''
     Function to offset the "center" of a colormap. Useful for
     data with a negative min and positive max and you want the
@@ -62,11 +62,11 @@ def shiftedColorMap(cmap, start=0, midpoint=0.5, stop=1.0, name='shiftedcmap'):
     reg_index = np.linspace(start, stop, 257)
 
     # shifted index to match the data
-    shift_index = np.hstack([
+     shift_index = np.hstack([
         np.linspace(0.0, midpoint, 128, endpoint=False), 
         np.linspace(midpoint, 1.0, 129, endpoint=True)
-    ])
-    
+    ]) 
+
     for ri, si in zip(reg_index, shift_index):
         r, g, b, a = cmap(ri)
 
@@ -123,7 +123,7 @@ for i in range(2, 72):
     ax = fig.add_subplot(111, projection='3d')
 
     orig_Jetcmap = plt.cm.jet
-    shiftedJet_cmap = shiftedColorMap(orig_Jetcmap, start=0.0, midpoint=0.10, stop=1.0, name='shifted')
+    shiftedJet_cmap = shiftedColorMap(orig_Jetcmap, start=0.0, midpoint=0.1, stop=1.00, name='shifted')
 
     clrs = shiftedJet_cmap(q)
     clrs_jet =  plt.cm.jet(q)

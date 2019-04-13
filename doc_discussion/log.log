@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.2.4)  12 APR 2019 14:28
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.2.4)  13 APR 2019 16:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -673,20 +673,20 @@ LaTeX Info: Redefining \bm on input line 207.
 ) (./log.aux)
 \openout1 = `log.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 100.
-LaTeX Font Info:    ... okay on input line 100.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 100.
-LaTeX Font Info:    ... okay on input line 100.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 100.
-LaTeX Font Info:    ... okay on input line 100.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 100.
-LaTeX Font Info:    ... okay on input line 100.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 100.
-LaTeX Font Info:    ... okay on input line 100.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 100.
-LaTeX Font Info:    ... okay on input line 100.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 100.
-LaTeX Font Info:    ... okay on input line 100.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 101.
+LaTeX Font Info:    ... okay on input line 101.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 101.
+LaTeX Font Info:    ... okay on input line 101.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 101.
+LaTeX Font Info:    ... okay on input line 101.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 101.
+LaTeX Font Info:    ... okay on input line 101.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 101.
+LaTeX Font Info:    ... okay on input line 101.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 101.
+LaTeX Font Info:    ... okay on input line 101.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 101.
+LaTeX Font Info:    ... okay on input line 101.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -754,7 +754,7 @@ e
 ))
 ABD: EveryShipout initializing macros
 \AtBeginShipoutBox=\box54
-Package hyperref Info: Link coloring OFF on input line 100.
+Package hyperref Info: Link coloring OFF on input line 101.
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
@@ -764,52 +764,52 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
 \c@section@level=\count164
 )
-LaTeX Info: Redefining \ref on input line 100.
-LaTeX Info: Redefining \pageref on input line 100.
-LaTeX Info: Redefining \nameref on input line 100.
+LaTeX Info: Redefining \ref on input line 101.
+LaTeX Info: Redefining \pageref on input line 101.
+LaTeX Info: Redefining \nameref on input line 101.
 
 (./log.out) (./log.out)
 \@outlinefile=\write5
 \openout5 = `log.out'.
 
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  OT1/cmr/m/n --> OT1/cmss/m/n on input line 100.
+(Font)                  OT1/cmr/m/n --> OT1/cmss/m/n on input line 101.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 100.
+(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 101.
 \symnumbers=\mathgroup9
 \sympureletters=\mathgroup10
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `normal'
-(Font)                  OT1/cmss/m/n --> OT1/cmr/m/n on input line 100.
-LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 100.
-LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 100.
+(Font)                  OT1/cmss/m/n --> OT1/cmr/m/n on input line 101.
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 101.
+LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 101.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/cmss/m/n --> OT1/cmss/m/n on input line 100.
+(Font)                  OT1/cmss/m/n --> OT1/cmss/m/n on input line 101.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> OT1/cmss/m/n on input line 100.
-LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 100.
+(Font)                  OT1/cmss/bx/n --> OT1/cmss/m/n on input line 101.
+LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 101.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/cmr/m/it --> OT1/cmss/m/it on input line 100.
+(Font)                  OT1/cmr/m/it --> OT1/cmss/m/it on input line 101.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmr/bx/it --> OT1/cmss/m/it on input line 100.
-LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 100.
+(Font)                  OT1/cmr/bx/it --> OT1/cmss/m/it on input line 101.
+LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 101.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 100.
+(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 101.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 100.
+(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 101.
 LaTeX Font Info:    Overwriting symbol font `numbers' in version `bold'
-(Font)                  OT1/cmss/m/n --> OT1/cmss/bx/n on input line 100.
+(Font)                  OT1/cmss/m/n --> OT1/cmss/bx/n on input line 101.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
-(Font)                  OT1/cmss/m/it --> OT1/cmss/bx/it on input line 100.
+(Font)                  OT1/cmss/m/it --> OT1/cmss/bx/it on input line 101.
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `bold'
-(Font)                  OT1/cmss/bx/n --> OT1/cmr/bx/n on input line 100.
+(Font)                  OT1/cmss/bx/n --> OT1/cmr/bx/n on input line 101.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> OT1/cmss/bx/n on input line 100.
+(Font)                  OT1/cmss/bx/n --> OT1/cmss/bx/n on input line 101.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/m/n --> OT1/cmss/bx/n on input line 100.
+(Font)                  OT1/cmss/m/n --> OT1/cmss/bx/n on input line 101.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmss/m/it --> OT1/cmss/bx/it on input line 100.
+(Font)                  OT1/cmss/m/it --> OT1/cmss/bx/it on input line 101.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> OT1/cmtt/bx/n on input line 100.
+(Font)                  OT1/cmtt/m/n --> OT1/cmtt/bx/n on input line 101.
 
 (/usr/share/texlive/texmf-dist/tex/latex/translator/translator-basic-dictionary
 -English.dict
@@ -837,11 +837,11 @@ Dictionary: translator-theorem-dictionary, Language: English
 ) (./log.nav) [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-LaTeX Font Info:    Try loading font information for U+msa on input line 134.
+LaTeX Font Info:    Try loading font information for U+msa on input line 135.
  (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 134.
+LaTeX Font Info:    Try loading font information for U+msb on input line 135.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -850,12 +850,12 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ] [3
 
 ]
-Overfull \hbox (15.98686pt too wide) detected at line 163
+Overfull \hbox (15.98686pt too wide) detected at line 164
 []
  []
 
 
-Overfull \vbox (2.0067pt too high) detected at line 163
+Overfull \vbox (2.0067pt too high) detected at line 164
  []
 
 [4
@@ -871,7 +871,7 @@ Overfull \vbox (2.0067pt too high) detected at line 163
 File: image//Singular_Value_Decomposition_svd.png Graphic file (type png)
 <use image//Singular_Value_Decomposition_svd.png>
 Package pdftex.def Info: image//Singular_Value_Decomposition_svd.png  used on i
-nput line 237.
+nput line 238.
 (pdftex.def)             Requested size: 171.14764pt x 155.58882pt.
  [8
 
@@ -880,15 +880,15 @@ nput line 237.
 ]
 
 LaTeX Warning: Citation `schonemann1966generalized' on page 10 undefined on inp
-ut line 274.
+ut line 275.
 
 
 LaTeX Warning: Citation `zhang2000flexible' on page 10 undefined on input line 
-274.
+275.
 
 
 LaTeX Warning: Reference `eq:deformation_gradient' on page 10 undefined on inpu
-t line 274.
+t line 275.
 
 [10
 
@@ -897,7 +897,7 @@ t line 274.
 File: image//Procrustes_superimposition.png Graphic file (type png)
 <use image//Procrustes_superimposition.png>
 Package pdftex.def Info: image//Procrustes_superimposition.png  used on input l
-ine 285.
+ine 286.
 (pdftex.def)             Requested size: 171.14764pt x 133.57838pt.
  [11
 
@@ -906,18 +906,18 @@ ine 285.
 ]
 
 LaTeX Font Warning: Font shape `OT1/cmss/bx/it' undefined
-(Font)              using `OT1/cmss/bx/n' instead on input line 332.
+(Font)              using `OT1/cmss/bx/n' instead on input line 333.
 
 
 LaTeX Warning: Citation `liu2002continuum' on page 13 undefined on input line 3
-32.
+33.
 
 [13
 
 ]
 
 LaTeX Warning: Citation `haupt2013continuum' on page 14 undefined on input line
- 349.
+ 350.
 
 [14
 
@@ -936,6 +936,14 @@ LaTeX Warning: Citation `haupt2013continuum' on page 14 undefined on input line
 ] [21
 
 ]
+<image//colormap_error.png, id=614, 3854.4pt x 1084.05pt>
+File: image//colormap_error.png Graphic file (type png)
+<use image//colormap_error.png>
+Package pdftex.def Info: image//colormap_error.png  used on input line 464.
+(pdftex.def)             Requested size: 171.14764pt x 48.13503pt.
+ [22
+
+ <./image//colormap_error.png>]
 \tf@nav=\write6
 \openout6 = `log.nav'.
 
@@ -945,11 +953,12 @@ LaTeX Warning: Citation `haupt2013continuum' on page 14 undefined on input line
 \tf@snm=\write8
 \openout8 = `log.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 448.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 448.
- (./log.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 448.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 448.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 468.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 468.
+
+(./log.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 468.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 468.
 Package rerunfilecheck Info: File `log.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 
@@ -961,10 +970,10 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 17158 strings out of 494880
- 325966 string characters out of 6179602
+ 17167 strings out of 494880
+ 326138 string characters out of 6179602
  396816 words of memory out of 5000000
- 20036 multiletter control sequences out of 15000+600000
+ 20042 multiletter control sequences out of 15000+600000
  18110 words of font info for 65 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  48i,17n,57p,770b,862s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -984,10 +993,10 @@ sfonts/cm/cmssi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
 /cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
 sy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pf
 b>
-Output written on log.pdf (21 pages, 574602 bytes).
+Output written on log.pdf (22 pages, 2959686 bytes).
 PDF statistics:
- 668 PDF objects out of 1000 (max. 8388607)
- 605 compressed objects within 7 object streams
- 46 named destinations out of 1000 (max. 500000)
- 107 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 696 PDF objects out of 1000 (max. 8388607)
+ 630 compressed objects within 7 object streams
+ 48 named destinations out of 1000 (max. 500000)
+ 112 words of extra memory for PDF output out of 10000 (max. 10000000)
 
