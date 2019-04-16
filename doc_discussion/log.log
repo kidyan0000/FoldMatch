@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.2.4)  13 APR 2019 16:17
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.2.4)  16 APR 2019 15:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -936,7 +936,7 @@ LaTeX Warning: Citation `haupt2013continuum' on page 14 undefined on input line
 ] [21
 
 ]
-<image//colormap_error.png, id=614, 3854.4pt x 1084.05pt>
+<image//colormap_error.png, id=615, 3854.4pt x 1084.05pt>
 File: image//colormap_error.png Graphic file (type png)
 <use image//colormap_error.png>
 Package pdftex.def Info: image//colormap_error.png  used on input line 464.
@@ -944,6 +944,9 @@ Package pdftex.def Info: image//colormap_error.png  used on input line 464.
  [22
 
  <./image//colormap_error.png>]
+[23
+
+]
 \tf@nav=\write6
 \openout6 = `log.nav'.
 
@@ -953,12 +956,11 @@ Package pdftex.def Info: image//colormap_error.png  used on input line 464.
 \tf@snm=\write8
 \openout8 = `log.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 468.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 468.
-
-(./log.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 468.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 468.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 473.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 473.
+ (./log.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 473.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 473.
 Package rerunfilecheck Info: File `log.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 
@@ -970,10 +972,10 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 17167 strings out of 494880
- 326138 string characters out of 6179602
+ 17171 strings out of 494880
+ 326173 string characters out of 6179602
  396816 words of memory out of 5000000
- 20042 multiletter control sequences out of 15000+600000
+ 20044 multiletter control sequences out of 15000+600000
  18110 words of font info for 65 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  48i,17n,57p,770b,862s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -993,10 +995,10 @@ sfonts/cm/cmssi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
 /cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
 sy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pf
 b>
-Output written on log.pdf (22 pages, 2959686 bytes).
+Output written on log.pdf (23 pages, 2960902 bytes).
 PDF statistics:
- 696 PDF objects out of 1000 (max. 8388607)
- 630 compressed objects within 7 object streams
- 48 named destinations out of 1000 (max. 500000)
+ 723 PDF objects out of 1000 (max. 8388607)
+ 656 compressed objects within 7 object streams
+ 50 named destinations out of 1000 (max. 500000)
  112 words of extra memory for PDF output out of 10000 (max. 10000000)
 

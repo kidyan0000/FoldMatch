@@ -13,6 +13,7 @@ import sympy
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 from matplotlib.mlab import bivariate_normal
+from matplotlib.colors import PowerNorm
 from mpl_toolkits.mplot3d import Axes3D
 from rbf.basis import RBF, get_r, get_eps
 
@@ -108,27 +109,30 @@ def getVolumericFrequencyNormalization(bbMaxR, bbMinR, bbMaxT, bbMinT, ptsT, pts
 currentpath = os.getcwd()
 os.chdir(currentpath)
  
-for i in range(2, 72):
+for i in range(2, 75):
     plyFileName = 'lambda1_' + str(i) + '.ply'
     plydata = PlyData.read(plyFileName)
 
     x = plydata['vertex']['x']
     y = plydata['vertex']['y']
     z = plydata['vertex']['z']
-    vertices = getNormalizePointCloud(np.column_stack((x, y, z)))
+    #vertices = getNormalizePointCloud(np.column_stack((x, y, z)))
+    vertices = np.column_stack((x, y, z))
 
     q = plydata['vertex']['quality']
 
     fig = plt.figure( 1, figsize = (10,10))
     ax = fig.add_subplot(111, projection='3d')
 
-    orig_Jetcmap = plt.cm.jet
-    shiftedJet_cmap = shiftedColorMap(orig_Jetcmap, start=0.0, midpoint=0.05, stop=1.0, name='shifted')
-
-    clrs = shiftedJet_cmap(q)
-    clrs_jet =  plt.cm.jet(q)
-
+    #orig_Jetcmap = plt.cm.jet
+    #shiftedJet_cmap = shiftedColorMap(orig_Jetcmap, start=0.0, midpoint=0.2, stop=1.0, name='shifted')
+    #clrs = shiftedJet_cmap(q)
+    #clrs_jet = plt.cm.jet(q)
+    
+    norm = colors.PowerNorm(gamma=0.25)    
+    clrs = plt.cm.jet(norm(q))
     print clrs 
+    
     #q = matplotlib.colors.SymLogNorm(1,vmin=0.0,vmax=0.6)
     #clrs = plt.cm.jet(norms(q))
     color_255 = np.ceil(clrs * 255)
@@ -168,6 +172,8 @@ for i in range(2, 72):
     #plt.zticks(fontsize = 25) # work on current fig
     #plt.tight_layout()
     #plt.savefig('/home/ali/lambda1/lambda1_' + str(i) + '.png')
+    #cbar = plt.colorbar(orientation='vertical')
+    #cbar.ax.set_xticklabels(np.arange(np.amin(q), np.amax(q), 10))
     #plt.show()
 
 
