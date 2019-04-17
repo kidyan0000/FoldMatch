@@ -445,8 +445,8 @@ void cloth_calc::cloth_velGrad_assemble(Eigen::MatrixXd VelGrad)
 
         for(int El_index=0; El_index<El_num; El_index++)
         {
-            L_j.resize(3,3);
-            L_j = VelGrad.block(this -> _plyMesh -> trimesh::TriMesh::adjacentfaces.at(Vert_index).at(El_index)*3,0,3,3);
+            // L_j.resize(3,3);
+            // L_j = VelGrad.block(this -> _plyMesh -> trimesh::TriMesh::adjacentfaces.at(Vert_index).at(El_index)*3,0,3,3);
 
 
         }
@@ -769,8 +769,20 @@ void cloth_calc::cloth_WriteColor(Eigen::MatrixXd Eigval_norm, const std::string
             {Eigval_norm(Eigval_index, 0) = 0;}
     }
 
+    // set pink color as default
+    Eigen::MatrixXi pink;
+    pink.resize(Eigval_num,3);
+    for(int i=0;i<Eigval_num;i++)
+    {
+        pink.row(i) << 255, 0, 255;
+    }
+    std::cout << pink << std::endl;
+
+
+
     // set vertice and colors
     plyColor -> setVertices(verts);
+    plyColor -> setColors(pink);
     plyColor -> setCurvatures(Eigval_norm);
 
     plyColor -> writePLY(ifileName, true, false, false, true, false);

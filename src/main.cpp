@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
     // MODE 1: Neighbor1x
     // MODE 2: Neighbor2x
     // MODE 3: KD-TREE
-    int MODE = 3;
+    int MODE = 2;
 
     // setting calculation lambda
     int LAMBDA = 1;
@@ -174,10 +174,17 @@ int main(int argc, char *argv[])
         ////// THIS IS FOR DEBUG //////
         ///////////////////////////////
 
-        // std::cout << control->Readme(FILE) << std::endl;
+        // std::cout << "a" << std::endl;
         // std::ofstream Test("../output/D_KdTree.txt");
         // Test<< slot_CR->GetStrTensor() << std::endl;
         // Test.close();
+        Eigen::MatrixXd Test;
+        Test.resize(3,3);
+        for(int i=0;i<3;i++)
+        {
+            Test.row(i) << 255, 0, 255;
+        }
+        std::cout << Test << std::endl;
 
     }
 
