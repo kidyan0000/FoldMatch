@@ -12,7 +12,7 @@ cloth_calc::cloth_calc(std::string Cloth_Template, std::string Cloth_Reference, 
 
     _plyModuleT->readPLY(CT, true, true, true, true, true);
     _plyModuleR->readPLY(CR, true, true, true, true, true);
-    _plyModule->readPLY(BS, true, true, true, true, true);
+    _plyModule ->readPLY(BS, true, true, true, true, true);
 }
 
 void cloth_calc::cloth_init_vert()
@@ -394,8 +394,9 @@ void cloth_calc::cloth_velGrad_assemble(Eigen::MatrixXd VelGrad)
 
     // we calculate at fiest the trianglearea based weights
     int Vert_num = verts.rows();
+    this -> D_assem.resize(Vert_num*3,3);
 
-    for(int Vert_index=0; Vert_index<Vert_num; Vert_index++) // for all vertice
+    for(int Vert_index=0; Vert_index<1351; Vert_index++) // for all vertice
     {
         // initialize the adjacent triangles of each vertex
         int El_num = _plyMesh -> trimesh::TriMesh::adjacentfaces.at(Vert_index).size();
@@ -439,18 +440,50 @@ void cloth_calc::cloth_velGrad_assemble(Eigen::MatrixXd VelGrad)
         // assemble stretch tensor L applied by formular
         // L_i = L_i^{1/2} * exp(/sum_j {/omega_j */log(L_i^{1/2}*L_j*L_i^{-1/2})) * L_i^{1/2}
 
-        Eigen::MatrixXd L_j, L_i;
-        L_i.resize(3,3);
-        L_i = VelGrad.block(Vert_index*3,0,3,3);
-
-        for(int El_index=0; El_index<El_num; El_index++)
+        if(El_num == 0)
         {
-            // L_j.resize(3,3);
-            // L_j = VelGrad.block(this -> _plyMesh -> trimesh::TriMesh::adjacentfaces.at(Vert_index).at(El_index)*3,0,3,3);
-
-
+            this -> D_assem.block(Vert_index*3,0,3,3) = VelGrad.block(Vert_index*3,0,3,3);
         }
+        else
+        {
+            Eigen::MatrixXd L_j, L_i, L_sum, L_tmp, L_new;
+            L_i.resize(3,3);
+            L_j.resize(El_num*3,3);
 
+            L_sum.resize(3,3);
+            L_tmp.resize(3,3);
+            L_new.resize(3,3);
+
+            L_i = VelGrad.block(Vert_index*3,0,3,3);
+            // std::cout <<VelGrad.block(this -> _plyMesh -> trimesh::TriMesh::adjacentfaces.at(Vert_index).at(0)*3,0,3,3) << std::endl;
+            // std::cout << Vert_index << std::endl;
+            //std::cout << El_num << std::endl;
+
+            for(int El_index=0; El_index<El_num; El_index++)
+            {
+                L_j.block(El_index*3,0,3,3) = VelGrad.block(this -> _plyMesh -> trimesh::TriMesh::neighbors.at(Vert_index).at(El_index)*3,0,3,3);
+            }
+
+            // L_sum.Zero(3,3);
+            for(int El_index=0; El_index<El_num; El_index++)
+            {
+                L_tmp = (L_i.cwiseSqrt() * L_j.block(El_index*3,0,3,3) * L_i.cwiseSqrt()).array().log10() * weight(El_index);
+                L_sum = L_sum + L_tmp;
+                L_tmp.resize(0,0);
+            }
+
+            L_new = L_sum.array().exp();
+
+            this -> D_assem.block(Vert_index*3,0,3,3) = L_i.cwiseSqrt() * L_new * L_i.cwiseSqrt();
+            std::cout << L_sum << std::endl;
+
+            L_i.resize(0,0);
+            L_j.resize(0,0);
+            L_sum.resize(0,0);
+            L_tmp.resize(0,0);
+            L_new.resize(0,0);
+            weight.resize(0,0);
+        }
     }
 
 }
@@ -776,9 +809,6 @@ void cloth_calc::cloth_WriteColor(Eigen::MatrixXd Eigval_norm, const std::string
     {
         pink.row(i) << 255, 0, 255;
     }
-    std::cout << pink << std::endl;
-
-
 
     // set vertice and colors
     plyColor -> setVertices(verts);
@@ -878,6 +908,11 @@ Eigen::MatrixXd cloth_calc::GetStrTensor()
 Eigen::MatrixXd cloth_calc::GetRotTensor()
 {
     return this -> W;
+}
+
+Eigen::MatrixXd cloth_calc::GetStrTensorAsemmble()
+{
+    return this -> D_assem;
 }
 
 

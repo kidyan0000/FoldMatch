@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
     // MODE 1: Neighbor1x
     // MODE 2: Neighbor2x
     // MODE 3: KD-TREE
-    int MODE = 2;
+    int MODE = 3;
 
     // setting calculation lambda
     int LAMBDA = 1;
@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
     ////////////////////////////////
 
     // slot should be chosen from 1 to 74
-    for(int slot=1; slot<3; slot++)
+    for(int slot=1; slot<2; slot++)
     {
         CT = slot;
         CR = slot+3;
@@ -151,7 +151,7 @@ int main(int argc, char *argv[])
                     break;
                 }
                 slot_CR -> cloth_velGrad_3D(slot_CT->GetDefoGrad(), slot_CR->GetDefoGrad(), deltaT);
-
+                // smooth the volocity gradient
                 slot_CR -> cloth_velGrad_assemble(slot_CR->GetStrTensor());
                 break;
 
@@ -175,16 +175,9 @@ int main(int argc, char *argv[])
         ///////////////////////////////
 
         // std::cout << "a" << std::endl;
-        // std::ofstream Test("../output/D_KdTree.txt");
-        // Test<< slot_CR->GetStrTensor() << std::endl;
-        // Test.close();
-        Eigen::MatrixXd Test;
-        Test.resize(3,3);
-        for(int i=0;i<3;i++)
-        {
-            Test.row(i) << 255, 0, 255;
-        }
-        std::cout << Test << std::endl;
+        std::ofstream Test("../output/D_assem.txt");
+        Test<< slot_CR->GetStrTensorAsemmble()<< std::endl;
+        Test.close();
 
     }
 

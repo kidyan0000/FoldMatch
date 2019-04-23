@@ -76,6 +76,7 @@ public:
     Eigen::MatrixXd GetEigval_norm_dir3();
     Eigen::MatrixXd GetStrTensor();
     Eigen::MatrixXd GetRotTensor();
+    Eigen::MatrixXd GetStrTensorAsemmble();
 
 
 private:
@@ -109,6 +110,7 @@ private:
     Eigen::MatrixXd L;
     Eigen::MatrixXd D;
     Eigen::MatrixXd W;
+    Eigen::MatrixXd D_assem;
 
     //
     Eigen::MatrixXd Eigval_neighbor, Eigvec_neighbor;
