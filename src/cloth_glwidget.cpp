@@ -1,5 +1,7 @@
+// #pragma once
 #include "cloth_glwidget.h"
 #include "cloth_control.h"
+// #include "cloth_calc.h"
 
 #include <QtOpenGL>
 #include <QtWidgets>
@@ -18,6 +20,7 @@ Cloth_GLWidget::Cloth_GLWidget(QWidget *parent) : QGLWidget(QGLFormat(QGL::Sampl
 
 Cloth_GLWidget::~Cloth_GLWidget()
 {
+
 
 }
 

@@ -1,38 +1,41 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6800 64-bit) (preloaded format=pdflatex 2018.9.28)  3 APR 2019 15:50
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.2.4)  24 APR 2019 14:38
 entering extended mode
-**./llncs.tex
-(llncs.tex
-LaTeX2e <2018-04-01> patch level 5
-(llncs.cls
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**llncs.tex
+(./llncs.tex
+LaTeX2e <2017-04-15>
+Babel <3.18> and hyphenation patterns for 5 language(s) loaded.
+(./llncs.cls
 Document Class: llncs 2010/07/12 v2.17 
  LaTeX document class for Lecture Notes in Computer Science
-("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\article.cls"
+(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
-("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\size10.clo"
+(/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo
 File: size10.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
 )
-\c@part=\count80
-\c@section=\count81
-\c@subsection=\count82
-\c@subsubsection=\count83
-\c@paragraph=\count84
-\c@subparagraph=\count85
-\c@figure=\count86
-\c@table=\count87
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
 \abovecaptionskip=\skip41
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
 )
-("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\tools\multicol.sty"
-Package: multicol 2018/04/20 v1.8s multicolumn formatting (FMi)
-\c@tracingmulticols=\count88
+(/usr/share/texlive/texmf-dist/tex/latex/tools/multicol.sty
+Package: multicol 2017/04/11 v1.8q multicolumn formatting (FMi)
+\c@tracingmulticols=\count87
 \mult@box=\box26
 \multicol@leftmargin=\dimen103
-\c@unbalance=\count89
-\c@collectmore=\count90
-\doublecol@number=\count91
-\multicoltolerance=\count92
-\multicolpretolerance=\count93
+\c@unbalance=\count88
+\c@collectmore=\count89
+\doublecol@number=\count90
+\multicoltolerance=\count91
+\multicolpretolerance=\count92
 \full@width=\dimen104
 \page@free=\dimen105
 \premulticols=\dimen106
@@ -63,19 +66,20 @@ Package: multicol 2018/04/20 v1.8s multicolumn formatting (FMi)
 \@tempa=\box47
 \@tempa=\box48
 \@tempa=\box49
-\c@columnbadness=\count94
-\c@finalcolumnbadness=\count95
+\c@columnbadness=\count93
+\c@finalcolumnbadness=\count94
 \last@try=\dimen109
 \multicolovershoot=\dimen110
 \multicolundershoot=\dimen111
 \mult@nat@firstbox=\box50
 \colbreak@box=\box51
-\mc@col@check@num=\count96
+\mc@col@check@num=\count95
 )
-("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\oberdiek\aliascnt.sty"
-Package: aliascnt 2018/09/07 v1.5 Alias counters (HO)
-)
-\c@chapter=\count97
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/aliascnt.sty
+Package: aliascnt 2016/05/16 v1.4 Alias counters (HO)
+
+(/usr/share/texlive/texmf-dist/tex/latex/carlisle/remreset.sty))
+\c@chapter=\count96
 LaTeX Font Info:    Redeclaring math symbol \Gamma on input line 362.
 LaTeX Font Info:    Redeclaring math symbol \Delta on input line 363.
 LaTeX Font Info:    Redeclaring math symbol \Theta on input line 364.
@@ -97,11 +101,11 @@ LaTeX Font Info:    Redeclaring math symbol \Omega on input line 372.
 \tocparanum=\dimen119
 \tocparatotal=\dimen120
 \tocsubparanum=\dimen121
-\@tempcntc=\count98
+\@tempcntc=\count97
 \fnindent=\dimen122
-\c@@inst=\count99
-\c@@auth=\count100
-\c@auco=\count101
+\c@@inst=\count98
+\c@@auth=\count99
+\c@auco=\count100
 \instindent=\dimen123
 \authrun=\box52
 \authorrunning=\toks14
@@ -109,48 +113,48 @@ LaTeX Font Info:    Redeclaring math symbol \Omega on input line 372.
 \titrun=\box53
 \titlerunning=\toks16
 \toctitle=\toks17
-\c@theorem=\count102
-\c@case=\count103
-\c@conjecture=\count104
-\c@corollary=\count105
-\c@definition=\count106
-\c@example=\count107
-\c@exercise=\count108
-\c@lemma=\count109
-\c@note=\count110
-\c@problem=\count111
-\c@property=\count112
-\c@proposition=\count113
-\c@question=\count114
-\c@solution=\count115
-\c@remark=\count116
+\c@theorem=\count101
+\c@case=\count102
+\c@conjecture=\count103
+\c@corollary=\count104
+\c@definition=\count105
+\c@example=\count106
+\c@exercise=\count107
+\c@lemma=\count108
+\c@note=\count109
+\c@problem=\count110
+\c@property=\count111
+\c@proposition=\count112
+\c@question=\count113
+\c@solution=\count114
+\c@remark=\count115
 \headlineindent=\dimen124
 )
-("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\graphicx.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
 
-("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\keyval.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
 \KV@toks@=\toks18
 )
-("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
 Package: graphics 2017/06/25 v1.2c Standard LaTeX Graphics (DPC,SPQR)
 
-("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\trig.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
 Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
 )
-("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics-cfg\graphics.cfg"
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 99.
 
-("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics-def\pdftex.def"
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-def/pdftex.def
 File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
 ))
 \Gin@req@height=\dimen125
 \Gin@req@width=\dimen126
 )
-("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\textcomp.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/base/textcomp.sty
 Package: textcomp 2017/04/05 v2.0i Standard LaTeX package
 Package textcomp Info: Sub-encoding information:
 (textcomp)               5 = only ISO-Adobe without \textcurrency
@@ -165,84 +169,9 @@ Package textcomp Info: Sub-encoding information:
 (textcomp)             See the documentation for details.
 Package textcomp Info: Setting ? sub-encoding to TS1/1 on input line 79.
 
-("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\ts1enc.def"
+(/usr/share/texlive/texmf-dist/tex/latex/base/ts1enc.def
 File: ts1enc.def 2001/06/05 v3.0e (jk/car/fm) Standard LaTeX file
-Now handling font encoding TS1 ...
-... processing UTF-8 mapping file for font encoding TS1
-
-("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\ts1enc.dfu"
-File: ts1enc.dfu 2018/04/05 v1.2c UTF-8 support for inputenc
-   defining Unicode char U+00A2 (decimal 162)
-   defining Unicode char U+00A3 (decimal 163)
-   defining Unicode char U+00A4 (decimal 164)
-   defining Unicode char U+00A5 (decimal 165)
-   defining Unicode char U+00A6 (decimal 166)
-   defining Unicode char U+00A7 (decimal 167)
-   defining Unicode char U+00A8 (decimal 168)
-   defining Unicode char U+00A9 (decimal 169)
-   defining Unicode char U+00AA (decimal 170)
-   defining Unicode char U+00AC (decimal 172)
-   defining Unicode char U+00AE (decimal 174)
-   defining Unicode char U+00AF (decimal 175)
-   defining Unicode char U+00B0 (decimal 176)
-   defining Unicode char U+00B1 (decimal 177)
-   defining Unicode char U+00B2 (decimal 178)
-   defining Unicode char U+00B3 (decimal 179)
-   defining Unicode char U+00B4 (decimal 180)
-   defining Unicode char U+00B5 (decimal 181)
-   defining Unicode char U+00B6 (decimal 182)
-   defining Unicode char U+00B7 (decimal 183)
-   defining Unicode char U+00B9 (decimal 185)
-   defining Unicode char U+00BA (decimal 186)
-   defining Unicode char U+00BC (decimal 188)
-   defining Unicode char U+00BD (decimal 189)
-   defining Unicode char U+00BE (decimal 190)
-   defining Unicode char U+00D7 (decimal 215)
-   defining Unicode char U+00F7 (decimal 247)
-   defining Unicode char U+0192 (decimal 402)
-   defining Unicode char U+02C7 (decimal 711)
-   defining Unicode char U+02D8 (decimal 728)
-   defining Unicode char U+02DD (decimal 733)
-   defining Unicode char U+0E3F (decimal 3647)
-   defining Unicode char U+2016 (decimal 8214)
-   defining Unicode char U+2020 (decimal 8224)
-   defining Unicode char U+2021 (decimal 8225)
-   defining Unicode char U+2022 (decimal 8226)
-   defining Unicode char U+2030 (decimal 8240)
-   defining Unicode char U+2031 (decimal 8241)
-   defining Unicode char U+203B (decimal 8251)
-   defining Unicode char U+203D (decimal 8253)
-   defining Unicode char U+2044 (decimal 8260)
-   defining Unicode char U+204E (decimal 8270)
-   defining Unicode char U+2052 (decimal 8274)
-   defining Unicode char U+20A1 (decimal 8353)
-   defining Unicode char U+20A4 (decimal 8356)
-   defining Unicode char U+20A6 (decimal 8358)
-   defining Unicode char U+20A9 (decimal 8361)
-   defining Unicode char U+20AB (decimal 8363)
-   defining Unicode char U+20AC (decimal 8364)
-   defining Unicode char U+20B1 (decimal 8369)
-   defining Unicode char U+2103 (decimal 8451)
-   defining Unicode char U+2116 (decimal 8470)
-   defining Unicode char U+2117 (decimal 8471)
-   defining Unicode char U+211E (decimal 8478)
-   defining Unicode char U+2120 (decimal 8480)
-   defining Unicode char U+2122 (decimal 8482)
-   defining Unicode char U+2126 (decimal 8486)
-   defining Unicode char U+2127 (decimal 8487)
-   defining Unicode char U+212E (decimal 8494)
-   defining Unicode char U+2190 (decimal 8592)
-   defining Unicode char U+2191 (decimal 8593)
-   defining Unicode char U+2192 (decimal 8594)
-   defining Unicode char U+2193 (decimal 8595)
-   defining Unicode char U+2329 (decimal 9001)
-   defining Unicode char U+232A (decimal 9002)
-   defining Unicode char U+2422 (decimal 9250)
-   defining Unicode char U+25E6 (decimal 9702)
-   defining Unicode char U+25EF (decimal 9711)
-   defining Unicode char U+266A (decimal 9834)
-   defining Unicode char U+FEFF (decimal 65279)
-))
+)
 LaTeX Info: Redefining \oldstylenums on input line 334.
 Package textcomp Info: Setting cmr sub-encoding to TS1/0 on input line 349.
 Package textcomp Info: Setting cmss sub-encoding to TS1/0 on input line 350.
@@ -307,87 +236,87 @@ Package textcomp Info: Setting pplj sub-encoding to TS1/3 on input line 407.
 Package textcomp Info: Setting ptmx sub-encoding to TS1/4 on input line 408.
 Package textcomp Info: Setting ptmj sub-encoding to TS1/4 on input line 409.
 )
-("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\listings\listings.sty"
-\lst@mode=\count117
+(/usr/share/texlive/texmf-dist/tex/latex/listings/listings.sty
+\lst@mode=\count116
 \lst@gtempboxa=\box54
 \lst@token=\toks19
-\lst@length=\count118
+\lst@length=\count117
 \lst@currlwidth=\dimen127
-\lst@column=\count119
-\lst@pos=\count120
+\lst@column=\count118
+\lst@pos=\count119
 \lst@lostspace=\dimen128
 \lst@width=\dimen129
-\lst@newlines=\count121
-\lst@lineno=\count122
+\lst@newlines=\count120
+\lst@lineno=\count121
 \lst@maxwidth=\dimen130
 
-("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\listings\lstmisc.sty"
-File: lstmisc.sty 2018/09/02 1.7 (Carsten Heinz)
-\c@lstnumber=\count123
-\lst@skipnumbers=\count124
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2015/06/04 1.6 (Carsten Heinz)
+\c@lstnumber=\count122
+\lst@skipnumbers=\count123
 \lst@framebox=\box55
 )
-("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\listings\listings.cfg"
-File: listings.cfg 2018/09/02 1.7 listings configuration
+(/usr/share/texlive/texmf-dist/tex/latex/listings/listings.cfg
+File: listings.cfg 2015/06/04 1.6 listings configuration
 ))
-Package: listings 2018/09/02 1.7 (Carsten Heinz)
+Package: listings 2015/06/04 1.6 (Carsten Heinz)
 
-("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\subfiles\subfiles.sty"
-Package: subfiles 2018/07/31 Federico Garcia, Gernot Salzer
+(/usr/share/texlive/texmf-dist/tex/latex/subfiles/subfiles.sty
+Package: subfiles 2012/05/23 Federico Garcia
 
-("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\tools\verbatim.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/tools/verbatim.sty
 Package: verbatim 2014/10/28 v1.5q LaTeX2e package for verbatim enhancements
 \every@verbatim=\toks20
 \verbatim@line=\toks21
 \verbatim@in@stream=\read1
 ))
-("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\subfigure\subfigure.sty"
-Package: subfigure 2002/07/30 v2.1.4 subfigure package
+(/usr/share/texlive/texmf-dist/tex/latex/subfigure/subfigure.sty
+Package: subfigure 2002/03/15 v2.1.5 subfigure package
 \subfigtopskip=\skip45
 \subfigcapskip=\skip46
 \subfigcaptopadj=\dimen131
 \subfigbottomskip=\skip47
 \subfigcapmargin=\dimen132
 \subfiglabelskip=\skip48
-\c@subfigure=\count125
-\c@lofdepth=\count126
-\c@subtable=\count127
-\c@lotdepth=\count128
+\c@subfigure=\count124
+\c@lofdepth=\count125
+\c@subtable=\count126
+\c@lotdepth=\count127
 
 ****************************************
 * Local config file subfigure.cfg used *
 ****************************************
-("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\subfigure\subfigure.cfg")
+(/usr/share/texlive/texmf-dist/tex/latex/subfigure/subfigure.cfg)
 \subfig@top=\skip49
 \subfig@bottom=\skip50
 )
-("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsmath.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2017/09/02 v2.17a AMS math features
 \@mathmargin=\skip51
 
 For additional information on amsmath, use the `?' option.
-("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amstext.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
 Package: amstext 2000/06/29 v2.01 AMS text
 
-("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsgen.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks22
 \ex@=\dimen133
 ))
-("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsbsy.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
 \pmbraise@=\dimen134
 )
-("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsopn.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2016/03/08 v2.02 operator names
 )
-\inf@bad=\count129
+\inf@bad=\count128
 LaTeX Info: Redefining \frac on input line 213.
-\uproot@=\count130
-\leftroot@=\count131
+\uproot@=\count129
+\leftroot@=\count130
 LaTeX Info: Redefining \overline on input line 375.
-\classnum@=\count132
-\DOTSCASE@=\count133
+\classnum@=\count131
+\DOTSCASE@=\count132
 LaTeX Info: Redefining \ldots on input line 472.
 LaTeX Info: Redefining \dots on input line 475.
 LaTeX Info: Redefining \cdots on input line 596.
@@ -400,15 +329,15 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 713.
 
 Package amsmath Warning: Unable to redefine math accent \vec.
 
-\macc@depth=\count134
-\c@MaxMatrixCols=\count135
+\macc@depth=\count133
+\c@MaxMatrixCols=\count134
 \dotsspace@=\muskip10
-\c@parentequation=\count136
-\dspbrk@lvl=\count137
+\c@parentequation=\count135
+\dspbrk@lvl=\count136
 \tag@help=\toks23
-\row@=\count138
-\column@=\count139
-\maxfields@=\count140
+\row@=\count137
+\column@=\count138
+\maxfields@=\count139
 \andhelp@=\toks24
 \eqnshift@=\dimen136
 \alignsep@=\dimen137
@@ -422,78 +351,138 @@ Package amsmath Warning: Unable to redefine math accent \vec.
 \mathdisplay@stack=\toks26
 LaTeX Info: Redefining \[ on input line 2817.
 LaTeX Info: Redefining \] on input line 2818.
-) ("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\url\url.sty"
+) (/usr/share/texlive/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip11
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
-("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\tools\bm.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/tools/bm.sty
 Package: bm 2017/01/16 v1.2c Bold Symbol Support (DPC/FMi)
 \symboldoperators=\mathgroup4
 \symboldletters=\mathgroup5
 \symboldsymbols=\mathgroup6
 LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 141.
 LaTeX Info: Redefining \bm on input line 207.
-) (llncs.aux)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/program/program.sty
+\@gtempa=\dimen142
+\@gtempa=\dimen143
+\@gtempa=\dimen144
+\@gtempa=\dimen145
+\@gtempa=\dimen146
+\@gtempa=\dimen147
+\@gtempa=\dimen148
+\@gtempa=\dimen149
+\@gtempa=\dimen150
+\@gtempa=\dimen151
+\@gtempa=\dimen152
+\@gtempa=\dimen153
+\@gtempa=\dimen154
+\@gtempa=\dimen155
+\@gtempa=\dimen156
+\@gtempa=\dimen157
+\@gtempa=\dimen158
+\@gtempa=\dimen159
+\@gtempa=\dimen160
+\@gtempa=\dimen161
+\@gtempa=\dimen162
+\@gtempa=\dimen163
+\@gtempa=\dimen164
+\@gtempa=\dimen165
+\@gtempa=\dimen166
+\@gtempa=\dimen167
+\@gtempa=\dimen168
+\@gtempa=\dimen169
+\@gtempa=\dimen170
+\@gtempa=\dimen171
+\@gtempa=\dimen172
+\@gtempa=\dimen173
+\@gtempa=\dimen174
+\@gtempa=\dimen175
+\@gtempa=\dimen176
+\@gtempa=\dimen177
+\@gtempa=\dimen178
+\@gtempa=\dimen179
+\@gtempa=\dimen180
+\@gtempa=\dimen181
+\@gtempa=\dimen182
+\@gtempa=\dimen183
+\@gtempa=\dimen184
+\@gtempa=\dimen185
+\@gtempa=\dimen186
+\@gtempa=\dimen187
+\@gtempa=\dimen188
+\@gtempa=\dimen189
+\@gtempa=\dimen190
+\@gtempa=\dimen191
+\c@programline=\count140
+\old@nxttabmar=\count141
+\symeulerletters=\mathgroup7
+\powersetbox=\box58
+LaTeX Font Info:    Try loading font information for U+eur on input line 841.
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/ueur.fd
+File: ueur.fd 2013/01/14 v3.01 Euler Roman
+)) (./llncs.aux)
 \openout1 = `llncs.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 34.
-LaTeX Font Info:    ... okay on input line 34.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 34.
-LaTeX Font Info:    ... okay on input line 34.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 34.
-LaTeX Font Info:    ... okay on input line 34.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 34.
-LaTeX Font Info:    ... okay on input line 34.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 34.
-LaTeX Font Info:    ... okay on input line 34.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 34.
-LaTeX Font Info:    ... okay on input line 34.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 34.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 34.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 33.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 33.
 
-("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\ts1cmr.fd"
+(/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    ... okay on input line 33.
 
-("F:\Program Files (x86)\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
+(/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count141
-\scratchdimen=\dimen142
-\scratchbox=\box58
-\nofMPsegments=\count142
-\nofMParguments=\count143
+\scratchcounter=\count142
+\scratchdimen=\dimen192
+\scratchbox=\box59
+\nofMPsegments=\count143
+\nofMParguments=\count144
 \everyMPshowfont=\toks27
-\MPscratchCnt=\count144
-\MPscratchDim=\dimen143
-\MPnumerator=\count145
-\makeMPintoPDFobject=\count146
+\MPscratchCnt=\count145
+\MPscratchDim=\dimen193
+\MPnumerator=\count146
+\makeMPintoPDFobject=\count147
 \everyMPtoPDFconversion=\toks28
-) ("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\oberdiek\epstopdf-base.sty"
+) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
 
-("F:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\infwarerr.sty"
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/infwarerr.sty
 Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
 )
-("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\oberdiek\grfext.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/grfext.sty
 Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
 
-("F:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\kvdefinekeys.sty"
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty
 Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
 
-("F:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.sty"
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
 Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
 )))
-("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\oberdiek\kvoptions.sty"
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/kvoptions.sty
 Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
 
-("F:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\kvsetkeys.sty"
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
 Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
 
-("F:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\etexcmds.sty"
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/etexcmds.sty
 Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
 
-("F:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\ifluatex.sty"
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifluatex.sty
 Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
 Package ifluatex Info: LuaTeX not detected.
 )
@@ -502,12 +491,12 @@ Package etexcmds Info: Could not find \expanded.
 (etexcmds)             that some package has redefined \expanded.
 (etexcmds)             In the latter case, load this package earlier.
 )))
-("F:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\pdftexcmds.sty"
-Package: pdftexcmds 2018/09/10 v0.29 Utility functions of pdfTeX for LuaTeX (HO
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
+Package: pdftexcmds 2018/01/21 v0.26 Utility functions of pdfTeX for LuaTeX (HO
 )
 
-("F:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\ifpdf.sty"
-Package: ifpdf 2018/09/07 v3.3 Provides the ifpdf switch
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2017/03/15 v3.2 Provides the ifpdf switch
 )
 Package pdftexcmds Info: LuaTeX not detected.
 Package pdftexcmds Info: \pdf@primitive is available.
@@ -520,104 +509,111 @@ Package grfext Info: Graphics extension search list:
 (grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPE
 G,.JBIG2,.JB2,.eps]
 (grfext)             \AppendGraphicsExtensions on input line 456.
-)
-\c@lstlisting=\count147
+
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+\c@lstlisting=\count148
 
 
-LaTeX Warning: Citation `liu2002continuum' on page 1 undefined on input line 86
+LaTeX Warning: Citation `liu2002continuum' on page 1 undefined on input line 85
 .
 
 
 LaTeX Warning: Citation `wriggers2013nichtlineare' on page 1 undefined on input
- line 107.
+ line 106.
 
 [1
 
-{C:/Users/Sikang Yan/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
 
 LaTeX Warning: Citation `rohmer2010animation' on page 2 undefined on input line
- 109.
+ 108.
 
 
 LaTeX Warning: Citation `liu2002continuum' on page 2 undefined on input line 12
-2.
+1.
 
 
 LaTeX Warning: Citation `haupt2013continuum' on page 2 undefined on input line 
-133.
+132.
 
 
 LaTeX Warning: Citation `wilmott1995mathematics' on page 2 undefined on input l
-ine 145.
+ine 144.
 
 [2]
 
 LaTeX Warning: Citation `bentley1975multidimensional' on page 3 undefined on in
 put line 168.
 
+
+LaTeX Warning: Citation `park2017fundamentals' on page 3 undefined on input lin
+e 194.
+
+
+LaTeX Warning: Citation `schonemann1966generalized' on page 3 undefined on inpu
+t line 196.
+
+
+LaTeX Warning: Citation `zhang2000flexible' on page 3 undefined on input line 2
+00.
+
 Package epstopdf Info: Source file: <image//neighboring_point.eps>
-(epstopdf)                    date: 2019-03-08 14:57:28
-(epstopdf)                    size: 1230958 bytes
+(epstopdf)                    date: 2019-04-24 11:29:32
+(epstopdf)                    size: 1192382 bytes
 (epstopdf)             Output file: <image//neighboring_point-eps-converted-to.
 pdf>
-(epstopdf)                    date: 2019-03-08 14:57:36
-(epstopdf)                    size: 17454 bytes
-(epstopdf)             Command: <epstopdf --outfile=image//neighboring_point-ep
-s-converted-to.pdf image//neighboring_point.eps>
-(epstopdf)             \includegraphics on input line 191.
+(epstopdf)                    date: 2019-04-24 13:37:33
+(epstopdf)                    size: 13611 bytes
+(epstopdf)             Command: <repstopdf --outfile=image//neighboring_point-e
+ps-converted-to.pdf image//neighboring_point.eps>
+(epstopdf)             \includegraphics on input line 212.
 Package epstopdf Info: Output file is already uptodate.
 
 
 pdfTeX warning: pdflatex (file ./image//neighboring_point-eps-converted-to.pdf)
 : PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<image//neighboring_point-eps-converted-to.pdf, id=24, 206.7725pt x 132.495pt>
+<image//neighboring_point-eps-converted-to.pdf, id=25, 165.61874pt x 108.405pt>
+
 File: image//neighboring_point-eps-converted-to.pdf Graphic file (type pdf)
 <use image//neighboring_point-eps-converted-to.pdf>
 Package pdftex.def Info: image//neighboring_point-eps-converted-to.pdf  used on
- input line 191.
-(pdftex.def)             Requested size: 216.24089pt x 138.56584pt.
-
-LaTeX Warning: Citation `park2017fundamentals' on page 3 undefined on input lin
-e 200.
-
-
-LaTeX Warning: Citation `schonemann1966generalized' on page 3 undefined on inpu
-t line 202.
-
-[3 <./image//neighboring_point-eps-converted-to.pdf>]
-
-LaTeX Warning: Citation `zhang2000flexible' on page 4 undefined on input line 2
-06.
-
+ input line 212.
+(pdftex.def)             Requested size: 165.61833pt x 108.40472pt.
+[3]
 No file llncs.bbl.
-[4] (llncs.aux) ) 
+[4 <./image//neighboring_point-eps-converted-to.pdf>] (./llncs.aux) ) 
 Here is how much of TeX's memory you used:
- 4680 strings out of 492970
- 64870 string characters out of 3133192
- 142874 words of memory out of 3000000
- 8478 multiletter control sequences out of 15000+200000
- 13031 words of font info for 47 fonts, out of 3000000 for 9000
- 1141 hyphenation exceptions out of 8191
- 41i,15n,32p,455b,231s stack positions out of 5000i,500n,10000p,200000b,50000s
-<F:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts
-/cm/cmbx10.pfb><F:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/c
-m/cmbx12.pfb><F:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/
-cmbx7.pfb><F:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmb
-x9.pfb><F:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10
-.pfb><F:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.p
-fb><F:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb>
-<F:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmib10.pfb><
-F:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><F:/
-Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><F:/Prog
-ram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><F:/Program 
-Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr9.pfb><F:/Program File
-s (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><F:/Program Files 
-(x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb><F:/Program Files (x8
-6)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><F:/Program Files (x86)
-/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on llncs.pdf (4 pages, 217106 bytes).
+ 4838 strings out of 494880
+ 65390 string characters out of 6179602
+ 137981 words of memory out of 5000000
+ 8069 multiletter control sequences out of 15000+600000
+ 16486 words of font info for 59 fonts, out of 8000000 for 9000
+ 36 hyphenation exceptions out of 8191
+ 41i,15n,32p,453b,289s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/shar
+e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texl
+ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb></usr/share/texlive/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share/texlive/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
+nts/cm/cmmib10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.
+pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/
+texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/share/texliv
+e/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmtt9.pfb>
+Output written on llncs.pdf (4 pages, 211316 bytes).
 PDF statistics:
- 87 PDF objects out of 1000 (max. 8388607)
+ 93 PDF objects out of 1000 (max. 8388607)
+ 66 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 

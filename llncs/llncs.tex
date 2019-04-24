@@ -24,13 +24,12 @@
 \usepackage{amsmath}
 \usepackage{url}
 \usepackage{bm}
+\usepackage{program}
 %\usepackage[german]{babel}
-
 % use this for revew submission only. Please comment it for final submission
 %\usepackage{lineno}
 %\linenumbers
 %
-
 \begin{document}
 
 \pagestyle{headings}  % switches on printing of running heads
@@ -145,7 +144,8 @@ D_{33}=&\dfrac{\dot{\lambda_2}}{\lambda_3}
 Given the deformation gradients at the beginning $F_t$ and end $F_{t+\Delta t}$ of a time step, we use \emph{forward difference} \cite{wilmott1995mathematics} to calculate the derivation of deformation gradient and take the inverse of the later one.  
 
 \subsection{Cross-covariance Matrix}
-Let $\Phi$ denote the points set in the template frame, and $\Psi$ denote the points set in the reference frame. Therefore, each set of points can be described as
+\label{sec:Cross-covariance Matrix}
+Let $\Phi$ denote the points set in the template frame, and $\Psi$ denote the points set in the reference frame. Each set of points can be described as
 \begin{align}
 \Phi=
   \begin{bmatrix}
@@ -185,13 +185,7 @@ Let $\overline{\Phi} \subset \Phi$ define the points set of the neighboring poin
     x_M-x_i & y_M-y_i & z_M-z_i  \\
   \end{bmatrix},
 \end{align}
-where $\mathbf{X}_1,\mathbf{X}_2,\dots,\mathbf{X}_M \in \overline{\Phi}$ and $\mathbf{x}_1,\mathbf{x}_2,\dots,\mathbf{x}_M \in \overline{\Psi}$, and $M$ is the number of the points in the neighboring points set. The matrices $\mathbf{P}_i$ and $\mathbf{Q}_i$ represent the distribution of local shapes near the point $\mathbf{X}_i$ and $\mathbf{x}_i$, see Fig. \ref{fig:neighboring_point}.
-\begin{figure}
- \centering
- \includegraphics[width=0.5\textwidth]{image//neighboring_point.eps}
- \caption{The neighboring vertices of one base vertex in a structural points set.}
- \label{fig:neighboring_point}
-\end{figure}  
+where $\mathbf{X}_1,\mathbf{X}_2,\dots,\mathbf{X}_M \in \overline{\Phi}$ and $\mathbf{x}_1,\mathbf{x}_2,\dots,\mathbf{x}_M \in \overline{\Psi}$, and $M$ is the number of the points in the neighboring points set. The matrices $\mathbf{P}_i$ and $\mathbf{Q}_i$ represent the distribution of local shapes near the point $\mathbf{X}_i$ and $\mathbf{x}_i$.
 
 Proceeding to define
 \begin{align}
@@ -211,10 +205,28 @@ where $\| \cdot \|_{F}$ is the Frobenius norm. Moreover, it can be shown\cite{zh
 Applied by Eq. \eqref{eq:decomposition_theorem} \eqref{eq:stretch_tensor} \eqref{eq:strech_tensor_diagonalized}, we could obtain the approximated stretch tensor $\widetilde{\mathbf{U}}$ and its eigenvalues $\tilde{\lambda_1},\tilde{\lambda_2},\tilde{\lambda_3}$.
 
 \section{Animation of Wrinkle Deformation Field}
-\subsection{Structural Points Sets Using 1st Neighboring Points}
+\subsection{Structural Points Sets Using 1st Neighboring Vertices}
+Given a structual points sets, we follow the procudures described in the Sec. \ref{sec:Cross-covariance Matrix} to calculate the smallest eigenvalues $\lambda_1$ for every vertices.
+\begin{figure}
+ \centering
+ \includegraphics{image//neighboring_point.eps}
+ \caption{The 1st neighboring vertices of base vertex.}
+ \label{fig:first_neighboring_vertices}
+\end{figure}
 
+\begin{program}
+ \mbox{The procedure to evaluate the deformation using 1st neighboring vertices:}
+\BEGIN \\ %
+  \FOR i:=1 \TO N \DO \rcomment{N is the amount of all vertices in template configuration}
+     \mathbf{P}_i \ |and| \ \mathbf{Q}_i; \rcomment{calculate the matrices}\ \mathbf{P}_i \ and \ \mathbf{Q}_i
+     \mathbf{H_i} = \mathbf{P_i}^T \mathbf{Q_i}=\widetilde{\mathbf{F}}; \rcomment{calculate the cross-covariance Matrix} \ \mathbf{H_i}
+     \mathbf{\widetilde{C}_i}=\mathbf{\widetilde{\mathbf{F}}_i}^T\mathbf{\widetilde{\mathbf{F}}_i}; \rcomment{calculate the Cauchy-Green strain tensor} \  \mathbf{\widetilde{C}_i}
+     \mathbf{\widetilde{C}} =  \widetilde{\lambda}_1^2 \mathbf{e}_1 \mathbf{e}_1^T+ \widetilde{\lambda}_2^2 \mathbf{e}_2 \mathbf{e}_2^T+ \widetilde{\lambda}_3^2 \mathbf{e}_3 \mathbf{e}_3^T; \rcomment{decomposite the Cauchy-Green strain tensor}
+     \mathbf{\widetilde{U}} =  \widetilde{\lambda}_1 \mathbf{e}_1 \mathbf{e}_1^T+ \widetilde{\lambda}_2 \mathbf{e}_2 \mathbf{e}_2^T+ \widetilde{\lambda}_3 \mathbf{e}_3 \mathbf{e}_3^T\ENDPROC \rcomment{calculate the stretch tensor} \  \mathbf{\widetilde{U}_i}
+\END
+\end{program}
 
-\subsection{Structural Points Sets Using 2nd Neighboring Points}
+\subsection{Structural Points Sets Using 2nd Neighboring Vertices}
 
 \subsection{Non-structural Points Sets Using Binary Search Tree}
 
