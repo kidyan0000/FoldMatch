@@ -1,0 +1,5 @@
+Selected mode is: 3
+Template is: ../data/Template-37_0037.ply
+Reference is: ../data/Template-40_0040.ply
+Base is: ../data/Template-37_0037.ply
+Lambda is: lambda1

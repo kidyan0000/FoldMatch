@@ -396,7 +396,7 @@ void cloth_calc::cloth_velGrad_assemble(Eigen::MatrixXd VelGrad)
     int Vert_num = verts.rows();
     this -> D_assem.resize(Vert_num*3,3);
 
-    for(int Vert_index=0; Vert_index<1351; Vert_index++) // for all vertice
+    for(int Vert_index=0; Vert_index<Vert_num; Vert_index++) // for all vertice
     {
         // initialize the adjacent triangles of each vertex
         int El_num = _plyMesh -> trimesh::TriMesh::adjacentfaces.at(Vert_index).size();
@@ -444,6 +444,7 @@ void cloth_calc::cloth_velGrad_assemble(Eigen::MatrixXd VelGrad)
         {
             this -> D_assem.block(Vert_index*3,0,3,3) = VelGrad.block(Vert_index*3,0,3,3);
         }
+
         else
         {
             Eigen::MatrixXd L_j, L_i, L_sum, L_tmp, L_new;
@@ -464,7 +465,7 @@ void cloth_calc::cloth_velGrad_assemble(Eigen::MatrixXd VelGrad)
                 L_j.block(El_index*3,0,3,3) = VelGrad.block(this -> _plyMesh -> trimesh::TriMesh::neighbors.at(Vert_index).at(El_index)*3,0,3,3);
             }
 
-            // L_sum.Zero(3,3);
+            L_sum.Zero(3,3);
             for(int El_index=0; El_index<El_num; El_index++)
             {
                 L_tmp = (L_i.cwiseSqrt() * L_j.block(El_index*3,0,3,3) * L_i.cwiseSqrt()).array().log10() * weight(El_index);
@@ -475,7 +476,7 @@ void cloth_calc::cloth_velGrad_assemble(Eigen::MatrixXd VelGrad)
             L_new = L_sum.array().exp();
 
             this -> D_assem.block(Vert_index*3,0,3,3) = L_i.cwiseSqrt() * L_new * L_i.cwiseSqrt();
-            std::cout << L_sum << std::endl;
+            // std::cout << L_sum << std::endl;
 
             L_i.resize(0,0);
             L_j.resize(0,0);
@@ -484,7 +485,33 @@ void cloth_calc::cloth_velGrad_assemble(Eigen::MatrixXd VelGrad)
             L_new.resize(0,0);
             weight.resize(0,0);
         }
+
     }
+
+}
+
+void cloth_calc::cloth_velGrad_normalize(Eigen::MatrixXd VelGrad)
+{
+    Eigen::MatrixXd D_dir1;
+
+    int Vert_num = verts.rows();
+
+    D_dir1.resize(Vert_num,1);
+    this -> D_norm_dir1.resize(Vert_num,1);
+
+    for(int Vert_index=0; Vert_index<Vert_num; Vert_index++)
+    {
+        D_dir1(Vert_index) = VelGrad(Vert_index*3,0);
+    }
+
+    for(int Vert_index=0; Vert_index<Vert_num; Vert_index++)
+    {
+        this -> D_norm_dir1(Vert_index) = (D_dir1(Vert_index) - D_dir1.minCoeff())/(D_dir1.maxCoeff() - D_dir1.minCoeff());
+    }
+
+    //this -> D_norm_dir1 = (D_dir1 - D_dir1.minCoeff() * Eigen::MatrixXd::Identity(Vert_num, 1)) / (D_dir1.maxCoeff() - D_dir1.minCoeff());
+
+    // std::cout << D_norm_dir1 << std::endl;
 
 }
 
@@ -913,6 +940,11 @@ Eigen::MatrixXd cloth_calc::GetRotTensor()
 Eigen::MatrixXd cloth_calc::GetStrTensorAsemmble()
 {
     return this -> D_assem;
+}
+
+Eigen::MatrixXd cloth_calc::GetStrTensor_norm_dir1()
+{
+    return this -> D_norm_dir1;
 }
 
 

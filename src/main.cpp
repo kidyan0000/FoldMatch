@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
     ////////////////////////////////
 
     // slot should be chosen from 1 to 74
-    for(int slot=1; slot<2; slot++)
+    for(int slot=1; slot<75; slot++)
     {
         CT = slot;
         CR = slot+3;
@@ -153,6 +153,8 @@ int main(int argc, char *argv[])
                 slot_CR -> cloth_velGrad_3D(slot_CT->GetDefoGrad(), slot_CR->GetDefoGrad(), deltaT);
                 // smooth the volocity gradient
                 slot_CR -> cloth_velGrad_assemble(slot_CR->GetStrTensor());
+                slot_CR -> cloth_velGrad_normalize(slot_CR->GetStrTensor());
+                slot_CR -> cloth_WriteColor(slot_CR->GetStrTensor_norm_dir1(), control->GetOutput(FILE));
                 break;
 
 
@@ -175,8 +177,8 @@ int main(int argc, char *argv[])
         ///////////////////////////////
 
         // std::cout << "a" << std::endl;
-        std::ofstream Test("../output/D_assem.txt");
-        Test<< slot_CR->GetStrTensorAsemmble()<< std::endl;
+        std::ofstream Test("../output/D_norm_1.txt");
+        Test<< slot_CR->GetStrTensor_norm_dir1()<< std::endl;
         Test.close();
 
     }

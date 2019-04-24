@@ -47,10 +47,10 @@ public:
     // USING KD-TREE
     void cloth_eig_kdTree();
 
-    void cloth_velGrad_3D(Eigen::MatrixXd F_CT, Eigen::MatrixXd F_CR, double deltaT);
-
     // Stretching Tensor
+    void cloth_velGrad_3D(Eigen::MatrixXd F_CT, Eigen::MatrixXd F_CR, double deltaT);
     void cloth_velGrad_assemble(Eigen::MatrixXd VelGrad);
+    void cloth_velGrad_normalize(Eigen::MatrixXd VelGrad);
 
     // COLLORMAP
     void cloth_vec_normalize(Eigen::MatrixXd Eigenval, int dim);
@@ -77,6 +77,7 @@ public:
     Eigen::MatrixXd GetStrTensor();
     Eigen::MatrixXd GetRotTensor();
     Eigen::MatrixXd GetStrTensorAsemmble();
+    Eigen::MatrixXd GetStrTensor_norm_dir1();
 
 
 private:
@@ -111,6 +112,7 @@ private:
     Eigen::MatrixXd D;
     Eigen::MatrixXd W;
     Eigen::MatrixXd D_assem;
+    Eigen::MatrixXd D_norm_dir1;
 
     //
     Eigen::MatrixXd Eigval_neighbor, Eigvec_neighbor;
