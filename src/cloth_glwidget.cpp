@@ -1,14 +1,12 @@
 // #pragma once
 #include "cloth_glwidget.h"
 #include "cloth_control.h"
-// #include "cloth_calc.h"
+#include "cloth_calc.h"
 
 #include <QtOpenGL>
 #include <QtWidgets>
 #include <QPainter>
 #include <QGLFunctions>
-
-
 
 
 Cloth_GLWidget::Cloth_GLWidget(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers), parent)
@@ -31,7 +29,8 @@ void Cloth_GLWidget::initVbo()
 
     // get vertices
     ply_module* _plyModule = new ply_module();
-    _plyModule->readPLY("../data/Template-1_0001.ply", true, true, true, true, true);
+    _plyModule->readPLY("../output/debug/lambda1_2.ply", true, true, true, true, true);
+
 
     if (_plyModule->getVertices().rows() != 0)
     {
@@ -59,6 +58,9 @@ void Cloth_GLWidget::initVbo()
 
     Eigen::Matrix<int,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> colors_t(colors);
     Eigen::RowVectorXi colors_row(Eigen::Map<Eigen::RowVectorXi>(colors_t.data(), colors_t.size()));
+
+    // Eigen::RowVectorXd colorsd_row = colors_row.cast<double>() / 255.;
+
 
     // now creat the VBO
     glGenBuffers(1, &VBOBuffers);
@@ -108,22 +110,77 @@ void Cloth_GLWidget::initVbo()
     */
 }
 
+void Cloth_GLWidget::mapVbo()
+{
+
+    ply_module* _plyModuleCalc = new ply_module();
+    _plyModuleCalc->readPLY("../output/debug/lambda1_2.ply", true, true, true, true, true);
+
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    if (_plyModuleCalc->getVertices().rows() != 0)
+    {
+        this->vertsCalc = _plyModuleCalc->getVertices();
+    }
+
+    if (_plyModuleCalc->getNormals().rows() != 0)
+    {
+        this->normalsCalc = _plyModuleCalc->getNormals();
+    }
+
+    if (_plyModuleCalc->getColors().rows() != 0)
+    {
+        this->colorsCalc = _plyModuleCalc->getColors();
+    }
+
+    // Reshape the matrix to vector
+
+    Eigen::Matrix<double,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> vertsCalc_t(vertsCalc);
+    Eigen::RowVectorXd vertsCalc_row(Eigen::Map<Eigen::RowVectorXd>(vertsCalc_t.data(), vertsCalc_t.size()));
+
+    Eigen::Matrix<double,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> normalsCalc_t(normalsCalc);
+    Eigen::RowVectorXd normalsCalc_row(Eigen::Map<Eigen::RowVectorXd>(normalsCalc_t.data(), normalsCalc_t.size()));
+
+    Eigen::Matrix<int,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> colorsCalc_t(colorsCalc);
+    Eigen::RowVectorXi colorsCalc_row(Eigen::Map<Eigen::RowVectorXi>(colorsCalc_t.data(), colorsCalc_t.size()));
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBOBuffers);
+
+
+    if (_plyModuleCalc->getVertices().rows() != 0)
+    {
+        glBufferSubData(GL_ARRAY_BUFFER, 0, vertsCalc.rows()*3*sizeof(double), vertsCalc_row.data());
+    }
+    if (_plyModuleCalc->getNormals().rows() != 0)
+    {
+        glBufferSubData(GL_ARRAY_BUFFER, vertsCalc.rows()*3*sizeof(double), normalsCalc.rows()*3*sizeof(double), normalsCalc_row.data());
+    }
+    if (_plyModuleCalc->getColors().rows() != 0)
+    {
+        glBufferSubData(GL_ARRAY_BUFFER,(vertsCalc.rows()+normalsCalc.rows())*3*sizeof(double), colorsCalc.rows()*3*sizeof(int), colorsCalc_row.data());
+    }
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+}
+
 
 void Cloth_GLWidget::initializeGL()
 {
-   qglClearColor(Qt::black); //use black backgroud
+    qglClearColor(Qt::black); //use black backgroud
 
-   glEnable(GL_DEPTH_TEST);
-   glEnable(GL_CULL_FACE);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
 
-   glShadeModel(GL_SMOOTH);
-   glEnable(GL_LIGHTING);
-   glEnable(GL_LIGHT0);
+    glShadeModel(GL_SMOOTH);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
 
-   static GLfloat lightPosition[4] = { 0, 0, 10, 1.0 };
-   glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
+    static GLfloat lightPosition[4] = { 0, 0, 10, 1.0 };
+    glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 
-   initVbo();
+    initVbo();
+    // mapVbo();
 }
 
 void Cloth_GLWidget::paintGL()
@@ -138,7 +195,9 @@ void Cloth_GLWidget::paintGL()
     glTranslatef(0.0, 0.0, -6.0);
 
     glPushMatrix();
+
     draw();
+
     glPopMatrix();
 
     // test();
@@ -200,7 +259,7 @@ void Cloth_GLWidget::draw()
     }
     if (colors.rows() != 0)
     {
-        glColorPointer(3,GL_INT, 0, BUFFER_OFFSET(3*(verts.rows() + normals.rows())));
+        glColorPointer(3, GL_INT, 0, BUFFER_OFFSET(3*(verts.rows() + normals.rows())));
 
     }
 

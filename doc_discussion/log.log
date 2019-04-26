@@ -1,31 +1,27 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.2.4)  24 APR 2019 11:06
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7000) (preloaded format=pdflatex 2019.4.26)  26 APR 2019 09:29
 entering extended mode
- restricted \write18 enabled.
- %&-line parsing enabled.
-**log.tex
-(./log.tex
-LaTeX2e <2017-04-15>
-Babel <3.18> and hyphenation patterns for 5 language(s) loaded.
-(/usr/share/texlive/texmf-dist/tex/latex/beamer/beamer.cls
-Document Class: beamer 2018/02/20 v3.50 A class for typesetting presentations
-(/usr/share/texlive/texmf-dist/tex/latex/beamer/beamerbasemodes.sty
-(/usr/share/texlive/texmf-dist/tex/latex/etoolbox/etoolbox.sty
-Package: etoolbox 2018/02/11 v2.5e e-TeX tools for LaTeX (JAW)
-\etb@tempcnta=\count79
+**./log.tex
+(log.tex
+LaTeX2e <2018-12-01>
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/beamer/beamer.cls
+Document Class: beamer 2018/12/02 v3.55 A class for typesetting presentations
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/beamer/beamerbasemodes.sty
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2018/08/19 v2.5f e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count80
 )
-\beamer@tempbox=\box26
-\beamer@tempcount=\count80
-\c@beamerpauses=\count81
+\beamer@tempbox=\box27
+\beamer@tempcount=\count81
+\c@beamerpauses=\count82
 
-(/usr/share/texlive/texmf-dist/tex/latex/beamer/beamerbasedecode.sty
-\beamer@slideinframe=\count82
-\beamer@minimum=\count83
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/beamer/beamerbasedecode.sty
+\beamer@slideinframe=\count83
+\beamer@minimum=\count84
 )
-\beamer@commentbox=\box27
-\beamer@modecount=\count84
-)
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifpdf.sty
-Package: ifpdf 2017/03/15 v3.2 Provides the ifpdf switch
+\beamer@commentbox=\box28
+\beamer@modecount=\count85
+) (/home/kidyan0000/.miktex/texmfs/install/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2018/09/07 v3.3 Provides the ifpdf switch
 )
 \headdp=\dimen102
 \footheight=\dimen103
@@ -44,53 +40,53 @@ Package: ifpdf 2017/03/15 v3.2 Provides the ifpdf switch
 \beamer@descdefault=\dimen116
 \beamer@descriptionwidth=\dimen117
 \beamer@lastskip=\skip41
-\beamer@areabox=\box28
-\beamer@animcurrent=\box29
-\beamer@animshowbox=\box30
-\beamer@sectionbox=\box31
-\beamer@logobox=\box32
-\beamer@linebox=\box33
-\beamer@sectioncount=\count85
-\beamer@subsubsectionmax=\count86
-\beamer@subsectionmax=\count87
-\beamer@sectionmax=\count88
-\beamer@totalheads=\count89
-\beamer@headcounter=\count90
-\beamer@partstartpage=\count91
-\beamer@sectionstartpage=\count92
-\beamer@subsectionstartpage=\count93
-\beamer@animationtempa=\count94
-\beamer@animationtempb=\count95
-\beamer@xpos=\count96
-\beamer@ypos=\count97
-\beamer@ypos@offset=\count98
-\beamer@showpartnumber=\count99
-\beamer@currentsubsection=\count100
-\beamer@coveringdepth=\count101
-\beamer@sectionadjust=\count102
-\beamer@tocsectionnumber=\count103
+\beamer@areabox=\box29
+\beamer@animcurrent=\box30
+\beamer@animshowbox=\box31
+\beamer@sectionbox=\box32
+\beamer@logobox=\box33
+\beamer@linebox=\box34
+\beamer@sectioncount=\count86
+\beamer@subsubsectionmax=\count87
+\beamer@subsectionmax=\count88
+\beamer@sectionmax=\count89
+\beamer@totalheads=\count90
+\beamer@headcounter=\count91
+\beamer@partstartpage=\count92
+\beamer@sectionstartpage=\count93
+\beamer@subsectionstartpage=\count94
+\beamer@animationtempa=\count95
+\beamer@animationtempb=\count96
+\beamer@xpos=\count97
+\beamer@ypos=\count98
+\beamer@ypos@offset=\count99
+\beamer@showpartnumber=\count100
+\beamer@currentsubsection=\count101
+\beamer@coveringdepth=\count102
+\beamer@sectionadjust=\count103
+\beamer@tocsectionnumber=\count104
 
-(/usr/share/texlive/texmf-dist/tex/latex/beamer/beamerbaseoptions.sty
-(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/beamer/beamerbaseoptions.sty
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/graphics/keyval.sty
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
 \KV@toks@=\toks14
 ))
 \beamer@paperwidth=\skip42
 \beamer@paperheight=\skip43
 
-(/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty
-Package: geometry 2010/09/12 v5.6 Page Geometry
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/geometry/geometry.sty
+Package: geometry 2018/04/16 v5.8 Page Geometry
 
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifvtex.sty
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/oberdiek/ifvtex.sty
 Package: ifvtex 2016/05/16 v1.6 Detect VTeX and its facilities (HO)
 Package ifvtex Info: VTeX not detected.
 )
-(/usr/share/texlive/texmf-dist/tex/generic/ifxetex/ifxetex.sty
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/ifxetex/ifxetex.sty
 Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 )
-\Gm@cnth=\count104
-\Gm@cntv=\count105
-\c@Gm@tempcnt=\count106
+\Gm@cnth=\count105
+\Gm@cntv=\count106
+\c@Gm@tempcnt=\count107
 \Gm@bindingoffset=\dimen118
 \Gm@wd@mp=\dimen119
 \Gm@odd@mp=\dimen120
@@ -100,56 +96,63 @@ Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 \Gm@layouthoffset=\dimen124
 \Gm@layoutvoffset=\dimen125
 \Gm@dimlist=\toks15
+
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/geometry/geometry.cfg))
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/base/size11.clo
+File: size11.clo 2018/09/03 v1.4i Standard LaTeX file (size option)
 )
-(/usr/share/texlive/texmf-dist/tex/latex/base/size11.clo
-File: size11.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
-)
-(/usr/share/texlive/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.sty
-(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/pgf/basiclayer/pgfcore.sty
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/graphics/graphicx.sty
 Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
 
-(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/graphics/graphics.sty
 Package: graphics 2017/06/25 v1.2c Standard LaTeX Graphics (DPC,SPQR)
 
-(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/graphics/trig.sty
 Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
 )
-(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/graphics-cfg/graphics.cfg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 99.
 
-(/usr/share/texlive/texmf-dist/tex/latex/graphics-def/pdftex.def
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/graphics-def/pdftex.def
 File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
 ))
 \Gin@req@height=\dimen126
 \Gin@req@width=\dimen127
 )
-(/usr/share/texlive/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.sty
-(/usr/share/texlive/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.tex
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/pgf/systemlayer/pgfsys.sty
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/pgf/utilities/pgfrcs.sty
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/utilities/pgfutil-comm
+on.tex
 \pgfutil@everybye=\toks16
 \pgfutil@tempdima=\dimen128
 \pgfutil@tempdimb=\dimen129
 
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfutil-common-lists.t
-ex)) (/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def
-\pgfutil@abb=\box34
-(/usr/share/texlive/texmf-dist/tex/latex/ms/everyshi.sty
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/utilities/pgfutil-comm
+on-lists.tex))
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/utilities/pgfutil-late
+x.def
+\pgfutil@abb=\box35
+ (/home/kidyan0000/.miktex/texmfs/install/tex/latex/ms/everyshi.sty
 Package: everyshi 2001/05/15 v3.00 EveryShipout Package (MS)
 ))
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex
-Package: pgfrcs 2015/08/07 v3.0.1a (rcs-revision 1.31)
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/utilities/pgfrcs.code.
+tex (/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/pgf.revision.tex)
+Package: pgfrcs 2019/04/04 v3.1.2 (3.1.2)
 ))
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.code.tex
-Package: pgfsys 2014/07/09 v3.0.1a (rcs-revision 1.48)
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/systemlayer/pgfsys.cod
+e.tex
+Package: pgfsys 2019/04/04 v3.1.2 (3.1.2)
 
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/utilities/pgfkeys.code
+.tex
 \pgfkeys@pathtoks=\toks17
 \pgfkeys@temptoks=\toks18
 
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfkeysfiltered.code.t
-ex
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/utilities/pgfkeysfilte
+red.code.tex
 \pgfkeys@tmptoks=\toks19
 ))
 \pgf@x=\dimen130
@@ -162,38 +165,42 @@ ex
 \pgf@yc=\dimen137
 \w@pgf@writea=\write3
 \r@pgf@reada=\read1
-\c@pgf@counta=\count107
-\c@pgf@countb=\count108
-\c@pgf@countc=\count109
-\c@pgf@countd=\count110
+\c@pgf@counta=\count108
+\c@pgf@countb=\count109
+\c@pgf@countc=\count110
+\c@pgf@countd=\count111
 \t@pgf@toka=\toks20
 \t@pgf@tokb=\toks21
 \t@pgf@tokc=\toks22
- (/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg
-File: pgf.cfg 2008/05/14  (rcs-revision 1.7)
+\pgf@sys@id@count=\count112
+
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/systemlayer/pgf.cfg
+File: pgf.cfg 2019/04/04 v3.1.2 (3.1.2)
 )
 Driver file for pgf: pgfsys-pdftex.def
 
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-pdftex.def
-File: pgfsys-pdftex.def 2014/10/11  (rcs-revision 1.35)
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/systemlayer/pgfsys-pdf
+tex.def
+File: pgfsys-pdftex.def 2019/04/04 v3.1.2 (3.1.2)
 
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-common-pdf.de
-f
-File: pgfsys-common-pdf.def 2013/10/10  (rcs-revision 1.13)
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/systemlayer/pgfsys-com
+mon-pdf.def
+File: pgfsys-common-pdf.def 2019/04/04 v3.1.2 (3.1.2)
 )))
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.
-tex
-File: pgfsyssoftpath.code.tex 2013/09/09  (rcs-revision 1.9)
-\pgfsyssoftpath@smallbuffer@items=\count111
-\pgfsyssoftpath@bigbuffer@items=\count112
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/systemlayer/pgfsyssoft
+path.code.tex
+File: pgfsyssoftpath.code.tex 2019/04/04 v3.1.2 (3.1.2)
+\pgfsyssoftpath@smallbuffer@items=\count113
+\pgfsyssoftpath@bigbuffer@items=\count114
 )
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.code.
-tex
-File: pgfsysprotocol.code.tex 2006/10/16  (rcs-revision 1.4)
-)) (/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/systemlayer/pgfsysprot
+ocol.code.tex
+File: pgfsysprotocol.code.tex 2019/04/04 v3.1.2 (3.1.2)
+))
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/xcolor/xcolor.sty
 Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
 
-(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/graphics-cfg/color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package xcolor Info: Driver file: pdftex.def on input line 225.
@@ -207,43 +214,49 @@ Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
 Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
 )
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.code.tex
-Package: pgfcore 2010/04/11 v3.0.1a (rcs-revision 1.7)
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/basiclayer/pgfcore.cod
+e.tex
+Package: pgfcore 2019/04/04 v3.1.2 (3.1.2)
 
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex)
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/math/pgfmath.code.tex
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/math/pgfmathcalc.code.
+tex
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/math/pgfmathutil.code.
+tex)
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/math/pgfmathparser.cod
+e.tex
 \pgfmath@dimen=\dimen138
-\pgfmath@count=\count113
-\pgfmath@box=\box35
+\pgfmath@count=\count115
+\pgfmath@box=\box36
 \pgfmath@toks=\toks23
 \pgfmath@stack@operand=\toks24
 \pgfmath@stack@operation=\toks25
 )
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.tex
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic.code
-.tex)
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.trigonomet
-ric.code.tex)
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.random.cod
-e.tex)
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.comparison
-.code.tex)
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.base.code.
-tex)
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.round.code
-.tex)
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.misc.code.
-tex)
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integerari
-thmetics.code.tex)))
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex
-\c@pgfmathroundto@lastzeros=\count114
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/math/pgfmathfunctions.
+code.tex
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/math/pgfmathfunctions.
+basic.code.tex)
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/math/pgfmathfunctions.
+trigonometric.code.tex)
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/math/pgfmathfunctions.
+random.code.tex)
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/math/pgfmathfunctions.
+comparison.code.tex)
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/math/pgfmathfunctions.
+base.code.tex)
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/math/pgfmathfunctions.
+round.code.tex)
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/math/pgfmathfunctions.
+misc.code.tex)
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/math/pgfmathfunctions.
+integerarithmetics.code.tex)))
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/math/pgfmathfloat.code
+.tex
+\c@pgfmathroundto@lastzeros=\count116
 ))
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.code.te
-x
-File: pgfcorepoints.code.tex 2013/10/07  (rcs-revision 1.27)
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/basiclayer/pgfcorepoin
+ts.code.tex
+File: pgfcorepoints.code.tex 2019/04/04 v3.1.2 (3.1.2)
 \pgf@picminx=\dimen139
 \pgf@picmaxx=\dimen140
 \pgf@picminy=\dimen141
@@ -259,100 +272,111 @@ File: pgfcorepoints.code.tex 2013/10/07  (rcs-revision 1.27)
 \pgf@zx=\dimen151
 \pgf@zy=\dimen152
 )
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathconstruct.
-code.tex
-File: pgfcorepathconstruct.code.tex 2013/10/07  (rcs-revision 1.29)
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/basiclayer/pgfcorepath
+construct.code.tex
+File: pgfcorepathconstruct.code.tex 2019/04/04 v3.1.2 (3.1.2)
 \pgf@path@lastx=\dimen153
 \pgf@path@lasty=\dimen154
 )
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathusage.code
-.tex
-File: pgfcorepathusage.code.tex 2014/11/02  (rcs-revision 1.24)
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/basiclayer/pgfcorepath
+usage.code.tex
+File: pgfcorepathusage.code.tex 2019/04/04 v3.1.2 (3.1.2)
 \pgf@shorten@end@additional=\dimen155
 \pgf@shorten@start@additional=\dimen156
 )
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.code.te
-x
-File: pgfcorescopes.code.tex 2015/05/08  (rcs-revision 1.46)
-\pgfpic=\box36
-\pgf@hbox=\box37
-\pgf@layerbox@main=\box38
-\pgf@picture@serial@count=\count115
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/basiclayer/pgfcorescop
+es.code.tex
+File: pgfcorescopes.code.tex 2019/04/04 v3.1.2 (3.1.2)
+\pgfpic=\box37
+\pgf@hbox=\box38
+\pgf@layerbox@main=\box39
+\pgf@picture@serial@count=\count117
 )
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicstate.c
-ode.tex
-File: pgfcoregraphicstate.code.tex 2014/11/02  (rcs-revision 1.12)
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/basiclayer/pgfcoregrap
+hicstate.code.tex
+File: pgfcoregraphicstate.code.tex 2019/04/04 v3.1.2 (3.1.2)
 \pgflinewidth=\dimen157
 )
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransformation
-s.code.tex
-File: pgfcoretransformations.code.tex 2015/08/07  (rcs-revision 1.20)
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/basiclayer/pgfcoretran
+sformations.code.tex
+File: pgfcoretransformations.code.tex 2019/04/04 v3.1.2 (3.1.2)
 \pgf@pt@x=\dimen158
 \pgf@pt@y=\dimen159
 \pgf@pt@temp=\dimen160
 )
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorequick.code.tex
-File: pgfcorequick.code.tex 2008/10/09  (rcs-revision 1.3)
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/basiclayer/pgfcorequic
+k.code.tex
+File: pgfcorequick.code.tex 2019/04/04 v3.1.2 (3.1.2)
 )
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreobjects.code.t
-ex
-File: pgfcoreobjects.code.tex 2006/10/11  (rcs-revision 1.2)
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/basiclayer/pgfcoreobje
+cts.code.tex
+File: pgfcoreobjects.code.tex 2019/04/04 v3.1.2 (3.1.2)
 )
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathprocessing
-.code.tex
-File: pgfcorepathprocessing.code.tex 2013/09/09  (rcs-revision 1.9)
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/basiclayer/pgfcorepath
+processing.code.tex
+File: pgfcorepathprocessing.code.tex 2019/04/04 v3.1.2 (3.1.2)
 )
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorearrows.code.te
-x
-File: pgfcorearrows.code.tex 2015/05/14  (rcs-revision 1.43)
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/basiclayer/pgfcorearro
+ws.code.tex
+File: pgfcorearrows.code.tex 2019/04/04 v3.1.2 (3.1.2)
 \pgfarrowsep=\dimen161
 )
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex
-File: pgfcoreshade.code.tex 2013/07/15  (rcs-revision 1.15)
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/basiclayer/pgfcoreshad
+e.code.tex
+File: pgfcoreshade.code.tex 2019/04/04 v3.1.2 (3.1.2)
 \pgf@max=\dimen162
-\pgf@sys@shading@range@num=\count116
+\pgf@sys@shading@range@num=\count118
+\pgf@shadingcount=\count119
 )
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex
-File: pgfcoreimage.code.tex 2013/07/15  (rcs-revision 1.18)
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/basiclayer/pgfcoreimag
+e.code.tex
+File: pgfcoreimage.code.tex 2019/04/04 v3.1.2 (3.1.2)
 
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreexternal.code.
-tex
-File: pgfcoreexternal.code.tex 2014/07/09  (rcs-revision 1.21)
-\pgfexternal@startupbox=\box39
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/basiclayer/pgfcoreexte
+rnal.code.tex
+File: pgfcoreexternal.code.tex 2019/04/04 v3.1.2 (3.1.2)
+\pgfexternal@startupbox=\box40
 ))
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorelayers.code.te
-x
-File: pgfcorelayers.code.tex 2013/07/18  (rcs-revision 1.7)
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/basiclayer/pgfcorelaye
+rs.code.tex
+File: pgfcorelayers.code.tex 2019/04/04 v3.1.2 (3.1.2)
 )
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransparency.c
-ode.tex
-File: pgfcoretransparency.code.tex 2013/09/30  (rcs-revision 1.5)
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/basiclayer/pgfcoretran
+sparency.code.tex
+File: pgfcoretransparency.code.tex 2019/04/04 v3.1.2 (3.1.2)
 )
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepatterns.code.
-tex
-File: pgfcorepatterns.code.tex 2013/11/07  (rcs-revision 1.5)
-))) (/usr/share/texlive/texmf-dist/tex/latex/pgf/utilities/xxcolor.sty
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/basiclayer/pgfcorepatt
+erns.code.tex
+File: pgfcorepatterns.code.tex 2019/04/04 v3.1.2 (3.1.2)
+)
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/pgf/basiclayer/pgfcorerdf.
+code.tex
+File: pgfcorerdf.code.tex 2019/04/04 v3.1.2 (3.1.2)
+)))
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/pgf/utilities/xxcolor.sty
 Package: xxcolor 2003/10/24 ver 0.1
-\XC@nummixins=\count117
-\XC@countmixins=\count118
+\XC@nummixins=\count120
+\XC@countmixins=\count121
 )
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/atbegshi.sty
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/oberdiek/atbegshi.sty
 Package: atbegshi 2016/06/09 v1.18 At begin shipout hook (HO)
 
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/oberdiek/infwarerr.sty
 Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
 )
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/oberdiek/ltxcmds.sty
 Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
 ))
-(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
-Package: hyperref 2018/02/06 v6.86b Hypertext links for LaTeX
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2018/11/30 v6.88e Hypertext links for LaTeX
 
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/hobsub-hyperref.sty
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/oberdiek/hobsub-hyperref.s
+ty
 Package: hobsub-hyperref 2016/05/16 v1.14 Bundle oberdiek, subset hyperref (HO)
 
 
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/hobsub-generic.sty
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/oberdiek/hobsub-generic.st
+y
 Package: hobsub-generic 2016/05/16 v1.14 Bundle oberdiek, subset generic (HO)
 Package: hobsub 2016/05/16 v1.14 Construct package bundles (HO)
 Package hobsub Info: Skipping package `infwarerr' (already loaded).
@@ -363,13 +387,9 @@ Package hobsub Info: Skipping package `ifvtex' (already loaded).
 Package: intcalc 2016/05/16 v1.2 Expandable calculations with integers (HO)
 Package hobsub Info: Skipping package `ifpdf' (already loaded).
 Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
-Package etexcmds Info: Could not find \expanded.
-(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
-(etexcmds)             that some package has redefined \expanded.
-(etexcmds)             In the latter case, load this package earlier.
 Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
 Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
-Package: pdftexcmds 2018/01/21 v0.26 Utility functions of pdfTeX for LuaTeX (HO
+Package: pdftexcmds 2018/09/10 v0.29 Utility functions of pdfTeX for LuaTeX (HO
 )
 Package pdftexcmds Info: LuaTeX not detected.
 Package pdftexcmds Info: \pdf@primitive is available.
@@ -389,233 +409,245 @@ Package: atveryend 2016/05/16 v1.9 Hooks at the very end of document (HO)
 Package hobsub Info: Skipping package `atbegshi' (already loaded).
 Package: refcount 2016/05/16 v3.5 Data extraction from label references (HO)
 Package: hycolor 2016/05/16 v1.8 Color options for hyperref/bookmark (HO)
-)
-(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/auxhook.sty
+) (/home/kidyan0000/.miktex/texmfs/install/tex/latex/oberdiek/auxhook.sty
 Package: auxhook 2016/05/16 v1.4 Hooks for auxiliary files (HO)
 )
-(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/oberdiek/kvoptions.sty
 Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
 )
 \@linkdim=\dimen163
-\Hy@linkcounter=\count119
-\Hy@pagecounter=\count120
+\Hy@linkcounter=\count122
+\Hy@pagecounter=\count123
 
-(/usr/share/texlive/texmf-dist/tex/latex/hyperref/pd1enc.def
-File: pd1enc.def 2018/02/06 v6.86b Hyperref: PDFDocEncoding definition (HO)
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2018/11/30 v6.88e Hyperref: PDFDocEncoding definition (HO)
+Now handling font encoding PD1 ...
+... no UTF-8 mapping file for font encoding PD1
 )
-\Hy@SavedSpaceFactor=\count121
+\Hy@SavedSpaceFactor=\count124
 
-(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/hyperref.cfg
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/00miktex/hyperref.cfg
 File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
 )
-Package hyperref Info: Option `bookmarks' set `true' on input line 4383.
-Package hyperref Info: Option `bookmarksopen' set `true' on input line 4383.
-Package hyperref Info: Option `implicit' set `false' on input line 4383.
-Package hyperref Info: Hyper figures OFF on input line 4509.
-Package hyperref Info: Link nesting OFF on input line 4514.
-Package hyperref Info: Hyper index ON on input line 4517.
-Package hyperref Info: Plain pages OFF on input line 4524.
-Package hyperref Info: Backreferencing OFF on input line 4529.
+Package hyperref Info: Option `bookmarks' set `true' on input line 4393.
+Package hyperref Info: Option `bookmarksopen' set `true' on input line 4393.
+Package hyperref Info: Option `implicit' set `false' on input line 4393.
+Package hyperref Info: Hyper figures OFF on input line 4519.
+Package hyperref Info: Link nesting OFF on input line 4524.
+Package hyperref Info: Hyper index ON on input line 4527.
+Package hyperref Info: Plain pages OFF on input line 4534.
+Package hyperref Info: Backreferencing OFF on input line 4539.
 Package hyperref Info: Implicit mode OFF; no redefinition of LaTeX internals.
-Package hyperref Info: Bookmarks ON on input line 4762.
-\c@Hy@tempcnt=\count122
+Package hyperref Info: Bookmarks ON on input line 4772.
+\c@Hy@tempcnt=\count125
 
-(/usr/share/texlive/texmf-dist/tex/latex/url/url.sty
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/url/url.sty
 \Urlmuskip=\muskip10
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
-LaTeX Info: Redefining \url on input line 5115.
+LaTeX Info: Redefining \url on input line 5125.
 \XeTeXLinkMargin=\dimen164
-\Fld@menulength=\count123
+\Fld@menulength=\count126
 \Field@Width=\dimen165
 \Fld@charsize=\dimen166
-Package hyperref Info: Hyper figures OFF on input line 6369.
-Package hyperref Info: Link nesting OFF on input line 6374.
-Package hyperref Info: Hyper index ON on input line 6377.
-Package hyperref Info: backreferencing OFF on input line 6384.
-Package hyperref Info: Link coloring OFF on input line 6389.
-Package hyperref Info: Link coloring with OCG OFF on input line 6394.
-Package hyperref Info: PDF/A mode OFF on input line 6399.
-LaTeX Info: Redefining \ref on input line 6439.
-LaTeX Info: Redefining \pageref on input line 6443.
-\Hy@abspage=\count124
+Package hyperref Info: Hyper figures OFF on input line 6380.
+Package hyperref Info: Link nesting OFF on input line 6385.
+Package hyperref Info: Hyper index ON on input line 6388.
+Package hyperref Info: backreferencing OFF on input line 6395.
+Package hyperref Info: Link coloring OFF on input line 6400.
+Package hyperref Info: Link coloring with OCG OFF on input line 6405.
+Package hyperref Info: PDF/A mode OFF on input line 6410.
+LaTeX Info: Redefining \ref on input line 6450.
+LaTeX Info: Redefining \pageref on input line 6454.
+\Hy@abspage=\count127
 
 
 Package hyperref Message: Stopped early.
 
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
- (/usr/share/texlive/texmf-dist/tex/latex/hyperref/hpdftex.def
-File: hpdftex.def 2018/02/06 v6.86b Hyperref driver for pdfTeX
-\Fld@listcount=\count125
-\c@bookmark@seq@number=\count126
+ (/home/kidyan0000/.miktex/texmfs/install/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2018/11/30 v6.88e Hyperref driver for pdfTeX
+\Fld@listcount=\count128
+\c@bookmark@seq@number=\count129
 
-(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/oberdiek/rerunfilecheck.sty
 Package: rerunfilecheck 2016/05/16 v1.8 Rerun checks for auxiliary files (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 82.
 ))
-(/usr/share/texlive/texmf-dist/tex/latex/beamer/beamerbaserequires.sty
-(/usr/share/texlive/texmf-dist/tex/latex/beamer/beamerbasecompatibility.sty)
-(/usr/share/texlive/texmf-dist/tex/latex/beamer/beamerbasefont.sty
-(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amssymb.sty
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/beamer/beamerbaserequires.st
+y
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/beamer/beamerbasecompatibili
+ty.sty)
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/beamer/beamerbasefont.sty
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/amsfonts/amssymb.sty
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
 
-(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/amsfonts/amsfonts.sty
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 \@emptytoks=\toks26
 \symAMSa=\mathgroup4
 \symAMSb=\mathgroup5
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+))
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/sansmathaccent/sansmathaccen
+t.sty
+Package: sansmathaccent 2013/03/28
+ (/home/kidyan0000/.miktex/texmfs/install/tex/latex/filehook/filehook.sty
+Package: filehook 2011/10/12 v0.5d Hooks for input files
 )))
-(/usr/share/texlive/texmf-dist/tex/latex/beamer/beamerbasetranslator.sty
-(/usr/share/texlive/texmf-dist/tex/latex/translator/translator.sty
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/beamer/beamerbasetranslator.
+sty
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/translator/translator.sty
 Package: translator 2018/01/04 v1.12 Easy translation of strings in LaTeX
 ))
-(/usr/share/texlive/texmf-dist/tex/latex/beamer/beamerbasemisc.sty)
-(/usr/share/texlive/texmf-dist/tex/latex/beamer/beamerbasetwoscreens.sty)
-(/usr/share/texlive/texmf-dist/tex/latex/beamer/beamerbaseoverlay.sty
-\beamer@argscount=\count127
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/beamer/beamerbasemisc.sty)
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/beamer/beamerbasetwoscreens.
+sty)
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/beamer/beamerbaseoverlay.sty
+\beamer@argscount=\count130
 \beamer@lastskipcover=\skip44
-\beamer@trivlistdepth=\count128
+\beamer@trivlistdepth=\count131
+) (/home/kidyan0000/.miktex/texmfs/install/tex/latex/beamer/beamerbasetitle.sty
 )
-(/usr/share/texlive/texmf-dist/tex/latex/beamer/beamerbasetitle.sty)
-(/usr/share/texlive/texmf-dist/tex/latex/beamer/beamerbasesection.sty
-\c@lecture=\count129
-\c@part=\count130
-\c@section=\count131
-\c@subsection=\count132
-\c@subsubsection=\count133
-)
-(/usr/share/texlive/texmf-dist/tex/latex/beamer/beamerbaseframe.sty
-\beamer@framebox=\box40
-\beamer@frametitlebox=\box41
-\beamer@zoombox=\box42
-\beamer@zoomcount=\count134
-\beamer@zoomframecount=\count135
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/beamer/beamerbasesection.sty
+\c@lecture=\count132
+\c@part=\count133
+\c@section=\count134
+\c@subsection=\count135
+\c@subsubsection=\count136
+) (/home/kidyan0000/.miktex/texmfs/install/tex/latex/beamer/beamerbaseframe.sty
+\beamer@framebox=\box41
+\beamer@frametitlebox=\box42
+\beamer@zoombox=\box43
+\beamer@zoomcount=\count137
+\beamer@zoomframecount=\count138
 \beamer@frametextheight=\dimen167
-\c@subsectionslide=\count136
+\c@subsectionslide=\count139
 \beamer@frametopskip=\skip45
 \beamer@framebottomskip=\skip46
 \beamer@frametopskipautobreak=\skip47
 \beamer@framebottomskipautobreak=\skip48
 \beamer@envbody=\toks27
 \framewidth=\dimen168
-\c@framenumber=\count137
+\c@framenumber=\count140
 )
-(/usr/share/texlive/texmf-dist/tex/latex/beamer/beamerbaseverbatim.sty
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/beamer/beamerbaseverbatim.st
+y
 \beamer@verbatimfileout=\write4
 )
-(/usr/share/texlive/texmf-dist/tex/latex/beamer/beamerbaseframesize.sty
-\beamer@splitbox=\box43
-\beamer@autobreakcount=\count138
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/beamer/beamerbaseframesize.s
+ty
+\beamer@splitbox=\box44
+\beamer@autobreakcount=\count141
 \beamer@autobreaklastheight=\dimen169
 \beamer@frametitletoks=\toks28
 \beamer@framesubtitletoks=\toks29
 )
-(/usr/share/texlive/texmf-dist/tex/latex/beamer/beamerbaseframecomponents.sty
-\beamer@footins=\box44
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/beamer/beamerbaseframecompon
+ents.sty
+\beamer@footins=\box45
 )
-(/usr/share/texlive/texmf-dist/tex/latex/beamer/beamerbasecolor.sty
-\beamer@bg@ht=\dimen170
-\beamer@bg@wd=\dimen171
-\beamer@bg@dp=\dimen172
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/beamer/beamerbasecolor.sty)
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/beamer/beamerbasenotes.sty
+\beamer@frameboxcopy=\box46
 )
-(/usr/share/texlive/texmf-dist/tex/latex/beamer/beamerbasenotes.sty
-\beamer@frameboxcopy=\box45
-)
-(/usr/share/texlive/texmf-dist/tex/latex/beamer/beamerbasetoc.sty)
-(/usr/share/texlive/texmf-dist/tex/latex/beamer/beamerbasetemplates.sty
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/beamer/beamerbasetoc.sty)
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/beamer/beamerbasetemplates.s
+ty
 \beamer@sbttoks=\toks30
 
-(/usr/share/texlive/texmf-dist/tex/latex/beamer/beamerbaseauxtemplates.sty
-(/usr/share/texlive/texmf-dist/tex/latex/beamer/beamerbaseboxes.sty
-\bmb@box=\box46
-\bmb@colorbox=\box47
-\bmb@boxshadow=\box48
-\bmb@boxshadowball=\box49
-\bmb@boxshadowballlarge=\box50
-\bmb@temp=\dimen173
-\bmb@dima=\dimen174
-\bmb@dimb=\dimen175
-\bmb@prevheight=\dimen176
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/beamer/beamerbaseauxtemplate
+s.sty
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/beamer/beamerbaseboxes.sty
+\bmb@box=\box47
+\bmb@colorbox=\box48
+\bmb@boxshadow=\box49
+\bmb@boxshadowball=\box50
+\bmb@boxshadowballlarge=\box51
+\bmb@temp=\dimen170
+\bmb@dima=\dimen171
+\bmb@dimb=\dimen172
+\bmb@prevheight=\dimen173
 )
-\beamer@blockheadheight=\dimen177
+\beamer@blockheadheight=\dimen174
 ))
-(/usr/share/texlive/texmf-dist/tex/latex/beamer/beamerbaselocalstructure.sty
-(/usr/share/texlive/texmf-dist/tex/latex/tools/enumerate.sty
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/beamer/beamerbaselocalstruct
+ure.sty (/home/kidyan0000/.miktex/texmfs/install/tex/latex/tools/enumerate.sty
 Package: enumerate 2015/07/23 v3.00 enumerate extensions (DPC)
 \@enLab=\toks31
 )
-\c@figure=\count139
-\c@table=\count140
+\c@figure=\count142
+\c@table=\count143
 \abovecaptionskip=\skip49
 \belowcaptionskip=\skip50
 )
-(/usr/share/texlive/texmf-dist/tex/latex/beamer/beamerbasenavigation.sty
-\beamer@section@min@dim=\dimen178
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/beamer/beamerbasenavigation.
+sty
+\beamer@section@min@dim=\dimen175
 )
-(/usr/share/texlive/texmf-dist/tex/latex/beamer/beamerbasetheorems.sty
-(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
-Package: amsmath 2017/09/02 v2.17a AMS math features
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/beamer/beamerbasetheorems.st
+y (/home/kidyan0000/.miktex/texmfs/install/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2018/12/01 v2.17b AMS math features
 \@mathmargin=\skip51
 
 For additional information on amsmath, use the `?' option.
-(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/amsmath/amstext.sty
 Package: amstext 2000/06/29 v2.01 AMS text
 
-(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks32
-\ex@=\dimen179
+\ex@=\dimen176
 ))
-(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
-\pmbraise@=\dimen180
+\pmbraise@=\dimen177
 )
-(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2016/03/08 v2.02 operator names
 )
-\inf@bad=\count141
-LaTeX Info: Redefining \frac on input line 213.
-\uproot@=\count142
-\leftroot@=\count143
-LaTeX Info: Redefining \overline on input line 375.
-\classnum@=\count144
-\DOTSCASE@=\count145
-LaTeX Info: Redefining \ldots on input line 472.
-LaTeX Info: Redefining \dots on input line 475.
-LaTeX Info: Redefining \cdots on input line 596.
-\Mathstrutbox@=\box51
-\strutbox@=\box52
-\big@size=\dimen181
-LaTeX Font Info:    Redeclaring font encoding OML on input line 712.
-LaTeX Font Info:    Redeclaring font encoding OMS on input line 713.
-\macc@depth=\count146
-\c@MaxMatrixCols=\count147
+\inf@bad=\count144
+LaTeX Info: Redefining \frac on input line 223.
+\uproot@=\count145
+\leftroot@=\count146
+LaTeX Info: Redefining \overline on input line 385.
+\classnum@=\count147
+\DOTSCASE@=\count148
+LaTeX Info: Redefining \ldots on input line 482.
+LaTeX Info: Redefining \dots on input line 485.
+LaTeX Info: Redefining \cdots on input line 606.
+\Mathstrutbox@=\box52
+\strutbox@=\box53
+\big@size=\dimen178
+LaTeX Font Info:    Redeclaring font encoding OML on input line 729.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 730.
+\macc@depth=\count149
+\c@MaxMatrixCols=\count150
 \dotsspace@=\muskip11
-\c@parentequation=\count148
-\dspbrk@lvl=\count149
+\c@parentequation=\count151
+\dspbrk@lvl=\count152
 \tag@help=\toks33
-\row@=\count150
-\column@=\count151
-\maxfields@=\count152
+\row@=\count153
+\column@=\count154
+\maxfields@=\count155
 \andhelp@=\toks34
-\eqnshift@=\dimen182
-\alignsep@=\dimen183
-\tagshift@=\dimen184
-\tagwidth@=\dimen185
-\totwidth@=\dimen186
-\lineht@=\dimen187
+\eqnshift@=\dimen179
+\alignsep@=\dimen180
+\tagshift@=\dimen181
+\tagwidth@=\dimen182
+\totwidth@=\dimen183
+\lineht@=\dimen184
 \@envbody=\toks35
 \multlinegap=\skip52
 \multlinetaggap=\skip53
 \mathdisplay@stack=\toks36
-LaTeX Info: Redefining \[ on input line 2817.
-LaTeX Info: Redefining \] on input line 2818.
+LaTeX Info: Redefining \[ on input line 2844.
+LaTeX Info: Redefining \] on input line 2845.
 )
-(/usr/share/texlive/texmf-dist/tex/latex/amscls/amsthm.sty
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/amscls/amsthm.sty
 Package: amsthm 2017/10/31 v2.20.4
 \thm@style=\toks37
 \thm@bodyfont=\toks38
@@ -627,50 +659,67 @@ Package: amsthm 2017/10/31 v2.20.4
 \thm@headsep=\skip56
 \dth@everypar=\toks42
 )
-\c@theorem=\count153
+\c@theorem=\count156
 )
-(/usr/share/texlive/texmf-dist/tex/latex/beamer/beamerbasethemes.sty))
-(/usr/share/texlive/texmf-dist/tex/latex/beamer/beamerthemedefault.sty
-(/usr/share/texlive/texmf-dist/tex/latex/beamer/beamerfontthemedefault.sty)
-(/usr/share/texlive/texmf-dist/tex/latex/beamer/beamercolorthemedefault.sty)
-(/usr/share/texlive/texmf-dist/tex/latex/beamer/beamerinnerthemedefault.sty
-\beamer@dima=\dimen188
-\beamer@dimb=\dimen189
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/beamer/beamerbasethemes.sty)
 )
-(/usr/share/texlive/texmf-dist/tex/latex/beamer/beamerouterthemedefault.sty)))
-(/usr/share/texlive/texmf-dist/tex/latex/beamer/beamerthemeMadrid.sty
-(/usr/share/texlive/texmf-dist/tex/latex/beamer/beamercolorthemewhale.sty)
-(/usr/share/texlive/texmf-dist/tex/latex/beamer/beamercolorthemeorchid.sty)
-(/usr/share/texlive/texmf-dist/tex/latex/beamer/beamerinnerthemerounded.sty)
-(/usr/share/texlive/texmf-dist/tex/latex/beamer/beamerouterthemeinfolines.sty))
-(/usr/share/texlive/texmf-dist/tex/latex/booktabs/booktabs.sty
-Package: booktabs 2016/04/27 v1.618033 publication quality tables
-\heavyrulewidth=\dimen190
-\lightrulewidth=\dimen191
-\cmidrulewidth=\dimen192
-\belowrulesep=\dimen193
-\belowbottomsep=\dimen194
-\aboverulesep=\dimen195
-\abovetopsep=\dimen196
-\cmidrulesep=\dimen197
-\cmidrulekern=\dimen198
-\defaultaddspace=\dimen199
-\@cmidla=\count154
-\@cmidlb=\count155
-\@aboverulesep=\dimen256
-\@belowrulesep=\dimen257
-\@thisruleclass=\count156
-\@lastruleclass=\count157
-\@thisrulewidth=\dimen258
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/beamer/beamerthemedefault.st
+y
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/beamer/beamerfontthemedefaul
+t.sty)
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/beamer/beamercolorthemedefau
+lt.sty)
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/beamer/beamerinnerthemedefau
+lt.sty
+\beamer@dima=\dimen185
+\beamer@dimb=\dimen186
 )
-(/usr/share/texlive/texmf-dist/tex/latex/tools/bm.sty
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/beamer/beamerouterthemedefau
+lt.sty)))
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/beamer/beamerthemeMadrid.sty
+
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/beamer/beamercolorthemewhale
+.sty)
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/beamer/beamercolorthemeorchi
+d.sty)
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/beamer/beamerinnerthemeround
+ed.sty)
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/beamer/beamerouterthemeinfol
+ines.sty))
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/booktabs/booktabs.sty
+Package: booktabs 2005/04/14 v1.61803 publication quality tables
+\heavyrulewidth=\dimen187
+\lightrulewidth=\dimen188
+\cmidrulewidth=\dimen189
+\belowrulesep=\dimen190
+\belowbottomsep=\dimen191
+\aboverulesep=\dimen192
+\abovetopsep=\dimen193
+\cmidrulesep=\dimen194
+\cmidrulekern=\dimen195
+\defaultaddspace=\dimen196
+\@cmidla=\count157
+\@cmidlb=\count158
+\@aboverulesep=\dimen197
+\@belowrulesep=\dimen198
+\@thisruleclass=\count159
+\@lastruleclass=\count160
+\@thisrulewidth=\dimen199
+)
+\sympureletters=\mathgroup6
+LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
+(Font)                  OT1/mathkerncmss/m/sl --> OT1/mathkerncmss/bx/sl on inp
+ut line 83.
+
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/tools/bm.sty
 Package: bm 2017/01/16 v1.2c Bold Symbol Support (DPC/FMi)
-\symboldoperators=\mathgroup6
-\symboldletters=\mathgroup7
-\symboldsymbols=\mathgroup8
+\symboldoperators=\mathgroup7
+\symboldletters=\mathgroup8
+\symboldsymbols=\mathgroup9
+\symboldpureletters=\mathgroup10
 LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 141.
 LaTeX Info: Redefining \bm on input line 207.
-) (./log.aux)
+) (log.aux)
 \openout1 = `log.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 101.
@@ -722,23 +771,22 @@ LaTeX Font Info:    ... okay on input line 101.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-(/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+(/home/kidyan0000/.miktex/texmfs/install/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count158
-\scratchdimen=\dimen259
-\scratchbox=\box53
-\nofMPsegments=\count159
-\nofMParguments=\count160
+\scratchcounter=\count161
+\scratchdimen=\dimen256
+\scratchbox=\box54
+\nofMPsegments=\count162
+\nofMParguments=\count163
 \everyMPshowfont=\toks43
-\MPscratchCnt=\count161
-\MPscratchDim=\dimen260
-\MPnumerator=\count162
-\makeMPintoPDFobject=\count163
+\MPscratchCnt=\count164
+\MPscratchDim=\dimen257
+\MPnumerator=\count165
+\makeMPintoPDFobject=\count166
 \everyMPtoPDFconversion=\toks44
-) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+) (/home/kidyan0000/.miktex/texmfs/install/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
-
-(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/grfext.sty
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/oberdiek/grfext.sty
 Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
 )
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
@@ -747,28 +795,24 @@ Package grfext Info: Graphics extension search list:
 (grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPE
 G,.JBIG2,.JB2,.eps]
 (grfext)             \AppendGraphicsExtensions on input line 456.
-
-(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
-File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
-e
-))
+)
 ABD: EveryShipout initializing macros
-\AtBeginShipoutBox=\box54
+\AtBeginShipoutBox=\box55
 Package hyperref Info: Link coloring OFF on input line 101.
 
-(/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/hyperref/nameref.sty
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
 
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
+(/home/kidyan0000/.miktex/texmfs/install/tex/generic/oberdiek/gettitlestring.st
+y
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count164
+\c@section@level=\count167
 )
 LaTeX Info: Redefining \ref on input line 101.
 LaTeX Info: Redefining \pageref on input line 101.
 LaTeX Info: Redefining \nameref on input line 101.
-
-(./log.out) (./log.out)
+ (log.out) (log.out)
 \@outlinefile=\write5
 \openout5 = `log.out'.
 
@@ -776,8 +820,14 @@ LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
 (Font)                  OT1/cmr/m/n --> OT1/cmss/m/n on input line 101.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
 (Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 101.
-\symnumbers=\mathgroup9
-\sympureletters=\mathgroup10
+\symnumbers=\mathgroup11
+LaTeX Font Info:    Redeclaring symbol font `pureletters' on input line 101.
+LaTeX Font Info:    Overwriting symbol font `pureletters' in version `normal'
+(Font)                  OT1/mathkerncmss/m/sl --> OT1/cmss/m/it on input line 1
+01.
+LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
+(Font)                  OT1/mathkerncmss/bx/sl --> OT1/cmss/m/it on input line 
+101.
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `normal'
 (Font)                  OT1/cmss/m/n --> OT1/cmr/m/n on input line 101.
 LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 101.
@@ -810,41 +860,60 @@ LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
 (Font)                  OT1/cmss/m/it --> OT1/cmss/bx/it on input line 101.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
 (Font)                  OT1/cmtt/m/n --> OT1/cmtt/bx/n on input line 101.
+LaTeX Font Info:    Redeclaring symbol font `pureletters' on input line 101.
+LaTeX Font Info:    Overwriting symbol font `pureletters' in version `normal'
+(Font)                  OT1/cmss/m/it --> OT1/mathkerncmss/m/sl on input line 1
+01.
+LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
+(Font)                  OT1/cmss/bx/it --> OT1/mathkerncmss/m/sl on input line 
+101.
+LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
+(Font)                  OT1/mathkerncmss/m/sl --> OT1/mathkerncmss/bx/sl on inp
+ut line 101.
 
-(/usr/share/texlive/texmf-dist/tex/latex/translator/translator-basic-dictionary
--English.dict
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/translator/translator-basic-
+dictionary-English.dict
 Dictionary: translator-basic-dictionary, Language: English 
 )
-(/usr/share/texlive/texmf-dist/tex/latex/translator/translator-bibliography-dic
-tionary-English.dict
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/translator/translator-biblio
+graphy-dictionary-English.dict
 Dictionary: translator-bibliography-dictionary, Language: English 
 )
-(/usr/share/texlive/texmf-dist/tex/latex/translator/translator-environment-dict
-ionary-English.dict
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/translator/translator-enviro
+nment-dictionary-English.dict
 Dictionary: translator-environment-dictionary, Language: English 
 )
-(/usr/share/texlive/texmf-dist/tex/latex/translator/translator-months-dictionar
-y-English.dict
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/translator/translator-months
+-dictionary-English.dict
 Dictionary: translator-months-dictionary, Language: English 
 )
-(/usr/share/texlive/texmf-dist/tex/latex/translator/translator-numbers-dictiona
-ry-English.dict
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/translator/translator-number
+s-dictionary-English.dict
 Dictionary: translator-numbers-dictionary, Language: English 
 )
-(/usr/share/texlive/texmf-dist/tex/latex/translator/translator-theorem-dictiona
-ry-English.dict
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/translator/translator-theore
+m-dictionary-English.dict
 Dictionary: translator-theorem-dictionary, Language: English 
-) (./log.nav) [1
+) (log.nav) [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+{/home/kidyan0000/.miktex/texmfs/data/pdftex/config/pdftex.map}]
 LaTeX Font Info:    Try loading font information for U+msa on input line 135.
- (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
+
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
 LaTeX Font Info:    Try loading font information for U+msb on input line 135.
 
-(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    Try loading font information for OT1+mathkerncmss on input 
+line 135.
+
+(/home/kidyan0000/.miktex/texmfs/install/tex/latex/sansmathaccent/ot1mathkerncm
+ss.fd
+File: ot1mathkerncmss.fd 2013/03/27 Fontinst v1.933 font definitions for OT1/ma
+thkerncmss.
 ) [2
 
 ] [3
@@ -867,7 +936,7 @@ Overfull \vbox (2.0067pt too high) detected at line 164
 ] [7
 
 ]
-<image//Singular_Value_Decomposition_svd.png, id=225, 331.2375pt x 301.125pt>
+<image//Singular_Value_Decomposition_svd.png, id=259, 331.2375pt x 301.125pt>
 File: image//Singular_Value_Decomposition_svd.png Graphic file (type png)
 <use image//Singular_Value_Decomposition_svd.png>
 Package pdftex.def Info: image//Singular_Value_Decomposition_svd.png  used on i
@@ -893,7 +962,7 @@ t line 275.
 [10
 
 ]
-<image//Procrustes_superimposition.png, id=317, 308.352pt x 240.6591pt>
+<image//Procrustes_superimposition.png, id=358, 308.352pt x 240.6591pt>
 File: image//Procrustes_superimposition.png Graphic file (type png)
 <use image//Procrustes_superimposition.png>
 Package pdftex.def Info: image//Procrustes_superimposition.png  used on input l
@@ -904,10 +973,6 @@ ine 286.
  <./image//Procrustes_superimposition.png>] [12
 
 ]
-
-LaTeX Font Warning: Font shape `OT1/cmss/bx/it' undefined
-(Font)              using `OT1/cmss/bx/n' instead on input line 333.
-
 
 LaTeX Warning: Citation `liu2002continuum' on page 13 undefined on input line 3
 33.
@@ -936,7 +1001,7 @@ LaTeX Warning: Citation `haupt2013continuum' on page 14 undefined on input line
 ] [21
 
 ]
-<image//colormap_error.png, id=615, 3854.4pt x 1084.05pt>
+<image//colormap_error.png, id=654, 3854.4pt x 1084.05pt>
 File: image//colormap_error.png Graphic file (type png)
 <use image//colormap_error.png>
 Package pdftex.def Info: image//colormap_error.png  used on input line 464.
@@ -956,49 +1021,47 @@ Package pdftex.def Info: image//colormap_error.png  used on input line 464.
 \tf@snm=\write8
 \openout8 = `log.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 479.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 479.
- (./log.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 479.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 479.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 481.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 481.
+ (log.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 481.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 481.
 Package rerunfilecheck Info: File `log.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
-
-
-LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 
 LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 17171 strings out of 494880
- 326173 string characters out of 6179602
- 396816 words of memory out of 5000000
- 20044 multiletter control sequences out of 15000+600000
- 18110 words of font info for 65 fonts, out of 8000000 for 9000
- 36 hyphenation exceptions out of 8191
- 48i,17n,57p,770b,862s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 17557 strings out of 494859
+ 338858 string characters out of 3177951
+ 409859 words of memory out of 3000000
+ 20741 multiletter control sequences out of 15000+200000
+ 22695 words of font info for 72 fonts, out of 3000000 for 9000
+ 0 hyphenation exceptions out of 8191
+ 56i,17n,59p,772b,865s stack positions out of 5000i,500n,10000p,200000b,50000s
 pdfTeX warning (dest): name{eq:deformation_gradient} has been referenced but 
 does not exist, replaced by a fixed one
 
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/
-share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/
-texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/share/texlive/texmf
--dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/share/texlive/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/share/texlive/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmssbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmssi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publ
-ic/amsfonts/cm/cmssi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmssi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-sy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pf
-b>
-Output written on log.pdf (23 pages, 2961044 bytes).
+ </home/kidyan0000/.miktex/texmfs/data/fonts/pk/ljfour/jknappen/ec/dpi657/ecso1
+000.pk></home/kidyan0000/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/
+cmex10.pfb></home/kidyan0000/.miktex/texmfs/install/fonts/type1/public/amsfonts
+/cm/cmmi10.pfb></home/kidyan0000/.miktex/texmfs/install/fonts/type1/public/amsf
+onts/cm/cmr10.pfb></home/kidyan0000/.miktex/texmfs/install/fonts/type1/public/a
+msfonts/cm/cmss10.pfb></home/kidyan0000/.miktex/texmfs/install/fonts/type1/publ
+ic/amsfonts/cm/cmss12.pfb></home/kidyan0000/.miktex/texmfs/install/fonts/type1/
+public/amsfonts/cm/cmss8.pfb></home/kidyan0000/.miktex/texmfs/install/fonts/typ
+e1/public/amsfonts/cm/cmssbx10.pfb></home/kidyan0000/.miktex/texmfs/install/fon
+ts/type1/public/amsfonts/cm/cmssi10.pfb></home/kidyan0000/.miktex/texmfs/instal
+l/fonts/type1/public/amsfonts/cm/cmssi12.pfb></home/kidyan0000/.miktex/texmfs/i
+nstall/fonts/type1/public/amsfonts/cm/cmssi8.pfb></home/kidyan0000/.miktex/texm
+fs/install/fonts/type1/public/amsfonts/cm/cmsy10.pfb></home/kidyan0000/.miktex/
+texmfs/install/fonts/type1/public/amsfonts/cm/cmsy8.pfb></home/kidyan0000/.mikt
+ex/texmfs/install/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on log.pdf (23 pages, 3083279 bytes).
 PDF statistics:
- 723 PDF objects out of 1000 (max. 8388607)
- 656 compressed objects within 7 object streams
+ 766 PDF objects out of 1000 (max. 8388607)
  50 named destinations out of 1000 (max. 500000)
- 112 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 238 words of extra memory for PDF output out of 10000 (max. 10000000)
 

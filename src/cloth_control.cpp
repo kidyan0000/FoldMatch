@@ -86,6 +86,17 @@ void cloth_control::cloth_output(std::string outputpath)
     output_list.close();
 }
 
+void cloth_control::stretch_output(std::string outputpath)
+{
+    std::string output_file;
+    for(int i=1; i<=75; i++)
+    {
+        output_file = outputpath + "stretch" + "_" + std::to_string(i) +".ply";
+        this -> _stretchname.push_back(output_file);
+    }
+
+}
+
 
 
 std::string cloth_control::GetInput(int i)
@@ -101,6 +112,11 @@ std::string cloth_control::GetOutput(int i)
 std::string cloth_control::GetLambda()
 {
     return this -> lambda;
+}
+
+std::string cloth_control::GetStretch(int i)
+{
+    return this -> _stretchname[i];
 }
 
 std::string cloth_control::Readme(int i)

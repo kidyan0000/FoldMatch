@@ -32,6 +32,8 @@ public:
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
 
+    // void controlGl(std::string datapath);
+
 protected:
 
 public slots:
@@ -49,6 +51,7 @@ signals:
 private:
     // opengl setting
     void initVbo();
+    void mapVbo();
     void draw();
     void test();
 
@@ -63,8 +66,13 @@ private:
     Eigen::MatrixXd verts, normals;
     Eigen::MatrixXi colors, faces;
 
+    Eigen::MatrixXd vertsCalc, normalsCalc;
+    Eigen::MatrixXi colorsCalc, facesCalc;
+
     // opengl parameters
     GLuint VBOBuffers, IndexBuffer;
+
+    std::string datapath;
 
 
 };

@@ -1,5 +1,5 @@
 #include "cloth_window.h"
-// #include "cloth_glwidget.h"
+#include "cloth_glwidget.h"
 #include "cloth_calc.h"
 #include "cloth_control.h"
 
@@ -30,6 +30,9 @@ int main(int argc, char *argv[])
 
     cloth_control *control = new cloth_control;
 
+    // control the OpengL settings
+    // Cloth_GLWidget *GLWidget = new Cloth_GLWidget();
+
     // setting calculation mode
     // MODE 1: Neighbor1x
     // MODE 2: Neighbor2x
@@ -53,6 +56,7 @@ int main(int argc, char *argv[])
     }
     control -> cloth_input("../data/");
     control -> cloth_output("../output/debug/");
+    control -> stretch_output("../output/debug/");
 
     // the input and output list can be found in the output folder
     // the label of our cloth is from 1-0001 to 75-0075
@@ -150,11 +154,15 @@ int main(int argc, char *argv[])
                     slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir3(), control->GetOutput(FILE));
                     break;
                 }
+                // pass results to opengl
+                // GLWidget -> controlGl(control->GetOutput(FILE));
+
                 slot_CR -> cloth_velGrad_3D(slot_CT->GetDefoGrad(), slot_CR->GetDefoGrad(), deltaT);
                 // smooth the volocity gradient
                 slot_CR -> cloth_velGrad_assemble(slot_CR->GetStrTensor());
+
                 slot_CR -> cloth_velGrad_normalize(slot_CR->GetStrTensor());
-                slot_CR -> cloth_WriteColor(slot_CR->GetStrTensor_norm_dir1(), control->GetOutput(FILE));
+                // slot_CR -> cloth_WriteColor(slot_CR->GetStrTensor_norm_dir1(), control->GetStretch(FILE));
                 break;
 
 
@@ -177,9 +185,9 @@ int main(int argc, char *argv[])
         ///////////////////////////////
 
         // std::cout << "a" << std::endl;
-        std::ofstream Test("../output/D_norm_1.txt");
-        Test<< slot_CR->GetStrTensor_norm_dir1()<< std::endl;
-        Test.close();
+        // std::ofstream Test("../output/D_norm_1.txt");
+        // Test<< slot_CR->GetStrTensor_norm_dir1()<< std::endl;
+        // Test.close();
 
     }
 

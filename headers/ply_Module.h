@@ -1,3 +1,6 @@
+#ifndef PLY_MODULE_H
+#define PLY_MODULE_H
+
 #include <iostream>
 #include <stdlib.h>
 #include <vector>
@@ -57,3 +60,5 @@ private:
 	bool readCameraFlag;
 
 };
+
+#endif
