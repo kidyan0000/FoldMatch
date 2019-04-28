@@ -468,6 +468,7 @@ void cloth_calc::cloth_velGrad_assemble(Eigen::MatrixXd VelGrad)
             L_sum.Zero(3,3);
             for(int El_index=0; El_index<El_num; El_index++)
             {
+                // some error here because of the square roots
                 L_tmp = (L_i.cwiseSqrt() * L_j.block(El_index*3,0,3,3) * L_i.cwiseSqrt()).array().log10() * weight(El_index);
                 L_sum = L_sum + L_tmp;
                 L_tmp.resize(0,0);
@@ -598,7 +599,7 @@ void cloth_calc::cloth_stretchTensor_neighbor()
     }
 }
 
-void cloth_calc::cloth_eig_kdTree()
+void cloth_calc::cloth_eig_kdTree(double Per)
 {
     cloth_init_vert();
 
@@ -620,7 +621,7 @@ void cloth_calc::cloth_eig_kdTree()
     kd_tree vert_index(3, std::cref(verts),10 /* max leaf */ );
     vert_index.index -> buildIndex();
 
-    const size_t num_results = verts.rows() * 0.02; // using 2% total vertices
+    const size_t num_results = verts.rows() * Per; // using 2% total vertices
     // const size_t num_results = 200; // using 30 neighboring vertices
 
     int Eig_index = 0;
@@ -678,6 +679,26 @@ void cloth_calc::cloth_eig_kdTree()
       std::cout << "ret_index[" << i << "]=" << ret_indexes[i]
                 << " out_dist_sqr=" << out_dists_sqr[i] << std::endl;
     */
+}
+
+void cloth_calc::cloth_wrink_vec_field(Eigen::MatrixXd Eigenval, Eigen::MatrixXd Eigenvec)
+{
+    int Vert_num = verts.rows();
+    this -> v.resize(Vert_num*3,1);
+    this -> v_norm.resize(Vert_num,1);
+
+    for(int Vert_index=0;Vert_index<Vert_num;Vert_index++)
+    {
+        if((1-Eigenval(Vert_index*3)) > 0)
+        {
+            v.block(Vert_index*3,0,3,1) = (1 - Eigenval(Vert_index*3)) * Eigenvec.block(Vert_index*3,1,3,1);
+        }
+        else
+        {
+            v.block(Vert_index*3,0,3,1) = 0 * Eigenvec.block(Vert_index*3,1,3,1);
+        }
+        v_norm(Vert_index) = v.block(Vert_index*3,0,3,1).norm();
+    }
 }
 
 void cloth_calc::cloth_eig_neighbor2x()
@@ -925,6 +946,16 @@ Eigen::MatrixXd cloth_calc::GetEigval_norm_dir2()
 Eigen::MatrixXd cloth_calc::GetEigval_norm_dir3()
 {
     return this -> Eigval_norm_dir3;
+}
+
+Eigen::MatrixXd cloth_calc::GetWrinkVecField()
+{
+    return this -> v;
+}
+
+Eigen::MatrixXd cloth_calc::GetWrinkVecField_norm()
+{
+    return this -> v_norm;
 }
 
 Eigen::MatrixXd cloth_calc::GetStrTensor()

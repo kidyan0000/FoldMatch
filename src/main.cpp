@@ -39,24 +39,51 @@ int main(int argc, char *argv[])
     // MODE 3: KD-TREE
     int MODE = 3;
 
-    // setting calculation lambda
-    int LAMBDA = 1;
+    // settings writing results
+    // CAL 1: lambda
+    // CAL 2: wrinkel vector field
+    int CAL = 2;
 
-    switch(LAMBDA)
+    // setting calculation lambda
+    int LAMBDA;
+    if(CAL == 1)
+    {
+        LAMBDA = 1;
+        switch(LAMBDA)
+        {
+            case 1:
+            control -> cloth_lambda("lambda1");
+            break;
+            case 2:
+            control -> cloth_lambda("lambda2");
+            break;
+            case 3:
+            control -> cloth_lambda("lambda3");
+            break;
+        }
+
+    }
+
+    control -> cloth_input("../data/");
+    switch(CAL)
     {
         case 1:
-        control -> cloth_lambda("lambda1");
-        break;
+        {
+            control -> cloth_lambda_output("../output/debug/");
+            break;
+        }
         case 2:
-        control -> cloth_lambda("lambda2");
-        break;
+        {
+            control -> cloth_wrinkVecField_output("../output/debug/");
+            break;
+        }
         case 3:
-        control -> cloth_lambda("lambda3");
-        break;
+        {
+            control -> cloth_stretch_output("../output/debug/");
+            break;
+        }
     }
-    control -> cloth_input("../data/");
-    control -> cloth_output("../output/debug/");
-    control -> stretch_output("../output/debug/");
+
 
     // the input and output list can be found in the output folder
     // the label of our cloth is from 1-0001 to 75-0075
@@ -65,6 +92,7 @@ int main(int argc, char *argv[])
     int CR;   // cloth reference
     int BS;   // cloth base
     int FILE; // file name
+    double Per; // Kd-tree parameters
 
     double deltaT; // time step
 
@@ -86,6 +114,8 @@ int main(int argc, char *argv[])
         CR = slot+3;
         BS = slot;
         FILE = slot;
+
+        Per = 0.02;
         deltaT = 0.003;
 
 
@@ -100,17 +130,20 @@ int main(int argc, char *argv[])
 
                 slot_CR -> cloth_eig_neighbor();
                 slot_CR -> cloth_vec_normalize(slot_CR->GetEigval_neighbor(), 3);
-                switch(LAMBDA)
+                if(CAL == 1)
                 {
-                    case 1:
-                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), control->GetOutput(FILE));
-                    break;
-                    case 2:
-                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir2(), control->GetOutput(FILE));
-                    break;
-                    case 3:
-                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir3(), control->GetOutput(FILE));
-                    break;
+                    switch(LAMBDA)
+                    {
+                        case 1:
+                        slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), control->GetLambdaOutput(FILE));
+                        break;
+                        case 2:
+                        slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir2(), control->GetLambdaOutput(FILE));
+                        break;
+                        case 3:
+                        slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir3(), control->GetLambdaOutput(FILE));
+                        break;
+                    }
                 }
                 slot_CR -> cloth_velGrad_3D(slot_CT->GetDefoGrad(), slot_CR->GetDefoGrad(), deltaT);
                 break;
@@ -121,48 +154,62 @@ int main(int argc, char *argv[])
 
                 slot_CR -> cloth_eig_neighbor2x();
                 slot_CR -> cloth_vec_normalize(slot_CR->GetEigval_neighbor2x(), 3);
-                switch(LAMBDA)
+                if(CAL == 1)
                 {
-                    case 1:
-                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), control->GetOutput(FILE));
-                    break;
-                    case 2:
-                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir2(), control->GetOutput(FILE));
-                    break;
-                    case 3:
-                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir3(), control->GetOutput(FILE));
-                    break;
+                    switch(LAMBDA)
+                    {
+                        case 1:
+                        slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), control->GetLambdaOutput(FILE));
+                        break;
+                        case 2:
+                        slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir2(), control->GetLambdaOutput(FILE));
+                        break;
+                        case 3:
+                        slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir3(), control->GetLambdaOutput(FILE));
+                        break;
+                    }
                 }
                 slot_CR -> cloth_velGrad_3D(slot_CT->GetDefoGrad(), slot_CR->GetDefoGrad(), deltaT);
                 break;
             }
             case 3:
             {
-                slot_CT -> cloth_eig_kdTree();
+                slot_CT -> cloth_eig_kdTree(Per);
 
-                slot_CR -> cloth_eig_kdTree();
+                slot_CR -> cloth_eig_kdTree(Per);
                 slot_CR -> cloth_vec_normalize(slot_CR->GetEigval_neighborKdTree(), 3);
-                switch(LAMBDA)
+                if(CAL == 1)
                 {
-                    case 1:
-                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), control->GetOutput(FILE));
-                    break;
-                    case 2:
-                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir2(), control->GetOutput(FILE));
-                    break;
-                    case 3:
-                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir3(), control->GetOutput(FILE));
-                    break;
+                    switch(LAMBDA)
+                    {
+                        case 1:
+                        slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), control->GetLambdaOutput(FILE));
+                        break;
+                        case 2:
+                        slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir2(), control->GetLambdaOutput(FILE));
+                        break;
+                        case 3:
+                        slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir3(), control->GetLambdaOutput(FILE));
+                        break;
+                    }
                 }
-                // pass results to opengl
-                // GLWidget -> controlGl(control->GetOutput(FILE));
 
+                // setting wrinkel vector field
+                slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_neighborKdTree(), slot_CR->GetEigvec_neighborKdTree());
+                if(CAL == 2)
+                {
+                    slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(FILE));
+                }
+
+                // settings for velocity gradient
                 slot_CR -> cloth_velGrad_3D(slot_CT->GetDefoGrad(), slot_CR->GetDefoGrad(), deltaT);
-                // smooth the volocity gradient
+                // smooth the velocity gradient
                 slot_CR -> cloth_velGrad_assemble(slot_CR->GetStrTensor());
-
+                // normalize the velocity gradient
                 slot_CR -> cloth_velGrad_normalize(slot_CR->GetStrTensor());
                 // slot_CR -> cloth_WriteColor(slot_CR->GetStrTensor_norm_dir1(), control->GetStretch(FILE));
+
+
                 break;
 
 
@@ -173,10 +220,19 @@ int main(int argc, char *argv[])
 
         std::ofstream outfile(control->Readme(FILE));
         outfile << "Selected mode is: " << MODE << std::endl;
+        if(MODE == 3)
+        {
+            outfile << "Kd-Tree parameter is: "    << Per << "%" << std::endl;
+        }
+        outfile << "We calculate for: " << CAL << std::endl;
         outfile << "Template is: "  << control->GetInput(CT) << std::endl;
         outfile << "Reference is: " << control->GetInput(CR) << std::endl;
         outfile << "Base is: "      << control->GetInput(BS) << std::endl;
-        outfile << "Lambda is: "    << control->GetLambda() << std::endl;
+        if(CAL == 1)
+        {
+            outfile << "Lambda is: "    << control->GetLambda() << std::endl;
+        }
+        outfile << "delta T is: "    << deltaT << std::endl;
         outfile.close();
 
 
@@ -185,9 +241,16 @@ int main(int argc, char *argv[])
         ///////////////////////////////
 
         // std::cout << "a" << std::endl;
-        // std::ofstream Test("../output/D_norm_1.txt");
-        // Test<< slot_CR->GetStrTensor_norm_dir1()<< std::endl;
-        // Test.close();
+        std::ofstream Test("../output/v_norm.txt");
+        Test<< slot_CR->GetWrinkVecField_norm()<< std::endl;
+        Test.close();
+
+        Eigen::MatrixXd test;
+        test.resize(3,3);
+        test << 1,1,0,1,2,0,0,0,1;
+        std::cout << test << std::endl;
+        Eigen::SelfAdjointEigenSolver<Eigen::Matrix3d> solv(test);
+        std::cout << solv.eigenvectors() << std::endl;
 
     }
 

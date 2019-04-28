@@ -45,7 +45,10 @@ public:
     void cloth_stretchTensor_neighbor();
 
     // USING KD-TREE
-    void cloth_eig_kdTree();
+    void cloth_eig_kdTree(double Per);
+
+    // Wrinkel vector field v
+    void cloth_wrink_vec_field(Eigen::MatrixXd Eigenval, Eigen::MatrixXd Eigenvec);
 
     // Stretching Tensor
     void cloth_velGrad_3D(Eigen::MatrixXd F_CT, Eigen::MatrixXd F_CR, double deltaT);
@@ -74,6 +77,8 @@ public:
     Eigen::MatrixXd GetEigval_norm_dir1();
     Eigen::MatrixXd GetEigval_norm_dir2();
     Eigen::MatrixXd GetEigval_norm_dir3();
+    Eigen::MatrixXd GetWrinkVecField();
+    Eigen::MatrixXd GetWrinkVecField_norm();
     Eigen::MatrixXd GetStrTensor();
     Eigen::MatrixXd GetRotTensor();
     Eigen::MatrixXd GetStrTensorAsemmble();
@@ -120,6 +125,10 @@ private:
     Eigen::MatrixXd Eigval_neighborKdTree, Eigvec_neighborKdTree;
     Eigen::MatrixXd U_neighbor;
     Eigen::MatrixXd H_neighbor;
+
+    //
+    Eigen::MatrixXd v;
+    Eigen::MatrixXd v_norm;
 
     //
     Eigen::MatrixXd Eigval_norm_dir1, Eigval_norm_dir2, Eigval_norm_dir3;

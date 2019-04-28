@@ -29,7 +29,7 @@ void Cloth_GLWidget::initVbo()
 
     // get vertices
     ply_module* _plyModule = new ply_module();
-    _plyModule->readPLY("../output/debug/lambda1_2.ply", true, true, true, true, true);
+    _plyModule->readPLY("../data/Template-1_0001.ply", true, true, true, true, true);
 
 
     if (_plyModule->getVertices().rows() != 0)
@@ -112,7 +112,7 @@ void Cloth_GLWidget::initVbo()
 
 void Cloth_GLWidget::mapVbo()
 {
-
+    /*
     ply_module* _plyModuleCalc = new ply_module();
     _plyModuleCalc->readPLY("../output/debug/lambda1_2.ply", true, true, true, true, true);
 
@@ -161,7 +161,7 @@ void Cloth_GLWidget::mapVbo()
     }
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-
+    */
 }
 
 

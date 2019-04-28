@@ -64,13 +64,13 @@ void cloth_control::cloth_input(std::string inputpath)
     input_list.close();
 }
 
-void cloth_control::cloth_output(std::string outputpath)
+void cloth_control::cloth_lambda_output(std::string outputpath)
 {
     std::string output_file;
     for(int i=1; i<=75; i++)
     {
         output_file = outputpath + lambda + "_" + std::to_string(i) +".ply";
-        this -> _outputname.push_back(output_file);
+        this -> _lambdaname.push_back(output_file);
     }
     std::string readme_file;
     for(int i=1; i<=75; i++)
@@ -80,13 +80,13 @@ void cloth_control::cloth_output(std::string outputpath)
     }
 
     std::ofstream output_list("../output/output_list.txt");
-    for(std::vector<std::string>::iterator it = _outputname.begin(); it != _outputname.end(); ++it) {
+    for(std::vector<std::string>::iterator it = _lambdaname.begin(); it != _lambdaname.end(); ++it) {
         output_list<<  *it <<std::endl;
     }
     output_list.close();
 }
 
-void cloth_control::stretch_output(std::string outputpath)
+void cloth_control::cloth_stretch_output(std::string outputpath)
 {
     std::string output_file;
     for(int i=1; i<=75; i++)
@@ -97,6 +97,28 @@ void cloth_control::stretch_output(std::string outputpath)
 
 }
 
+void cloth_control::cloth_wrinkVecField_output(std::string outputpath)
+{
+    std::string output_file;
+    for(int i=1; i<=75; i++)
+    {
+        output_file = outputpath + "wrinkVecField" + "_" + std::to_string(i) +".ply";
+        this -> _wrinkVecFieldname.push_back(output_file);
+    }
+    std::string readme_file;
+    for(int i=1; i<=75; i++)
+    {
+        readme_file = outputpath + "readme/" + "wrinkVecField_" + std::to_string(i) + "_readme.txt";
+        this -> _readme.push_back(readme_file);
+    }
+
+    std::ofstream output_list("../output/output_list.txt");
+    for(std::vector<std::string>::iterator it = _wrinkVecFieldname.begin(); it !=_wrinkVecFieldname.end(); ++it) {
+        output_list<<  *it <<std::endl;
+    }
+    output_list.close();
+}
+
 
 
 std::string cloth_control::GetInput(int i)
@@ -104,9 +126,9 @@ std::string cloth_control::GetInput(int i)
     return this -> _inputname[i];
 }
 
-std::string cloth_control::GetOutput(int i)
+std::string cloth_control::GetLambdaOutput(int i)
 {
-    return this -> _outputname[i];
+    return this -> _lambdaname[i];
 }
 
 std::string cloth_control::GetLambda()
@@ -114,9 +136,14 @@ std::string cloth_control::GetLambda()
     return this -> lambda;
 }
 
-std::string cloth_control::GetStretch(int i)
+std::string cloth_control::GetStretchOutput(int i)
 {
     return this -> _stretchname[i];
+}
+
+std::string cloth_control::GetWrinkVecFieldOutput(int i)
+{
+    return this -> _wrinkVecFieldname[i];
 }
 
 std::string cloth_control::Readme(int i)
