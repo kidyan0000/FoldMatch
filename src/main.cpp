@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
     // MODE 1: Neighbor1x
     // MODE 2: Neighbor2x
     // MODE 3: KD-TREE
-    int MODE = 3;
+    int MODE = 1;
 
     // settings writing results
     // CAL 1: lambda
@@ -45,10 +45,9 @@ int main(int argc, char *argv[])
     int CAL = 2;
 
     // setting calculation lambda
-    int LAMBDA;
+    int LAMBDA = 1;
     if(CAL == 1)
     {
-        LAMBDA = 1;
         switch(LAMBDA)
         {
             case 1:
@@ -115,7 +114,7 @@ int main(int argc, char *argv[])
         BS = slot;
         FILE = slot;
 
-        Per = 0.015;
+        Per = 0.03;
 
         deltaT = 0.003;
 
@@ -146,7 +145,14 @@ int main(int argc, char *argv[])
                         break;
                     }
                 }
-                slot_CR -> cloth_velGrad_3D(slot_CT->GetDefoGrad(), slot_CR->GetDefoGrad(), deltaT);
+
+                // setting wrinkel vector field
+                slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_neighbor(), slot_CR->GetEigvec_neighbor());
+                if(CAL == 2)
+                {
+                    slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(FILE));
+                }
+                // slot_CR -> cloth_velGrad_3D(slot_CT->GetDefoGrad(), slot_CR->GetDefoGrad(), deltaT);
                 break;
             }
             case 2:
@@ -170,7 +176,15 @@ int main(int argc, char *argv[])
                         break;
                     }
                 }
-                slot_CR -> cloth_velGrad_3D(slot_CT->GetDefoGrad(), slot_CR->GetDefoGrad(), deltaT);
+
+                // setting wrinkel vector field
+                slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_neighbor2x(), slot_CR->GetEigvec_neighbor2x());
+                if(CAL == 2)
+                {
+                    slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(FILE));
+                }
+
+                // slot_CR -> cloth_velGrad_3D(slot_CT->GetDefoGrad(), slot_CR->GetDefoGrad(), deltaT);
                 break;
             }
             case 3:
