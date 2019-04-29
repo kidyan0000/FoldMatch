@@ -108,14 +108,15 @@ int main(int argc, char *argv[])
     ////////////////////////////////
 
     // slot should be chosen from 1 to 74
-    for(int slot=1; slot<2; slot++)
+    for(int slot=1; slot<75; slot++)
     {
         CT = slot;
         CR = slot+3;
         BS = slot;
         FILE = slot;
 
-        Per = 0.02;
+        Per = 0.015;
+
         deltaT = 0.003;
 
 
@@ -222,7 +223,7 @@ int main(int argc, char *argv[])
         outfile << "Selected mode is: " << MODE << std::endl;
         if(MODE == 3)
         {
-            outfile << "Kd-Tree parameter is: "    << Per << "%" << std::endl;
+            outfile << "Kd-Tree parameter is: "    << Per << std::endl;
         }
         outfile << "We calculate for: " << CAL << std::endl;
         outfile << "Template is: "  << control->GetInput(CT) << std::endl;
@@ -241,16 +242,16 @@ int main(int argc, char *argv[])
         ///////////////////////////////
 
         // std::cout << "a" << std::endl;
-        std::ofstream Test("../output/v_norm.txt");
-        Test<< slot_CR->GetWrinkVecField_norm()<< std::endl;
-        Test.close();
+        // std::ofstream Test("../output/v_norm.txt");
+        // Test<< slot_CR->GetWrinkVecField_norm()<< std::endl;
+        // Test.close();
 
-        Eigen::MatrixXd test;
-        test.resize(3,3);
-        test << 1,1,0,1,2,0,0,0,1;
-        std::cout << test << std::endl;
-        Eigen::SelfAdjointEigenSolver<Eigen::Matrix3d> solv(test);
-        std::cout << solv.eigenvectors() << std::endl;
+        // Eigen::MatrixXd test;
+        // test.resize(3,3);
+        // test << 1,1,0,1,2,0,0,0,1;
+        // std::cout << test << std::endl;
+        // Eigen::SelfAdjointEigenSolver<Eigen::Matrix3d> solv(test);
+        // std::cout << solv.eigenvectors() << std::endl;
 
     }
 
