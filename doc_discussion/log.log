@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7000) (preloaded format=pdflatex 2019.4.26)  29 APR 2019 10:34
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7000) (preloaded format=pdflatex 2019.4.26)  1 MAY 2019 11:03
 entering extended mode
 **./log.tex
 (log.tex
@@ -1013,6 +1013,8 @@ Package pdftex.def Info: image//colormap_error.png  used on input line 464.
 
 ] [24
 
+] [25
+
 ]
 \tf@nav=\write6
 \openout6 = `log.nav'.
@@ -1023,11 +1025,11 @@ Package pdftex.def Info: image//colormap_error.png  used on input line 464.
 \tf@snm=\write8
 \openout8 = `log.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 489.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 489.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 495.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 495.
  (log.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 489.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 489.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 495.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 495.
 Package rerunfilecheck Info: File `log.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 
@@ -1036,8 +1038,8 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 17561 strings out of 494859
- 338893 string characters out of 3177951
+ 17563 strings out of 494859
+ 338908 string characters out of 3177951
  409859 words of memory out of 3000000
  20743 multiletter control sequences out of 15000+200000
  22695 words of font info for 72 fonts, out of 3000000 for 9000
@@ -1061,9 +1063,9 @@ nstall/fonts/type1/public/amsfonts/cm/cmssi8.pfb></home/kidyan0000/.miktex/texm
 fs/install/fonts/type1/public/amsfonts/cm/cmsy10.pfb></home/kidyan0000/.miktex/
 texmfs/install/fonts/type1/public/amsfonts/cm/cmsy8.pfb></home/kidyan0000/.mikt
 ex/texmfs/install/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on log.pdf (24 pages, 3088870 bytes).
+Output written on log.pdf (25 pages, 3094177 bytes).
 PDF statistics:
- 792 PDF objects out of 1000 (max. 8388607)
- 52 named destinations out of 1000 (max. 500000)
+ 819 PDF objects out of 1000 (max. 8388607)
+ 54 named destinations out of 1000 (max. 500000)
  238 words of extra memory for PDF output out of 10000 (max. 10000000)
 

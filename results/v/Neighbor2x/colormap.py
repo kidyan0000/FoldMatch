@@ -129,8 +129,10 @@ for i in range(2, 75):
     #clrs = shiftedJet_cmap(q)
     #clrs_jet = plt.cm.jet(q)
     
-    norm = colors.PowerNorm(gamma=1./0.25)    
-    clrs = plt.cm.jet(norm(q))
+    norm = colors.PowerNorm(gamma=1./0.25) 
+    rcmap = plt.cm.jet.reversed()   
+    clrs = rcmap(norm(q))
+    #clrs = plt.cm.jet(norm(q))
     print clrs 
     
     #q = matplotlib.colors.SymLogNorm(1,vmin=0.0,vmax=0.6)
