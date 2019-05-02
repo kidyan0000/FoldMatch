@@ -109,7 +109,7 @@ def getVolumericFrequencyNormalization(bbMaxR, bbMinR, bbMaxT, bbMinT, ptsT, pts
 currentpath = os.getcwd()
 os.chdir(currentpath)
  
-for i in range(2, 75):
+for i in range(2, 3):
     plyFileName = 'wrinkVecField_' + str(i) + '.ply'
     plydata = PlyData.read(plyFileName)
 
@@ -124,7 +124,12 @@ for i in range(2, 75):
     fig = plt.figure( 1, figsize = (10,10))
     ax = fig.add_subplot(111, projection='3d')
     #print ax.azim	
-    #ax.view_init(60, 0)
+    ax.view_init(-30, 90)
+    
+    #set the axis
+    plt.xlim(-1, 1)
+    #plt.ylim(-1, 1)
+    #plt.zlim(-1, 1)
 
     #orig_Jetcmap = plt.cm.jet
     #shiftedJet_cmap = shiftedColorMap(orig_Jetcmap, start=0.0, midpoint=0.2, stop=1.0, name='shifted')
@@ -160,7 +165,7 @@ for i in range(2, 75):
     
     
     plt.axis('off')	
-    plt.scatter(vertices[:,0],vertices[:,1], vertices[:,2], c=clrs, marker = 'o')
+    ax.scatter(vertices[:,0],vertices[:,1], vertices[:,2], zdir='z', s=50, c=clrs)
     plt.savefig('wrinkVecField_pic_' + str(i) +'.png') 
 
     #surf = ax.scatter(vertices[:,0],vertices[:,1], vertices[:,2], c=colors)
