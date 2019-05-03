@@ -116,7 +116,7 @@ int main(int argc, char *argv[])
 
         Per = 0.03;
 
-        deltaT = 0.003;
+        deltaT = 0.006;
 
 
         cloth_calc* slot_CT = new cloth_calc(control->GetInput(CT-1) , control->GetInput(CR-1), control->GetInput(BS-1));
