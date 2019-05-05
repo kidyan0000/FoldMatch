@@ -94,6 +94,18 @@ void cloth_control::cloth_stretch_output(std::string outputpath)
         output_file = outputpath + "stretch" + "_" + std::to_string(i) +".ply";
         this -> _stretchname.push_back(output_file);
     }
+    std::string readme_file;
+    for(int i=1; i<=75; i++)
+    {
+        readme_file = outputpath + "readme/" + "stretch_" + std::to_string(i) + "_readme.txt";
+        this -> _readme.push_back(readme_file);
+    }
+
+    std::ofstream output_list("../output/output_list.txt");
+    for(std::vector<std::string>::iterator it = _stretchname.begin(); it !=_stretchname.end(); ++it) {
+        output_list<<  *it <<std::endl;
+    }
+    output_list.close();
 
 }
 

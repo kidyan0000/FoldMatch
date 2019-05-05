@@ -37,12 +37,13 @@ int main(int argc, char *argv[])
     // MODE 1: Neighbor1x
     // MODE 2: Neighbor2x
     // MODE 3: KD-TREE
-    int MODE = 1;
+    int MODE = 3;
 
     // settings writing results
     // CAL 1: lambda
     // CAL 2: wrinkel vector field
-    int CAL = 2;
+    // CAL 3: velocity gradient
+    int CAL = 3;
 
     // setting calculation lambda
     int LAMBDA = 1;
@@ -107,14 +108,14 @@ int main(int argc, char *argv[])
     ////////////////////////////////
 
     // slot should be chosen from 1 to 74
-    for(int slot=1; slot<2; slot++)
+    for(int slot=1; slot<75; slot++)
     {
         CT = slot;
         CR = slot+3;
         BS = slot;
         FILE = slot;
 
-        Per = 0.03;
+        Per = 0.01;
 
         deltaT = 0.006;
 
@@ -222,8 +223,10 @@ int main(int argc, char *argv[])
                 slot_CR -> cloth_velGrad_assemble(slot_CR->GetStrTensor());
                 // normalize the velocity gradient
                 slot_CR -> cloth_velGrad_normalize(slot_CR->GetStrTensor());
-                // slot_CR -> cloth_WriteColor(slot_CR->GetStrTensor_norm_dir1(), control->GetStretch(FILE));
-
+                if(CAL == 3)
+                {
+                   slot_CR -> cloth_WriteColor(slot_CR->GetStrTensor_norm_dir1(), control->GetStretchOutput(FILE));
+                }
 
                 break;
 
