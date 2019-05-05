@@ -381,8 +381,12 @@ void cloth_calc::cloth_velGrad_3D(Eigen::MatrixXd F_CT, Eigen::MatrixXd F_CR, do
     }
 }
 
-void cloth_calc::cloth_velGrad_assemble(Eigen::MatrixXd VelGrad)
+void cloth_calc::cloth_velGrad_assemble(Eigen::MatrixXd VelGrad, double Per)
 {
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+    //Rieman tensor
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+    /*
     cloth_vec();
     cloth_init_neighbor();
 
@@ -438,7 +442,7 @@ void cloth_calc::cloth_velGrad_assemble(Eigen::MatrixXd VelGrad)
             weight = (Area / Area_sum).cwiseAbs();
         }
         // assemble stretch tensor L applied by formular
-        // L_i = L_i^{1/2} * exp(/sum_j {/omega_j */log(L_i^{1/2}*L_j*L_i^{-1/2})) * L_i^{1/2}
+        // L_i = L_i^{1/2} * exp(/sum_j {/omega_j * /log(L_i^{1/2}*L_j*L_i^{-1/2})) * L_i^{1/2}
 
         if(El_num == 0)
         {
@@ -486,6 +490,74 @@ void cloth_calc::cloth_velGrad_assemble(Eigen::MatrixXd VelGrad)
             L_new.resize(0,0);
             weight.resize(0,0);
         }
+
+    }
+    */
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    cloth_init_vert();
+
+    // initialize the weights matrix
+    Eigen::MatrixXd weights;
+
+    // initialize the eigenvalues and eigenvectors
+    int Vert_num = verts.rows();
+    this -> D_assem.resize(Vert_num*3,3);
+
+    std::vector<double> query_pt(3);
+
+    typedef nanoflann::KDTreeEigenMatrixAdaptor<Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>> kd_tree;
+
+    kd_tree vert_index(3, std::cref(verts),10 /* max leaf */ );
+    vert_index.index -> buildIndex();
+
+    const size_t num_results = verts.rows() * Per ; // using 2% total vertices
+    // const size_t num_results = 200; // using 30 neighboring vertices
+
+    for(int Vert_index=0; Vert_index<Vert_num; Vert_index++) // for all Vertices
+    {
+        for (size_t d = 0; d < 3; d++)
+          query_pt[d] = this -> verts(Vert_index, d);
+
+        std::vector<size_t> ret_indexes(num_results); // the neighbor vertice index
+        std::vector<double> out_dists_sqr(num_results); // the distance to the neighbor
+
+        nanoflann::KNNResultSet<double> resultSet(num_results);
+
+        resultSet.init(&ret_indexes[0], &out_dists_sqr[0]);
+        vert_index.index->findNeighbors(resultSet, &query_pt[0], nanoflann::SearchParams(10));
+
+        // weight metric computed as the inverse of distance between vertex i and closest verteices
+        double dists_sum = 0;
+        for(int i=0; i<num_results; i++)
+        {
+            if(out_dists_sqr[i]!=0)
+            {
+                dists_sum = dists_sum + (1./out_dists_sqr[i]);
+            }
+        }
+
+        weights.resize(num_results,1);
+        for(int i=0; i<num_results; i++)
+        {
+            if(out_dists_sqr[i]!=0)
+            {
+                weights(i) = (1./out_dists_sqr[i]) / (dists_sum);
+            }
+            else
+            {
+                weights(i) = 1;
+            }
+        }
+
+
+        // std::cout <<  weights << std::endl;
+
+        query_pt.clear();
+        ret_indexes.clear();
+        out_dists_sqr.clear();
+
+        weights.resize(0,0);
 
     }
 

@@ -108,7 +108,7 @@ int main(int argc, char *argv[])
     ////////////////////////////////
 
     // slot should be chosen from 1 to 74
-    for(int slot=1; slot<75; slot++)
+    for(int slot=1; slot<2; slot++)
     {
         CT = slot;
         CR = slot+3;
@@ -220,7 +220,7 @@ int main(int argc, char *argv[])
                 // settings for velocity gradient
                 slot_CR -> cloth_velGrad_3D(slot_CT->GetDefoGrad(), slot_CR->GetDefoGrad(), deltaT);
                 // smooth the velocity gradient
-                slot_CR -> cloth_velGrad_assemble(slot_CR->GetStrTensor());
+                slot_CR -> cloth_velGrad_assemble(slot_CR->GetStrTensor(), Per);
                 // normalize the velocity gradient
                 slot_CR -> cloth_velGrad_normalize(slot_CR->GetStrTensor());
                 if(CAL == 3)

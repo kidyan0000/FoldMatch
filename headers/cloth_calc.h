@@ -52,7 +52,7 @@ public:
 
     // Stretching Tensor
     void cloth_velGrad_3D(Eigen::MatrixXd F_CT, Eigen::MatrixXd F_CR, double deltaT);
-    void cloth_velGrad_assemble(Eigen::MatrixXd VelGrad);
+    void cloth_velGrad_assemble(Eigen::MatrixXd VelGrad, double Per);
     void cloth_velGrad_normalize(Eigen::MatrixXd VelGrad);
 
     // COLLORMAP
@@ -118,6 +118,8 @@ private:
     Eigen::MatrixXd W;
     Eigen::MatrixXd D_assem;
     Eigen::MatrixXd D_norm_dir1;
+    Eigen::MatrixXd D_norm_dir2;
+    Eigen::MatrixXd D_norm_dir3;
 
     //
     Eigen::MatrixXd Eigval_neighbor, Eigvec_neighbor;
