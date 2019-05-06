@@ -108,7 +108,7 @@ int main(int argc, char *argv[])
     ////////////////////////////////
 
     // slot should be chosen from 1 to 74
-    for(int slot=1; slot<2; slot++)
+    for(int slot=1; slot<75; slot++)
     {
         CT = slot;
         CR = slot+3;
@@ -222,7 +222,7 @@ int main(int argc, char *argv[])
                 // smooth the velocity gradient
                 slot_CR -> cloth_velGrad_assemble(slot_CR->GetStrTensor(), Per);
                 // normalize the velocity gradient
-                slot_CR -> cloth_velGrad_normalize(slot_CR->GetStrTensor());
+                slot_CR -> cloth_velGrad_normalize(slot_CR->GetStrTensorAsemmble());
                 if(CAL == 3)
                 {
                    slot_CR -> cloth_WriteColor(slot_CR->GetStrTensor_norm_dir1(), control->GetStretchOutput(FILE));
@@ -259,8 +259,8 @@ int main(int argc, char *argv[])
         ///////////////////////////////
 
         // std::cout << "a" << std::endl;
-        // std::ofstream Test("../output/v_norm.txt");
-        // Test<< slot_CR->GetWrinkVecField_norm()<< std::endl;
+        // std::ofstream Test("../output/D_assem_norm.txt");
+        // Test<< slot_CR->GetStrTensor_norm_dir1()<< std::endl;
         // Test.close();
 
         // Eigen::MatrixXd test;

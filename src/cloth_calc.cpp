@@ -550,8 +550,11 @@ void cloth_calc::cloth_velGrad_assemble(Eigen::MatrixXd VelGrad, double Per)
             }
         }
 
-
-        // std::cout <<  weights << std::endl;
+        for(int i=0; i<num_results; i++)
+        {
+            // std::cout << ret_indexes[i] << std::endl;
+            this -> D_assem.block(Vert_index*3,0,3,3) = this -> D_assem.block(Vert_index*3,0,3,3) + weights(i) * VelGrad.block(ret_indexes[i]*3,0,3,3);
+        }
 
         query_pt.clear();
         ret_indexes.clear();
@@ -565,11 +568,11 @@ void cloth_calc::cloth_velGrad_assemble(Eigen::MatrixXd VelGrad, double Per)
 
 void cloth_calc::cloth_velGrad_normalize(Eigen::MatrixXd VelGrad)
 {
-    Eigen::MatrixXd D_dir1;
-
     int Vert_num = verts.rows();
 
+    Eigen::MatrixXd D_dir1;
     D_dir1.resize(Vert_num,1);
+
     this -> D_norm_dir1.resize(Vert_num,1);
 
     for(int Vert_index=0; Vert_index<Vert_num; Vert_index++)

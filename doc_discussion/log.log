@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7000) (preloaded format=pdflatex 2019.4.26)  5 MAY 2019 10:02
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7000) (preloaded format=pdflatex 2019.4.26)  6 MAY 2019 11:44
 entering extended mode
 **./log.tex
 (log.tex
@@ -1015,9 +1015,29 @@ Package pdftex.def Info: image//colormap_error.png  used on input line 464.
 
 ] [25
 
-] [26
-
 ]
+<image//Muti_pass.png, id=766, 2890.8pt x 813.0375pt>
+File: image//Muti_pass.png Graphic file (type png)
+<use image//Muti_pass.png>
+Package pdftex.def Info: image//Muti_pass.png  used on input line 515.
+(pdftex.def)             Requested size: 171.14764pt x 48.13503pt.
+<image//transition_cost_function.PNG, id=767, 580.41844pt x 164.86594pt>
+File: image//transition_cost_function.PNG Graphic file (type png)
+<use image//transition_cost_function.PNG>
+Package pdftex.def Info: image//transition_cost_function.PNG  used on input lin
+e 515.
+(pdftex.def)             Requested size: 171.14764pt x 48.61238pt.
+ [26
+
+ <./image//Muti_pass.png> <./image//transition_cost_function.PNG>]
+<image//compare.png, id=796, 1927.2pt x 1084.05pt>
+File: image//compare.png Graphic file (type png)
+<use image//compare.png>
+Package pdftex.def Info: image//compare.png  used on input line 522.
+(pdftex.def)             Requested size: 171.14764pt x 96.27007pt.
+ [27
+
+ <./image//compare.png>]
 \tf@nav=\write6
 \openout6 = `log.nav'.
 
@@ -1027,11 +1047,11 @@ Package pdftex.def Info: image//colormap_error.png  used on input line 464.
 \tf@snm=\write8
 \openout8 = `log.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 507.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 507.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 524.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 524.
  (log.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 507.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 507.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 524.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 524.
 Package rerunfilecheck Info: File `log.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 
@@ -1040,10 +1060,10 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 17569 strings out of 494859
- 338959 string characters out of 3177951
+ 17587 strings out of 494859
+ 339383 string characters out of 3177951
  409859 words of memory out of 3000000
- 20747 multiletter control sequences out of 15000+200000
+ 20759 multiletter control sequences out of 15000+200000
  22695 words of font info for 72 fonts, out of 3000000 for 9000
  0 hyphenation exceptions out of 8191
  56i,17n,59p,772b,865s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -1065,9 +1085,9 @@ nstall/fonts/type1/public/amsfonts/cm/cmssi8.pfb></home/kidyan0000/.miktex/texm
 fs/install/fonts/type1/public/amsfonts/cm/cmsy10.pfb></home/kidyan0000/.miktex/
 texmfs/install/fonts/type1/public/amsfonts/cm/cmsy8.pfb></home/kidyan0000/.mikt
 ex/texmfs/install/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on log.pdf (26 pages, 3104251 bytes).
+Output written on log.pdf (27 pages, 7575118 bytes).
 PDF statistics:
- 853 PDF objects out of 1000 (max. 8388607)
- 56 named destinations out of 1000 (max. 500000)
- 250 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 885 PDF objects out of 1000 (max. 8388607)
+ 58 named destinations out of 1000 (max. 500000)
+ 265 words of extra memory for PDF output out of 10000 (max. 10000000)
 
