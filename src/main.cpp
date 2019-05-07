@@ -37,13 +37,14 @@ int main(int argc, char *argv[])
     // MODE 1: Neighbor1x
     // MODE 2: Neighbor2x
     // MODE 3: KD-TREE
-    int MODE = 3;
+    // MODE 0: TEST
+    int MODE = 0;
 
     // settings writing results
     // CAL 1: lambda
     // CAL 2: wrinkel vector field
     // CAL 3: velocity gradient
-    int CAL = 3;
+    int CAL = 1;
 
     // setting calculation lambda
     int LAMBDA = 1;
@@ -229,9 +230,38 @@ int main(int argc, char *argv[])
                 }
 
                 break;
-
-
             }
+        case 0:
+        {
+            slot_CT -> cloth_eig_neighbor3x();
+
+            slot_CR -> cloth_eig_neighbor3x();
+            slot_CR -> cloth_vec_normalize(slot_CR->GetEigval_neighbor3x(), 3);
+            if(CAL == 1)
+            {
+                switch(LAMBDA)
+                {
+                    case 1:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), control->GetLambdaOutput(FILE));
+                    break;
+                    case 2:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir2(), control->GetLambdaOutput(FILE));
+                    break;
+                    case 3:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir3(), control->GetLambdaOutput(FILE));
+                    break;
+                }
+            }
+
+            // setting wrinkel vector field
+            slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_neighbor3x(), slot_CR->GetEigvec_neighbor3x());
+            if(CAL == 2)
+            {
+                slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(FILE));
+            }
+            // slot_CR -> cloth_velGrad_3D(slot_CT->GetDefoGrad(), slot_CR->GetDefoGrad(), deltaT);
+            break;
+        }
         }
 
 
