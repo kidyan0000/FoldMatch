@@ -1087,13 +1087,14 @@ void cloth_calc::cloth_eig_neighbor4x()
             Q.row(i) << vertsR.row(Neighbor_Vert[i]) - vertsR.row(Vert_index);
         }
 
-        H = P.transpose() * Q;
+        H = (P.transpose() * Q);
         C = H.transpose() * H;
         Eigen::SelfAdjointEigenSolver<Eigen::Matrix3d> solv(C);
 
         this -> Eigval_neighbor4x.block(Eig_index,0,3,1) << solv.eigenvalues().cwiseSqrt();
         this -> Eigvec_neighbor4x.block(Eig_index,0,3,3) << solv.eigenvectors();
         this -> F.block(Eig_index,0,3,3) << H;
+        // std::cout << Eigval_neighbor4x.block(Eig_index,0,3,1) << std::endl;
 
         // initialize
         P.resize(0,0);
@@ -1101,7 +1102,7 @@ void cloth_calc::cloth_eig_neighbor4x()
         H.resize(0,0);
         C.resize(0,0);
 
-        std::cout << "the neighborhood number is " << Neighbor_Vert_size << std::endl;
+        // std::cout << "the neighborhood number is " << Neighbor_Vert_size << std::endl;
 
         Neighbor_Vert.clear();
         Eig_index = Eig_index+3;
@@ -1143,6 +1144,7 @@ void cloth_calc::cloth_vec_normalize(Eigen::MatrixXd Eigenval, int dim)
 
 void cloth_calc::cloth_WriteColor(Eigen::MatrixXd Eigval_norm, const std::string &  ifileName)
 {
+    // cloth_init_vert();
 
     // set the color and write as ply files
 
@@ -1164,8 +1166,9 @@ void cloth_calc::cloth_WriteColor(Eigen::MatrixXd Eigval_norm, const std::string
     {
         pink.row(i) << 255, 0, 255;
     }
-
+    // std::cout<<faces<<std::endl;
     // set vertice and colors
+    plyColor -> setFaces(faces);
     plyColor -> setVertices(verts);
     plyColor -> setColors(pink);
     plyColor -> setCurvatures(Eigval_norm);

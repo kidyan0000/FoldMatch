@@ -36,9 +36,11 @@ int main(int argc, char *argv[])
     // setting calculation mode
     // MODE 1: Neighbor1x
     // MODE 2: Neighbor2x
-    // MODE 3: KD-TREE
+    // MODE 3: Neighbor3x
+    // MODE 4: Neighbor4x
+    // MODE 5: KD-TREE
     // MODE 0: TEST
-    int MODE = 0;
+    int MODE = 4;
 
     // settings writing results
     // CAL 1: lambda
@@ -65,7 +67,7 @@ int main(int argc, char *argv[])
 
     }
 
-    control -> cloth_input("../data/");
+    control -> cloth_input("../data/Tshirt/");
     switch(CAL)
     {
         case 1:
@@ -109,7 +111,7 @@ int main(int argc, char *argv[])
     ////////////////////////////////
 
     // slot should be chosen from 1 to 74
-    for(int slot=1; slot<75; slot++)
+    for(int slot=1; slot<2; slot++)
     {
         CT = slot;
         CR = slot+3;
@@ -191,6 +193,68 @@ int main(int argc, char *argv[])
             }
             case 3:
             {
+                slot_CT -> cloth_eig_neighbor3x();
+
+                slot_CR -> cloth_eig_neighbor3x();
+                slot_CR -> cloth_vec_normalize(slot_CR->GetEigval_neighbor3x(), 3);
+                if(CAL == 1)
+                {
+                    switch(LAMBDA)
+                    {
+                        case 1:
+                        slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), control->GetLambdaOutput(FILE));
+                        break;
+                        case 2:
+                        slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir2(), control->GetLambdaOutput(FILE));
+                        break;
+                        case 3:
+                        slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir3(), control->GetLambdaOutput(FILE));
+                        break;
+                    }
+                }
+
+                // setting wrinkel vector field
+                slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_neighbor3x(), slot_CR->GetEigvec_neighbor3x());
+                if(CAL == 2)
+                {
+                    slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(FILE));
+                }
+                // slot_CR -> cloth_velGrad_3D(slot_CT->GetDefoGrad(), slot_CR->GetDefoGrad(), deltaT);
+                break;
+            }
+            case 4:
+            {
+                slot_CT -> cloth_eig_neighbor4x();
+
+                slot_CR -> cloth_eig_neighbor4x();
+                slot_CR -> cloth_vec_normalize(slot_CR->GetEigval_neighbor4x(), 3);
+                if(CAL == 1)
+                {
+                    switch(LAMBDA)
+                    {
+                        case 1:
+                        slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), control->GetLambdaOutput(FILE));
+                        break;
+                        case 2:
+                        slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir2(), control->GetLambdaOutput(FILE));
+                        break;
+                        case 3:
+                        slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir3(), control->GetLambdaOutput(FILE));
+                        break;
+                    }
+                }
+
+                // setting wrinkel vector field
+                slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_neighbor4x(), slot_CR->GetEigvec_neighbor4x());
+                if(CAL == 2)
+                {
+                    slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(FILE));
+                }
+                // slot_CR -> cloth_velGrad_3D(slot_CT->GetDefoGrad(), slot_CR->GetDefoGrad(), deltaT);
+                break;
+            }
+            case 5:
+            {
                 slot_CT -> cloth_eig_kdTree(Per);
 
                 slot_CR -> cloth_eig_kdTree(Per);
@@ -233,10 +297,10 @@ int main(int argc, char *argv[])
             }
         case 0:
         {
-            slot_CT -> cloth_eig_neighbor3x();
+            slot_CT -> cloth_eig_neighbor4x();
 
-            slot_CR -> cloth_eig_neighbor3x();
-            slot_CR -> cloth_vec_normalize(slot_CR->GetEigval_neighbor3x(), 3);
+            slot_CR -> cloth_eig_neighbor4x();
+            slot_CR -> cloth_vec_normalize(slot_CR->GetEigval_neighbor4x(), 3);
             if(CAL == 1)
             {
                 switch(LAMBDA)
@@ -254,7 +318,7 @@ int main(int argc, char *argv[])
             }
 
             // setting wrinkel vector field
-            slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_neighbor3x(), slot_CR->GetEigvec_neighbor3x());
+            slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_neighbor4x(), slot_CR->GetEigvec_neighbor4x());
             if(CAL == 2)
             {
                 slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(FILE));
@@ -268,7 +332,7 @@ int main(int argc, char *argv[])
 
         std::ofstream outfile(control->Readme(FILE));
         outfile << "Selected mode is: " << MODE << std::endl;
-        if(MODE == 3)
+        if(MODE == 5)
         {
             outfile << "Kd-Tree parameter is: "    << Per << std::endl;
         }
@@ -289,8 +353,8 @@ int main(int argc, char *argv[])
         ///////////////////////////////
 
         // std::cout << "a" << std::endl;
-        // std::ofstream Test("../output/D_assem_norm.txt");
-        // Test<< slot_CR->GetStrTensor_norm_dir1()<< std::endl;
+        // std::ofstream Test("../output/Test.txt");
+        // Test<< slot_CR->GetEigval_neighbor4x()<< std::endl;
         // Test.close();
 
         // Eigen::MatrixXd test;
