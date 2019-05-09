@@ -251,6 +251,7 @@ int main(int argc, char *argv[])
                 slot_CR -> cloth_rotationTensor(slot_CR->GetDefoGrad(),slot_CR->GetStretchTensor_3D());
                 slot_CR -> cloth_translationVec(slot_CR->GetRotationTensor());
                 slot_CR -> cloth_transformationMat(slot_CR->GetRotationTensor(), slot_CR->GetTranslationVec());
+                slot_CR -> cloth_update(slot_CR->GetRotationTensor(), slot_CR->GetTranslationVec());
 
                 // setting wrinkel vector field
                 slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_neighbor4x(), slot_CR->GetEigvec_neighbor4x());
@@ -361,9 +362,9 @@ int main(int argc, char *argv[])
         ///////////////////////////////
 
         // std::cout << "a" << std::endl;
-        std::ofstream Test("../output/T.txt");
-        Test << slot_CR->GetTransformationMat() << std::endl;
-        Test.close();
+        // std::ofstream Test("../output/vertsUpdate.txt");
+        // Test << slot_CR->GetVertsUpdate() << std::endl;
+        // Test.close();
         // for(int i=0;i<100;i++)
         // {
         // Test<< slot_CR->GetDefoGrad().block(i*3,0,3,3).transpose()*slot_CR->GetDefoGrad().block(i*3,0,3,3)<< std::endl;

@@ -61,6 +61,7 @@ public:
     void cloth_rotationTensor(Eigen::MatrixXd F, Eigen::MatrixXd U);
     void cloth_translationVec(Eigen::MatrixXd R);
     void cloth_transformationMat(Eigen::MatrixXd R, Eigen::MatrixXd t);
+    void cloth_update(Eigen::MatrixXd R, Eigen::MatrixXd t);
 
     // COLLORMAP
     void cloth_vec_normalize(Eigen::MatrixXd Eigenval, int dim);
@@ -94,6 +95,7 @@ public:
     Eigen::MatrixXd GetRotationTensor();
     Eigen::MatrixXd GetTranslationVec();
     Eigen::MatrixXd GetTransformationMat();
+    Eigen::MatrixXd GetVertsUpdate();
     Eigen::MatrixXd GetStrTensor();
     Eigen::MatrixXd GetRotTensor();
     Eigen::MatrixXd GetStrTensorAsemmble();
@@ -115,6 +117,7 @@ private:
 
     Eigen::MatrixXi faces;
     Eigen::MatrixXd vertsT, vertsR, verts;
+    Eigen::MatrixXd vertsUpdate;
 
     // Rohmer et al.
     Eigen::MatrixXd VecT, VecR;
