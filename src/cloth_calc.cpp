@@ -657,6 +657,16 @@ void cloth_calc::cloth_translationVec(Eigen::MatrixXd R)
 
 }
 
+void cloth_calc::cloth_transformationMat(Eigen::MatrixXd R, Eigen::MatrixXd t)
+{
+    int Vert_num = verts.rows();
+    this -> T.resize(Vert_num*3,4);
+    for(int Vert_index=0; Vert_index<Vert_num; Vert_index++)
+    {
+        T.row(Vert_index) << R.row(Vert_index), t(Vert_index);
+    }
+}
+
 
 void cloth_calc::cloth_eig_neighbor()
 {
@@ -1368,6 +1378,11 @@ Eigen::MatrixXd cloth_calc::GetRotationTensor()
 Eigen::MatrixXd cloth_calc::GetTranslationVec()
 {
     return this -> t;
+}
+
+Eigen::MatrixXd cloth_calc::GetTransformationMat()
+{
+    return this -> T;
 }
 
 Eigen::MatrixXd cloth_calc::GetStrTensor()

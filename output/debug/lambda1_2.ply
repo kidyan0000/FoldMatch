@@ -1,7 +1,7 @@
 ply
 format ascii 1.0
 comment Seamless Cloth Simulation with High Geometric Fidelity 
-comment Thu May  9 11:04:41 2019
+comment Thu May  9 13:33:49 2019
 element vertex 15060
 property float x
 property float y

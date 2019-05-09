@@ -58,9 +58,9 @@ public:
     void cloth_velGrad_normalize(Eigen::MatrixXd VelGrad);
 
     // Optimation Process
-    // Ratation Tensor
     void cloth_rotationTensor(Eigen::MatrixXd F, Eigen::MatrixXd U);
     void cloth_translationVec(Eigen::MatrixXd R);
+    void cloth_transformationMat(Eigen::MatrixXd R, Eigen::MatrixXd t);
 
     // COLLORMAP
     void cloth_vec_normalize(Eigen::MatrixXd Eigenval, int dim);
@@ -93,6 +93,7 @@ public:
     Eigen::MatrixXd GetWrinkVecField_norm();
     Eigen::MatrixXd GetRotationTensor();
     Eigen::MatrixXd GetTranslationVec();
+    Eigen::MatrixXd GetTransformationMat();
     Eigen::MatrixXd GetStrTensor();
     Eigen::MatrixXd GetRotTensor();
     Eigen::MatrixXd GetStrTensorAsemmble();
@@ -151,6 +152,7 @@ private:
     //
     Eigen::MatrixXd R;
     Eigen::MatrixXd t;
+    Eigen::MatrixXd T;
 
     //
     Eigen::MatrixXd Eigval_norm_dir1, Eigval_norm_dir2, Eigval_norm_dir3;
