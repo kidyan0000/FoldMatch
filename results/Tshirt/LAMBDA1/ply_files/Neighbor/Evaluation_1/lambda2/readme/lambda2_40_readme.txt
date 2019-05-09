@@ -1,3 +1,0 @@
-Template is: ../data/Template-1_0001.ply
-Reference is: ../data/Template-41_0041.ply
-Base is: ../data/Template-1_0001.ply

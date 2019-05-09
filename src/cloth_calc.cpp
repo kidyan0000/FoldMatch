@@ -235,27 +235,31 @@ void cloth_calc::cloth_stretchTensor_2D()
     }
 }
 
-void cloth_calc::cloth_stretchTensor_3D()
+void cloth_calc::cloth_stretchTensor_3D(Eigen::MatrixXd Eigenval, Eigen::MatrixXd Eigenvec)
 {
-    cloth_eig_3D();
-
     // initialize the matrix to store the stretch tensor
-    this -> U_3D.resize(faces.rows()*9,3);
+    this -> U_3D.resize(verts.rows()*3,3);
 
-    int Defo_num = faces.rows()*9;
+    int Defo_num = verts.rows()*3;
+
+    // std::cout << Defo_num;
 
     for(int Defo_index=0; Defo_index<Defo_num; Defo_index=Defo_index+3)
     {
         // U = (/lamdba_1)*v1*v1^T + (/lamdba_2)*v2*v2^T + (/lamdba_3)*v3*v3^T
-        U_3D.block(Defo_index,0,3,3) << ( (this -> Eigval_3D(Defo_index,0)) * (this -> Eigvec_3D.block(Defo_index,0,3,3).col(0)) * this -> Eigvec_3D.block(Defo_index,0,3,3).col(0).transpose() ) + ( (this -> Eigval_3D(Defo_index+1,0)) * (this -> Eigvec_3D.block(Defo_index,0,3,3).col(1)) * this -> Eigvec_3D.block(Defo_index,0,3,3).col(1).transpose()) + ( (this -> Eigval_3D(Defo_index+2,0)) * (this -> Eigvec_3D.block(Defo_index,0,3,3).col(2)) * this -> Eigvec_3D.block(Defo_index,0,3,3).col(2).transpose());
+        U_3D.block(Defo_index,0,3,3) << ( (Eigenval(Defo_index,0)) * (Eigenvec.block(Defo_index,0,3,3).col(0)) * Eigenvec.block(Defo_index,0,3,3).col(0).transpose() ) + ( (Eigenval(Defo_index+1,0)) * (Eigenvec.block(Defo_index,0,3,3).col(1)) * Eigenvec.block(Defo_index,0,3,3).col(1).transpose()) + ( (Eigenval(Defo_index+2,0)) * (Eigenvec.block(Defo_index,0,3,3).col(2)) * Eigenvec.block(Defo_index,0,3,3).col(2).transpose());
     }
 
 }
 
-void cloth_calc::cloth_stretchTensor_assemble()
+void cloth_calc::cloth_stretchTensor_assemble(Eigen::MatrixXd U)
 {
-    cloth_stretchTensor_3D();
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+    // affine-invariant Riemannian metric
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    cloth_vec();
+    cloth_init_neighbor();
     // now we assemble all the stretch tensor U by the vertex index
 
     // adjacentfaces is a list of lists of faces adjacent to each vertex.
@@ -264,6 +268,7 @@ void cloth_calc::cloth_stretchTensor_assemble()
 
     // we calculate at fiest the trianglearea based weights
     int Vert_num = verts.rows();
+    this -> U_3D_assem.resize(Vert_num*3,3);
 
     for(int Vert_index=0; Vert_index<Vert_num; Vert_index++) // for all vertice
     {
@@ -273,7 +278,6 @@ void cloth_calc::cloth_stretchTensor_assemble()
         // we calculate here the adjacent area
         Eigen::MatrixXd Triangle_base;
         Eigen::MatrixXd Triangle_adjacent;
-
         Eigen::MatrixXd Area, weight;
         Area.resize(El_num,1);
         weight.resize(El_num,1);
@@ -307,18 +311,50 @@ void cloth_calc::cloth_stretchTensor_assemble()
             weight = (Area / Area_sum).cwiseAbs();
         }
 
-        // assemble stretch tensor U applied by formular
-        // U_i = U_i^{1/2} * exp(/sum_j {/omega_j */log(U_i^{1/2}*U_j*U_i^{-1/2})) * U_i^{1/2}
-    }
+        // now we could do the assemble
+        if(El_num == 0) // if there are no neighborhood
+        {
+            this -> U_3D_assem.block(Vert_index*3,0,3,3) = U.block(Vert_index*3,0,3,3);
+        }
+        else
+        {
+            Eigen::MatrixXd U_j, U_i, U_sum, U_tmp, U_new;
+            U_i.resize(3,3); // base vertex
+            U_j.resize(El_num*3,3); // neighboring vertices
 
-    /*
-    std::cout << Defo_3D.block(0,0,3,3) << std::endl;
-    std::cout << _plyMeshR -> trimesh::TriMesh::adjacentfaces.at(6).at(1) << std::endl;
-    // this is the jth triangle
-    std::cout << _plyMeshR -> trimesh::TriMesh::adjacentfaces.at(6).at(1) << std::endl;
-    std::cout << VecR.col(_plyMeshR -> trimesh::TriMesh::adjacentfaces.at(6).at(1)*3) << std::endl;
-    std::cout << _plyMeshR -> trimesh::TriMesh::adjacentfaces.at(15059).size() << std::endl;
-    */
+            U_sum.resize(3,3);
+            U_tmp.resize(3,3);
+            U_new.resize(3,3);
+
+            U_i = U.block(Vert_index*3,0,3,3);
+
+            for(int El_index=0; El_index<El_num; El_index++)
+            {
+                U_j.block(El_index*3,0,3,3) = U.block(this -> _plyMesh -> trimesh::TriMesh::neighbors.at(Vert_index).at(El_index)*3,0,3,3);
+            }
+            // we sum up for all neighboring vertices
+            U_sum.Zero(3,3);
+            for(int El_index=0; El_index<El_num; El_index++)
+            {
+                U_tmp = ((U_i.inverse()).cwiseSqrt() * U_j.block(El_index*3,0,3,3) * (U_i.inverse()).cwiseSqrt()).array().log10() * weight(El_index);
+                U_sum = U_sum + U_tmp;
+                U_tmp.resize(0,0);
+            }
+
+            U_new = U_sum.array().exp();
+
+            this -> U_3D_assem.block(Vert_index*3,0,3,3) = U_i.cwiseSqrt() * U_new * U_i.cwiseSqrt();
+            // std::cout << weight << std::endl;
+
+            // erase the matrices
+            U_i.resize(0,0);
+            U_j.resize(0,0);
+            U_sum.resize(0,0);
+            U_tmp.resize(0,0);
+            U_new.resize(0,0);
+            weight.resize(0,0);
+        }
+    }
 
 }
 
@@ -386,7 +422,7 @@ void cloth_calc::cloth_velGrad_assemble(Eigen::MatrixXd VelGrad, double Per)
     /////////////////////////////////////////////////////////////////////////////////////////////////////
     // affine-invariant Riemannian metric
     /////////////////////////////////////////////////////////////////////////////////////////////////////
-    /*
+
     cloth_vec();
     cloth_init_neighbor();
 
@@ -473,7 +509,7 @@ void cloth_calc::cloth_velGrad_assemble(Eigen::MatrixXd VelGrad, double Per)
             for(int El_index=0; El_index<El_num; El_index++)
             {
                 // some error here because of the square roots
-                L_tmp = (L_i.cwiseSqrt() * L_j.block(El_index*3,0,3,3) * L_i.cwiseSqrt()).array().log10() * weight(El_index);
+                L_tmp = (L_i.inverse().cwiseSqrt() * L_j.block(El_index*3,0,3,3) * L_i.inverse().cwiseSqrt()).array().log10() * weight(El_index);
                 L_sum = L_sum + L_tmp;
                 L_tmp.resize(0,0);
             }
@@ -492,9 +528,10 @@ void cloth_calc::cloth_velGrad_assemble(Eigen::MatrixXd VelGrad, double Per)
         }
 
     }
-    */
     /////////////////////////////////////////////////////////////////////////////////////////////////////
+
     // Linear BLend Simulation
+    /*
     cloth_init_vert();
 
     // initialize the weights matrix
@@ -508,7 +545,7 @@ void cloth_calc::cloth_velGrad_assemble(Eigen::MatrixXd VelGrad, double Per)
 
     typedef nanoflann::KDTreeEigenMatrixAdaptor<Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>> kd_tree;
 
-    kd_tree vert_index(3, std::cref(verts),10 /* max leaf */ );
+    kd_tree vert_index(3, std::cref(verts),10); // max leaf
     vert_index.index -> buildIndex();
 
     const size_t num_results = verts.rows() * Per ; // using 2% total vertices
@@ -563,6 +600,7 @@ void cloth_calc::cloth_velGrad_assemble(Eigen::MatrixXd VelGrad, double Per)
         weights.resize(0,0);
 
     }
+    */
 
 }
 
@@ -588,6 +626,34 @@ void cloth_calc::cloth_velGrad_normalize(Eigen::MatrixXd VelGrad)
     //this -> D_norm_dir1 = (D_dir1 - D_dir1.minCoeff() * Eigen::MatrixXd::Identity(Vert_num, 1)) / (D_dir1.maxCoeff() - D_dir1.minCoeff());
 
     // std::cout << D_norm_dir1 << std::endl;
+
+}
+
+void cloth_calc::cloth_rotationTensor(Eigen::MatrixXd F, Eigen::MatrixXd U)
+{
+    int Vert_num = verts.rows();
+    this -> R.resize(Vert_num*3,3);
+    for(int Vert_index=0; Vert_index<Vert_num; Vert_index++)
+    {
+        R.block(Vert_index*3,0,3,3) = F.block(Vert_index*3,0,3,3) * U.block(Vert_index*3,0,3,3).inverse();
+    }
+
+
+}
+
+void cloth_calc::cloth_translationVec(Eigen::MatrixXd R)
+{
+    int Vert_num = verts.rows();
+    this -> t.resize(Vert_num*3,1);
+    for(int Vert_index=0; Vert_index<Vert_num; Vert_index++)
+    {
+        // t(Vert_index) = verts.row(Vert_index).mean();
+        t.block(Vert_index*3,0,3,1) << verts.row(Vert_index).transpose() - R.block(Vert_index*3,0,3,3) * verts.row(Vert_index).transpose();
+    }
+    // std::ofstream Test("../output/Test.txt");
+    // Test<< R.block(0,0,3,3) * verts.row(0).transpose() << std::endl;
+    // Test.close();
+    // std::cout<< R.block(3,0,3,3) * verts.row(1).transpose() <<std::endl;
 
 }
 
@@ -1168,10 +1234,11 @@ void cloth_calc::cloth_WriteColor(Eigen::MatrixXd Eigval_norm, const std::string
     }
     // std::cout<<faces<<std::endl;
     // set vertice and colors
-    plyColor -> setFaces(faces);
+
     plyColor -> setVertices(verts);
     plyColor -> setColors(pink);
     plyColor -> setCurvatures(Eigval_norm);
+    plyColor -> setFaces(faces);
 
     plyColor -> writePLY(ifileName, true, false, false, true, false);
 
@@ -1201,6 +1268,11 @@ Eigen::MatrixXd cloth_calc::GetStretchTensor_2D()
 Eigen::MatrixXd cloth_calc::GetStretchTensor_3D()
 {
     return this -> U_3D;
+}
+
+Eigen::MatrixXd cloth_calc::GetStretchTensorAsemmble()
+{
+    return this -> U_3D_assem;
 }
 
 Eigen::MatrixXd cloth_calc::GetEigval_3D()
@@ -1286,6 +1358,16 @@ Eigen::MatrixXd cloth_calc::GetWrinkVecField()
 Eigen::MatrixXd cloth_calc::GetWrinkVecField_norm()
 {
     return this -> v_norm;
+}
+
+Eigen::MatrixXd cloth_calc::GetRotationTensor()
+{
+    return this -> R;
+}
+
+Eigen::MatrixXd cloth_calc::GetTranslationVec()
+{
+    return this -> t;
 }
 
 Eigen::MatrixXd cloth_calc::GetStrTensor()

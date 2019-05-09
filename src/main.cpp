@@ -243,6 +243,13 @@ int main(int argc, char *argv[])
                         break;
                     }
                 }
+                // calculate the stretch tensor U and U_assemble
+                slot_CR -> cloth_stretchTensor_3D(slot_CR->GetEigval_neighbor4x(), slot_CR->GetEigvec_neighbor4x());
+                slot_CR -> cloth_stretchTensor_assemble(slot_CR->GetStretchTensor_3D());
+
+                // now we do the optimazation
+                slot_CR -> cloth_rotationTensor(slot_CR->GetDefoGrad(),slot_CR->GetStretchTensor_3D());
+                slot_CR -> cloth_translationVec(slot_CR->GetRotationTensor());
 
                 // setting wrinkel vector field
                 slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_neighbor4x(), slot_CR->GetEigvec_neighbor4x());
@@ -316,7 +323,7 @@ int main(int argc, char *argv[])
                     break;
                 }
             }
-
+            slot_CR -> cloth_stretchTensor_3D(slot_CR->GetEigval_neighbor4x(), slot_CR->GetEigvec_neighbor4x());
             // setting wrinkel vector field
             slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_neighbor4x(), slot_CR->GetEigvec_neighbor4x());
             if(CAL == 2)
@@ -353,14 +360,14 @@ int main(int argc, char *argv[])
         ///////////////////////////////
 
         // std::cout << "a" << std::endl;
-        // std::ofstream Test("../output/Test.txt");
-        // Test<< slot_CR->GetEigval_neighbor4x()<< std::endl;
+        // std::ofstream Test("../output/t.txt");
+        // Test<< slot_CR->GetTranslationVec()<< std::endl;
         // Test.close();
 
         // Eigen::MatrixXd test;
         // test.resize(3,3);
         // test << 1,1,0,1,2,0,0,0,1;
-        // std::cout << test << std::endl;
+        // std::cout << test.array().exp() << std::endl;
         // Eigen::SelfAdjointEigenSolver<Eigen::Matrix3d> solv(test);
         // std::cout << solv.eigenvectors() << std::endl;
 

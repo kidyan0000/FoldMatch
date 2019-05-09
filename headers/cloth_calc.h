@@ -30,13 +30,14 @@ public:
     void cloth_init_vert();
     void cloth_init_neighbor();
 
-    // Rhomer et al.
     void cloth_vec();
     void cloth_eig_2D();
     void cloth_eig_3D();
     void cloth_stretchTensor_2D();
-    void cloth_stretchTensor_3D();
-    void cloth_stretchTensor_assemble();
+    void cloth_stretchTensor_3D(Eigen::MatrixXd Eigenval, Eigen::MatrixXd Eigenvec);
+    void cloth_stretchTensor_neighbor();
+    void cloth_stretchTensor_assemble(Eigen::MatrixXd U);
+
     void cloth_displGrad_2D();
 
     // USING NEIGHBOR
@@ -44,7 +45,6 @@ public:
     void cloth_eig_neighbor2x();
     void cloth_eig_neighbor3x();
     void cloth_eig_neighbor4x();
-    void cloth_stretchTensor_neighbor();
 
     // USING KD-TREE
     void cloth_eig_kdTree(double Per);
@@ -57,6 +57,11 @@ public:
     void cloth_velGrad_assemble(Eigen::MatrixXd VelGrad, double Per);
     void cloth_velGrad_normalize(Eigen::MatrixXd VelGrad);
 
+    // Optimation Process
+    // Ratation Tensor
+    void cloth_rotationTensor(Eigen::MatrixXd F, Eigen::MatrixXd U);
+    void cloth_translationVec(Eigen::MatrixXd R);
+
     // COLLORMAP
     void cloth_vec_normalize(Eigen::MatrixXd Eigenval, int dim);
     void cloth_WriteColor(Eigen::MatrixXd color, const std::string &  ifileName);
@@ -67,6 +72,7 @@ public:
     Eigen::MatrixXd GetEigvec();
     Eigen::MatrixXd GetStretchTensor_2D();
     Eigen::MatrixXd GetStretchTensor_3D();
+    Eigen::MatrixXd GetStretchTensorAsemmble();
     Eigen::MatrixXd GetDefoGrad();
     Eigen::MatrixXd GetEigval_3D();
     Eigen::MatrixXd GetEigvec_3D();
@@ -85,6 +91,8 @@ public:
     Eigen::MatrixXd GetEigval_norm_dir3();
     Eigen::MatrixXd GetWrinkVecField();
     Eigen::MatrixXd GetWrinkVecField_norm();
+    Eigen::MatrixXd GetRotationTensor();
+    Eigen::MatrixXd GetTranslationVec();
     Eigen::MatrixXd GetStrTensor();
     Eigen::MatrixXd GetRotTensor();
     Eigen::MatrixXd GetStrTensorAsemmble();
@@ -139,6 +147,10 @@ private:
     //
     Eigen::MatrixXd v;
     Eigen::MatrixXd v_norm;
+
+    //
+    Eigen::MatrixXd R;
+    Eigen::MatrixXd t;
 
     //
     Eigen::MatrixXd Eigval_norm_dir1, Eigval_norm_dir2, Eigval_norm_dir3;
