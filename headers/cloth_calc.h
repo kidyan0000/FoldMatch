@@ -62,6 +62,7 @@ public:
     void cloth_translationVec(Eigen::MatrixXd R);
     void cloth_transformationMat(Eigen::MatrixXd R, Eigen::MatrixXd t);
     void cloth_update(Eigen::MatrixXd R, Eigen::MatrixXd t);
+    void cloth_WriteVerts(Eigen::MatrixXd verts, const std::string &  ifileName);
 
     // COLLORMAP
     void cloth_vec_normalize(Eigen::MatrixXd Eigenval, int dim);
@@ -109,6 +110,7 @@ private:
     ply_module* _plyModuleT;
     ply_module* _plyModuleR;
     ply_module* _plyModule;
+    ply_module* plyUpdate;
 
     trimesh::TriMesh *_plyMeshT;
     trimesh::TriMesh *_plyMeshR;
@@ -117,6 +119,7 @@ private:
 
     Eigen::MatrixXi faces;
     Eigen::MatrixXd vertsT, vertsR, verts;
+    Eigen::MatrixXd verts_cog;
     Eigen::MatrixXd vertsUpdate;
 
     // Rohmer et al.

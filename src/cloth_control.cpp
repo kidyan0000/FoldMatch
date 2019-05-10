@@ -131,6 +131,29 @@ void cloth_control::cloth_wrinkVecField_output(std::string outputpath)
     output_list.close();
 }
 
+void cloth_control::cloth_vertsUpdate_output(std::string outputpath)
+{
+    std::string output_file;
+    for(int i=1; i<=75; i++)
+    {
+        output_file = outputpath + "Update" + "_" + std::to_string(i) +".ply";
+        this -> _vertsUpdatename.push_back(output_file);
+    }
+    std::string readme_file;
+    for(int i=1; i<=75; i++)
+    {
+        readme_file = outputpath + "readme/" + "Update_" + std::to_string(i) + "_readme.txt";
+        this -> _readme.push_back(readme_file);
+    }
+
+    std::ofstream output_list("../output/output_list.txt");
+    for(std::vector<std::string>::iterator it = _vertsUpdatename.begin(); it !=_vertsUpdatename.end(); ++it) {
+        output_list<<  *it <<std::endl;
+    }
+    output_list.close();
+
+}
+
 
 
 std::string cloth_control::GetInput(int i)
@@ -156,6 +179,11 @@ std::string cloth_control::GetStretchOutput(int i)
 std::string cloth_control::GetWrinkVecFieldOutput(int i)
 {
     return this -> _wrinkVecFieldname[i];
+}
+
+std::string cloth_control::GetVertsUpdateOutput(int i)
+{
+    return this -> _vertsUpdatename[i];
 }
 
 std::string cloth_control::Readme(int i)

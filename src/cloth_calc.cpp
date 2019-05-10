@@ -326,7 +326,15 @@ void cloth_calc::cloth_stretchTensor_assemble(Eigen::MatrixXd U)
             U_tmp.resize(3,3);
             U_new.resize(3,3);
 
-            U_i = U.block(Vert_index*3,0,3,3);
+            // calculate the U^{1/2}
+            Eigen::MatrixXd Eigval, Eigvec;
+            Eigval.resize(3,1);
+            Eigvec.resize(3,3);
+            Eigen::SelfAdjointEigenSolver<Eigen::Matrix3d> solv(U.block(Vert_index*3,0,3,3));
+            Eigval << solv.eigenvalues().cwiseSqrt();
+            Eigvec << solv.eigenvectors();
+            U_i = ( (Eigval(0,0)) * Eigvec.col(0) * Eigvec.col(0).transpose() ) + ( (Eigval(1,0)) * Eigvec.col(1) * Eigvec.col(1).transpose() )+ ( (Eigval(2,0)) * Eigvec.col(2) * Eigvec.col(2).transpose() );
+
 
             for(int El_index=0; El_index<El_num; El_index++)
             {
@@ -336,15 +344,20 @@ void cloth_calc::cloth_stretchTensor_assemble(Eigen::MatrixXd U)
             U_sum.Zero(3,3);
             for(int El_index=0; El_index<El_num; El_index++)
             {
-                U_tmp = ((U_i.inverse()).cwiseSqrt() * U_j.block(El_index*3,0,3,3) * (U_i.inverse()).cwiseSqrt()).array().log10() * weight(El_index);
+                // Logarithm of a matrix
+                // https://en.wikipedia.org/wiki/Logarithm_of_a_matrix
+                // U_tmp = (U_i.inverse() * U_j.block(El_index*3,0,3,3) * U_i.inverse()).array().log10() * weight(El_index);
+                U_tmp = (U_i.inverse() * U_j.block(El_index*3,0,3,3) * U_i.inverse() - Eigen::MatrixXd::Identity(3, 3)) * weight(El_index);
                 U_sum = U_sum + U_tmp;
                 U_tmp.resize(0,0);
             }
 
-            U_new = U_sum.array().exp();
+            // Exponential of a matrix
+            // https://en.wikipedia.org/wiki/Matrix_exponential
+            U_new = U_sum + Eigen::MatrixXd::Identity(3, 3);
 
-            this -> U_3D_assem.block(Vert_index*3,0,3,3) = U_i.cwiseSqrt() * U_new * U_i.cwiseSqrt();
-            // std::cout << weight << std::endl;
+            this -> U_3D_assem.block(Vert_index*3,0,3,3) = U_i * U_new * U_i;
+            // std::cout << U_sum << std::endl;
 
             // erase the matrices
             U_i.resize(0,0);
@@ -353,6 +366,8 @@ void cloth_calc::cloth_stretchTensor_assemble(Eigen::MatrixXd U)
             U_tmp.resize(0,0);
             U_new.resize(0,0);
             weight.resize(0,0);
+            Eigval.resize(0,0);
+            Eigvec.resize(0,0);
         }
     }
 
@@ -633,6 +648,7 @@ void cloth_calc::cloth_rotationTensor(Eigen::MatrixXd F, Eigen::MatrixXd U)
 {
     int Vert_num = verts.rows();
     this -> R.resize(Vert_num*3,3);
+
     for(int Vert_index=0; Vert_index<Vert_num; Vert_index++)
     {
         R.block(Vert_index*3,0,3,3) = F.block(Vert_index*3,0,3,3) * U.block(Vert_index*3,0,3,3).inverse();
@@ -645,15 +661,105 @@ void cloth_calc::cloth_translationVec(Eigen::MatrixXd R)
 {
     int Vert_num = verts.rows();
     this -> t.resize(Vert_num*3,1);
-    for(int Vert_index=0; Vert_index<Vert_num; Vert_index++)
+
+    // calculate the centre of mess
+    this -> verts_cog.resize(Vert_num,3);
+
+    // initialize the trimesh
+    cloth_init_neighbor();
+    int Neighbor_num;
+    int Neighbor2x_num;
+    int Neighbor3x_num;
+    int Neighbor4x_num;
+
+    std::vector<int> Neighbor_Vert;
+
+    // Eigen::MatrixXd verts_sum;
+    double x,y,z;
+
+    for(int Vert_index=0; Vert_index<Vert_num; Vert_index++) // for all Vertice
     {
-        // t(Vert_index) = verts.row(Vert_index).mean();
-        t.block(Vert_index*3,0,3,1) << verts.row(Vert_index).transpose() - R.block(Vert_index*3,0,3,3) * verts.row(Vert_index).transpose();
+        // face has the structure of face(i.j)
+        // where i is the i-th element, j is the j-th vertex of i-th element
+
+        // base vertex index
+        // Vert_index
+
+        // size of the 1st Neighbor vertice
+        Neighbor_num = _plyMesh -> trimesh::TriMesh::neighbors.at(Vert_index).size();
+
+        // evaluate the 1st Neighbor
+        for(int Neighbor_index=0; Neighbor_index < Neighbor_num; Neighbor_index++) // for all neighbors in each base vertex i
+        {
+            // 1st Neighbor vertex index
+            int Neighbor_Vert_index = _plyMesh -> trimesh::TriMesh::neighbors.at(Vert_index).at(Neighbor_index);
+            // size of the 2nd Neighbor vertice
+            Neighbor2x_num = _plyMesh -> trimesh::TriMesh::neighbors.at(Neighbor_Vert_index).size();
+
+            // store the index of the 1st Neighbor vertex index
+            Neighbor_Vert.push_back(Neighbor_Vert_index);
+
+            // evaluate the 2nd Neighbor
+            for(int Neighbor2x_index=0; Neighbor2x_index<Neighbor2x_num; Neighbor2x_index++) //for all neighbor in each neighbor2x vertex
+            {
+                // 2nd Neighbor vertex index
+                int Neighbor2x_Vert_index = _plyMeshT -> trimesh::TriMesh::neighbors.at(Neighbor_Vert_index).at(Neighbor2x_index);
+
+                Neighbor3x_num = _plyMesh -> trimesh::TriMesh::neighbors.at(Neighbor2x_Vert_index).size();
+                // store the index of the 2nd Neighbor vertex index
+                Neighbor_Vert.push_back(Neighbor2x_Vert_index);
+
+                // evaluate the 3rd Neighbor
+                for(int Neighbor3x_index=0; Neighbor3x_index<Neighbor3x_num; Neighbor3x_index++) //for all neighbor in each neighbor2x vertex
+                {
+                    // 2nd Neighbor vertex index
+                    int Neighbor3x_Vert_index = _plyMeshT -> trimesh::TriMesh::neighbors.at(Neighbor2x_Vert_index).at(Neighbor3x_index);
+
+                    Neighbor4x_num = _plyMesh -> trimesh::TriMesh::neighbors.at(Neighbor3x_Vert_index).size();
+                    // store the index of the 3rd Neighbor vertex index
+                    Neighbor_Vert.push_back(Neighbor3x_Vert_index);
+
+                    for(int Neighbor4x_index=0; Neighbor4x_index<Neighbor4x_num; Neighbor4x_index++) //for all neighbor in each neighbor2x vertex
+                    {
+                        // 2nd Neighbor vertex index
+                        int Neighbor4x_Vert_index = _plyMeshT -> trimesh::TriMesh::neighbors.at(Neighbor3x_Vert_index).at(Neighbor4x_index);
+
+                        // store the index of the 3rd Neighbor vertex index
+                        Neighbor_Vert.push_back(Neighbor4x_Vert_index);
+                    }
+                }
+            }
+        }
+
+        // erase the doppel vertex index
+        sort(Neighbor_Vert.begin(), Neighbor_Vert.end());
+        Neighbor_Vert.erase(unique(Neighbor_Vert.begin(), Neighbor_Vert.end()), Neighbor_Vert.end());
+
+        int Neighbor_Vert_size = Neighbor_Vert.size();
+
+        if(Neighbor_Vert_size == 0)
+        {
+            this -> verts_cog.row(Vert_index) = verts.row(Vert_index);
+        }
+        else
+        {
+            x=0;
+            y=0;
+            z=0;
+            for(int i=0; i<Neighbor_Vert_size; i++)
+            {
+              x = x + verts(Neighbor_Vert[i],0);
+              y = y + verts(Neighbor_Vert[i],1);
+              z = z + verts(Neighbor_Vert[i],2);
+
+            }
+            this -> verts_cog.row(Vert_index) << x / Neighbor_Vert_size, y / Neighbor_Vert_size, z / Neighbor_Vert_size;
+        }
+
+        Neighbor_Vert.clear();
+
+        this -> t.block(Vert_index*3,0,3,1) << this -> verts_cog.row(Vert_index).transpose() - R.block(Vert_index*3,0,3,3) * this -> verts_cog.row(Vert_index).transpose();
     }
-    // std::ofstream Test("../output/Test.txt");
-    // Test<< R.block(0,0,3,3) * verts.row(0).transpose() << std::endl;
-    // Test.close();
-    // std::cout<< R.block(3,0,3,3) * verts.row(1).transpose() <<std::endl;
 
 }
 
@@ -661,7 +767,7 @@ void cloth_calc::cloth_transformationMat(Eigen::MatrixXd R, Eigen::MatrixXd t)
 {
     int Vert_num = verts.rows();
     this -> T.resize(Vert_num*3,4);
-    for(int Vert_index=0; Vert_index<Vert_num; Vert_index++)
+    for(int Vert_index=0; Vert_index<Vert_num*3; Vert_index++)
     {
         T.row(Vert_index) << R.row(Vert_index), t(Vert_index);
     }
@@ -675,6 +781,30 @@ void cloth_calc::cloth_update(Eigen::MatrixXd R, Eigen::MatrixXd t)
     {
         this -> vertsUpdate.row(Vert_index).transpose() = (R.block(Vert_index*3,0,3,3) * this->verts.row(Vert_index).transpose()) + t.block(Vert_index*3,0,3,1);
     }
+}
+
+void cloth_calc::cloth_WriteVerts(Eigen::MatrixXd update, const std::string &ifileName)
+{
+    // set the color and write as ply files
+    plyUpdate = new ply_module();
+
+    int update_num = update.rows();
+
+    // set pink color as default
+    Eigen::MatrixXi pink;
+    pink.resize(update_num,3);
+    for(int i=0;i<update_num;i++)
+    {
+        pink.row(i) << 255, 0, 255;
+    }
+
+    // set vertice and colors
+    plyUpdate -> setVertices(update);
+    plyUpdate -> setFaces(faces);
+    plyUpdate -> setColors(pink);
+
+    plyUpdate -> writePLY(ifileName, true, true, true, false, false);
+
 }
 
 
@@ -952,7 +1082,7 @@ void cloth_calc::cloth_eig_neighbor2x()
         Q.resize(0,0);
         H.resize(0,0);
         C.resize(0,0);
-        std::cout << "the neighborhood number is " << Neighbor_Vert_size << std::endl;
+        // std::cout << "the neighborhood number is " << Neighbor_Vert_size << std::endl;
         Neighbor_Vert.clear();
 
         Eig_index = Eig_index+3;
@@ -1233,9 +1363,7 @@ void cloth_calc::cloth_WriteColor(Eigen::MatrixXd Eigval_norm, const std::string
     // cloth_init_vert();
 
     // set the color and write as ply files
-
-    ply_module* plyColor;
-    plyColor = new ply_module();
+    this -> plyUpdate = new ply_module();
 
     int Eigval_num = Eigval_norm.rows();
 
@@ -1252,15 +1380,15 @@ void cloth_calc::cloth_WriteColor(Eigen::MatrixXd Eigval_norm, const std::string
     {
         pink.row(i) << 255, 0, 255;
     }
-    // std::cout<<faces<<std::endl;
+
     // set vertice and colors
+    plyUpdate -> setVertices(verts);
+    plyUpdate -> setFaces(faces);
+    plyUpdate -> setColors(pink);
+    plyUpdate -> setCurvatures(Eigval_norm);
 
-    plyColor -> setVertices(verts);
-    plyColor -> setColors(pink);
-    plyColor -> setCurvatures(Eigval_norm);
-    plyColor -> setFaces(faces);
 
-    plyColor -> writePLY(ifileName, true, false, false, true, false);
+    plyUpdate -> writePLY(ifileName, true, true, true, true, false);
 
 }
 

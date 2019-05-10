@@ -129,7 +129,7 @@ for i in range(2, 75):
     #clrs = shiftedJet_cmap(q)
     #clrs_jet = plt.cm.jet(q)
     
-    norm = colors.PowerNorm(gamma=0.25)    
+    norm = colors.PowerNorm(gamma=0.2)    
     clrs = plt.cm.jet(norm(q))
     print clrs 
     
