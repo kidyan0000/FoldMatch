@@ -8,6 +8,7 @@
 #include <math.h>
 #include <fstream>
 #include <stdlib.h>
+#include <map>
 
 #include <TriMesh/TriMesh.h>
 // #include <libmesh/node_elem.h>
@@ -29,6 +30,7 @@ public:
 
     void cloth_init_vert();
     void cloth_init_neighbor();
+    void cloth_map_neighbor(int MODE);
 
     void cloth_vec();
     void cloth_eig_2D();
@@ -111,6 +113,9 @@ private:
     ply_module* _plyModuleR;
     ply_module* _plyModule;
     ply_module* plyUpdate;
+
+    std::vector<int> Neighbor_Vert;
+    std::map<int, std::vector<int>> mapNeighbor;
 
     trimesh::TriMesh *_plyMeshT;
     trimesh::TriMesh *_plyMeshR;
