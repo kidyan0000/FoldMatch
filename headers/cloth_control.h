@@ -16,6 +16,7 @@ public:
     void cloth_lambda_output(std::string outputpath);
     void cloth_stretch_output(std::string outputpath);
     void cloth_wrinkVecField_output(std::string outputpath);
+    void cloth_vertsUpdate_input(std::string inputpath);
     void cloth_vertsUpdate_output(std::string outputpath);
 
     static bool compare(std::string a, std::string b);

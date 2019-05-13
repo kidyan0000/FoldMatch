@@ -47,7 +47,12 @@ int main(int argc, char *argv[])
     // CAL 2: wrinkel vector field
     // CAL 3: velocity gradient
     // CAL 4: vertices update
-    int CAL = 1;
+    int CAL = 4;
+
+    double Per = 0.01; // Kd-tree parameters
+
+    double deltaT = 0.006; // time step
+
 
     // setting calculation lambda
     int LAMBDA = 1;
@@ -88,6 +93,7 @@ int main(int argc, char *argv[])
         }
         case 4:
         {
+            // control -> cloth_vertsUpdate_input("../output/debug/update/");
             control -> cloth_vertsUpdate_output("../output/debug/");
             break;
         }
@@ -101,9 +107,6 @@ int main(int argc, char *argv[])
     int CR;   // cloth reference
     int BS;   // cloth base
     int FILE; // file name
-    double Per; // Kd-tree parameters
-
-    double deltaT; // time step
 
     // create the folder
     std::string dir = "../output/debug/readme";
@@ -112,13 +115,21 @@ int main(int argc, char *argv[])
         mkdir(dir.c_str(), 0777);
     }
 
+    // initialize the map neighbor
+    cloth_calc* slot_map = new cloth_calc(control->GetInput(0) , control->GetInput(3), control->GetInput(0));
+    if(MODE == 1 || MODE == 2 || MODE == 3 || MODE == 4)
+    {
+        slot_map -> cloth_map_neighbor(MODE);
+    }
+    else if(MODE == 5)
+    {
+        slot_map -> cloth_map_neighbor_kdTree(Per);
+    }
+    slot_map -> cloth_map_adjacent();
+
     ////////////////////////////////
     ///// START THE SIMULATION /////
     ////////////////////////////////
-
-    // initialize the map neighbor
-    cloth_calc* slot_CR = new cloth_calc(control->GetInput(0) , control->GetInput(3), control->GetInput(0));
-    slot_CR -> cloth_map_neighbor(MODE);
 
     // slot should be chosen from 1 to 74
     for(int slot=1; slot<2; slot++)
@@ -128,11 +139,6 @@ int main(int argc, char *argv[])
         BS = slot;
         FILE = slot;
 
-        Per = 0.01;
-
-        deltaT = 0.006;
-
-
         cloth_calc* slot_CT = new cloth_calc(control->GetInput(CT-1) , control->GetInput(CR-1), control->GetInput(BS-1));
         cloth_calc* slot_CR = new cloth_calc(control->GetInput(CT) , control->GetInput(CR), control->GetInput(BS));
 
@@ -140,8 +146,8 @@ int main(int argc, char *argv[])
         {
             case 1:
             {
-                slot_CT -> cloth_eig_neighbor();
-                slot_CR -> cloth_eig_neighbor();
+                slot_CT -> cloth_eig_neighbor(slot_map->GetMapNeighbor());
+                slot_CR -> cloth_eig_neighbor(slot_map->GetMapNeighbor());
 
                 if(CAL == 1)
                 {
@@ -170,9 +176,8 @@ int main(int argc, char *argv[])
             }
             case 2:
             {
-                slot_CT -> cloth_eig_neighbor2x();
-
-                slot_CR -> cloth_eig_neighbor2x();
+                slot_CT -> cloth_eig_neighbor2x(slot_map->GetMapNeighbor());
+                slot_CR -> cloth_eig_neighbor2x(slot_map->GetMapNeighbor());
                 slot_CR -> cloth_vec_normalize(slot_CR->GetEigval_neighbor2x(), 3);
                 if(CAL == 1)
                 {
@@ -201,9 +206,9 @@ int main(int argc, char *argv[])
             }
             case 3:
             {
-                slot_CT -> cloth_eig_neighbor3x();
+                slot_CT -> cloth_eig_neighbor3x(slot_map->GetMapNeighbor());
 
-                slot_CR -> cloth_eig_neighbor3x();
+                slot_CR -> cloth_eig_neighbor3x(slot_map->GetMapNeighbor());
 
                 if(CAL == 1)
                 {
@@ -234,9 +239,9 @@ int main(int argc, char *argv[])
             }
             case 4:
             {
-                slot_CT -> cloth_eig_neighbor4x();
+                slot_CT -> cloth_eig_neighbor4x(slot_map->GetMapNeighbor());
 
-                slot_CR -> cloth_eig_neighbor4x();
+                slot_CR -> cloth_eig_neighbor4x(slot_map->GetMapNeighbor());
 
                 if(CAL == 1)
                 {
@@ -271,10 +276,10 @@ int main(int argc, char *argv[])
                 {
                     // calculate the stretch tensor U and U_assemble
                     slot_CR -> cloth_stretchTensor_3D(slot_CR->GetEigval_neighbor4x(), slot_CR->GetEigvec_neighbor4x());
-                    slot_CR -> cloth_stretchTensor_assemble(slot_CR->GetStretchTensor_3D());
+                    slot_CR -> cloth_stretchTensor_assemble(slot_CR->GetStretchTensor_3D(), slot_map->GetMapNeighbor(), slot_map->GetMapAdjacent());
                     // now we do the optimazation
                     slot_CR -> cloth_rotationTensor(slot_CR->GetDefoGrad(),slot_CR->GetStretchTensor_3D());
-                    slot_CR -> cloth_translationVec(slot_CR->GetRotationTensor());
+                    slot_CR -> cloth_translationVec(slot_CR->GetRotationTensor(), slot_map->GetMapNeighbor());
                     slot_CR -> cloth_transformationMat(slot_CR->GetRotationTensor(), slot_CR->GetTranslationVec());
                     slot_CR -> cloth_update(slot_CR->GetRotationTensor(), slot_CR->GetTranslationVec());
                     slot_CR -> cloth_WriteVerts(slot_CR->GetVertsUpdate(), control->GetVertsUpdateOutput(CR));
@@ -324,14 +329,14 @@ int main(int argc, char *argv[])
                 {
                     // calculate the stretch tensor U and U_assemble
                     slot_CR -> cloth_stretchTensor_3D(slot_CR->GetEigval_neighborKdTree(), slot_CR->GetEigvec_neighborKdTree());
-                    slot_CR -> cloth_stretchTensor_assemble(slot_CR->GetStretchTensor_3D());
+                    slot_CR -> cloth_stretchTensor_assemble(slot_CR->GetStretchTensor_3D(), slot_map->GetMapNeighbor(), slot_map->GetMapAdjacent());
 
                     // now we do the optimazation
                     slot_CR -> cloth_rotationTensor(slot_CR->GetDefoGrad(),slot_CR->GetStretchTensor_3D());
-                    slot_CR -> cloth_translationVec(slot_CR->GetRotationTensor());
+                    slot_CR -> cloth_translationVec(slot_CR->GetRotationTensor(), slot_map->GetMapNeighbor());
                     slot_CR -> cloth_transformationMat(slot_CR->GetRotationTensor(), slot_CR->GetTranslationVec());
                     slot_CR -> cloth_update(slot_CR->GetRotationTensor(), slot_CR->GetTranslationVec());
-                   slot_CR -> cloth_WriteVerts(slot_CR->GetVertsUpdate(), control->GetVertsUpdateOutput(CR));
+                    slot_CR -> cloth_WriteVerts(slot_CR->GetVertsUpdate(), control->GetVertsUpdateOutput(CR));
                 }
 
                 break;
@@ -368,9 +373,9 @@ int main(int argc, char *argv[])
         ///////////////////////////////
 
         // std::cout << "a" << std::endl;
-        // std::ofstream Test("../output/vertsUpdateKdtree.txt");
-        // Test << slot_CR->GetVertsUpdate() << std::endl;
-        // Test.close();
+        std::ofstream Test("../output/Test.txt");
+        Test << slot_CR->GetStretchTensorAsemmble() << std::endl;
+        Test.close();
 
         // Eigen::MatrixXd test;
         // test.resize(3,3);

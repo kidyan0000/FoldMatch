@@ -54,7 +54,9 @@ void cloth_calc::cloth_map_neighbor(int MODE)
 {
     cloth_init_neighbor();
     cloth_init_vert();
+
     int Vert_num = verts.rows();
+    std::vector<int> Neighbor_Vert;
 
     switch (MODE)
     {
@@ -79,19 +81,21 @@ void cloth_calc::cloth_map_neighbor(int MODE)
                     // 1st Neighbor vertex index
                     int Neighbor_Vert_index = _plyMesh -> trimesh::TriMesh::neighbors.at(Vert_index).at(Neighbor_index);
                     // store the index of the 1st Neighbor vertex index
-                    this -> Neighbor_Vert.push_back(Neighbor_Vert_index);
+                    Neighbor_Vert.push_back(Neighbor_Vert_index);
                 }
 
 
                 // erase the doppel vertex index
-                sort(this -> Neighbor_Vert.begin(), this -> Neighbor_Vert.end());
-                this -> Neighbor_Vert.erase(unique(this -> Neighbor_Vert.begin(),this -> Neighbor_Vert.end()),this -> Neighbor_Vert.end());
+                sort(Neighbor_Vert.begin(), Neighbor_Vert.end());
+                Neighbor_Vert.erase(unique(Neighbor_Vert.begin(),Neighbor_Vert.end()),Neighbor_Vert.end());
 
                 // map the neighborhood informations vector
                 this -> mapNeighbor[Vert_index] = std::vector<int>();
                 this -> mapNeighbor[Vert_index].swap(Neighbor_Vert);
 
-                this -> Neighbor_Vert.clear();
+                Neighbor_Vert.clear();
+
+                // std::cout << mapNeighbor[Vert_index].size() << std::endl;
 
 
             }
@@ -122,7 +126,7 @@ void cloth_calc::cloth_map_neighbor(int MODE)
                     Neighbor2x_num = _plyMesh -> trimesh::TriMesh::neighbors.at(Neighbor_Vert_index).size();
 
                     // store the index of the 1st Neighbor vertex index
-                    this -> Neighbor_Vert.push_back(Neighbor_Vert_index);
+                    Neighbor_Vert.push_back(Neighbor_Vert_index);
 
                     // evaluate the 2nd Neighbor
                     for(int Neighbor2x_index=0; Neighbor2x_index<Neighbor2x_num; Neighbor2x_index++) //for all neighbor in each neighbor2x vertex
@@ -131,20 +135,20 @@ void cloth_calc::cloth_map_neighbor(int MODE)
                         int Neighbor2x_Vert_index = _plyMeshT -> trimesh::TriMesh::neighbors.at(Neighbor_Vert_index).at(Neighbor2x_index);
 
                         // store the index of the 2nd Neighbor vertex index
-                        this -> Neighbor_Vert.push_back(Neighbor2x_Vert_index);
+                        Neighbor_Vert.push_back(Neighbor2x_Vert_index);
                     }
                 }
 
 
                 // erase the doppel vertex index
-                sort(this -> Neighbor_Vert.begin(), this -> Neighbor_Vert.end());
-                this -> Neighbor_Vert.erase(unique(this -> Neighbor_Vert.begin(),this -> Neighbor_Vert.end()),this -> Neighbor_Vert.end());
+                sort(Neighbor_Vert.begin(), Neighbor_Vert.end());
+                Neighbor_Vert.erase(unique(Neighbor_Vert.begin(),Neighbor_Vert.end()),Neighbor_Vert.end());
 
                 // map the neighborhood informations vector
                 this -> mapNeighbor[Vert_index] = std::vector<int>();
                 this -> mapNeighbor[Vert_index].swap(Neighbor_Vert);
 
-                this -> Neighbor_Vert.clear();
+                Neighbor_Vert.clear();
 
 
             }
@@ -176,7 +180,7 @@ void cloth_calc::cloth_map_neighbor(int MODE)
                     Neighbor2x_num = _plyMesh -> trimesh::TriMesh::neighbors.at(Neighbor_Vert_index).size();
 
                     // store the index of the 1st Neighbor vertex index
-                    this -> Neighbor_Vert.push_back(Neighbor_Vert_index);
+                    Neighbor_Vert.push_back(Neighbor_Vert_index);
 
                     // evaluate the 2nd Neighbor
                     for(int Neighbor2x_index=0; Neighbor2x_index<Neighbor2x_num; Neighbor2x_index++) //for all neighbor in each neighbor2x vertex
@@ -186,7 +190,7 @@ void cloth_calc::cloth_map_neighbor(int MODE)
 
                         Neighbor3x_num = _plyMesh -> trimesh::TriMesh::neighbors.at(Neighbor2x_Vert_index).size();
                         // store the index of the 2nd Neighbor vertex index
-                        this -> Neighbor_Vert.push_back(Neighbor2x_Vert_index);
+                        Neighbor_Vert.push_back(Neighbor2x_Vert_index);
 
                         // evaluate the 3rd Neighbor
                         for(int Neighbor3x_index=0; Neighbor3x_index<Neighbor3x_num; Neighbor3x_index++) //for all neighbor in each neighbor2x vertex
@@ -195,20 +199,20 @@ void cloth_calc::cloth_map_neighbor(int MODE)
                             int Neighbor3x_Vert_index = _plyMeshT -> trimesh::TriMesh::neighbors.at(Neighbor2x_Vert_index).at(Neighbor3x_index);
 
                             // store the index of the 3rd Neighbor vertex index
-                            this -> Neighbor_Vert.push_back(Neighbor3x_Vert_index);
+                            Neighbor_Vert.push_back(Neighbor3x_Vert_index);
                         }
                     }
                 }
 
                 // erase the doppel vertex index
-                sort(this -> Neighbor_Vert.begin(), this -> Neighbor_Vert.end());
-                this -> Neighbor_Vert.erase(unique(this -> Neighbor_Vert.begin(), this -> Neighbor_Vert.end()), this -> Neighbor_Vert.end());
+                sort(Neighbor_Vert.begin(), Neighbor_Vert.end());
+                Neighbor_Vert.erase(unique(Neighbor_Vert.begin(), Neighbor_Vert.end()), Neighbor_Vert.end());
 
                 // map the neighborhood informations vector
                 this -> mapNeighbor[Vert_index] = std::vector<int>();
                 this -> mapNeighbor[Vert_index].swap(Neighbor_Vert);
 
-                this -> Neighbor_Vert.clear();
+                Neighbor_Vert.clear();
             }
             break;
         }
@@ -238,7 +242,7 @@ void cloth_calc::cloth_map_neighbor(int MODE)
                     Neighbor2x_num = _plyMesh -> trimesh::TriMesh::neighbors.at(Neighbor_Vert_index).size();
 
                     // store the index of the 1st Neighbor vertex index
-                    this -> Neighbor_Vert.push_back(Neighbor_Vert_index);
+                    Neighbor_Vert.push_back(Neighbor_Vert_index);
 
                     // evaluate the 2nd Neighbor
                     for(int Neighbor2x_index=0; Neighbor2x_index<Neighbor2x_num; Neighbor2x_index++) //for all neighbor in each neighbor2x vertex
@@ -248,7 +252,7 @@ void cloth_calc::cloth_map_neighbor(int MODE)
 
                         Neighbor3x_num = _plyMesh -> trimesh::TriMesh::neighbors.at(Neighbor2x_Vert_index).size();
                         // store the index of the 2nd Neighbor vertex index
-                        this -> Neighbor_Vert.push_back(Neighbor2x_Vert_index);
+                        Neighbor_Vert.push_back(Neighbor2x_Vert_index);
 
                         // evaluate the 3rd Neighbor
                         for(int Neighbor3x_index=0; Neighbor3x_index<Neighbor3x_num; Neighbor3x_index++) //for all neighbor in each neighbor2x vertex
@@ -258,7 +262,7 @@ void cloth_calc::cloth_map_neighbor(int MODE)
 
                             Neighbor4x_num = _plyMesh -> trimesh::TriMesh::neighbors.at(Neighbor3x_Vert_index).size();
                             // store the index of the 3rd Neighbor vertex index
-                            this -> Neighbor_Vert.push_back(Neighbor3x_Vert_index);
+                            Neighbor_Vert.push_back(Neighbor3x_Vert_index);
 
                             for(int Neighbor4x_index=0; Neighbor4x_index<Neighbor4x_num; Neighbor4x_index++) //for all neighbor in each neighbor2x vertex
                             {
@@ -266,61 +270,97 @@ void cloth_calc::cloth_map_neighbor(int MODE)
                                 int Neighbor4x_Vert_index = _plyMeshT -> trimesh::TriMesh::neighbors.at(Neighbor3x_Vert_index).at(Neighbor4x_index);
 
                                 // store the index of the 3rd Neighbor vertex index
-                                this -> Neighbor_Vert.push_back(Neighbor4x_Vert_index);
+                                Neighbor_Vert.push_back(Neighbor4x_Vert_index);
                             }
                         }
                     }
                 }
 
                 // erase the doppel vertex index
-                sort(this -> Neighbor_Vert.begin(), this -> Neighbor_Vert.end());
-                this -> Neighbor_Vert.erase(unique(this -> Neighbor_Vert.begin(), this -> Neighbor_Vert.end()), this -> Neighbor_Vert.end());
+                sort(Neighbor_Vert.begin(), Neighbor_Vert.end());
+                Neighbor_Vert.erase(unique(Neighbor_Vert.begin(), Neighbor_Vert.end()), Neighbor_Vert.end());
 
                 // map the neighborhood informations vector
                 this -> mapNeighbor[Vert_index] = std::vector<int>();
                 this -> mapNeighbor[Vert_index].swap(Neighbor_Vert);
                 // std::cout << mapNeighbor[Vert_index].size() << std::endl;
 
-                this -> Neighbor_Vert.clear();
+                Neighbor_Vert.clear();
             }
             break;
         }
-    case 5:
+
+    }
+
+}
+
+void cloth_calc::cloth_map_adjacent()
+{
+    cloth_init_neighbor();
+    _plyMesh -> trimesh::TriMesh::need_adjacentfaces();
+
+    std::vector<int> Neighbor_Face;
+
+    int Vert_num = verts.rows();
+
+    for(int Vert_index=0; Vert_index<Vert_num; Vert_index++) // for all vertice
+    {
+        // initialize the adjacent triangles of each vertex
+        int El_num;
+        El_num = _plyMesh -> trimesh::TriMesh::adjacentfaces.at(Vert_index).size();
+        for(int El_index=0; El_index<El_num; El_index++) // do loop for all adjacent triangles and save the area
         {
-        std::map<int, std::vector<size_t>> mapNeighbor;
-        std::vector<double> query_pt(3);
-
-        typedef nanoflann::KDTreeEigenMatrixAdaptor<Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>> kd_tree;
-
-        kd_tree vert_index(3, std::cref(verts),10 /* max leaf */ );
-        vert_index.index -> buildIndex();
-
-        const size_t num_results = verts.rows() * 0.01 ; // using 2% total vertices
-        // const size_t num_results = 200; // using 30 neighboring vertices
-
-        for(int Vert_index=0; Vert_index<Vert_num; Vert_index++) // for all Vertices
-        {
-            for (size_t d = 0; d < 3; d++)
-              query_pt[d] = this -> verts(Vert_index, d);
-
-            std::vector<size_t> ret_indexes(num_results); // the neighbor vertice index
-            std::vector<double> out_dists_sqr(num_results); // the distance to the neighbor
-
-            nanoflann::KNNResultSet<double> resultSet(num_results);
-
-            resultSet.init(&ret_indexes[0], &out_dists_sqr[0]);
-            vert_index.index->findNeighbors(resultSet, &query_pt[0], nanoflann::SearchParams(10));
-
-            // map the neighborhood informations vector
-            mapNeighbor[Vert_index] = std::vector<size_t>();
-            mapNeighbor[Vert_index].swap(ret_indexes);
-            // std::cout << mapNeighbor[Vert_index].size() << std::endl;
-
-            query_pt.clear();
-            ret_indexes.clear();
-            out_dists_sqr.clear();
-            }
+            int Neighbor_Face_index = _plyMesh -> trimesh::TriMesh::adjacentfaces.at(Vert_index).at(El_index);
+            Neighbor_Face.push_back(Neighbor_Face_index);
         }
+
+        // map the neighborhood informations vector
+        this -> mapAdjacent[Vert_index] = std::vector<int>();
+        this -> mapAdjacent[Vert_index].swap(Neighbor_Face);
+        // std::cout << mapAdjacent[Vert_index].size() << std::endl;
+
+        Neighbor_Face.clear();
+    }
+
+}
+
+void cloth_calc::cloth_map_neighbor_kdTree(double Per)
+{
+    cloth_init_vert();
+    int Vert_num = verts.rows();
+
+    std::vector<double> query_pt(3);
+
+    typedef nanoflann::KDTreeEigenMatrixAdaptor<Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>> kd_tree;
+
+    kd_tree vert_index(3, std::cref(verts),10 /* max leaf */ );
+    vert_index.index -> buildIndex();
+
+    const size_t num_results = verts.rows() * 0.01 ; // using 2% total vertices
+    // const size_t num_results = 200; // using 30 neighboring vertices
+
+    for(int Vert_index=0; Vert_index<Vert_num; Vert_index++) // for all Vertices
+    {
+        for (size_t d = 0; d < 3; d++)
+          query_pt[d] = this -> verts(Vert_index, d);
+
+        std::vector<size_t> ret_indexes(num_results); // the neighbor vertice index
+        std::vector<double> out_dists_sqr(num_results); // the distance to the neighbor
+
+        nanoflann::KNNResultSet<double> resultSet(num_results);
+
+        resultSet.init(&ret_indexes[0], &out_dists_sqr[0]);
+        vert_index.index->findNeighbors(resultSet, &query_pt[0], nanoflann::SearchParams(10));
+
+        // map the neighborhood informations vector
+        this -> mapNeighborKdTree[Vert_index] = std::vector<size_t>();
+        this -> mapNeighborKdTree[Vert_index].swap(ret_indexes);
+
+        // std::cout <<  this -> mapNeighborKdTree[Vert_index].size() << std::endl;
+
+        query_pt.clear();
+        ret_indexes.clear();
+        out_dists_sqr.clear();
     }
 
 }
@@ -527,7 +567,7 @@ void cloth_calc::cloth_stretchTensor_3D(Eigen::MatrixXd Eigenval, Eigen::MatrixX
 
 }
 
-void cloth_calc::cloth_stretchTensor_assemble(Eigen::MatrixXd U)
+void cloth_calc::cloth_stretchTensor_assemble(Eigen::MatrixXd U, std::map<int, std::vector<int>> MapNeighbor, std::map<int, std::vector<int>> MapAdjacent)
 {
     /////////////////////////////////////////////////////////////////////////////////////////////////////
     // affine-invariant Riemannian metric
@@ -932,7 +972,7 @@ void cloth_calc::cloth_rotationTensor(Eigen::MatrixXd F, Eigen::MatrixXd U)
 
 }
 
-void cloth_calc::cloth_translationVec(Eigen::MatrixXd R)
+void cloth_calc::cloth_translationVec(Eigen::MatrixXd R, std::map<int, std::vector<int>> MapNeighbor)
 {
     int Vert_num = verts.rows();
     this -> t.resize(Vert_num*3,1);
@@ -940,20 +980,12 @@ void cloth_calc::cloth_translationVec(Eigen::MatrixXd R)
     // calculate the centre of mess
     this -> verts_cog.resize(Vert_num,3);
 
-    // initialize the trimesh
-    cloth_init_neighbor();
-    int Neighbor_num;
-    int Neighbor2x_num;
-    int Neighbor3x_num;
-    int Neighbor4x_num;
-
-    std::vector<int> Neighbor_Vert;
-
     // Eigen::MatrixXd verts_sum;
     double x,y,z;
 
     for(int Vert_index=0; Vert_index<Vert_num; Vert_index++) // for all Vertice
     {
+        /*
         // face has the structure of face(i.j)
         // where i is the i-th element, j is the j-th vertex of i-th element
 
@@ -1009,8 +1041,9 @@ void cloth_calc::cloth_translationVec(Eigen::MatrixXd R)
         // erase the doppel vertex index
         sort(Neighbor_Vert.begin(), Neighbor_Vert.end());
         Neighbor_Vert.erase(unique(Neighbor_Vert.begin(), Neighbor_Vert.end()), Neighbor_Vert.end());
+        */
 
-        int Neighbor_Vert_size = Neighbor_Vert.size();
+        int Neighbor_Vert_size = MapNeighbor[Vert_index].size();
 
         if(Neighbor_Vert_size == 0)
         {
@@ -1023,15 +1056,13 @@ void cloth_calc::cloth_translationVec(Eigen::MatrixXd R)
             z=0;
             for(int i=0; i<Neighbor_Vert_size; i++)
             {
-              x = x + verts(Neighbor_Vert[i],0);
-              y = y + verts(Neighbor_Vert[i],1);
-              z = z + verts(Neighbor_Vert[i],2);
+              x = x + verts(MapNeighbor[Vert_index][i],0);
+              y = y + verts(MapNeighbor[Vert_index][i],1);
+              z = z + verts(MapNeighbor[Vert_index][i],2);
 
             }
             this -> verts_cog.row(Vert_index) << x / Neighbor_Vert_size, y / Neighbor_Vert_size, z / Neighbor_Vert_size;
         }
-
-        Neighbor_Vert.clear();
 
         this -> t.block(Vert_index*3,0,3,1) << this -> verts_cog.row(Vert_index).transpose() - R.block(Vert_index*3,0,3,3) * this -> verts_cog.row(Vert_index).transpose();
     }
@@ -1083,7 +1114,7 @@ void cloth_calc::cloth_WriteVerts(Eigen::MatrixXd update, const std::string &ifi
 }
 
 
-void cloth_calc::cloth_eig_neighbor()
+void cloth_calc::cloth_eig_neighbor(std::map<int, std::vector<int>> MapNeighbor)
 {
 
     cloth_init_vert();
@@ -1098,7 +1129,7 @@ void cloth_calc::cloth_eig_neighbor()
     this -> Eigvec_neighbor.resize(Vert_num*3,3);
 
     // initialize the trimesh
-    cloth_init_neighbor();
+    // cloth_init_neighbor();
 
     // we consider here the covariance matrix H as the approximated deformation gradient F
     // KABSCH ALGORITHM
@@ -1119,7 +1150,7 @@ void cloth_calc::cloth_eig_neighbor()
         // where i is the i-th element, j is the j-th vertex of i-th element
 
         // calculate the number of the nerghboring vertice of vertex i
-        int Neighbor_num = _plyMesh -> trimesh::TriMesh::neighbors.at(Vert_index).size();
+        int Neighbor_num = MapNeighbor[Vert_index].size();
 
         P.resize(Neighbor_num, 3);
         Q.resize(Neighbor_num, 3);
@@ -1127,10 +1158,9 @@ void cloth_calc::cloth_eig_neighbor()
         for(int Neighbor_index=0; Neighbor_index < Neighbor_num; Neighbor_index++) // for all neighbors in each vertex
         {
             // for template
-            P.row(Neighbor_index) << vertsT.row(_plyMeshT -> trimesh::TriMesh::neighbors.at(Vert_index).at(Neighbor_index)) - vertsT.row(Vert_index);
+            P.row(Neighbor_index) << vertsT.row(MapNeighbor[Vert_index][Neighbor_index]) - vertsT.row(Vert_index);
             // for reference
-            Q.row(Neighbor_index) << vertsR.row(_plyMeshR -> trimesh::TriMesh::neighbors.at(Vert_index).at(Neighbor_index)) - vertsR.row(Vert_index);
-
+            Q.row(Neighbor_index) << vertsR.row(MapNeighbor[Vert_index][Neighbor_index]) - vertsR.row(Vert_index);
 
         }
 
@@ -1152,7 +1182,7 @@ void cloth_calc::cloth_eig_neighbor()
 
 void cloth_calc::cloth_stretchTensor_neighbor()
 {
-    cloth_eig_neighbor();
+    // cloth_eig_neighbor();
 
     this -> U_neighbor.resize(faces.rows()*9,3);
 
@@ -1267,7 +1297,7 @@ void cloth_calc::cloth_wrink_vec_field(Eigen::MatrixXd Eigenval, Eigen::MatrixXd
     }
 }
 
-void cloth_calc::cloth_eig_neighbor2x()
+void cloth_calc::cloth_eig_neighbor2x(std::map<int, std::vector<int>> MapNeighbor)
 {
     cloth_init_vert();
 
@@ -1282,15 +1312,7 @@ void cloth_calc::cloth_eig_neighbor2x()
     this -> Eigvec_neighbor2x.resize(Vert_num*3,3);
     this -> F.resize(Vert_num*3,3);
 
-    // initialize the trimesh
-    cloth_init_neighbor();
-
     int Eig_index = 0;
-
-    int Neighbor_num;
-    int Neighbor2x_num;
-
-    std::vector<int> Neighbor_Vert;
 
     for(int Vert_index=0; Vert_index<Vert_num; Vert_index++) // for all Vertice
     {
@@ -1301,47 +1323,22 @@ void cloth_calc::cloth_eig_neighbor2x()
         // Vert_index
 
         // size of the 1st Neighbor vertice
-        Neighbor_num = _plyMesh -> trimesh::TriMesh::neighbors.at(Vert_index).size();
 
-        // evaluate the 1st Neighbor
-        for(int Neighbor_index=0; Neighbor_index < Neighbor_num; Neighbor_index++) // for all neighbors in each base vertex i
-        {
-            // 1st Neighbor vertex index
-            int Neighbor_Vert_index = _plyMesh -> trimesh::TriMesh::neighbors.at(Vert_index).at(Neighbor_index);
-            // size of the 2nd Neighbor vertice
-            Neighbor2x_num = _plyMesh -> trimesh::TriMesh::neighbors.at(Neighbor_Vert_index).size();
-
-            // store the index of the 1st Neighbor vertex index
-            Neighbor_Vert.push_back(Neighbor_Vert_index);
-
-            // evaluate the 2nd Neighbor
-            for(int Neighbor2x_index=0; Neighbor2x_index<Neighbor2x_num; Neighbor2x_index++) //for all neighbor in each neighbor2x vertex
-            {
-                // 2nd Neighbor vertex index
-                int Neighbor2x_Vert_index = _plyMeshT -> trimesh::TriMesh::neighbors.at(Neighbor_Vert_index).at(Neighbor2x_index);
-
-                // store the index of the 2nd Neighbor vertex index
-                Neighbor_Vert.push_back(Neighbor2x_Vert_index);
-            }
-        }
-
-        // erase the doppel vertex index
-        sort(Neighbor_Vert.begin(), Neighbor_Vert.end());
-        Neighbor_Vert.erase(unique(Neighbor_Vert.begin(), Neighbor_Vert.end()), Neighbor_Vert.end());
-
-        int Neighbor_Vert_size = Neighbor_Vert.size();
-
-        P.resize(Neighbor_Vert_size, 3);
-        Q.resize(Neighbor_Vert_size, 3);
         H.resize(3,3);
         C.resize(3,3);
 
-        for(int i=0; i<Neighbor_Vert_size; i++)
+        int Neighbor_num = MapNeighbor[Vert_index].size();
+
+        P.resize(Neighbor_num, 3);
+        Q.resize(Neighbor_num, 3);
+
+        for(int Neighbor_index=0; Neighbor_index < Neighbor_num; Neighbor_index++) // for all neighbors in each vertex
         {
             // for template
-            P.row(i) << vertsT.row(Neighbor_Vert[i]) - vertsT.row(Vert_index);
+            P.row(Neighbor_index) << vertsT.row(MapNeighbor[Vert_index][Neighbor_index]) - vertsT.row(Vert_index);
             // for reference
-            Q.row(i) << vertsR.row(Neighbor_Vert[i]) - vertsR.row(Vert_index);
+            Q.row(Neighbor_index) << vertsR.row(MapNeighbor[Vert_index][Neighbor_index]) - vertsR.row(Vert_index);
+
         }
 
         H = P.transpose() * Q;
@@ -1357,18 +1354,13 @@ void cloth_calc::cloth_eig_neighbor2x()
         Q.resize(0,0);
         H.resize(0,0);
         C.resize(0,0);
-        // std::cout << "the neighborhood number is " << Neighbor_Vert_size << std::endl;
-        Neighbor_Vert.clear();
 
         Eig_index = Eig_index+3;
     }
 
-    // this is for debug
-    // std::cout<< "the number of neighboring vertives is " << _plyMesh -> trimesh::TriMesh::neighbors.at(0).size()<<std::endl;
-
 }
 
-void cloth_calc::cloth_eig_neighbor3x()
+void cloth_calc::cloth_eig_neighbor3x(std::map<int, std::vector<int>> MapNeighbor)
 {
     cloth_init_vert();
 
@@ -1383,78 +1375,25 @@ void cloth_calc::cloth_eig_neighbor3x()
     this -> Eigvec_neighbor3x.resize(Vert_num*3,3);
     this -> F.resize(Vert_num*3,3);
 
-    // initialize the trimesh
-    cloth_init_neighbor();
-
     int Eig_index = 0;
-
-    int Neighbor_num;
-    int Neighbor2x_num;
-    int Neighbor3x_num;
-
-    std::vector<int> Neighbor_Vert;
 
     for(int Vert_index=0; Vert_index<Vert_num; Vert_index++) // for all Vertice
     {
-        // face has the structure of face(i.j)
-        // where i is the i-th element, j is the j-th vertex of i-th element
-
-        // base vertex index
-        // Vert_index
-
-        // size of the 1st Neighbor vertice
-        Neighbor_num = _plyMesh -> trimesh::TriMesh::neighbors.at(Vert_index).size();
-
-        // evaluate the 1st Neighbor
-        for(int Neighbor_index=0; Neighbor_index < Neighbor_num; Neighbor_index++) // for all neighbors in each base vertex i
-        {
-            // 1st Neighbor vertex index
-            int Neighbor_Vert_index = _plyMesh -> trimesh::TriMesh::neighbors.at(Vert_index).at(Neighbor_index);
-            // size of the 2nd Neighbor vertice
-            Neighbor2x_num = _plyMesh -> trimesh::TriMesh::neighbors.at(Neighbor_Vert_index).size();
-
-            // store the index of the 1st Neighbor vertex index
-            Neighbor_Vert.push_back(Neighbor_Vert_index);
-
-            // evaluate the 2nd Neighbor
-            for(int Neighbor2x_index=0; Neighbor2x_index<Neighbor2x_num; Neighbor2x_index++) //for all neighbor in each neighbor2x vertex
-            {
-                // 2nd Neighbor vertex index
-                int Neighbor2x_Vert_index = _plyMeshT -> trimesh::TriMesh::neighbors.at(Neighbor_Vert_index).at(Neighbor2x_index);
-
-                Neighbor3x_num = _plyMesh -> trimesh::TriMesh::neighbors.at(Neighbor2x_Vert_index).size();
-                // store the index of the 2nd Neighbor vertex index
-                Neighbor_Vert.push_back(Neighbor2x_Vert_index);
-
-                // evaluate the 3rd Neighbor
-                for(int Neighbor3x_index=0; Neighbor3x_index<Neighbor3x_num; Neighbor3x_index++) //for all neighbor in each neighbor2x vertex
-                {
-                    // 2nd Neighbor vertex index
-                    int Neighbor3x_Vert_index = _plyMeshT -> trimesh::TriMesh::neighbors.at(Neighbor2x_Vert_index).at(Neighbor3x_index);
-
-                    // store the index of the 3rd Neighbor vertex index
-                    Neighbor_Vert.push_back(Neighbor3x_Vert_index);
-                }
-            }
-        }
-
-        // erase the doppel vertex index
-        sort(Neighbor_Vert.begin(), Neighbor_Vert.end());
-        Neighbor_Vert.erase(unique(Neighbor_Vert.begin(), Neighbor_Vert.end()), Neighbor_Vert.end());
-
-        int Neighbor_Vert_size = Neighbor_Vert.size();
-
-        P.resize(Neighbor_Vert_size, 3);
-        Q.resize(Neighbor_Vert_size, 3);
         H.resize(3,3);
         C.resize(3,3);
 
-        for(int i=0; i<Neighbor_Vert_size; i++)
+        int Neighbor_num = MapNeighbor[Vert_index].size();
+
+        P.resize(Neighbor_num, 3);
+        Q.resize(Neighbor_num, 3);
+
+        for(int Neighbor_index=0; Neighbor_index < Neighbor_num; Neighbor_index++) // for all neighbors in each vertex
         {
             // for template
-            P.row(i) << vertsT.row(Neighbor_Vert[i]) - vertsT.row(Vert_index);
+            P.row(Neighbor_index) << vertsT.row(MapNeighbor[Vert_index][Neighbor_index]) - vertsT.row(Vert_index);
             // for reference
-            Q.row(i) << vertsR.row(Neighbor_Vert[i]) - vertsR.row(Vert_index);
+            Q.row(Neighbor_index) << vertsR.row(MapNeighbor[Vert_index][Neighbor_index]) - vertsR.row(Vert_index);
+
         }
 
         H = P.transpose() * Q;
@@ -1471,14 +1410,11 @@ void cloth_calc::cloth_eig_neighbor3x()
         H.resize(0,0);
         C.resize(0,0);
 
-        std::cout << "the neighborhood number is " << Neighbor_Vert_size << std::endl;
-
-        Neighbor_Vert.clear();
         Eig_index = Eig_index+3;
     }
 }
 
-void cloth_calc::cloth_eig_neighbor4x()
+void cloth_calc::cloth_eig_neighbor4x(std::map<int, std::vector<int>> MapNeighbor)
 {
     cloth_init_vert();
 
@@ -1493,99 +1429,34 @@ void cloth_calc::cloth_eig_neighbor4x()
     this -> Eigvec_neighbor4x.resize(Vert_num*3,3);
     this -> F.resize(Vert_num*3,3);
 
-    // initialize the trimesh
-    cloth_init_neighbor();
-
     int Eig_index = 0;
-
-    int Neighbor_num;
-    int Neighbor2x_num;
-    int Neighbor3x_num;
-    int Neighbor4x_num;
-
-    std::vector<int> Neighbor_Vert;
 
     for(int Vert_index=0; Vert_index<Vert_num; Vert_index++) // for all Vertice
     {
-        // face has the structure of face(i.j)
-        // where i is the i-th element, j is the j-th vertex of i-th element
-
-        // base vertex index
-        // Vert_index
-
-        // size of the 1st Neighbor vertice
-        Neighbor_num = _plyMesh -> trimesh::TriMesh::neighbors.at(Vert_index).size();
-
-        // evaluate the 1st Neighbor
-        for(int Neighbor_index=0; Neighbor_index < Neighbor_num; Neighbor_index++) // for all neighbors in each base vertex i
-        {
-            // 1st Neighbor vertex index
-            int Neighbor_Vert_index = _plyMesh -> trimesh::TriMesh::neighbors.at(Vert_index).at(Neighbor_index);
-            // size of the 2nd Neighbor vertice
-            Neighbor2x_num = _plyMesh -> trimesh::TriMesh::neighbors.at(Neighbor_Vert_index).size();
-
-            // store the index of the 1st Neighbor vertex index
-            Neighbor_Vert.push_back(Neighbor_Vert_index);
-
-            // evaluate the 2nd Neighbor
-            for(int Neighbor2x_index=0; Neighbor2x_index<Neighbor2x_num; Neighbor2x_index++) //for all neighbor in each neighbor2x vertex
-            {
-                // 2nd Neighbor vertex index
-                int Neighbor2x_Vert_index = _plyMeshT -> trimesh::TriMesh::neighbors.at(Neighbor_Vert_index).at(Neighbor2x_index);
-
-                Neighbor3x_num = _plyMesh -> trimesh::TriMesh::neighbors.at(Neighbor2x_Vert_index).size();
-                // store the index of the 2nd Neighbor vertex index
-                Neighbor_Vert.push_back(Neighbor2x_Vert_index);
-
-                // evaluate the 3rd Neighbor
-                for(int Neighbor3x_index=0; Neighbor3x_index<Neighbor3x_num; Neighbor3x_index++) //for all neighbor in each neighbor2x vertex
-                {
-                    // 2nd Neighbor vertex index
-                    int Neighbor3x_Vert_index = _plyMeshT -> trimesh::TriMesh::neighbors.at(Neighbor2x_Vert_index).at(Neighbor3x_index);
-
-                    Neighbor4x_num = _plyMesh -> trimesh::TriMesh::neighbors.at(Neighbor3x_Vert_index).size();
-                    // store the index of the 3rd Neighbor vertex index
-                    Neighbor_Vert.push_back(Neighbor3x_Vert_index);
-
-                    for(int Neighbor4x_index=0; Neighbor4x_index<Neighbor4x_num; Neighbor4x_index++) //for all neighbor in each neighbor2x vertex
-                    {
-                        // 2nd Neighbor vertex index
-                        int Neighbor4x_Vert_index = _plyMeshT -> trimesh::TriMesh::neighbors.at(Neighbor3x_Vert_index).at(Neighbor4x_index);
-
-                        // store the index of the 3rd Neighbor vertex index
-                        Neighbor_Vert.push_back(Neighbor4x_Vert_index);
-                    }
-                }
-            }
-        }
-
-        // erase the doppel vertex index
-        sort(Neighbor_Vert.begin(), Neighbor_Vert.end());
-        Neighbor_Vert.erase(unique(Neighbor_Vert.begin(), Neighbor_Vert.end()), Neighbor_Vert.end());
-
-        int Neighbor_Vert_size = Neighbor_Vert.size();
-
-        P.resize(Neighbor_Vert_size, 3);
-        Q.resize(Neighbor_Vert_size, 3);
         H.resize(3,3);
         C.resize(3,3);
 
-        for(int i=0; i<Neighbor_Vert_size; i++)
+        int Neighbor_num = MapNeighbor[Vert_index].size();
+
+        P.resize(Neighbor_num, 3);
+        Q.resize(Neighbor_num, 3);
+
+        for(int Neighbor_index=0; Neighbor_index < Neighbor_num; Neighbor_index++) // for all neighbors in each vertex
         {
             // for template
-            P.row(i) << vertsT.row(Neighbor_Vert[i]) - vertsT.row(Vert_index);
+            P.row(Neighbor_index) << vertsT.row(MapNeighbor[Vert_index][Neighbor_index]) - vertsT.row(Vert_index);
             // for reference
-            Q.row(i) << vertsR.row(Neighbor_Vert[i]) - vertsR.row(Vert_index);
+            Q.row(Neighbor_index) << vertsR.row(MapNeighbor[Vert_index][Neighbor_index]) - vertsR.row(Vert_index);
+
         }
 
-        H = (P.transpose() * Q);
+        H = P.transpose() * Q;
         C = H.transpose() * H;
         Eigen::SelfAdjointEigenSolver<Eigen::Matrix3d> solv(C);
 
         this -> Eigval_neighbor4x.block(Eig_index,0,3,1) << solv.eigenvalues().cwiseSqrt();
         this -> Eigvec_neighbor4x.block(Eig_index,0,3,3) << solv.eigenvectors();
         this -> F.block(Eig_index,0,3,3) << H;
-        // std::cout << Eigval_neighbor4x.block(Eig_index,0,3,1) << std::endl;
 
         // initialize
         P.resize(0,0);
@@ -1593,9 +1464,6 @@ void cloth_calc::cloth_eig_neighbor4x()
         H.resize(0,0);
         C.resize(0,0);
 
-        // std::cout << "the neighborhood number is " << Neighbor_Vert_size << std::endl;
-
-        Neighbor_Vert.clear();
         Eig_index = Eig_index+3;
     }
 }
@@ -1843,6 +1711,21 @@ void cloth_calc::test()
     std::cout << num_neighbor << std::endl;
     std::cout << vert_x << std::endl;
 
+}
+
+const std::map<int, std::vector<int> > cloth_calc::GetMapNeighbor()
+{
+    return this -> mapNeighbor;
+}
+
+const std::map<int, std::vector<size_t> > cloth_calc::GetMapNeighborKdTree()
+{
+    return this -> mapNeighborKdTree;
+}
+
+const std::map<int, std::vector<int> > cloth_calc::GetMapAdjacent()
+{
+    return this -> mapAdjacent;
 }
 
 cloth_calc::~cloth_calc()

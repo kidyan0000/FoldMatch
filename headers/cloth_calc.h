@@ -31,6 +31,8 @@ public:
     void cloth_init_vert();
     void cloth_init_neighbor();
     void cloth_map_neighbor(int MODE);
+    void cloth_map_adjacent();
+    void cloth_map_neighbor_kdTree(double Per);
 
     void cloth_vec();
     void cloth_eig_2D();
@@ -38,15 +40,15 @@ public:
     void cloth_stretchTensor_2D();
     void cloth_stretchTensor_3D(Eigen::MatrixXd Eigenval, Eigen::MatrixXd Eigenvec);
     void cloth_stretchTensor_neighbor();
-    void cloth_stretchTensor_assemble(Eigen::MatrixXd U);
+    void cloth_stretchTensor_assemble(Eigen::MatrixXd U, std::map<int, std::vector<int>> MapNeighbor, std::map<int, std::vector<int>> MapAdjacent);
 
     void cloth_displGrad_2D();
 
     // USING NEIGHBOR
-    void cloth_eig_neighbor();
-    void cloth_eig_neighbor2x();
-    void cloth_eig_neighbor3x();
-    void cloth_eig_neighbor4x();
+    void cloth_eig_neighbor(std::map<int, std::vector<int>> MapNeighbor);
+    void cloth_eig_neighbor2x(std::map<int, std::vector<int>> MapNeighbor);
+    void cloth_eig_neighbor3x(std::map<int, std::vector<int>> MapNeighbor);
+    void cloth_eig_neighbor4x(std::map<int, std::vector<int>> MapNeighbor);
 
     // USING KD-TREE
     void cloth_eig_kdTree(double Per);
@@ -61,7 +63,7 @@ public:
 
     // Optimation Process
     void cloth_rotationTensor(Eigen::MatrixXd F, Eigen::MatrixXd U);
-    void cloth_translationVec(Eigen::MatrixXd R);
+    void cloth_translationVec(Eigen::MatrixXd R, std::map<int, std::vector<int>> MapNeighbor);
     void cloth_transformationMat(Eigen::MatrixXd R, Eigen::MatrixXd t);
     void cloth_update(Eigen::MatrixXd R, Eigen::MatrixXd t);
     void cloth_WriteVerts(Eigen::MatrixXd verts, const std::string &  ifileName);
@@ -71,6 +73,10 @@ public:
     void cloth_WriteColor(Eigen::MatrixXd color, const std::string &  ifileName);
 
     void test();
+
+    const std::map<int, std::vector<int>> GetMapNeighbor();
+    const std::map<int, std::vector<size_t>> GetMapNeighborKdTree();
+    const std::map<int, std::vector<int>> GetMapAdjacent();
 
     Eigen::MatrixXd GetEigval();
     Eigen::MatrixXd GetEigvec();
@@ -114,8 +120,9 @@ private:
     ply_module* _plyModule;
     ply_module* plyUpdate;
 
-    std::vector<int> Neighbor_Vert;
     std::map<int, std::vector<int>> mapNeighbor;
+    std::map<int, std::vector<int>> mapAdjacent;
+    std::map<int, std::vector<size_t>> mapNeighborKdTree;
 
     trimesh::TriMesh *_plyMeshT;
     trimesh::TriMesh *_plyMeshR;

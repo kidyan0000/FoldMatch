@@ -131,6 +131,30 @@ void cloth_control::cloth_wrinkVecField_output(std::string outputpath)
     output_list.close();
 }
 
+void cloth_control::cloth_vertsUpdate_input(std::string inputpath)
+{
+    std::string input_file, output_file;
+
+    boost::filesystem::path path(inputpath);
+    boost::filesystem::recursive_directory_iterator end_iter;
+
+    for(boost::filesystem::recursive_directory_iterator iter(inputpath);iter!=end_iter;iter++)
+    {
+        input_file = iter -> path().filename().string();
+        input_file = inputpath + input_file;
+        this -> _inputname.push_back(input_file);
+    }
+
+    std::sort(_inputname.begin(),_inputname.end(), compare);
+
+    std::ofstream input_list("../output/update_list.txt");
+    for(std::vector<std::string>::iterator it = _inputname.begin(); it != _inputname.end(); ++it) {
+        input_list<<  *it <<std::endl;
+    }
+    input_list.close();
+
+}
+
 void cloth_control::cloth_vertsUpdate_output(std::string outputpath)
 {
     std::string output_file;
@@ -139,6 +163,7 @@ void cloth_control::cloth_vertsUpdate_output(std::string outputpath)
         output_file = outputpath + "Update" + "_" + std::to_string(i) +".ply";
         this -> _vertsUpdatename.push_back(output_file);
     }
+
     std::string readme_file;
     for(int i=1; i<=75; i++)
     {
