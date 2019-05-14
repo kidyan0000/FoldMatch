@@ -1081,9 +1081,10 @@ void cloth_calc::cloth_translationVec(Eigen::MatrixXd R, std::map<int, std::vect
 
     // calculate the centre of mess
     this -> vertsT_cog.resize(Vert_num,3);
+    this -> vertsR_cog.resize(Vert_num,3);
 
     // Eigen::MatrixXd verts_sum;
-    double x,y,z;
+    double xT,yT,zT,xR,yR,zR;
 
     for(int Vert_index=0; Vert_index<Vert_num; Vert_index++) // for all Vertice
     {
@@ -1153,20 +1154,27 @@ void cloth_calc::cloth_translationVec(Eigen::MatrixXd R, std::map<int, std::vect
         }
         else
         {
-            x=0;
-            y=0;
-            z=0;
+            xT=0;
+            yT=0;
+            zT=0;
+            xR=0;
+            yR=0;
+            zR=0;
             for(int i=0; i<Neighbor_Vert_size; i++)
             {
-              x = x + this -> vertsT(MapNeighbor[Vert_index][i],0);
-              y = y + this -> vertsT(MapNeighbor[Vert_index][i],1);
-              z = z + this -> vertsT(MapNeighbor[Vert_index][i],2);
+              xT = xT + this -> vertsT(MapNeighbor[Vert_index][i],0);
+              yT = yT + this -> vertsT(MapNeighbor[Vert_index][i],1);
+              zT = zT + this -> vertsT(MapNeighbor[Vert_index][i],2);
+              xR = xR + this -> vertsR(MapNeighbor[Vert_index][i],0);
+              yR = yR + this -> vertsR(MapNeighbor[Vert_index][i],1);
+              zR = zR + this -> vertsR(MapNeighbor[Vert_index][i],2);
 
             }
-            this -> vertsT_cog.row(Vert_index) << x / Neighbor_Vert_size, y / Neighbor_Vert_size, z / Neighbor_Vert_size;
+            this -> vertsT_cog.row(Vert_index) << xT / Neighbor_Vert_size, yT / Neighbor_Vert_size, zT / Neighbor_Vert_size;
+            this -> vertsR_cog.row(Vert_index) << xR / Neighbor_Vert_size, yR / Neighbor_Vert_size, zR / Neighbor_Vert_size;
         }
 
-        this -> t.block(Vert_index*3,0,3,1) << this -> vertsT_cog.row(Vert_index).transpose() - R.block(Vert_index*3,0,3,3) * this -> vertsT_cog.row(Vert_index).transpose();
+        this -> t.block(Vert_index*3,0,3,1) << this -> vertsR_cog.row(Vert_index).transpose() - R.block(Vert_index*3,0,3,3) * this -> vertsT_cog.row(Vert_index).transpose();
     }
 
 }
@@ -1187,7 +1195,7 @@ void cloth_calc::cloth_update(Eigen::MatrixXd R, Eigen::MatrixXd t)
     this -> vertsUpdate.resize(Vert_num, 3);
     for(int Vert_index=0; Vert_index<Vert_num; Vert_index++)
     {
-        this -> vertsUpdate.row(Vert_index).transpose() = (R.block(Vert_index*3,0,3,3) * this->verts.row(Vert_index).transpose()) + t.block(Vert_index*3,0,3,1);
+        this -> vertsUpdate.row(Vert_index).transpose() = (R.block(Vert_index*3,0,3,3) * this->vertsT.row(Vert_index).transpose()) + t.block(Vert_index*3,0,3,1);
         if(isnan(this->vertsUpdate(Vert_index,0)))
         {
             this -> vertsUpdate.row(Vert_index).transpose() << 0,0,0;

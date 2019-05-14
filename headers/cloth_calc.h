@@ -138,6 +138,7 @@ private:
     Eigen::MatrixXi faces;
     Eigen::MatrixXd vertsT, vertsR, verts;
     Eigen::MatrixXd vertsT_cog;
+    Eigen::MatrixXd vertsR_cog;
     Eigen::MatrixXd vertsUpdate;
 
     // Rohmer et al.
