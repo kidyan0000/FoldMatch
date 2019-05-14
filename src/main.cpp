@@ -103,10 +103,10 @@ int main(int argc, char *argv[])
     // the input and output list can be found in the output folder
     // the label of our cloth is from 1-0001 to 75-0075
 
-    int CT;   // cloth template
-    int CR;   // cloth reference
-    int BS;   // cloth base
-    int FILE; // file name
+    int CT=1;   // cloth template
+    int CR=CT+1;   // cloth reference
+    int BS=1;   // cloth base
+    int FILE=1; // file name
 
     // create the folder
     std::string dir = "../output/debug/readme";
@@ -115,32 +115,260 @@ int main(int argc, char *argv[])
         mkdir(dir.c_str(), 0777);
     }
 
-    // initialize the map neighbor
-    cloth_calc* slot_map = new cloth_calc(control->GetInput(0) , control->GetInput(3), control->GetInput(0));
-    if(MODE == 1 || MODE == 2 || MODE == 3 || MODE == 4)
+    // initialize the map neighbor and first update
+    cloth_calc* slot_map = new cloth_calc(control->GetInput(0) , control->GetInput(1), control->GetInput(0));
+
+    cloth_calc* slot_CT = new cloth_calc(control->GetInput(CT-1) , control->GetInput(CR-1), control->GetInput(BS-1));
+    cloth_calc* slot_CR = new cloth_calc(control->GetInput(CT) , control->GetInput(CR), control->GetInput(BS));
+
+    slot_map -> cloth_map_neighbor(MODE);
+
+    switch(MODE)
     {
-        slot_map -> cloth_map_neighbor(MODE);
+        case 1:
+        {
+            slot_CT -> cloth_eig_neighbor(slot_map->GetMapNeighbor());
+            slot_CR -> cloth_eig_neighbor(slot_map->GetMapNeighbor());
+
+            if(CAL == 1)
+            {
+                slot_CR -> cloth_vec_normalize(slot_CR->GetEigval_neighbor(), 3);
+                switch(LAMBDA)
+                {
+                    case 1:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), control->GetLambdaOutput(FILE));
+                    break;
+                    case 2:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir2(), control->GetLambdaOutput(FILE));
+                    break;
+                    case 3:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir3(), control->GetLambdaOutput(FILE));
+                    break;
+                }
+            }
+
+            // setting wrinkel vector field
+            if(CAL == 2)
+            {
+                slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_neighbor(), slot_CR->GetEigvec_neighbor());
+                slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(FILE));
+            }
+            break;
+        }
+        case 2:
+        {
+            slot_CT -> cloth_eig_neighbor2x(slot_map->GetMapNeighbor2x());
+            slot_CR -> cloth_eig_neighbor2x(slot_map->GetMapNeighbor2x());
+            slot_CR -> cloth_vec_normalize(slot_CR->GetEigval_neighbor2x(), 3);
+            if(CAL == 1)
+            {
+                switch(LAMBDA)
+                {
+                    case 1:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), control->GetLambdaOutput(FILE));
+                    break;
+                    case 2:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir2(), control->GetLambdaOutput(FILE));
+                    break;
+                    case 3:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir3(), control->GetLambdaOutput(FILE));
+                    break;
+                }
+            }
+
+            if(CAL == 2)
+            {
+
+                // setting wrinkel vector field
+                slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_neighbor2x(), slot_CR->GetEigvec_neighbor2x());
+                slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(FILE));
+            }
+            break;
+        }
+        case 3:
+        {
+            slot_CT -> cloth_eig_neighbor3x(slot_map->GetMapNeighbor3x());
+            slot_CR -> cloth_eig_neighbor3x(slot_map->GetMapNeighbor3x());
+
+            if(CAL == 1)
+            {
+                slot_CR -> cloth_vec_normalize(slot_CR->GetEigval_neighbor3x(), 3);
+                switch(LAMBDA)
+                {
+                    case 1:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), control->GetLambdaOutput(FILE));
+                    break;
+                    case 2:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir2(), control->GetLambdaOutput(FILE));
+                    break;
+                    case 3:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir3(), control->GetLambdaOutput(FILE));
+                    break;
+                }
+            }
+
+
+            if(CAL == 2)
+            {
+                // setting wrinkel vector field
+                slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_neighbor3x(), slot_CR->GetEigvec_neighbor3x());
+                slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(FILE));
+            }
+            // slot_CR -> cloth_velGrad_3D(slot_CT->GetDefoGrad(), slot_CR->GetDefoGrad(), deltaT);
+            break;
+        }
+        case 4:
+        {
+            slot_CT -> cloth_eig_neighbor4x(slot_map->GetMapNeighbor4x());
+
+            slot_CR -> cloth_eig_neighbor4x(slot_map->GetMapNeighbor4x());
+
+            if(CAL == 1)
+            {
+                slot_CR -> cloth_vec_normalize(slot_CR->GetEigval_neighbor4x(), 3);
+                switch(LAMBDA)
+                {
+                    case 1:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), control->GetLambdaOutput(FILE));
+                    break;
+                    case 2:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir2(), control->GetLambdaOutput(FILE));
+                    break;
+                    case 3:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir3(), control->GetLambdaOutput(FILE));
+                    break;
+                }
+            }
+
+            // setting wrinkel vector field
+            if(CAL == 2)
+            {
+                slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_neighbor4x(), slot_CR->GetEigvec_neighbor4x());
+                slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(FILE));
+            }
+
+            if(CAL == 3)
+            {
+                slot_CR -> cloth_velGrad_3D(slot_CT->GetDefoGrad(), slot_CR->GetDefoGrad(), deltaT);
+                slot_CR -> cloth_WriteColor(slot_CR->GetVertsUpdate(), control->GetWrinkVecFieldOutput(FILE));
+            }
+            if(CAL == 4)
+            {
+                // calculate the stretch tensor U and U_assemble
+                slot_CR -> cloth_stretchTensor_3D(slot_CR->GetEigval_neighbor4x(), slot_CR->GetEigvec_neighbor4x());
+                slot_CR -> cloth_stretchTensor_assemble(slot_CR->GetStretchTensor_3D(), slot_map->GetMapNeighbor4x());
+                // now we do the optimazation
+                slot_CR -> cloth_rotationTensor(slot_CR->GetDefoGrad(),slot_CR->GetStretchTensor_3D());
+                slot_CR -> cloth_translationVec(slot_CR->GetRotationTensor(), slot_map->GetMapNeighbor4x());
+                slot_CR -> cloth_transformationMat(slot_CR->GetRotationTensor(), slot_CR->GetTranslationVec());
+                slot_CR -> cloth_update(slot_CR->GetRotationTensor(), slot_CR->GetTranslationVec());
+                slot_CR -> cloth_WriteVerts(slot_CR->GetVertsUpdate(), control->GetVertsUpdateOutput(CR));
+                // we update the vertices and do new calculation
+            }
+            break;
+        }
+        case 5:
+        {
+            slot_CT -> cloth_eig_kdTree(Per);
+            slot_CR -> cloth_eig_kdTree(Per);
+
+            if(CAL == 1)
+            {
+                slot_CR -> cloth_vec_normalize(slot_CR->GetEigval_neighborKdTree(), 3);
+                switch(LAMBDA)
+                {
+                    case 1:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), control->GetLambdaOutput(FILE));
+                    break;
+                    case 2:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir2(), control->GetLambdaOutput(FILE));
+                    break;
+                    case 3:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir3(), control->GetLambdaOutput(FILE));
+                    break;
+                }
+            }
+
+            // setting wrinkel vector field
+            if(CAL == 2)
+            {
+                slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_neighborKdTree(), slot_CR->GetEigvec_neighborKdTree());
+                slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(FILE));
+            }
+            if(CAL == 3)
+            {
+                // settings for velocity gradient
+                slot_CR -> cloth_velGrad_3D(slot_CT->GetDefoGrad(), slot_CR->GetDefoGrad(), deltaT);
+                // smooth the velocity gradient
+                slot_CR -> cloth_velGrad_assemble(slot_CR->GetStrTensor(), Per);
+                // normalize the velocity gradient
+                slot_CR -> cloth_velGrad_normalize(slot_CR->GetStrTensorAsemmble());
+                slot_CR -> cloth_WriteColor(slot_CR->GetStrTensor_norm_dir1(), control->GetStretchOutput(FILE));
+
+            }
+            if(CAL == 4)
+            {
+                // calculate the stretch tensor U and U_assemble
+                slot_CR -> cloth_stretchTensor_3D(slot_CR->GetEigval_neighborKdTree(), slot_CR->GetEigvec_neighborKdTree());
+                slot_CR -> cloth_stretchTensor_assemble(slot_CR->GetStretchTensor_3D(), slot_map->GetMapNeighbor());
+
+                // now we do the optimazation
+                slot_CR -> cloth_rotationTensor(slot_CR->GetDefoGrad(),slot_CR->GetStretchTensor_3D());
+                slot_CR -> cloth_translationVec(slot_CR->GetRotationTensor(), slot_map->GetMapNeighbor());
+                slot_CR -> cloth_transformationMat(slot_CR->GetRotationTensor(), slot_CR->GetTranslationVec());
+                slot_CR -> cloth_update(slot_CR->GetRotationTensor(), slot_CR->GetTranslationVec());
+                slot_CR -> cloth_WriteVerts(slot_CR->GetVertsUpdate(), control->GetVertsUpdateOutput(CR));
+
+            }
+
+            break;
+        }
+    case 0:
+        {
+            slot_CR->cloth_map_neighbor(MODE);
+            break;
+        }
     }
-    else if(MODE == 5)
+
+
+
+    std::ofstream outfile(control->Readme(FILE));
+    outfile << "Selected mode is: " << MODE << std::endl;
+    if(MODE == 5)
     {
-        slot_map -> cloth_map_neighbor_kdTree(Per);
+        outfile << "Kd-Tree parameter is: "    << Per << std::endl;
     }
-    slot_map -> cloth_map_adjacent();
+    outfile << "We calculate for: " << CAL << std::endl;
+    outfile << "Template is: "  << control->GetInput(CT) << std::endl;
+    outfile << "Reference is: " << control->GetInput(CR) << std::endl;
+    outfile << "Base is: "      << control->GetInput(BS) << std::endl;
+    if(CAL == 1)
+    {
+        outfile << "Lambda is: "    << control->GetLambda() << std::endl;
+    }
+    if(CAL == 4)
+    {
+        outfile << "Template update is: "    << control->GetVertsUpdateOutput(CR) << std::endl;
+    }
+    outfile << "delta T is: "    << deltaT << std::endl;
+    outfile.close();
+
+    std::cout <<  control->GetVertsUpdateOutput(FILE) << std::endl;
 
     ////////////////////////////////
     ///// START THE SIMULATION /////
     ////////////////////////////////
 
     // slot should be chosen from 1 to 74
-    for(int slot=1; slot<2; slot++)
+    for(int slot=2; slot<75; slot++)
     {
         CT = slot;
-        CR = slot+3;
+        CR = slot+1;
         BS = slot;
         FILE = slot;
 
         cloth_calc* slot_CT = new cloth_calc(control->GetInput(CT-1) , control->GetInput(CR-1), control->GetInput(BS-1));
-        cloth_calc* slot_CR = new cloth_calc(control->GetInput(CT) , control->GetInput(CR), control->GetInput(BS));
+        cloth_calc* slot_CR = new cloth_calc(control->GetVertsUpdateOutput(CT) , control->GetInput(CR), control->GetVertsUpdateOutput(BS));
 
         switch(MODE)
         {
@@ -176,8 +404,8 @@ int main(int argc, char *argv[])
             }
             case 2:
             {
-                slot_CT -> cloth_eig_neighbor2x(slot_map->GetMapNeighbor());
-                slot_CR -> cloth_eig_neighbor2x(slot_map->GetMapNeighbor());
+                slot_CT -> cloth_eig_neighbor2x(slot_map->GetMapNeighbor2x());
+                slot_CR -> cloth_eig_neighbor2x(slot_map->GetMapNeighbor2x());
                 slot_CR -> cloth_vec_normalize(slot_CR->GetEigval_neighbor2x(), 3);
                 if(CAL == 1)
                 {
@@ -206,9 +434,8 @@ int main(int argc, char *argv[])
             }
             case 3:
             {
-                slot_CT -> cloth_eig_neighbor3x(slot_map->GetMapNeighbor());
-
-                slot_CR -> cloth_eig_neighbor3x(slot_map->GetMapNeighbor());
+                slot_CT -> cloth_eig_neighbor3x(slot_map->GetMapNeighbor3x());
+                slot_CR -> cloth_eig_neighbor3x(slot_map->GetMapNeighbor3x());
 
                 if(CAL == 1)
                 {
@@ -232,16 +459,16 @@ int main(int argc, char *argv[])
                 {
                     // setting wrinkel vector field
                     slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_neighbor3x(), slot_CR->GetEigvec_neighbor3x());
-                    slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(FILE));
+                    slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(CR));
                 }
                 // slot_CR -> cloth_velGrad_3D(slot_CT->GetDefoGrad(), slot_CR->GetDefoGrad(), deltaT);
                 break;
             }
             case 4:
             {
-                slot_CT -> cloth_eig_neighbor4x(slot_map->GetMapNeighbor());
+                slot_CT -> cloth_eig_neighbor4x(slot_map->GetMapNeighbor4x());
 
-                slot_CR -> cloth_eig_neighbor4x(slot_map->GetMapNeighbor());
+                slot_CR -> cloth_eig_neighbor4x(slot_map->GetMapNeighbor4x());
 
                 if(CAL == 1)
                 {
@@ -276,13 +503,14 @@ int main(int argc, char *argv[])
                 {
                     // calculate the stretch tensor U and U_assemble
                     slot_CR -> cloth_stretchTensor_3D(slot_CR->GetEigval_neighbor4x(), slot_CR->GetEigvec_neighbor4x());
-                    slot_CR -> cloth_stretchTensor_assemble(slot_CR->GetStretchTensor_3D(), slot_map->GetMapNeighbor(), slot_map->GetMapAdjacent());
+                    slot_CR -> cloth_stretchTensor_assemble(slot_CR->GetStretchTensor_3D(), slot_map->GetMapNeighbor4x());
                     // now we do the optimazation
                     slot_CR -> cloth_rotationTensor(slot_CR->GetDefoGrad(),slot_CR->GetStretchTensor_3D());
-                    slot_CR -> cloth_translationVec(slot_CR->GetRotationTensor(), slot_map->GetMapNeighbor());
+                    slot_CR -> cloth_translationVec(slot_CR->GetRotationTensor(), slot_map->GetMapNeighbor4x());
                     slot_CR -> cloth_transformationMat(slot_CR->GetRotationTensor(), slot_CR->GetTranslationVec());
                     slot_CR -> cloth_update(slot_CR->GetRotationTensor(), slot_CR->GetTranslationVec());
                     slot_CR -> cloth_WriteVerts(slot_CR->GetVertsUpdate(), control->GetVertsUpdateOutput(CR));
+                    // we update the vertices and do new calculation
                 }
                 break;
             }
@@ -329,14 +557,15 @@ int main(int argc, char *argv[])
                 {
                     // calculate the stretch tensor U and U_assemble
                     slot_CR -> cloth_stretchTensor_3D(slot_CR->GetEigval_neighborKdTree(), slot_CR->GetEigvec_neighborKdTree());
-                    slot_CR -> cloth_stretchTensor_assemble(slot_CR->GetStretchTensor_3D(), slot_map->GetMapNeighbor(), slot_map->GetMapAdjacent());
+                    slot_CR -> cloth_stretchTensor_assemble(slot_CR->GetStretchTensor_3D(), slot_map->GetMapNeighbor());
 
                     // now we do the optimazation
                     slot_CR -> cloth_rotationTensor(slot_CR->GetDefoGrad(),slot_CR->GetStretchTensor_3D());
                     slot_CR -> cloth_translationVec(slot_CR->GetRotationTensor(), slot_map->GetMapNeighbor());
                     slot_CR -> cloth_transformationMat(slot_CR->GetRotationTensor(), slot_CR->GetTranslationVec());
                     slot_CR -> cloth_update(slot_CR->GetRotationTensor(), slot_CR->GetTranslationVec());
-                    slot_CR -> cloth_WriteVerts(slot_CR->GetVertsUpdate(), control->GetVertsUpdateOutput(CR));
+                    slot_CR -> cloth_WriteVerts(slot_CR->GetVertsUpdate(), control->GetVertsUpdateOutput(CT));
+
                 }
 
                 break;
@@ -349,7 +578,7 @@ int main(int argc, char *argv[])
         }
 
 
-
+        // std::cout <<  control->GetVertsUpdateOutput(FILE) << std::endl;
         std::ofstream outfile(control->Readme(FILE));
         outfile << "Selected mode is: " << MODE << std::endl;
         if(MODE == 5)
@@ -357,12 +586,16 @@ int main(int argc, char *argv[])
             outfile << "Kd-Tree parameter is: "    << Per << std::endl;
         }
         outfile << "We calculate for: " << CAL << std::endl;
-        outfile << "Template is: "  << control->GetInput(CT) << std::endl;
+        outfile << "Template is: "  << control->GetVertsUpdateOutput(CT) << std::endl;
         outfile << "Reference is: " << control->GetInput(CR) << std::endl;
-        outfile << "Base is: "      << control->GetInput(BS) << std::endl;
+        outfile << "Base is: "      << control->GetVertsUpdateOutput(BS) << std::endl;
         if(CAL == 1)
         {
             outfile << "Lambda is: "    << control->GetLambda() << std::endl;
+        }
+        if(CAL == 4)
+        {
+            outfile << "Template update is: "    << control->GetVertsUpdateOutput(CR) << std::endl;
         }
         outfile << "delta T is: "    << deltaT << std::endl;
         outfile.close();
@@ -372,20 +605,21 @@ int main(int argc, char *argv[])
         ////// THIS IS FOR DEBUG //////
         ///////////////////////////////
 
-        // std::cout << "a" << std::endl;
-        std::ofstream Test("../output/Test.txt");
-        Test << slot_CR->GetStretchTensorAsemmble() << std::endl;
-        Test.close();
 
         // Eigen::MatrixXd test;
         // test.resize(3,3);
-        // test << 1,1,0,1,2,0,0,0,1;
+        //test << 3,4,5,1,2,0,0,0,1;
         // test.row(0) << 2,2,2;
-        // std::cout << test << std::endl;
+        // std::cout << test.row(0).norm()  << std::endl;
         // Eigen::SelfAdjointEigenSolver<Eigen::Matrix3d> solv(test);
         // std::cout << solv.eigenvectors() << std::endl;
 
     }
+    // std::cout << "a" << std::endl;
+    // std::ofstream Test("../output/vertsUP.txt");
+    // Test << slot_CR -> GetVertsUpdate() << std::endl;
+    // Test.close();
+
 
 
     w.show();

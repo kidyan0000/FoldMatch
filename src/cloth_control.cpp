@@ -142,13 +142,13 @@ void cloth_control::cloth_vertsUpdate_input(std::string inputpath)
     {
         input_file = iter -> path().filename().string();
         input_file = inputpath + input_file;
-        this -> _inputname.push_back(input_file);
+        this -> _input_vertsUpdatename.push_back(input_file);
     }
 
     std::sort(_inputname.begin(),_inputname.end(), compare);
 
     std::ofstream input_list("../output/update_list.txt");
-    for(std::vector<std::string>::iterator it = _inputname.begin(); it != _inputname.end(); ++it) {
+    for(std::vector<std::string>::iterator it = _input_vertsUpdatename.begin(); it != _input_vertsUpdatename.end(); ++it) {
         input_list<<  *it <<std::endl;
     }
     input_list.close();
@@ -160,19 +160,19 @@ void cloth_control::cloth_vertsUpdate_output(std::string outputpath)
     std::string output_file;
     for(int i=1; i<=75; i++)
     {
-        output_file = outputpath + "Update" + "_" + std::to_string(i) +".ply";
-        this -> _vertsUpdatename.push_back(output_file);
+        output_file = outputpath + "Template-Update" + "_" + std::to_string(i) +".ply";
+        this -> _output_vertsUpdatename.push_back(output_file);
     }
 
     std::string readme_file;
     for(int i=1; i<=75; i++)
     {
-        readme_file = outputpath + "readme/" + "Update_" + std::to_string(i) + "_readme.txt";
+        readme_file = outputpath + "readme/" + "Template-Update_" + std::to_string(i) + "_readme.txt";
         this -> _readme.push_back(readme_file);
     }
 
-    std::ofstream output_list("../output/output_list.txt");
-    for(std::vector<std::string>::iterator it = _vertsUpdatename.begin(); it !=_vertsUpdatename.end(); ++it) {
+    std::ofstream output_list("../output/Template-Update_output_list.txt");
+    for(std::vector<std::string>::iterator it = _output_vertsUpdatename.begin(); it !=_output_vertsUpdatename.end(); ++it) {
         output_list<<  *it <<std::endl;
     }
     output_list.close();
@@ -206,9 +206,14 @@ std::string cloth_control::GetWrinkVecFieldOutput(int i)
     return this -> _wrinkVecFieldname[i];
 }
 
+std::string cloth_control::GetVertsUpdateInput(int i)
+{
+    return this -> _input_vertsUpdatename[i];
+}
+
 std::string cloth_control::GetVertsUpdateOutput(int i)
 {
-    return this -> _vertsUpdatename[i];
+    return this -> _output_vertsUpdatename[i];
 }
 
 std::string cloth_control::Readme(int i)

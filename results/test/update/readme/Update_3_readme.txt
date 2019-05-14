@@ -1,5 +1,4 @@
-Selected mode is: 5
-Kd-Tree parameter is: 0.01
+Selected mode is: 4
 We calculate for: 4
 Template is: ../data/Tshirt/Template-3_0003.ply
 Reference is: ../data/Tshirt/Template-6_0006.ply

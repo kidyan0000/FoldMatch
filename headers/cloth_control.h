@@ -26,11 +26,12 @@ public:
     std::string GetLambdaOutput(int i);
     std::string GetStretchOutput(int i);
     std::string GetWrinkVecFieldOutput(int i);
+    std::string GetVertsUpdateInput(int i);
     std::string GetVertsUpdateOutput(int i);
     std::string Readme(int i);
 
 private:
-    std::vector<std::string> _inputname, _lambdaname, _stretchname, _wrinkVecFieldname, _vertsUpdatename;
+    std::vector<std::string> _inputname, _lambdaname, _stretchname, _wrinkVecFieldname, _input_vertsUpdatename, _output_vertsUpdatename;
     std::vector<std::string> _readme;
     std::string lambda;
 };

@@ -145,8 +145,8 @@ void cloth_calc::cloth_map_neighbor(int MODE)
                 Neighbor_Vert.erase(unique(Neighbor_Vert.begin(),Neighbor_Vert.end()),Neighbor_Vert.end());
 
                 // map the neighborhood informations vector
-                this -> mapNeighbor[Vert_index] = std::vector<int>();
-                this -> mapNeighbor[Vert_index].swap(Neighbor_Vert);
+                this -> mapNeighbor2x[Vert_index] = std::vector<int>();
+                this -> mapNeighbor2x[Vert_index].swap(Neighbor_Vert);
 
                 Neighbor_Vert.clear();
 
@@ -209,8 +209,8 @@ void cloth_calc::cloth_map_neighbor(int MODE)
                 Neighbor_Vert.erase(unique(Neighbor_Vert.begin(), Neighbor_Vert.end()), Neighbor_Vert.end());
 
                 // map the neighborhood informations vector
-                this -> mapNeighbor[Vert_index] = std::vector<int>();
-                this -> mapNeighbor[Vert_index].swap(Neighbor_Vert);
+                this -> mapNeighbor3x[Vert_index] = std::vector<int>();
+                this -> mapNeighbor3x[Vert_index].swap(Neighbor_Vert);
 
                 Neighbor_Vert.clear();
             }
@@ -281,9 +281,9 @@ void cloth_calc::cloth_map_neighbor(int MODE)
                 Neighbor_Vert.erase(unique(Neighbor_Vert.begin(), Neighbor_Vert.end()), Neighbor_Vert.end());
 
                 // map the neighborhood informations vector
-                this -> mapNeighbor[Vert_index] = std::vector<int>();
-                this -> mapNeighbor[Vert_index].swap(Neighbor_Vert);
-                // std::cout << mapNeighbor[Vert_index].size() << std::endl;
+                this -> mapNeighbor4x[Vert_index] = std::vector<int>();
+                this -> mapNeighbor4x[Vert_index].swap(Neighbor_Vert);
+                // std::cout << mapNeighbor4x[Vert_index].size() << std::endl;
 
                 Neighbor_Vert.clear();
             }
@@ -567,14 +567,14 @@ void cloth_calc::cloth_stretchTensor_3D(Eigen::MatrixXd Eigenval, Eigen::MatrixX
 
 }
 
-void cloth_calc::cloth_stretchTensor_assemble(Eigen::MatrixXd U, std::map<int, std::vector<int>> MapNeighbor, std::map<int, std::vector<int>> MapAdjacent)
+void cloth_calc::cloth_stretchTensor_assemble(Eigen::MatrixXd U, std::map<int, std::vector<int>> MapNeighbor)
 {
     /////////////////////////////////////////////////////////////////////////////////////////////////////
     // affine-invariant Riemannian metric
     /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    cloth_vec();
-    cloth_init_neighbor();
+    // cloth_init_neighbor();
+    /*
     // now we assemble all the stretch tensor U by the vertex index
 
     // adjacentfaces is a list of lists of faces adjacent to each vertex.
@@ -584,9 +584,9 @@ void cloth_calc::cloth_stretchTensor_assemble(Eigen::MatrixXd U, std::map<int, s
     // we calculate at fiest the trianglearea based weights
     int Vert_num = verts.rows();
     this -> U_3D_assem.resize(Vert_num*3,3);
-
     for(int Vert_index=0; Vert_index<Vert_num; Vert_index++) // for all vertice
     {
+        // std::cout << MapNeighbor[Vert_index].size() << std::endl;
         // initialize the adjacent triangles of each vertex
         int El_num = _plyMesh -> trimesh::TriMesh::adjacentfaces.at(Vert_index).size();
 
@@ -621,13 +621,13 @@ void cloth_calc::cloth_stretchTensor_assemble(Eigen::MatrixXd U, std::map<int, s
         double Area_sum = Area.sum();
 
         // we calculate here the weight
-        if( El_num != 0 ) // if there exisit adjacent triangles of vertex
+        if( Area_sum != 0 ) // if there exisit adjacent triangles of vertex
         {
             weight = (Area / Area_sum).cwiseAbs();
         }
 
         // now we could do the assemble
-        if(El_num == 0) // if there are no neighborhood
+        if(Area_sum == 0) // if there are no neighborhood
         {
             this -> U_3D_assem.block(Vert_index*3,0,3,3) = U.block(Vert_index*3,0,3,3);
         }
@@ -653,7 +653,8 @@ void cloth_calc::cloth_stretchTensor_assemble(Eigen::MatrixXd U, std::map<int, s
 
             for(int El_index=0; El_index<El_num; El_index++)
             {
-                U_j.block(El_index*3,0,3,3) = U.block(this -> _plyMesh -> trimesh::TriMesh::neighbors.at(Vert_index).at(El_index)*3,0,3,3);
+                // some problem here because I can't use the weights
+                // U_j.block(El_index*3,0,3,3) = U.block(MapNeighbor[Vert_index][El_index]*3,0,3,3);
             }
             // we sum up for all neighboring vertices
             U_sum.Zero(3,3);
@@ -686,6 +687,107 @@ void cloth_calc::cloth_stretchTensor_assemble(Eigen::MatrixXd U, std::map<int, s
         }
     }
 
+
+    */
+    // we calculate at fiest the trianglearea based weights
+    // std::ofstream Test("../output/Test.txt");
+    cloth_vec();
+
+    int Vert_num = verts.rows();
+    this -> U_3D_assem.resize(Vert_num*3,3);
+    for(int Vert_index=0; Vert_index<Vert_num; Vert_index++) // for all vertice
+    {
+        int Neighbor_num = MapNeighbor[Vert_index].size();
+
+        // we calculate here the adjacent area
+        Eigen::MatrixXd weight;
+
+        if(Neighbor_num!=0)
+        {
+            weight.resize(Neighbor_num,1);
+            double dists_sum = 0;
+            for(int Neighbor_index=0; Neighbor_index<Neighbor_num; Neighbor_index++) // do loop for all adjacent triangles and save the area
+            {
+                double dists_temp = 1./(vertsT.row(MapNeighbor[Vert_index][Neighbor_index]) - vertsT.row(Vert_index)).norm();
+                if((isinf(dists_temp)))
+                {
+                    continue;
+                }
+                dists_sum = dists_sum + dists_temp;
+
+            }
+
+            for(int Neighbor_index=0; Neighbor_index<Neighbor_num; Neighbor_index++)
+            {
+                double dists_temp = 1./(vertsT.row(MapNeighbor[Vert_index][Neighbor_index]) - vertsT.row(Vert_index)).norm();
+                if((isinf(dists_temp)))
+                {
+                    weight(Neighbor_index) = 0;
+                    continue;
+                }
+                weight(Neighbor_index) = dists_temp / dists_sum;
+            }
+            // std::cout << weight << std::endl;
+            Eigen::MatrixXd U_j, U_i, U_sum, U_tmp, U_new;
+            U_i.resize(3,3); // base vertex
+            U_j.resize(Neighbor_num*3,3); // neighboring vertices
+
+            U_sum.resize(3,3);
+            U_tmp.resize(3,3);
+            U_new.resize(3,3);
+
+            // calculate the U^{1/2}
+            Eigen::MatrixXd Eigval, Eigvec;
+            Eigval.resize(3,1);
+            Eigvec.resize(3,3);
+            Eigen::SelfAdjointEigenSolver<Eigen::Matrix3d> solv(U.block(Vert_index*3,0,3,3));
+            Eigval << solv.eigenvalues().cwiseSqrt();
+            Eigvec << solv.eigenvectors();
+            U_i = ( (Eigval(0,0)) * Eigvec.col(0) * Eigvec.col(0).transpose() ) + ( (Eigval(1,0)) * Eigvec.col(1) * Eigvec.col(1).transpose() )+ ( (Eigval(2,0)) * Eigvec.col(2) * Eigvec.col(2).transpose() );
+
+
+            for(int Neighbor_index=0; Neighbor_index<Neighbor_num; Neighbor_index++)
+            {
+                U_j.block(Neighbor_index*3,0,3,3) = U.block(MapNeighbor[Vert_index][Neighbor_index]*3,0,3,3);
+            }
+            // we sum up for all neighboring vertices
+            U_sum.Zero(3,3);
+            for(int Neighbor_index=0; Neighbor_index<Neighbor_num; Neighbor_index++)
+            {
+                // Logarithm of a matrix
+                // https://en.wikipedia.org/wiki/Logarithm_of_a_matrix
+                // U_tmp = ((U_i.inverse() * U_j.block(Neighbor_index*3,0,3,3) * U_i.inverse() - Eigen::MatrixXd::Identity(3, 3)) - 1./2.*(U_i.inverse() * U_j.block(Neighbor_index*3,0,3,3) * U_i.inverse() - Eigen::MatrixXd::Identity(3, 3))*(U_i.inverse() * U_j.block(Neighbor_index*3,0,3,3) * U_i.inverse() - Eigen::MatrixXd::Identity(3, 3)) ) * weight(Neighbor_index);
+                U_tmp = (U_i.inverse() * U_j.block(Neighbor_index*3,0,3,3) * U_i.inverse() - Eigen::MatrixXd::Identity(3, 3)) * weight(Neighbor_index);
+
+                U_sum = U_sum + U_tmp;
+                U_tmp.resize(0,0);
+            }
+
+            // Exponential of a matrix
+            // https://en.wikipedia.org/wiki/Matrix_exponential
+            // U_new = Eigen::MatrixXd::Identity(3, 3) + U_sum + U_sum * U_sum / 2.;
+            U_new = Eigen::MatrixXd::Identity(3, 3) + U_sum;
+
+            this -> U_3D_assem.block(Vert_index*3,0,3,3) = U_i * U_new * U_i;
+
+            // erase the matrices
+            U_i.resize(0,0);
+            U_j.resize(0,0);
+            U_sum.resize(0,0);
+            U_tmp.resize(0,0);
+            U_new.resize(0,0);
+            weight.resize(0,0);
+            Eigval.resize(0,0);
+            Eigvec.resize(0,0);
+        }
+        else
+        {
+            this -> U_3D_assem.block(Vert_index*3,0,3,3) = U.block(Vert_index*3,0,3,3);
+        }
+        // Test << weight << std::endl;
+    }
+
+    // Test.close();
 }
 
 void cloth_calc::cloth_displGrad_2D()
@@ -754,7 +856,7 @@ void cloth_calc::cloth_velGrad_assemble(Eigen::MatrixXd VelGrad, double Per)
     /////////////////////////////////////////////////////////////////////////////////////////////////////
 
     cloth_vec();
-    cloth_init_neighbor();
+    // cloth_init_neighbor();
 
     // now we assemble all the stretch tensor U by the vertex index
 
@@ -961,12 +1063,12 @@ void cloth_calc::cloth_velGrad_normalize(Eigen::MatrixXd VelGrad)
 
 void cloth_calc::cloth_rotationTensor(Eigen::MatrixXd F, Eigen::MatrixXd U)
 {
-    int Vert_num = verts.rows();
+    int Vert_num = this -> vertsT.rows();
     this -> R.resize(Vert_num*3,3);
 
     for(int Vert_index=0; Vert_index<Vert_num; Vert_index++)
     {
-        R.block(Vert_index*3,0,3,3) = F.block(Vert_index*3,0,3,3) * U.block(Vert_index*3,0,3,3).inverse();
+        this -> R.block(Vert_index*3,0,3,3) = F.block(Vert_index*3,0,3,3) * U.block(Vert_index*3,0,3,3).inverse();
     }
 
 
@@ -974,11 +1076,11 @@ void cloth_calc::cloth_rotationTensor(Eigen::MatrixXd F, Eigen::MatrixXd U)
 
 void cloth_calc::cloth_translationVec(Eigen::MatrixXd R, std::map<int, std::vector<int>> MapNeighbor)
 {
-    int Vert_num = verts.rows();
+    int Vert_num = this -> vertsT.rows();
     this -> t.resize(Vert_num*3,1);
 
     // calculate the centre of mess
-    this -> verts_cog.resize(Vert_num,3);
+    this -> vertsT_cog.resize(Vert_num,3);
 
     // Eigen::MatrixXd verts_sum;
     double x,y,z;
@@ -1047,7 +1149,7 @@ void cloth_calc::cloth_translationVec(Eigen::MatrixXd R, std::map<int, std::vect
 
         if(Neighbor_Vert_size == 0)
         {
-            this -> verts_cog.row(Vert_index) = verts.row(Vert_index);
+            this -> vertsT_cog.row(Vert_index) = verts.row(Vert_index);
         }
         else
         {
@@ -1056,36 +1158,40 @@ void cloth_calc::cloth_translationVec(Eigen::MatrixXd R, std::map<int, std::vect
             z=0;
             for(int i=0; i<Neighbor_Vert_size; i++)
             {
-              x = x + verts(MapNeighbor[Vert_index][i],0);
-              y = y + verts(MapNeighbor[Vert_index][i],1);
-              z = z + verts(MapNeighbor[Vert_index][i],2);
+              x = x + this -> vertsT(MapNeighbor[Vert_index][i],0);
+              y = y + this -> vertsT(MapNeighbor[Vert_index][i],1);
+              z = z + this -> vertsT(MapNeighbor[Vert_index][i],2);
 
             }
-            this -> verts_cog.row(Vert_index) << x / Neighbor_Vert_size, y / Neighbor_Vert_size, z / Neighbor_Vert_size;
+            this -> vertsT_cog.row(Vert_index) << x / Neighbor_Vert_size, y / Neighbor_Vert_size, z / Neighbor_Vert_size;
         }
 
-        this -> t.block(Vert_index*3,0,3,1) << this -> verts_cog.row(Vert_index).transpose() - R.block(Vert_index*3,0,3,3) * this -> verts_cog.row(Vert_index).transpose();
+        this -> t.block(Vert_index*3,0,3,1) << this -> vertsT_cog.row(Vert_index).transpose() - R.block(Vert_index*3,0,3,3) * this -> vertsT_cog.row(Vert_index).transpose();
     }
 
 }
 
 void cloth_calc::cloth_transformationMat(Eigen::MatrixXd R, Eigen::MatrixXd t)
 {
-    int Vert_num = verts.rows();
+    int Vert_num = this -> vertsT.rows();
     this -> T.resize(Vert_num*3,4);
     for(int Vert_index=0; Vert_index<Vert_num*3; Vert_index++)
     {
-        T.row(Vert_index) << R.row(Vert_index), t(Vert_index);
+        this -> T.row(Vert_index) << R.row(Vert_index), t(Vert_index);
     }
 }
 
 void cloth_calc::cloth_update(Eigen::MatrixXd R, Eigen::MatrixXd t)
 {
-    int Vert_num = verts.rows();
+    int Vert_num = this -> vertsT.rows();
     this -> vertsUpdate.resize(Vert_num, 3);
     for(int Vert_index=0; Vert_index<Vert_num; Vert_index++)
     {
         this -> vertsUpdate.row(Vert_index).transpose() = (R.block(Vert_index*3,0,3,3) * this->verts.row(Vert_index).transpose()) + t.block(Vert_index*3,0,3,1);
+        if(isnan(this->vertsUpdate(Vert_index,0)))
+        {
+            this -> vertsUpdate.row(Vert_index).transpose() << 0,0,0;
+        }
     }
 }
 
@@ -1109,7 +1215,7 @@ void cloth_calc::cloth_WriteVerts(Eigen::MatrixXd update, const std::string &ifi
     plyUpdate -> setFaces(faces);
     plyUpdate -> setColors(pink);
 
-    plyUpdate -> writePLY(ifileName, true, true, true, false, false);
+    plyUpdate -> writePLY(ifileName, true, true, true, false, true);
 
 }
 
@@ -1433,6 +1539,7 @@ void cloth_calc::cloth_eig_neighbor4x(std::map<int, std::vector<int>> MapNeighbo
 
     for(int Vert_index=0; Vert_index<Vert_num; Vert_index++) // for all Vertice
     {
+
         H.resize(3,3);
         C.resize(3,3);
 
@@ -1713,17 +1820,33 @@ void cloth_calc::test()
 
 }
 
-const std::map<int, std::vector<int> > cloth_calc::GetMapNeighbor()
+
+std::map<int, std::vector<int> > cloth_calc::GetMapNeighbor()
 {
     return this -> mapNeighbor;
 }
 
-const std::map<int, std::vector<size_t> > cloth_calc::GetMapNeighborKdTree()
+std::map<int, std::vector<int> > cloth_calc::GetMapNeighbor2x()
+{
+    return this -> mapNeighbor2x;
+}
+
+std::map<int, std::vector<int> > cloth_calc::GetMapNeighbor3x()
+{
+    return this -> mapNeighbor3x;
+}
+
+std::map<int, std::vector<int> > cloth_calc::GetMapNeighbor4x()
+{
+    return this -> mapNeighbor4x;
+}
+
+std::map<int, std::vector<size_t> > cloth_calc::GetMapNeighborKdTree()
 {
     return this -> mapNeighborKdTree;
 }
 
-const std::map<int, std::vector<int> > cloth_calc::GetMapAdjacent()
+std::map<int, std::vector<int> > cloth_calc::GetMapAdjacent()
 {
     return this -> mapAdjacent;
 }

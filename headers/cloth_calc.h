@@ -40,7 +40,7 @@ public:
     void cloth_stretchTensor_2D();
     void cloth_stretchTensor_3D(Eigen::MatrixXd Eigenval, Eigen::MatrixXd Eigenvec);
     void cloth_stretchTensor_neighbor();
-    void cloth_stretchTensor_assemble(Eigen::MatrixXd U, std::map<int, std::vector<int>> MapNeighbor, std::map<int, std::vector<int>> MapAdjacent);
+    void cloth_stretchTensor_assemble(Eigen::MatrixXd U, std::map<int, std::vector<int>> mapNeighbor);
 
     void cloth_displGrad_2D();
 
@@ -74,9 +74,12 @@ public:
 
     void test();
 
-    const std::map<int, std::vector<int>> GetMapNeighbor();
-    const std::map<int, std::vector<size_t>> GetMapNeighborKdTree();
-    const std::map<int, std::vector<int>> GetMapAdjacent();
+    std::map<int, std::vector<int>> GetMapNeighbor();
+    std::map<int, std::vector<int>> GetMapNeighbor2x();
+    std::map<int, std::vector<int>> GetMapNeighbor3x();
+    std::map<int, std::vector<int>> GetMapNeighbor4x();
+    std::map<int, std::vector<size_t>> GetMapNeighborKdTree();
+    std::map<int, std::vector<int>> GetMapAdjacent();
 
     Eigen::MatrixXd GetEigval();
     Eigen::MatrixXd GetEigvec();
@@ -121,6 +124,9 @@ private:
     ply_module* plyUpdate;
 
     std::map<int, std::vector<int>> mapNeighbor;
+    std::map<int, std::vector<int>> mapNeighbor2x;
+    std::map<int, std::vector<int>> mapNeighbor3x;
+    std::map<int, std::vector<int>> mapNeighbor4x;
     std::map<int, std::vector<int>> mapAdjacent;
     std::map<int, std::vector<size_t>> mapNeighborKdTree;
 
@@ -131,7 +137,7 @@ private:
 
     Eigen::MatrixXi faces;
     Eigen::MatrixXd vertsT, vertsR, verts;
-    Eigen::MatrixXd verts_cog;
+    Eigen::MatrixXd vertsT_cog;
     Eigen::MatrixXd vertsUpdate;
 
     // Rohmer et al.
