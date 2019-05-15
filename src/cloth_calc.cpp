@@ -756,8 +756,8 @@ void cloth_calc::cloth_stretchTensor_assemble(Eigen::MatrixXd U, std::map<int, s
             {
                 // Logarithm of a matrix
                 // https://en.wikipedia.org/wiki/Logarithm_of_a_matrix
-                // U_tmp = ((U_i.inverse() * U_j.block(Neighbor_index*3,0,3,3) * U_i.inverse() - Eigen::MatrixXd::Identity(3, 3)) - 1./2.*(U_i.inverse() * U_j.block(Neighbor_index*3,0,3,3) * U_i.inverse() - Eigen::MatrixXd::Identity(3, 3))*(U_i.inverse() * U_j.block(Neighbor_index*3,0,3,3) * U_i.inverse() - Eigen::MatrixXd::Identity(3, 3)) ) * weight(Neighbor_index);
-                U_tmp = (U_i.inverse() * U_j.block(Neighbor_index*3,0,3,3) * U_i.inverse() - Eigen::MatrixXd::Identity(3, 3)) * weight(Neighbor_index);
+                U_tmp = ((U_i.inverse() * U_j.block(Neighbor_index*3,0,3,3) * U_i.inverse() - Eigen::MatrixXd::Identity(3, 3)) - 1./2.*(U_i.inverse() * U_j.block(Neighbor_index*3,0,3,3) * U_i.inverse() - Eigen::MatrixXd::Identity(3, 3))*(U_i.inverse() * U_j.block(Neighbor_index*3,0,3,3) * U_i.inverse() - Eigen::MatrixXd::Identity(3, 3)) ) * weight(Neighbor_index);
+                // U_tmp = (U_i.inverse() * U_j.block(Neighbor_index*3,0,3,3) * U_i.inverse() - Eigen::MatrixXd::Identity(3, 3)) * weight(Neighbor_index);
 
                 U_sum = U_sum + U_tmp;
                 U_tmp.resize(0,0);
@@ -765,8 +765,8 @@ void cloth_calc::cloth_stretchTensor_assemble(Eigen::MatrixXd U, std::map<int, s
 
             // Exponential of a matrix
             // https://en.wikipedia.org/wiki/Matrix_exponential
-            // U_new = Eigen::MatrixXd::Identity(3, 3) + U_sum + U_sum * U_sum / 2.;
-            U_new = Eigen::MatrixXd::Identity(3, 3) + U_sum;
+            U_new = Eigen::MatrixXd::Identity(3, 3) + U_sum + U_sum * U_sum / 2.;
+            // U_new = Eigen::MatrixXd::Identity(3, 3) + U_sum;
 
             this -> U_3D_assem.block(Vert_index*3,0,3,3) = U_i * U_new * U_i;
 
