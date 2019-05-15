@@ -72,7 +72,7 @@ public:
     void cloth_vec_normalize(Eigen::MatrixXd Eigenval, int dim);
     void cloth_WriteColor(Eigen::MatrixXd color, const std::string &  ifileName);
 
-    void test();
+    void test(Eigen::MatrixXd U, std::map<int, std::vector<int>> mapNeighbor);
 
     std::map<int, std::vector<int>> GetMapNeighbor();
     std::map<int, std::vector<int>> GetMapNeighbor2x();

@@ -704,6 +704,7 @@ void cloth_calc::cloth_stretchTensor_assemble(Eigen::MatrixXd U, std::map<int, s
 
         if(Neighbor_num!=0)
         {
+            /*
             weight.resize(Neighbor_num,1);
             double dists_sum = 0;
             for(int Neighbor_index=0; Neighbor_index<Neighbor_num; Neighbor_index++) // do loop for all adjacent triangles and save the area
@@ -726,6 +727,13 @@ void cloth_calc::cloth_stretchTensor_assemble(Eigen::MatrixXd U, std::map<int, s
                     continue;
                 }
                 weight(Neighbor_index) = dists_temp / dists_sum;
+            }
+            */
+            weight.resize(Neighbor_num,1);
+            for(int Neighbor_index=0; Neighbor_index<Neighbor_num; Neighbor_index++) // do loop for all adjacent triangles and save the area
+            {
+                weight(Neighbor_index) = 1./Neighbor_num;
+
             }
             // std::cout << weight << std::endl;
             Eigen::MatrixXd U_j, U_i, U_sum, U_tmp, U_new;
@@ -756,8 +764,8 @@ void cloth_calc::cloth_stretchTensor_assemble(Eigen::MatrixXd U, std::map<int, s
             {
                 // Logarithm of a matrix
                 // https://en.wikipedia.org/wiki/Logarithm_of_a_matrix
-                U_tmp = ((U_i.inverse() * U_j.block(Neighbor_index*3,0,3,3) * U_i.inverse() - Eigen::MatrixXd::Identity(3, 3)) - 1./2.*(U_i.inverse() * U_j.block(Neighbor_index*3,0,3,3) * U_i.inverse() - Eigen::MatrixXd::Identity(3, 3))*(U_i.inverse() * U_j.block(Neighbor_index*3,0,3,3) * U_i.inverse() - Eigen::MatrixXd::Identity(3, 3)) ) * weight(Neighbor_index);
-                // U_tmp = (U_i.inverse() * U_j.block(Neighbor_index*3,0,3,3) * U_i.inverse() - Eigen::MatrixXd::Identity(3, 3)) * weight(Neighbor_index);
+                // U_tmp = ((U_i.inverse() * U_j.block(Neighbor_index*3,0,3,3) * U_i.inverse() - Eigen::MatrixXd::Identity(3, 3)) - 1./2.*(U_i.inverse() * U_j.block(Neighbor_index*3,0,3,3) * U_i.inverse() - Eigen::MatrixXd::Identity(3, 3))*(U_i.inverse() * U_j.block(Neighbor_index*3,0,3,3) * U_i.inverse() - Eigen::MatrixXd::Identity(3, 3)) ) * weight(Neighbor_index);
+                U_tmp = (U_i.inverse() * U_j.block(Neighbor_index*3,0,3,3) * U_i.inverse() - Eigen::MatrixXd::Identity(3, 3)) * weight(Neighbor_index);
 
                 U_sum = U_sum + U_tmp;
                 U_tmp.resize(0,0);
@@ -765,8 +773,8 @@ void cloth_calc::cloth_stretchTensor_assemble(Eigen::MatrixXd U, std::map<int, s
 
             // Exponential of a matrix
             // https://en.wikipedia.org/wiki/Matrix_exponential
-            U_new = Eigen::MatrixXd::Identity(3, 3) + U_sum + U_sum * U_sum / 2.;
-            // U_new = Eigen::MatrixXd::Identity(3, 3) + U_sum;
+            // U_new = Eigen::MatrixXd::Identity(3, 3) + U_sum + U_sum * U_sum / 2.;
+            U_new = Eigen::MatrixXd::Identity(3, 3) + U_sum;
 
             this -> U_3D_assem.block(Vert_index*3,0,3,3) = U_i * U_new * U_i;
 
@@ -784,9 +792,9 @@ void cloth_calc::cloth_stretchTensor_assemble(Eigen::MatrixXd U, std::map<int, s
         {
             this -> U_3D_assem.block(Vert_index*3,0,3,3) = U.block(Vert_index*3,0,3,3);
         }
-        // Test << weight << std::endl;
-    }
 
+    }
+    // Test << vertsT << std::endl;
     // Test.close();
 }
 
@@ -1809,22 +1817,67 @@ Eigen::MatrixXd cloth_calc::GetStrTensor_norm_dir1()
 
 
 
-void cloth_calc::test()
+void cloth_calc::test(Eigen::MatrixXd U, std::map<int, std::vector<int>> MapNeighbor)
 {
-    const char *filename = "../data/bunny_bi.ply";
-    trimesh::TriMesh *mymesh = trimesh::TriMesh::read(filename);
-    if (!mymesh) {
-        printf("Couldn't read mesh!\n");
-        exit(1);
+    cloth_vec();
+
+    int Vert_num = verts.rows();
+    this -> U_3D_assem.resize(Vert_num*3,3);
+    for(int Vert_index=0; Vert_index<Vert_num; Vert_index++) // for all vertice
+    {
+        int Neighbor_num = MapNeighbor[Vert_index].size();
+
+        // we calculate here the adjacent area
+        Eigen::MatrixXd weight;
+
+        if(Neighbor_num!=0)
+        {
+
+            weight.resize(Neighbor_num,1);
+            for(int Neighbor_index=0; Neighbor_index<Neighbor_num; Neighbor_index++) // do loop for all adjacent triangles and save the area
+            {
+                weight(Neighbor_index) = 1./Neighbor_num;
+
+            }
+            // std::cout << weight << std::endl;
+            Eigen::MatrixXd U_j, U_sum, U_tmp, U_new;
+            U_j.resize(Neighbor_num*3,3); // neighboring vertices
+
+            U_sum.resize(3,3);
+            U_tmp.resize(3,3);
+            U_new.resize(3,3);
+
+            for(int Neighbor_index=0; Neighbor_index<Neighbor_num; Neighbor_index++)
+            {
+                U_j.block(Neighbor_index*3,0,3,3) = U.block(MapNeighbor[Vert_index][Neighbor_index]*3,0,3,3);
+            }
+            // we sum up for all neighboring vertices
+            U_sum.Zero(3,3);
+            for(int Neighbor_index=0; Neighbor_index<Neighbor_num; Neighbor_index++)
+            {
+                // Logarithm of a matrix
+                // https://en.wikipedia.org/wiki/Logarithm_of_a_matrix
+                // U_tmp = ((U_i.inverse() * U_j.block(Neighbor_index*3,0,3,3) * U_i.inverse() - Eigen::MatrixXd::Identity(3, 3)) - 1./2.*(U_i.inverse() * U_j.block(Neighbor_index*3,0,3,3) * U_i.inverse() - Eigen::MatrixXd::Identity(3, 3))*(U_i.inverse() * U_j.block(Neighbor_index*3,0,3,3) * U_i.inverse() - Eigen::MatrixXd::Identity(3, 3)) ) * weight(Neighbor_index);
+                U_tmp = U_j.block(Neighbor_index*3,0,3,3) * weight(Neighbor_index);
+                U_sum = U_sum + U_tmp;
+                U_tmp.resize(0,0);
+            }
+
+            this -> U_3D_assem.block(Vert_index*3,0,3,3) =U_sum;
+
+            // erase the matrices
+            U_j.resize(0,0);
+            U_sum.resize(0,0);
+            U_tmp.resize(0,0);
+            U_new.resize(0,0);
+            weight.resize(0,0);
+        }
+        else
+        {
+            this -> U_3D_assem.block(Vert_index*3,0,3,3) = U.block(Vert_index*3,0,3,3);
+        }
+
     }
-    mymesh -> trimesh::TriMesh::need_neighbors();
-
-    //neighbor.at( vertex_index ).at( num_vertex )
-    double num_neighbor = mymesh -> trimesh::TriMesh::neighbors.at(35946).at(1);
-    double vert_x = mymesh -> trimesh::TriMesh::vertices.at(35483)[0];
-
-    std::cout << num_neighbor << std::endl;
-    std::cout << vert_x << std::endl;
 
 }
 
