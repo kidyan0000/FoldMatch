@@ -523,6 +523,28 @@ void cloth_calc::cloth_eig_3D()
     */
 }
 
+void cloth_calc::cloth_eig_assemble(Eigen::MatrixXd U)
+{
+    int Vert_num = vertsT.rows();
+
+    // initialize the eigenvalues and eigenvectors
+    this -> Eigval_assemble.resize(Vert_num*3,1);
+    this -> Eigvec_assemble.resize(Vert_num*3,3);
+
+    for(int Vert_index=0; Vert_index<Vert_num; Vert_index++) // for all elements
+    {
+
+            Eigen::SelfAdjointEigenSolver<Eigen::Matrix3d> solv(U.block(Vert_index*3,0,3,3));
+
+            this -> Eigval_assemble.block(Vert_index*3,0,3,1) << solv.eigenvalues();
+            this -> Eigvec_assemble.block(Vert_index*3,0,3,3) << solv.eigenvectors();
+
+
+
+    }
+
+}
+
 
 void cloth_calc::cloth_stretchTensor_2D()
 {
@@ -704,7 +726,7 @@ void cloth_calc::cloth_stretchTensor_assemble(Eigen::MatrixXd U, std::map<int, s
 
         if(Neighbor_num!=0)
         {
-            /*
+
             weight.resize(Neighbor_num,1);
             double dists_sum = 0;
             for(int Neighbor_index=0; Neighbor_index<Neighbor_num; Neighbor_index++) // do loop for all adjacent triangles and save the area
@@ -728,15 +750,15 @@ void cloth_calc::cloth_stretchTensor_assemble(Eigen::MatrixXd U, std::map<int, s
                 }
                 weight(Neighbor_index) = dists_temp / dists_sum;
             }
-            */
+            /*
             weight.resize(Neighbor_num,1);
             for(int Neighbor_index=0; Neighbor_index<Neighbor_num; Neighbor_index++) // do loop for all adjacent triangles and save the area
             {
                 weight(Neighbor_index) = 1./Neighbor_num;
 
             }
-
-            // std::cout << weight << std::endl;
+            */
+            // std::cout << weight.sum() << std::endl;
             Eigen::MatrixXd U_j, U_i, U_sum, U_tmp, U_new;
             U_i.resize(3,3); // base vertex
             U_j.resize(Neighbor_num*3,3); // neighboring vertices
@@ -1698,6 +1720,16 @@ Eigen::MatrixXd cloth_calc::GetEigval_3D()
 Eigen::MatrixXd cloth_calc::GetEigvec_3D()
 {
     return this -> Eigvec_3D;
+}
+
+Eigen::MatrixXd cloth_calc::GetEigval_assemble()
+{
+    return this -> Eigval_assemble;
+}
+
+Eigen::MatrixXd cloth_calc::GetEigvec_assemble()
+{
+    return this -> Eigvec_assemble;
 }
 
 Eigen::MatrixXd cloth_calc::GetEigval_neighbor()

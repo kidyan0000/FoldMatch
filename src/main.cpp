@@ -360,7 +360,7 @@ int main(int argc, char *argv[])
     ////////////////////////////////
 
     // slot should be chosen from 1 to 74
-    for(int slot=2; slot<75; slot++)
+    for(int slot=2; slot<2; slot++)
     {
         CT = slot;
         CR = slot+1;
@@ -615,10 +615,15 @@ int main(int argc, char *argv[])
         // std::cout << solv.eigenvectors() << std::endl;
 
     }
+    slot_CR -> cloth_eig_assemble(slot_CR->GetStretchTensorAsemmble());
+    slot_CR -> cloth_vec_normalize(slot_CR->GetEigval_assemble(), 3);
     // std::cout << "a" << std::endl;
-    // std::ofstream Test("../output/U_assem_Riemann.txt");
-    // Test << slot_CR -> GetStretchTensorAsemmble() << std::endl;
-    // Test.close();
+    std::ofstream Test("../output/Eigval_assemble.txt");
+    Test << slot_CR->GetEigval_norm_dir1() << std::endl;
+    Test.close();
+
+    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), "../output/debug/lambda1_assemble.ply");
+
 
     w.show();
 

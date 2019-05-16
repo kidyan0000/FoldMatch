@@ -37,6 +37,7 @@ public:
     void cloth_vec();
     void cloth_eig_2D();
     void cloth_eig_3D();
+    void cloth_eig_assemble(Eigen::MatrixXd U);
     void cloth_stretchTensor_2D();
     void cloth_stretchTensor_3D(Eigen::MatrixXd Eigenval, Eigen::MatrixXd Eigenvec);
     void cloth_stretchTensor_neighbor();
@@ -72,6 +73,8 @@ public:
     void cloth_vec_normalize(Eigen::MatrixXd Eigenval, int dim);
     void cloth_WriteColor(Eigen::MatrixXd color, const std::string &  ifileName);
 
+
+
     void test(Eigen::MatrixXd U, std::map<int, std::vector<int>> mapNeighbor);
 
     std::map<int, std::vector<int>> GetMapNeighbor();
@@ -89,6 +92,8 @@ public:
     Eigen::MatrixXd GetDefoGrad();
     Eigen::MatrixXd GetEigval_3D();
     Eigen::MatrixXd GetEigvec_3D();
+    Eigen::MatrixXd GetEigval_assemble();
+    Eigen::MatrixXd GetEigvec_assemble();
     Eigen::MatrixXd GetEigval_neighbor();
     Eigen::MatrixXd GetEigvec_neighbor();
     Eigen::MatrixXd GetEigval_neighbor2x();
@@ -146,6 +151,7 @@ private:
     Eigen::MatrixXd F;
     Eigen::MatrixXd Eigval_2D, Eigvec_2D;
     Eigen::MatrixXd Eigval_3D, Eigvec_3D;
+    Eigen::MatrixXd Eigval_assemble, Eigvec_assemble;
     Eigen::MatrixXd U_2D;
     Eigen::MatrixXd H_2D;
     Eigen::MatrixXd U_3D;
