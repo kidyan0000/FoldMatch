@@ -735,6 +735,7 @@ void cloth_calc::cloth_stretchTensor_assemble(Eigen::MatrixXd U, std::map<int, s
                 weight(Neighbor_index) = 1./Neighbor_num;
 
             }
+
             // std::cout << weight << std::endl;
             Eigen::MatrixXd U_j, U_i, U_sum, U_tmp, U_new;
             U_i.resize(3,3); // base vertex

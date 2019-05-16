@@ -256,9 +256,9 @@ int main(int argc, char *argv[])
             {
                 // calculate the stretch tensor U and U_assemble
                 slot_CR -> cloth_stretchTensor_3D(slot_CR->GetEigval_neighbor4x(), slot_CR->GetEigvec_neighbor4x());
-                slot_CR -> test(slot_CR->GetStretchTensor_3D(), slot_map->GetMapNeighbor4x());
+                slot_CR -> cloth_stretchTensor_assemble(slot_CR->GetStretchTensor_3D(), slot_map->GetMapNeighbor4x());
                 // now we do the optimazation
-                slot_CR -> cloth_rotationTensor(slot_CR->GetDefoGrad(),slot_CR->GetStretchTensor_3D());
+                slot_CR -> cloth_rotationTensor(slot_CR->GetDefoGrad(),slot_CR->GetStretchTensorAsemmble());
                 slot_CR -> cloth_translationVec(slot_CR->GetRotationTensor(), slot_map->GetMapNeighbor4x());
                 slot_CR -> cloth_transformationMat(slot_CR->GetRotationTensor(), slot_CR->GetTranslationVec());
                 slot_CR -> cloth_update(slot_CR->GetRotationTensor(), slot_CR->GetTranslationVec());
@@ -503,9 +503,9 @@ int main(int argc, char *argv[])
                 {
                     // calculate the stretch tensor U and U_assemble
                     slot_CR -> cloth_stretchTensor_3D(slot_CR->GetEigval_neighbor4x(), slot_CR->GetEigvec_neighbor4x());
-                    slot_CR -> test(slot_CR->GetStretchTensor_3D(), slot_map->GetMapNeighbor4x());
+                    slot_CR -> cloth_stretchTensor_assemble(slot_CR->GetStretchTensor_3D(), slot_map->GetMapNeighbor4x());
                     // now we do the optimazation
-                    slot_CR -> cloth_rotationTensor(slot_CR->GetDefoGrad(),slot_CR->GetStretchTensor_3D());
+                    slot_CR -> cloth_rotationTensor(slot_CR->GetDefoGrad(),slot_CR->GetStretchTensorAsemmble());
                     slot_CR -> cloth_translationVec(slot_CR->GetRotationTensor(), slot_map->GetMapNeighbor4x());
                     slot_CR -> cloth_transformationMat(slot_CR->GetRotationTensor(), slot_CR->GetTranslationVec());
                     slot_CR -> cloth_update(slot_CR->GetRotationTensor(), slot_CR->GetTranslationVec());
@@ -616,9 +616,9 @@ int main(int argc, char *argv[])
 
     }
     // std::cout << "a" << std::endl;
-    std::ofstream Test("../output/U_assem.txt");
-    Test << slot_CR -> GetStretchTensorAsemmble() << std::endl;
-    Test.close();
+    // std::ofstream Test("../output/U_assem_Riemann.txt");
+    // Test << slot_CR -> GetStretchTensorAsemmble() << std::endl;
+    // Test.close();
 
     w.show();
 
