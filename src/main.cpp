@@ -47,7 +47,8 @@ int main(int argc, char *argv[])
     // CAL 2: wrinkel vector field
     // CAL 3: velocity gradient
     // CAL 4: vertices update
-    int CAL = 4;
+    // CAL 5: lambda assemble
+    int CAL = 5;
 
     double Per = 0.01; // Kd-tree parameters
 
@@ -68,6 +69,22 @@ int main(int argc, char *argv[])
             break;
             case 3:
             control -> cloth_lambda("lambda3");
+            break;
+        }
+
+    }
+    if(CAL == 5)
+    {
+        switch(LAMBDA)
+        {
+            case 1:
+            control -> cloth_lambdaAssemble("lambda1_assemble");
+            break;
+            case 2:
+            control -> cloth_lambdaAssemble("lambda2_assemble");
+            break;
+            case 3:
+            control -> cloth_lambdaAssemble("lambda3_assemble");
             break;
         }
 
@@ -93,8 +110,12 @@ int main(int argc, char *argv[])
         }
         case 4:
         {
-            // control -> cloth_vertsUpdate_input("../output/debug/update/");
             control -> cloth_vertsUpdate_output("../output/debug/");
+            break;
+        }
+        case 5:
+        {
+            control -> cloth_lambdaAssemble_output("../output/debug/");
             break;
         }
     }
@@ -122,6 +143,11 @@ int main(int argc, char *argv[])
     cloth_calc* slot_CR = new cloth_calc(control->GetInput(CT) , control->GetInput(CR), control->GetInput(BS));
 
     slot_map -> cloth_map_neighbor(MODE);
+
+    /////////////////////////////////////////////////////////////////////
+    /// intialize the slot 1 and slot 2
+    /////////////////////////////////////////////////////////////////////
+    ///
 
     switch(MODE)
     {
@@ -265,6 +291,26 @@ int main(int argc, char *argv[])
                 slot_CR -> cloth_WriteVerts(slot_CR->GetVertsUpdate(), control->GetVertsUpdateOutput(CR));
                 // we update the vertices and do new calculation
             }
+            if(CAL == 5)
+            {
+                // calculate the stretch tensor U and U_assemble
+                slot_CR -> cloth_stretchTensor_3D(slot_CR->GetEigval_neighbor4x(), slot_CR->GetEigvec_neighbor4x());
+                slot_CR -> cloth_stretchTensor_assemble(slot_CR->GetStretchTensor_3D(), slot_map->GetMapNeighbor4x());
+                slot_CR -> cloth_eig_assemble(slot_CR->GetStretchTensorAsemmble());
+                slot_CR -> cloth_vec_normalize(slot_CR->GetEigval_assemble(), 3);
+                switch(LAMBDA)
+                {
+                    case 1:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), control->GetLambdaAssembleOutput(FILE));
+                    break;
+                    case 2:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir2(), control->GetLambdaAssembleOutput(FILE));
+                    break;
+                    case 3:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir3(), control->GetLambdaAssembleOutput(FILE));
+                    break;
+                }
+            }
             break;
         }
         case 5:
@@ -353,14 +399,12 @@ int main(int argc, char *argv[])
     outfile << "delta T is: "    << deltaT << std::endl;
     outfile.close();
 
-    std::cout <<  control->GetVertsUpdateOutput(FILE) << std::endl;
-
     ////////////////////////////////
     ///// START THE SIMULATION /////
     ////////////////////////////////
 
     // slot should be chosen from 1 to 74
-    for(int slot=2; slot<2; slot++)
+    for(int slot=29; slot<75; slot++)
     {
         CT = slot;
         CR = slot+1;
@@ -368,7 +412,7 @@ int main(int argc, char *argv[])
         FILE = slot;
 
         cloth_calc* slot_CT = new cloth_calc(control->GetInput(CT-1) , control->GetInput(CR-1), control->GetInput(BS-1));
-        cloth_calc* slot_CR = new cloth_calc(control->GetVertsUpdateOutput(CT) , control->GetInput(CR), control->GetVertsUpdateOutput(BS));
+        cloth_calc* slot_CR = new cloth_calc(control->GetInput(CT) , control->GetInput(CR), control->GetInput(BS));
 
         switch(MODE)
         {
@@ -467,7 +511,6 @@ int main(int argc, char *argv[])
             case 4:
             {
                 slot_CT -> cloth_eig_neighbor4x(slot_map->GetMapNeighbor4x());
-
                 slot_CR -> cloth_eig_neighbor4x(slot_map->GetMapNeighbor4x());
 
                 if(CAL == 1)
@@ -511,6 +554,26 @@ int main(int argc, char *argv[])
                     slot_CR -> cloth_update(slot_CR->GetRotationTensor(), slot_CR->GetTranslationVec());
                     slot_CR -> cloth_WriteVerts(slot_CR->GetVertsUpdate(), control->GetVertsUpdateOutput(CR));
                     // we update the vertices and do new calculation
+                }
+                if(CAL == 5)
+                {
+                    // calculate the stretch tensor U and U_assemble
+                    slot_CR -> cloth_stretchTensor_3D(slot_CR->GetEigval_neighbor4x(), slot_CR->GetEigvec_neighbor4x());
+                    slot_CR -> cloth_stretchTensor_assemble(slot_CR->GetStretchTensor_3D(), slot_map->GetMapNeighbor4x());
+                    slot_CR -> cloth_eig_assemble(slot_CR->GetStretchTensorAsemmble());
+                    slot_CR -> cloth_vec_normalize(slot_CR->GetEigval_assemble(), 3);
+                    switch(LAMBDA)
+                    {
+                        case 1:
+                        slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), control->GetLambdaAssembleOutput(FILE));
+                        break;
+                        case 2:
+                        slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir2(), control->GetLambdaAssembleOutput(FILE));
+                        break;
+                        case 3:
+                        slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir3(), control->GetLambdaAssembleOutput(FILE));
+                        break;
+                    }
                 }
                 break;
             }
@@ -577,8 +640,6 @@ int main(int argc, char *argv[])
             }
         }
 
-
-        // std::cout <<  control->GetVertsUpdateOutput(FILE) << std::endl;
         std::ofstream outfile(control->Readme(FILE));
         outfile << "Selected mode is: " << MODE << std::endl;
         if(MODE == 5)
@@ -586,9 +647,18 @@ int main(int argc, char *argv[])
             outfile << "Kd-Tree parameter is: "    << Per << std::endl;
         }
         outfile << "We calculate for: " << CAL << std::endl;
-        outfile << "Template is: "  << control->GetVertsUpdateOutput(CT) << std::endl;
-        outfile << "Reference is: " << control->GetInput(CR) << std::endl;
-        outfile << "Base is: "      << control->GetVertsUpdateOutput(BS) << std::endl;
+        if(CAL == 1 || CAL == 2 | CAL == 3 | CAL == 5)
+        {
+            outfile << "Template is: "  << control->GetInput(CT) << std::endl;
+            outfile << "Reference is: " << control->GetInput(CR) << std::endl;
+            outfile << "Base is: "      << control->GetInput(BS) << std::endl;
+        }
+        else if(CAL == 4)
+        {
+            outfile << "Template is: "  << control->GetVertsUpdateOutput(CT) << std::endl;
+            outfile << "Reference is: " << control->GetInput(CR) << std::endl;
+            outfile << "Base is: "      << control->GetVertsUpdateOutput(BS) << std::endl;
+        }
         if(CAL == 1)
         {
             outfile << "Lambda is: "    << control->GetLambda() << std::endl;
@@ -615,14 +685,18 @@ int main(int argc, char *argv[])
         // std::cout << solv.eigenvectors() << std::endl;
 
     }
-    slot_CR -> cloth_eig_assemble(slot_CR->GetStretchTensorAsemmble());
-    slot_CR -> cloth_vec_normalize(slot_CR->GetEigval_assemble(), 3);
-    // std::cout << "a" << std::endl;
-    std::ofstream Test("../output/Eigval_assemble.txt");
-    Test << slot_CR->GetEigval_norm_dir1() << std::endl;
-    Test.close();
+    // slot_CR -> cloth_eig_assemble(slot_CR->GetStretchTensorAsemmble());
+    // slot_CR -> cloth_vec_normalize(slot_CR->GetEigval_assemble(), 3);
+    // for(int i = 1;i<75;i++)
+    // {
+    //     std::cout << control->GetLambdaAssembleOutput(i) << std::endl;
+    // }
 
-    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), "../output/debug/lambda1_assemble.ply");
+    // std::ofstream Test("../output/Eigval_assemble.txt");
+    // Test << slot_CR->GetEigval_norm_dir1() << std::endl;
+    // Test.close();
+
+    // slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), "../output/debug/lambda1_assemble.ply");
 
 
     w.show();

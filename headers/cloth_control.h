@@ -12,8 +12,10 @@ public:
     cloth_control();
 
     void cloth_lambda(std::string lambda);
+    void cloth_lambdaAssemble(std::string lambda);
     void cloth_input(std::string inputpath);
     void cloth_lambda_output(std::string outputpath);
+    void cloth_lambdaAssemble_output(std::string outputpath);
     void cloth_stretch_output(std::string outputpath);
     void cloth_wrinkVecField_output(std::string outputpath);
     void cloth_vertsUpdate_input(std::string inputpath);
@@ -23,7 +25,9 @@ public:
 
     std::string GetInput(int i);
     std::string GetLambda();
+    std::string GetLambdaAssemble();
     std::string GetLambdaOutput(int i);
+    std::string GetLambdaAssembleOutput(int i);
     std::string GetStretchOutput(int i);
     std::string GetWrinkVecFieldOutput(int i);
     std::string GetVertsUpdateInput(int i);
@@ -31,9 +35,10 @@ public:
     std::string Readme(int i);
 
 private:
-    std::vector<std::string> _inputname, _lambdaname, _stretchname, _wrinkVecFieldname, _input_vertsUpdatename, _output_vertsUpdatename;
+    std::vector<std::string> _inputname, _lambdaname, _lambdaAssemblename, _stretchname, _wrinkVecFieldname, _input_vertsUpdatename, _output_vertsUpdatename;
     std::vector<std::string> _readme;
     std::string lambda;
+    std::string lambda_assemble;
 };
 
 #endif // CLOTH_CONTROL_H

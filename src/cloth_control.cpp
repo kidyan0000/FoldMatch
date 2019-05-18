@@ -7,7 +7,12 @@ cloth_control::cloth_control()
 
 void cloth_control::cloth_lambda(std::string lambda)
 {
-    this->lambda = lambda;
+    this -> lambda = lambda;
+}
+
+void cloth_control::cloth_lambdaAssemble(std::string lambda)
+{
+    this -> lambda_assemble = lambda;
 }
 
 bool cloth_control::compare(std::string a, std::string b)
@@ -84,6 +89,29 @@ void cloth_control::cloth_lambda_output(std::string outputpath)
         output_list<<  *it <<std::endl;
     }
     output_list.close();
+}
+
+void cloth_control::cloth_lambdaAssemble_output(std::string outputpath)
+{
+    std::string output_file;
+    for(int i=1; i<=75; i++)
+    {
+        output_file = outputpath + lambda_assemble + "_" + std::to_string(i) +".ply";
+        this -> _lambdaAssemblename.push_back(output_file);
+    }
+    std::string readme_file;
+    for(int i=1; i<=75; i++)
+    {
+        readme_file = outputpath + "readme/" + lambda_assemble + "_" + std::to_string(i) + "_readme.txt";
+        this -> _readme.push_back(readme_file);
+    }
+
+    std::ofstream output_list("../output/output_list.txt");
+    for(std::vector<std::string>::iterator it = _lambdaAssemblename.begin(); it != _lambdaAssemblename.end(); ++it) {
+        output_list<<  *it <<std::endl;
+    }
+    output_list.close();
+
 }
 
 void cloth_control::cloth_stretch_output(std::string outputpath)
@@ -194,6 +222,16 @@ std::string cloth_control::GetLambdaOutput(int i)
 std::string cloth_control::GetLambda()
 {
     return this -> lambda;
+}
+
+std::string cloth_control::GetLambdaAssemble()
+{
+    return this -> lambda_assemble;
+}
+
+std::string cloth_control::GetLambdaAssembleOutput(int i)
+{
+    return this -> _lambdaAssemblename[i];
 }
 
 std::string cloth_control::GetStretchOutput(int i)
