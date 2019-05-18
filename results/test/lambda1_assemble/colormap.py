@@ -109,7 +109,7 @@ def getVolumericFrequencyNormalization(bbMaxR, bbMinR, bbMaxT, bbMinT, ptsT, pts
 currentpath = os.getcwd()
 os.chdir(currentpath)
  
-for i in range(2, 72):
+for i in range(2, 75):
     plyFileName = 'lambda1_assemble_' + str(i) + '.ply'
     plydata = PlyData.read(plyFileName)
 
