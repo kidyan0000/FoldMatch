@@ -42,7 +42,7 @@ public:
     void cloth_stretchTensor_3D(Eigen::MatrixXd Eigenval, Eigen::MatrixXd Eigenvec);
     void cloth_stretchTensor_neighbor();
     void cloth_stretchTensor_assemble(Eigen::MatrixXd U, std::map<int, std::vector<int>> mapNeighbor);
-
+    void cloth_stretchTensor_kdTree(Eigen::MatrixXd U, double Per);
     void cloth_displGrad_2D();
 
     // USING NEIGHBOR

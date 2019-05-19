@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
     // MODE 4: Neighbor4x
     // MODE 5: KD-TREE
     // MODE 0: TEST
-    int MODE = 4;
+    int MODE = 3;
 
     // settings writing results
     // CAL 1: lambda
@@ -145,9 +145,8 @@ int main(int argc, char *argv[])
     slot_map -> cloth_map_neighbor(MODE);
 
     /////////////////////////////////////////////////////////////////////
-    /// intialize the slot 1 and slot 2
+    /// intialize the slot 1
     /////////////////////////////////////////////////////////////////////
-    ///
 
     switch(MODE)
     {
@@ -240,7 +239,26 @@ int main(int argc, char *argv[])
                 slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_neighbor3x(), slot_CR->GetEigvec_neighbor3x());
                 slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(FILE));
             }
-            // slot_CR -> cloth_velGrad_3D(slot_CT->GetDefoGrad(), slot_CR->GetDefoGrad(), deltaT);
+            if(CAL == 5)
+            {
+                // calculate the stretch tensor U and U_assemble
+                slot_CR -> cloth_stretchTensor_3D(slot_CR->GetEigval_neighbor3x(), slot_CR->GetEigvec_neighbor3x());
+                slot_CR -> cloth_stretchTensor_assemble(slot_CR->GetStretchTensor_3D(), slot_map->GetMapNeighbor3x());
+                slot_CR -> cloth_eig_assemble(slot_CR->GetStretchTensorAsemmble());
+                slot_CR -> cloth_vec_normalize(slot_CR->GetEigval_assemble(), 3);
+                switch(LAMBDA)
+                {
+                    case 1:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), control->GetLambdaAssembleOutput(FILE));
+                    break;
+                    case 2:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir2(), control->GetLambdaAssembleOutput(FILE));
+                    break;
+                    case 3:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir3(), control->GetLambdaAssembleOutput(FILE));
+                    break;
+                }
+            }
             break;
         }
         case 4:
@@ -366,7 +384,26 @@ int main(int argc, char *argv[])
                 slot_CR -> cloth_WriteVerts(slot_CR->GetVertsUpdate(), control->GetVertsUpdateOutput(CR));
 
             }
-
+            if(CAL == 5)
+            {
+                // calculate the stretch tensor U and U_assemble
+                slot_CR -> cloth_stretchTensor_3D(slot_CR->GetEigval_neighborKdTree(), slot_CR->GetEigvec_neighborKdTree());
+                slot_CR -> cloth_stretchTensor_kdTree(slot_CR->GetStretchTensor_3D(), Per);
+                slot_CR -> cloth_eig_assemble(slot_CR->GetStretchTensorAsemmble());
+                slot_CR -> cloth_vec_normalize(slot_CR->GetEigval_assemble(), 3);
+                switch(LAMBDA)
+                {
+                    case 1:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), control->GetLambdaAssembleOutput(FILE));
+                    break;
+                    case 2:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir2(), control->GetLambdaAssembleOutput(FILE));
+                    break;
+                    case 3:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir3(), control->GetLambdaAssembleOutput(FILE));
+                    break;
+                }
+            }
             break;
         }
     case 0:
@@ -404,7 +441,7 @@ int main(int argc, char *argv[])
     ////////////////////////////////
 
     // slot should be chosen from 1 to 74
-    for(int slot=29; slot<75; slot++)
+    for(int slot=2; slot<75; slot++)
     {
         CT = slot;
         CR = slot+1;
@@ -504,6 +541,26 @@ int main(int argc, char *argv[])
                     // setting wrinkel vector field
                     slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_neighbor3x(), slot_CR->GetEigvec_neighbor3x());
                     slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(CR));
+                }
+                if(CAL == 5)
+                {
+                    // calculate the stretch tensor U and U_assemble
+                    slot_CR -> cloth_stretchTensor_3D(slot_CR->GetEigval_neighbor3x(), slot_CR->GetEigvec_neighbor3x());
+                    slot_CR -> cloth_stretchTensor_assemble(slot_CR->GetStretchTensor_3D(), slot_map->GetMapNeighbor3x());
+                    slot_CR -> cloth_eig_assemble(slot_CR->GetStretchTensorAsemmble());
+                    slot_CR -> cloth_vec_normalize(slot_CR->GetEigval_assemble(), 3);
+                    switch(LAMBDA)
+                    {
+                        case 1:
+                        slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), control->GetLambdaAssembleOutput(FILE));
+                        break;
+                        case 2:
+                        slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir2(), control->GetLambdaAssembleOutput(FILE));
+                        break;
+                        case 3:
+                        slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir3(), control->GetLambdaAssembleOutput(FILE));
+                        break;
+                    }
                 }
                 // slot_CR -> cloth_velGrad_3D(slot_CT->GetDefoGrad(), slot_CR->GetDefoGrad(), deltaT);
                 break;
@@ -628,9 +685,27 @@ int main(int argc, char *argv[])
                     slot_CR -> cloth_transformationMat(slot_CR->GetRotationTensor(), slot_CR->GetTranslationVec());
                     slot_CR -> cloth_update(slot_CR->GetRotationTensor(), slot_CR->GetTranslationVec());
                     slot_CR -> cloth_WriteVerts(slot_CR->GetVertsUpdate(), control->GetVertsUpdateOutput(CT));
-
                 }
-
+                if(CAL == 5)
+                {
+                    // calculate the stretch tensor U and U_assemble
+                    slot_CR -> cloth_stretchTensor_3D(slot_CR->GetEigval_neighborKdTree(), slot_CR->GetEigvec_neighborKdTree());
+                    slot_CR -> cloth_stretchTensor_kdTree(slot_CR->GetStretchTensor_3D(), Per);
+                    slot_CR -> cloth_eig_assemble(slot_CR->GetStretchTensorAsemmble());
+                    slot_CR -> cloth_vec_normalize(slot_CR->GetEigval_assemble(), 3);
+                    switch(LAMBDA)
+                    {
+                        case 1:
+                        slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), control->GetLambdaAssembleOutput(FILE));
+                        break;
+                        case 2:
+                        slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir2(), control->GetLambdaAssembleOutput(FILE));
+                        break;
+                        case 3:
+                        slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir3(), control->GetLambdaAssembleOutput(FILE));
+                        break;
+                    }
+                }
                 break;
             }
         case 0:

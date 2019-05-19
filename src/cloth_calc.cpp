@@ -821,6 +821,120 @@ void cloth_calc::cloth_stretchTensor_assemble(Eigen::MatrixXd U, std::map<int, s
     // Test.close();
 }
 
+void cloth_calc::cloth_stretchTensor_kdTree(Eigen::MatrixXd U, double Per)
+{
+    cloth_init_vert();
+
+    int Vert_num = verts.rows();
+    this -> U_3D_assem.resize(Vert_num*3,3);
+
+    for(int Vert_index=0; Vert_index<Vert_num; Vert_index++) // for all vertice
+    {
+        Eigen::MatrixXd weights;
+        std::vector<double> query_pt(3);
+
+        typedef nanoflann::KDTreeEigenMatrixAdaptor<Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>> kd_tree;
+
+        kd_tree vert_index(3, std::cref(verts),10); // max leaf
+        vert_index.index -> buildIndex();
+
+        const size_t num_results = verts.rows() * Per ; // using 2% total vertices
+        // const size_t num_results = 200; // using 30 neighboring vertices
+
+        for (size_t d = 0; d < 3; d++)
+        {
+          query_pt[d] = this -> verts(Vert_index, d);
+        }
+
+        std::vector<size_t> ret_indexes(num_results); // the neighbor vertice index
+        std::vector<double> out_dists_sqr(num_results); // the distance to the neighbor
+
+        nanoflann::KNNResultSet<double> resultSet(num_results);
+
+        resultSet.init(&ret_indexes[0], &out_dists_sqr[0]);
+        vert_index.index->findNeighbors(resultSet, &query_pt[0], nanoflann::SearchParams(10));
+
+        // weight metric computed as the inverse of distance between vertex i and closest verteices
+        double dists_sum = 0;
+        for(int i=0; i<num_results; i++)
+        {
+            if(out_dists_sqr[i]!=0)
+            {
+                dists_sum = dists_sum + (1./out_dists_sqr[i]);
+            }
+        }
+        weights.resize(num_results,1);
+        for(int i=0; i<num_results; i++)
+        {
+            if(out_dists_sqr[i]!=0)
+            {
+                weights(i) = (1./out_dists_sqr[i]) / (dists_sum);
+            }
+            else
+            {
+                weights(i) = 0;
+            }
+        }
+
+        // std::cout << weight.sum() << std::endl;
+        Eigen::MatrixXd U_j, U_i, U_sum, U_tmp, U_new;
+        U_i.resize(3,3); // base vertex
+        U_j.resize(num_results*3,3); // neighboring vertices
+
+        U_sum.resize(3,3);
+        U_tmp.resize(3,3);
+        U_new.resize(3,3);
+
+        // calculate the U^{1/2}
+        Eigen::MatrixXd Eigval, Eigvec;
+        Eigval.resize(3,1);
+        Eigvec.resize(3,3);
+        Eigen::SelfAdjointEigenSolver<Eigen::Matrix3d> solv(U.block(Vert_index*3,0,3,3));
+        Eigval << solv.eigenvalues().cwiseSqrt();
+        Eigvec << solv.eigenvectors();
+        U_i = ( (Eigval(0,0)) * Eigvec.col(0) * Eigvec.col(0).transpose() ) + ( (Eigval(1,0)) * Eigvec.col(1) * Eigvec.col(1).transpose() )+ ( (Eigval(2,0)) * Eigvec.col(2) * Eigvec.col(2).transpose() );
+
+        for(int Neighbor_index=0; Neighbor_index<num_results; Neighbor_index++)
+        {
+            U_j.block(Neighbor_index*3,0,3,3) = U.block(ret_indexes[Neighbor_index]*3,0,3,3);
+        }
+        // we sum up for all neighboring vertices
+        U_sum.Zero(3,3);
+        for(int Neighbor_index=0; Neighbor_index<num_results; Neighbor_index++)
+        {
+            // Logarithm of a matrix
+            // https://en.wikipedia.org/wiki/Logarithm_of_a_matrix
+            // U_tmp = ((U_i.inverse() * U_j.block(Neighbor_index*3,0,3,3) * U_i.inverse() - Eigen::MatrixXd::Identity(3, 3)) - 1./2.*(U_i.inverse() * U_j.block(Neighbor_index*3,0,3,3) * U_i.inverse() - Eigen::MatrixXd::Identity(3, 3))*(U_i.inverse() * U_j.block(Neighbor_index*3,0,3,3) * U_i.inverse() - Eigen::MatrixXd::Identity(3, 3)) ) * weight(Neighbor_index);
+            U_tmp = (U_i.inverse() * U_j.block(Neighbor_index*3,0,3,3) * U_i.inverse() - Eigen::MatrixXd::Identity(3, 3)) * weights(Neighbor_index);
+
+            U_sum = U_sum + U_tmp;
+            U_tmp.resize(0,0);
+        }
+
+        // Exponential of a matrix
+        // https://en.wikipedia.org/wiki/Matrix_exponential
+        // U_new = Eigen::MatrixXd::Identity(3, 3) + U_sum + U_sum * U_sum / 2.;
+        U_new = Eigen::MatrixXd::Identity(3, 3) + U_sum;
+
+        this -> U_3D_assem.block(Vert_index*3,0,3,3) = U_i * U_new * U_i;
+
+        // erase the matrices
+        U_i.resize(0,0);
+        U_j.resize(0,0);
+        U_sum.resize(0,0);
+        U_tmp.resize(0,0);
+        U_new.resize(0,0);
+        Eigval.resize(0,0);
+        Eigvec.resize(0,0);
+
+        query_pt.clear();
+        ret_indexes.clear();
+        out_dists_sqr.clear();
+        weights.resize(0,0);
+
+    }
+}
+
 void cloth_calc::cloth_displGrad_2D()
 {
     cloth_vec();
