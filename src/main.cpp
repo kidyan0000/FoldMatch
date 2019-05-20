@@ -38,9 +38,9 @@ int main(int argc, char *argv[])
     // MODE 2: Neighbor2x
     // MODE 3: Neighbor3x
     // MODE 4: Neighbor4x
-    // MODE 5: KD-TREE
+    // MODE 5: KD-Tree
     // MODE 0: TEST
-    int MODE = 3;
+    int MODE = 2;
 
     // settings writing results
     // CAL 1: lambda
@@ -142,7 +142,11 @@ int main(int argc, char *argv[])
     cloth_calc* slot_CT = new cloth_calc(control->GetInput(CT-1) , control->GetInput(CR-1), control->GetInput(BS-1));
     cloth_calc* slot_CR = new cloth_calc(control->GetInput(CT) , control->GetInput(CR), control->GetInput(BS));
 
-    slot_map -> cloth_map_neighbor(MODE);
+    if(MODE == 1 || MODE == 2 ||MODE == 3 ||MODE == 4)
+    {
+        slot_map -> cloth_map_neighbor(MODE);
+    }
+
 
     /////////////////////////////////////////////////////////////////////
     /// intialize the slot 1
@@ -178,6 +182,26 @@ int main(int argc, char *argv[])
                 slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_neighbor(), slot_CR->GetEigvec_neighbor());
                 slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(FILE));
             }
+            if(CAL == 5)
+            {
+                // calculate the stretch tensor U and U_assemble
+                slot_CR -> cloth_stretchTensor_3D(slot_CR->GetEigval_neighbor(), slot_CR->GetEigvec_neighbor());
+                slot_CR -> cloth_stretchTensor_assemble(slot_CR->GetStretchTensor_3D(), slot_map->GetMapNeighbor());
+                slot_CR -> cloth_eig_assemble(slot_CR->GetStretchTensorAsemmble());
+                slot_CR -> cloth_vec_normalize(slot_CR->GetEigval_assemble(), 3);
+                switch(LAMBDA)
+                {
+                    case 1:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), control->GetLambdaAssembleOutput(FILE));
+                    break;
+                    case 2:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir2(), control->GetLambdaAssembleOutput(FILE));
+                    break;
+                    case 3:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir3(), control->GetLambdaAssembleOutput(FILE));
+                    break;
+                }
+            }
             break;
         }
         case 2:
@@ -207,6 +231,26 @@ int main(int argc, char *argv[])
                 // setting wrinkel vector field
                 slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_neighbor2x(), slot_CR->GetEigvec_neighbor2x());
                 slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(FILE));
+            }
+            if(CAL == 5)
+            {
+                // calculate the stretch tensor U and U_assemble
+                slot_CR -> cloth_stretchTensor_3D(slot_CR->GetEigval_neighbor2x(), slot_CR->GetEigvec_neighbor2x());
+                slot_CR -> cloth_stretchTensor_assemble(slot_CR->GetStretchTensor_3D(), slot_map->GetMapNeighbor2x());
+                slot_CR -> cloth_eig_assemble(slot_CR->GetStretchTensorAsemmble());
+                slot_CR -> cloth_vec_normalize(slot_CR->GetEigval_assemble(), 3);
+                switch(LAMBDA)
+                {
+                    case 1:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), control->GetLambdaAssembleOutput(FILE));
+                    break;
+                    case 2:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir2(), control->GetLambdaAssembleOutput(FILE));
+                    break;
+                    case 3:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir3(), control->GetLambdaAssembleOutput(FILE));
+                    break;
+                }
             }
             break;
         }
@@ -481,6 +525,26 @@ int main(int argc, char *argv[])
                     slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_neighbor(), slot_CR->GetEigvec_neighbor());
                     slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(FILE));
                 }
+                if(CAL == 5)
+                {
+                    // calculate the stretch tensor U and U_assemble
+                    slot_CR -> cloth_stretchTensor_3D(slot_CR->GetEigval_neighbor(), slot_CR->GetEigvec_neighbor());
+                    slot_CR -> cloth_stretchTensor_assemble(slot_CR->GetStretchTensor_3D(), slot_map->GetMapNeighbor());
+                    slot_CR -> cloth_eig_assemble(slot_CR->GetStretchTensorAsemmble());
+                    slot_CR -> cloth_vec_normalize(slot_CR->GetEigval_assemble(), 3);
+                    switch(LAMBDA)
+                    {
+                        case 1:
+                        slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), control->GetLambdaAssembleOutput(FILE));
+                        break;
+                        case 2:
+                        slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir2(), control->GetLambdaAssembleOutput(FILE));
+                        break;
+                        case 3:
+                        slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir3(), control->GetLambdaAssembleOutput(FILE));
+                        break;
+                    }
+                }
                 break;
             }
             case 2:
@@ -503,13 +567,32 @@ int main(int argc, char *argv[])
                         break;
                     }
                 }
-
                 if(CAL == 2)
                 {
 
                     // setting wrinkel vector field
                     slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_neighbor2x(), slot_CR->GetEigvec_neighbor2x());
                     slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(FILE));
+                }
+                if(CAL == 5)
+                {
+                    // calculate the stretch tensor U and U_assemble
+                    slot_CR -> cloth_stretchTensor_3D(slot_CR->GetEigval_neighbor2x(), slot_CR->GetEigvec_neighbor2x());
+                    slot_CR -> cloth_stretchTensor_assemble(slot_CR->GetStretchTensor_3D(), slot_map->GetMapNeighbor2x());
+                    slot_CR -> cloth_eig_assemble(slot_CR->GetStretchTensorAsemmble());
+                    slot_CR -> cloth_vec_normalize(slot_CR->GetEigval_assemble(), 3);
+                    switch(LAMBDA)
+                    {
+                        case 1:
+                        slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), control->GetLambdaAssembleOutput(FILE));
+                        break;
+                        case 2:
+                        slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir2(), control->GetLambdaAssembleOutput(FILE));
+                        break;
+                        case 3:
+                        slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir3(), control->GetLambdaAssembleOutput(FILE));
+                        break;
+                    }
                 }
                 break;
             }
