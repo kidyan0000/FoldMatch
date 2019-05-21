@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
     // MODE 4: Neighbor4x
     // MODE 5: KD-Tree
     // MODE 0: TEST
-    int MODE = 2;
+    int MODE = 4;
 
     // settings writing results
     // CAL 1: lambda
@@ -48,7 +48,8 @@ int main(int argc, char *argv[])
     // CAL 3: velocity gradient
     // CAL 4: vertices update
     // CAL 5: lambda assemble
-    int CAL = 5;
+    // CAL 6: lambda assemble CCM
+    int CAL = 6;
 
     double Per = 0.01; // Kd-tree parameters
 
@@ -73,7 +74,7 @@ int main(int argc, char *argv[])
         }
 
     }
-    if(CAL == 5)
+    if(CAL == 5 || CAL == 6)
     {
         switch(LAMBDA)
         {
@@ -115,6 +116,15 @@ int main(int argc, char *argv[])
         }
         case 5:
         {
+            control -> cloth_lambdaAssemble_output("../output/debug/");
+            break;
+        }
+        case 6:
+        {
+            control -> cloth_stretchCCM_output("../output/debug/");
+            control -> cloth_stretchFreq_output("../output/debug/");
+            control -> cloth_stretchMap_output("../output/debug/");
+
             control -> cloth_lambdaAssemble_output("../output/debug/");
             break;
         }
@@ -358,6 +368,38 @@ int main(int argc, char *argv[])
                 // calculate the stretch tensor U and U_assemble
                 slot_CR -> cloth_stretchTensor_3D(slot_CR->GetEigval_neighbor4x(), slot_CR->GetEigvec_neighbor4x());
                 slot_CR -> cloth_stretchTensor_assemble(slot_CR->GetStretchTensor_3D(), slot_map->GetMapNeighbor4x());
+                slot_CR -> cloth_eig_assemble(slot_CR->GetStretchTensorAsemmble());
+                slot_CR -> cloth_vec_normalize(slot_CR->GetEigval_assemble(), 3);
+                switch(LAMBDA)
+                {
+                    case 1:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), control->GetLambdaAssembleOutput(FILE));
+                    break;
+                    case 2:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir2(), control->GetLambdaAssembleOutput(FILE));
+                    break;
+                    case 3:
+                    slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir3(), control->GetLambdaAssembleOutput(FILE));
+                    break;
+                }
+            }
+            if(CAL == 6)
+            {
+                slot_CR -> cloth_stretchTensor_3D(slot_CR->GetEigval_neighbor4x(), slot_CR->GetEigvec_neighbor4x());
+                slot_CR -> cloth_stretchTensor_CCM(slot_CR->GetStretchTensor_3D(), slot_CR->GetEigval_neighbor4x(), slot_map->GetMapNeighbor4x());
+
+                std::ofstream StretchCCM(control->GetStretchCCMOutput(FILE));
+                StretchCCM << slot_CR->GetStretchTensorAsemmble()<< std::endl;
+                StretchCCM.close();
+
+                std::ofstream StretchFreq(control->GetStretchFreqOutput(FILE));
+                StretchFreq << slot_CR->GetStretchTensorFreq()<< std::endl;
+                StretchFreq.close();
+
+                std::ofstream StretchMap(control->GetStretchMapOutput(FILE));
+                StretchMap << slot_CR->GetStretchTensorMap()<< std::endl;
+                StretchMap.close();
+
                 slot_CR -> cloth_eig_assemble(slot_CR->GetStretchTensorAsemmble());
                 slot_CR -> cloth_vec_normalize(slot_CR->GetEigval_assemble(), 3);
                 switch(LAMBDA)
@@ -715,6 +757,38 @@ int main(int argc, char *argv[])
                         break;
                     }
                 }
+                if(CAL == 6)
+                {
+                    slot_CR -> cloth_stretchTensor_3D(slot_CR->GetEigval_neighbor4x(), slot_CR->GetEigvec_neighbor4x());
+                    slot_CR -> cloth_stretchTensor_CCM(slot_CR->GetStretchTensor_3D(), slot_CR->GetEigval_neighbor4x(), slot_map->GetMapNeighbor4x());
+
+                    std::ofstream StretchCCM(control->GetStretchCCMOutput(FILE));
+                    StretchCCM << slot_CR->GetStretchTensorAsemmble()<< std::endl;
+                    StretchCCM.close();
+
+                    std::ofstream StretchFreq(control->GetStretchFreqOutput(FILE));
+                    StretchFreq << slot_CR->GetStretchTensorFreq()<< std::endl;
+                    StretchFreq.close();
+
+                    std::ofstream StretchMap(control->GetStretchMapOutput(FILE));
+                    StretchMap << slot_CR->GetStretchTensorMap()<< std::endl;
+                    StretchMap.close();
+
+                    slot_CR -> cloth_eig_assemble(slot_CR->GetStretchTensorAsemmble());
+                    slot_CR -> cloth_vec_normalize(slot_CR->GetEigval_assemble(), 3);
+                    switch(LAMBDA)
+                    {
+                        case 1:
+                        slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), control->GetLambdaAssembleOutput(FILE));
+                        break;
+                        case 2:
+                        slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir2(), control->GetLambdaAssembleOutput(FILE));
+                        break;
+                        case 3:
+                        slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir3(), control->GetLambdaAssembleOutput(FILE));
+                        break;
+                    }
+                }
                 break;
             }
             case 5:
@@ -850,8 +924,8 @@ int main(int argc, char *argv[])
     //     std::cout << control->GetLambdaAssembleOutput(i) << std::endl;
     // }
 
-    // std::ofstream Test("../output/Eigval_assemble.txt");
-    // Test << slot_CR->GetEigval_norm_dir1() << std::endl;
+    // std::ofstream Test("../output/eigval.txt");
+    // Test << slot_CR->GetEigval_neighbor4x()<< std::endl;
     // Test.close();
 
     // slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), "../output/debug/lambda1_assemble.ply");

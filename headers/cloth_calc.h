@@ -41,7 +41,8 @@ public:
     void cloth_stretchTensor_2D();
     void cloth_stretchTensor_3D(Eigen::MatrixXd Eigenval, Eigen::MatrixXd Eigenvec);
     void cloth_stretchTensor_neighbor();
-    void cloth_stretchTensor_assemble(Eigen::MatrixXd U, std::map<int, std::vector<int>> mapNeighbor);
+    void cloth_stretchTensor_assemble(Eigen::MatrixXd U, std::map<int, std::vector<int>> MapNeighbor);
+    void cloth_stretchTensor_CCM(Eigen::MatrixXd U, Eigen::MatrixXd Eigenval, std::map<int, std::vector<int>> MapNeighbor);
     void cloth_stretchTensor_kdTree(Eigen::MatrixXd U, double Per);
     void cloth_displGrad_2D();
 
@@ -89,6 +90,8 @@ public:
     Eigen::MatrixXd GetStretchTensor_2D();
     Eigen::MatrixXd GetStretchTensor_3D();
     Eigen::MatrixXd GetStretchTensorAsemmble();
+    Eigen::MatrixXd GetStretchTensorMap();
+    Eigen::MatrixXd GetStretchTensorFreq();
     Eigen::MatrixXd GetDefoGrad();
     Eigen::MatrixXd GetEigval_3D();
     Eigen::MatrixXd GetEigvec_3D();
@@ -156,6 +159,8 @@ private:
     Eigen::MatrixXd H_2D;
     Eigen::MatrixXd U_3D;
     Eigen::MatrixXd U_3D_assem;
+    Eigen::MatrixXd U_map;
+    Eigen::MatrixXd Freq;
 
     Eigen::MatrixXd F_der;
     Eigen::MatrixXd F_inv;

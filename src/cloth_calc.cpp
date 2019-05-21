@@ -821,6 +821,56 @@ void cloth_calc::cloth_stretchTensor_assemble(Eigen::MatrixXd U, std::map<int, s
     // Test.close();
 }
 
+void cloth_calc::cloth_stretchTensor_CCM(Eigen::MatrixXd U, Eigen::MatrixXd Eigenval, std::map<int, std::vector<int> > MapNeighbor)
+{
+    // Coherent Collective Motion (CCM)
+    cloth_vec();
+
+    int Vert_num = verts.rows();
+
+    this -> U_map.resize(Vert_num*3,4);
+    this -> U_3D_assem.resize(Vert_num*3,3);
+
+    this -> Freq.resize(Vert_num,1);
+    this -> Freq.setZero();
+
+    for(int Vert_index=0; Vert_index<Vert_num; Vert_index++) // for all vertice
+    {
+        int Neighbor_num = MapNeighbor[Vert_index].size();
+
+        if(Neighbor_num!=0)
+        {
+            for(int Neighbor_index=0; Neighbor_index<Neighbor_num; Neighbor_index++)
+            {
+                this -> U_map.block(Vert_index*3,0,3,3) += U.block(MapNeighbor[Vert_index][Neighbor_index]*3,0,3,3);
+                this -> U_map.block(Vert_index*3,3,3,1) += Eigenval.block(MapNeighbor[Vert_index][Neighbor_index]*3,0,3,1);
+
+                this -> Freq(MapNeighbor[Vert_index][Neighbor_index]) += 1.;
+            }
+        }
+        else
+        {
+            this -> U_3D_assem.block(Vert_index*3,0,3,3) = U.block(Vert_index*3,0,3,3);
+        }
+
+    }
+    for(int Vert_index=0; Vert_index<Vert_num; Vert_index++)
+    {
+        int Neighbor_num = MapNeighbor[Vert_index].size();
+        if(Neighbor_num!=0)
+        {
+            this -> U_3D_assem.block(Vert_index*3,0,3,3) = U_map.block(Vert_index*3,0,3,3) / Freq(Vert_index);
+        }
+        else
+        {
+            this -> U_3D_assem.block(Vert_index*3,0,3,3) = U.block(Vert_index*3,0,3,3);
+        }
+
+    }
+    // std::cout << U_3D_assem << std::endl;
+
+}
+
 void cloth_calc::cloth_stretchTensor_kdTree(Eigen::MatrixXd U, double Per)
 {
     cloth_init_vert();
@@ -1824,6 +1874,16 @@ Eigen::MatrixXd cloth_calc::GetStretchTensor_3D()
 Eigen::MatrixXd cloth_calc::GetStretchTensorAsemmble()
 {
     return this -> U_3D_assem;
+}
+
+Eigen::MatrixXd cloth_calc::GetStretchTensorMap()
+{
+    return this -> U_map;
+}
+
+Eigen::MatrixXd cloth_calc::GetStretchTensorFreq()
+{
+    return this -> Freq;
 }
 
 Eigen::MatrixXd cloth_calc::GetEigval_3D()

@@ -114,6 +114,76 @@ void cloth_control::cloth_lambdaAssemble_output(std::string outputpath)
 
 }
 
+void cloth_control::cloth_stretchCCM_output(std::string outputpath)
+{
+    std::string output_file;
+    for(int i=1; i<=75; i++)
+    {
+        output_file = outputpath + "stretchCCM" + "_" + std::to_string(i) +".txt";
+        this -> _stretchCCMname.push_back(output_file);
+    }
+    std::string readme_file;
+    for(int i=1; i<=75; i++)
+    {
+        readme_file = outputpath + "readme/" + "stretchCCM" + "_" + std::to_string(i) + "_readme.txt";
+        this -> _readme.push_back(readme_file);
+    }
+
+    std::ofstream output_list("../output/output_list.txt");
+    for(std::vector<std::string>::iterator it = _stretchCCMname.begin(); it != _stretchCCMname.end(); ++it) {
+        output_list<<  *it <<std::endl;
+    }
+    output_list.close();
+
+}
+
+void cloth_control::cloth_stretchFreq_output(std::string outputpath)
+{
+    std::string output_file;
+    for(int i=1; i<=75; i++)
+    {
+        output_file = outputpath + "stretchFreq" + "_" + std::to_string(i) +".txt";
+        this -> _stretchFreqname.push_back(output_file);
+    }
+
+    std::string readme_file;
+    for(int i=1; i<=75; i++)
+    {
+        readme_file = outputpath + "readme/" + "stretchFreq" + "_" + std::to_string(i) + "_readme.txt";
+        this -> _readme.push_back(readme_file);
+    }
+
+    std::ofstream output_list("../output/output_list.txt");
+    for(std::vector<std::string>::iterator it = _stretchFreqname.begin(); it != _stretchFreqname.end(); ++it) {
+        output_list<<  *it <<std::endl;
+    }
+    output_list.close();
+
+}
+
+void cloth_control::cloth_stretchMap_output(std::string outputpath)
+{
+    std::string output_file;
+    for(int i=1; i<=75; i++)
+    {
+        output_file = outputpath + "stretchMap" + "_" + std::to_string(i) +".txt";
+        this -> _stretchMapname.push_back(output_file);
+    }
+    std::string readme_file;
+    for(int i=1; i<=75; i++)
+    {
+        readme_file = outputpath + "readme/" + "stretchMap" + "_" + std::to_string(i) + "_readme.txt";
+        this -> _readme.push_back(readme_file);
+    }
+
+    std::ofstream output_list("../output/output_list.txt");
+    for(std::vector<std::string>::iterator it = _stretchMapname.begin(); it != _stretchMapname.end(); ++it) {
+        output_list<<  *it <<std::endl;
+    }
+    output_list.close();
+
+}
+
 void cloth_control::cloth_stretch_output(std::string outputpath)
 {
     std::string output_file;
@@ -237,6 +307,21 @@ std::string cloth_control::GetLambdaAssembleOutput(int i)
 std::string cloth_control::GetStretchOutput(int i)
 {
     return this -> _stretchname[i];
+}
+
+std::string cloth_control::GetStretchCCMOutput(int i)
+{
+    return this -> _stretchCCMname[i];
+}
+
+std::string cloth_control::GetStretchFreqOutput(int i)
+{
+    return this -> _stretchFreqname[i];
+}
+
+std::string cloth_control::GetStretchMapOutput(int i)
+{
+    return this -> _stretchMapname[i];
 }
 
 std::string cloth_control::GetWrinkVecFieldOutput(int i)
