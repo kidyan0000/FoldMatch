@@ -49,7 +49,8 @@ int main(int argc, char *argv[])
     // CAL 4: vertices update
     // CAL 5: lambda assemble Riemann
     // CAL 6: lambda assemble CCM
-    int CAL = 6;
+    // CAL 7: wrinkel vector field assemble CCM
+    int CAL = 7;
 
     double Per = 0.01; // Kd-tree parameters
 
@@ -126,6 +127,15 @@ int main(int argc, char *argv[])
             control -> cloth_stretchMap_output("../output/debug/");
 
             control -> cloth_lambdaAssemble_output("../output/debug/");
+            break;
+        }
+        case 7:
+        {
+            control -> cloth_stretchCCM_output("../output/debug/");
+            control -> cloth_stretchFreq_output("../output/debug/");
+            control -> cloth_stretchMap_output("../output/debug/");
+
+            control -> cloth_wrinkVecField_output("../output/debug/");
             break;
         }
     }
@@ -294,6 +304,27 @@ int main(int argc, char *argv[])
                     break;
                 }
             }
+            if(CAL == 7)
+            {
+                slot_CR -> cloth_stretchTensor_3D(slot_CR->GetEigval_neighbor2x(), slot_CR->GetEigvec_neighbor2x());
+                slot_CR -> cloth_stretchTensor_CCM(slot_CR->GetStretchTensor_3D(), slot_CR->GetEigval_neighbor2x(), slot_map->GetMapNeighbor2x());
+
+                std::ofstream StretchCCM(control->GetStretchCCMOutput(FILE));
+                StretchCCM << slot_CR->GetStretchTensorAsemmble()<< std::endl;
+                StretchCCM.close();
+
+                std::ofstream StretchFreq(control->GetStretchFreqOutput(FILE));
+                StretchFreq << slot_CR->GetStretchTensorFreq()<< std::endl;
+                StretchFreq.close();
+
+                std::ofstream StretchMap(control->GetStretchMapOutput(FILE));
+                StretchMap << slot_CR->GetStretchTensorMap()<< std::endl;
+                StretchMap.close();
+
+                slot_CR -> cloth_eig_assemble(slot_CR->GetStretchTensorAsemmble());
+                slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_assemble(), slot_CR->GetEigvec_assemble());
+                slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(FILE));
+            }
             break;
         }
         case 3:
@@ -376,6 +407,27 @@ int main(int argc, char *argv[])
                     slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir3(), control->GetLambdaAssembleOutput(FILE));
                     break;
                 }
+            }
+            if(CAL == 7)
+            {
+                slot_CR -> cloth_stretchTensor_3D(slot_CR->GetEigval_neighbor3x(), slot_CR->GetEigvec_neighbor3x());
+                slot_CR -> cloth_stretchTensor_CCM(slot_CR->GetStretchTensor_3D(), slot_CR->GetEigval_neighbor3x(), slot_map->GetMapNeighbor3x());
+
+                std::ofstream StretchCCM(control->GetStretchCCMOutput(FILE));
+                StretchCCM << slot_CR->GetStretchTensorAsemmble()<< std::endl;
+                StretchCCM.close();
+
+                std::ofstream StretchFreq(control->GetStretchFreqOutput(FILE));
+                StretchFreq << slot_CR->GetStretchTensorFreq()<< std::endl;
+                StretchFreq.close();
+
+                std::ofstream StretchMap(control->GetStretchMapOutput(FILE));
+                StretchMap << slot_CR->GetStretchTensorMap()<< std::endl;
+                StretchMap.close();
+
+                slot_CR -> cloth_eig_assemble(slot_CR->GetStretchTensorAsemmble());
+                slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_assemble(), slot_CR->GetEigvec_assemble());
+                slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(FILE));
             }
             // slot_CR -> cloth_velGrad_3D(slot_CT->GetDefoGrad(), slot_CR->GetDefoGrad(), deltaT);
             break;
@@ -479,6 +531,27 @@ int main(int argc, char *argv[])
                     slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir3(), control->GetLambdaAssembleOutput(FILE));
                     break;
                 }
+            }
+            if(CAL == 7)
+            {
+                slot_CR -> cloth_stretchTensor_3D(slot_CR->GetEigval_neighbor4x(), slot_CR->GetEigvec_neighbor4x());
+                slot_CR -> cloth_stretchTensor_CCM(slot_CR->GetStretchTensor_3D(), slot_CR->GetEigval_neighbor4x(), slot_map->GetMapNeighbor4x());
+
+                std::ofstream StretchCCM(control->GetStretchCCMOutput(FILE));
+                StretchCCM << slot_CR->GetStretchTensorAsemmble()<< std::endl;
+                StretchCCM.close();
+
+                std::ofstream StretchFreq(control->GetStretchFreqOutput(FILE));
+                StretchFreq << slot_CR->GetStretchTensorFreq()<< std::endl;
+                StretchFreq.close();
+
+                std::ofstream StretchMap(control->GetStretchMapOutput(FILE));
+                StretchMap << slot_CR->GetStretchTensorMap()<< std::endl;
+                StretchMap.close();
+
+                slot_CR -> cloth_eig_assemble(slot_CR->GetStretchTensorAsemmble());
+                slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_assemble(), slot_CR->GetEigvec_assemble());
+                slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(FILE));
             }
             break;
         }
@@ -733,6 +806,27 @@ int main(int argc, char *argv[])
                         break;
                     }
                 }
+                if(CAL == 7)
+                {
+                    slot_CR -> cloth_stretchTensor_3D(slot_CR->GetEigval_neighbor2x(), slot_CR->GetEigvec_neighbor2x());
+                    slot_CR -> cloth_stretchTensor_CCM(slot_CR->GetStretchTensor_3D(), slot_CR->GetEigval_neighbor2x(), slot_map->GetMapNeighbor2x());
+
+                    std::ofstream StretchCCM(control->GetStretchCCMOutput(FILE));
+                    StretchCCM << slot_CR->GetStretchTensorAsemmble()<< std::endl;
+                    StretchCCM.close();
+
+                    std::ofstream StretchFreq(control->GetStretchFreqOutput(FILE));
+                    StretchFreq << slot_CR->GetStretchTensorFreq()<< std::endl;
+                    StretchFreq.close();
+
+                    std::ofstream StretchMap(control->GetStretchMapOutput(FILE));
+                    StretchMap << slot_CR->GetStretchTensorMap()<< std::endl;
+                    StretchMap.close();
+
+                    slot_CR -> cloth_eig_assemble(slot_CR->GetStretchTensorAsemmble());
+                    slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_assemble(), slot_CR->GetEigvec_assemble());
+                    slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(FILE));
+                }
                 break;
             }
             case 3:
@@ -815,6 +909,27 @@ int main(int argc, char *argv[])
                         slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir3(), control->GetLambdaAssembleOutput(FILE));
                         break;
                     }
+                }
+                if(CAL == 7)
+                {
+                    slot_CR -> cloth_stretchTensor_3D(slot_CR->GetEigval_neighbor3x(), slot_CR->GetEigvec_neighbor3x());
+                    slot_CR -> cloth_stretchTensor_CCM(slot_CR->GetStretchTensor_3D(), slot_CR->GetEigval_neighbor3x(), slot_map->GetMapNeighbor3x());
+
+                    std::ofstream StretchCCM(control->GetStretchCCMOutput(FILE));
+                    StretchCCM << slot_CR->GetStretchTensorAsemmble()<< std::endl;
+                    StretchCCM.close();
+
+                    std::ofstream StretchFreq(control->GetStretchFreqOutput(FILE));
+                    StretchFreq << slot_CR->GetStretchTensorFreq()<< std::endl;
+                    StretchFreq.close();
+
+                    std::ofstream StretchMap(control->GetStretchMapOutput(FILE));
+                    StretchMap << slot_CR->GetStretchTensorMap()<< std::endl;
+                    StretchMap.close();
+
+                    slot_CR -> cloth_eig_assemble(slot_CR->GetStretchTensorAsemmble());
+                    slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_assemble(), slot_CR->GetEigvec_assemble());
+                    slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(FILE));
                 }
                 // slot_CR -> cloth_velGrad_3D(slot_CT->GetDefoGrad(), slot_CR->GetDefoGrad(), deltaT);
                 break;
@@ -918,6 +1033,27 @@ int main(int argc, char *argv[])
                         break;
                     }
                 }
+                if(CAL == 7)
+                {
+                    slot_CR -> cloth_stretchTensor_3D(slot_CR->GetEigval_neighbor4x(), slot_CR->GetEigvec_neighbor4x());
+                    slot_CR -> cloth_stretchTensor_CCM(slot_CR->GetStretchTensor_3D(), slot_CR->GetEigval_neighbor4x(), slot_map->GetMapNeighbor4x());
+
+                    std::ofstream StretchCCM(control->GetStretchCCMOutput(FILE));
+                    StretchCCM << slot_CR->GetStretchTensorAsemmble()<< std::endl;
+                    StretchCCM.close();
+
+                    std::ofstream StretchFreq(control->GetStretchFreqOutput(FILE));
+                    StretchFreq << slot_CR->GetStretchTensorFreq()<< std::endl;
+                    StretchFreq.close();
+
+                    std::ofstream StretchMap(control->GetStretchMapOutput(FILE));
+                    StretchMap << slot_CR->GetStretchTensorMap()<< std::endl;
+                    StretchMap.close();
+
+                    slot_CR -> cloth_eig_assemble(slot_CR->GetStretchTensorAsemmble());
+                    slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_assemble(), slot_CR->GetEigvec_assemble());
+                    slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(FILE));
+                }
                 break;
             }
             case 5:
@@ -1008,18 +1144,19 @@ int main(int argc, char *argv[])
             outfile << "Kd-Tree parameter is: "    << Per << std::endl;
         }
         outfile << "We calculate for: " << CAL << std::endl;
-        if(CAL == 1 || CAL == 2 | CAL == 3 | CAL == 5)
-        {
-            outfile << "Template is: "  << control->GetInput(CT) << std::endl;
-            outfile << "Reference is: " << control->GetInput(CR) << std::endl;
-            outfile << "Base is: "      << control->GetInput(BS) << std::endl;
-        }
-        else if(CAL == 4)
+        if(CAL == 4)
         {
             outfile << "Template is: "  << control->GetVertsUpdateOutput(CT) << std::endl;
             outfile << "Reference is: " << control->GetInput(CR) << std::endl;
             outfile << "Base is: "      << control->GetVertsUpdateOutput(BS) << std::endl;
         }
+        else
+        {
+            outfile << "Template is: "  << control->GetInput(CT) << std::endl;
+            outfile << "Reference is: " << control->GetInput(CR) << std::endl;
+            outfile << "Base is: "      << control->GetInput(BS) << std::endl;
+        }
+
         if(CAL == 1)
         {
             outfile << "Lambda is: "    << control->GetLambda() << std::endl;
