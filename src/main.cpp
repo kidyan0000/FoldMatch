@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
     // MODE 4: Neighbor4x
     // MODE 5: KD-Tree
     // MODE 0: TEST
-    int MODE = 2;
+    int MODE = 4;
 
     // settings writing results
     // CAL 1: lambda
@@ -92,7 +92,7 @@ int main(int argc, char *argv[])
 
     }
 
-    control -> cloth_input("../data/Tshirt/");
+    control -> cloth_input("../data/flag/");
     switch(CAL)
     {
         case 1:
@@ -1183,6 +1183,12 @@ int main(int argc, char *argv[])
         // std::cout << solv.eigenvectors() << std::endl;
 
     }
+    // Eigen::MatrixXd test = Eigen::MatrixXd::Identity(3,3);
+
+    // test.row(0) << 2,2,2;
+    // std::cout << test  << std::endl;
+    // Eigen::SelfAdjointEigenSolver<Eigen::Matrix3d> solv(test);
+    // std::cout << solv.eigenvectors() << std::endl;
     // slot_CR -> cloth_eig_assemble(slot_CR->GetStretchTensorAsemmble());
     // slot_CR -> cloth_vec_normalize(slot_CR->GetEigval_assemble(), 3);
     // for(int i = 1;i<75;i++)

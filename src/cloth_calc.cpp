@@ -813,7 +813,8 @@ void cloth_calc::cloth_stretchTensor_assemble(Eigen::MatrixXd U, std::map<int, s
         }
         else
         {
-            this -> U_3D_assem.block(Vert_index*3,0,3,3) = U.block(Vert_index*3,0,3,3);
+            // this -> U_3D_assem.block(Vert_index*3,0,3,3) = U.block(Vert_index*3,0,3,3);
+            this -> U_3D_assem.block(Vert_index*3,0,3,3) = Eigen::MatrixXd::Identity(3,3);
         }
 
     }
@@ -863,7 +864,8 @@ void cloth_calc::cloth_stretchTensor_CCM(Eigen::MatrixXd U, Eigen::MatrixXd Eige
         }
         else
         {
-            this -> U_3D_assem.block(Vert_index*3,0,3,3) = U.block(Vert_index*3,0,3,3);
+            // this -> U_3D_assem.block(Vert_index*3,0,3,3) = U.block(Vert_index*3,0,3,3);
+            this -> U_3D_assem.block(Vert_index*3,0,3,3) = Eigen::MatrixXd::Identity(3,3);
         }
 
     }
