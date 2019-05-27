@@ -278,7 +278,7 @@ currentpath = os.getcwd()
 os.chdir(currentpath)
 
 for i in range(2, 3):
-    plyFileName = 'lambda1_assemble_' + str(i) + '.ply'
+    plyFileName = 'wrinkVecField_' + str(i) + '.ply'
     plydata = PlyData.read(plyFileName)
 
     x = plydata['vertex']['x']
@@ -318,6 +318,8 @@ for i in range(2, 3):
 #field[..., 0] += 10 * np.cos(np.linspace(0, 2 * 3.1415, 100))
 #print field
 field = vertices
+print len(field)
+#field[..., 0] += 10 * np.cos(np.linspace(0, 2 * 3.1415, len(vertices)))
 
 #color = np.zeros((100, 100, 4), dtype='float32')
 #color[..., :2] = (field + 5) / 10.

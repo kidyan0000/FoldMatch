@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
     // CAL 5: lambda assemble Riemann
     // CAL 6: lambda assemble CCM
     // CAL 7: wrinkel vector field assemble CCM
-    int CAL = 7;
+    int CAL = 6;
 
     double Per = 0.01; // Kd-tree parameters
 
@@ -665,7 +665,7 @@ int main(int argc, char *argv[])
     ////////////////////////////////
 
     // slot should be chosen from 1 to 74
-    for(int slot=2; slot<2; slot++)
+    for(int slot=2; slot<75; slot++)
     {
         CT = slot;
         CR = slot+1;
