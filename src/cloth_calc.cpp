@@ -1480,9 +1480,30 @@ void cloth_calc::cloth_ReadTransformationMat(std::string Transformation, std::st
     }
 }
 
-void cloth_calc::cloth_Opt(Eigen::MatrixXd T)
+void cloth_calc::cloth_Opt(Eigen::MatrixXd T, Eigen::MatrixXd F)
 {
-    std::cout << T << std::endl;
+    // std::cout << T << std::endl;
+    cloth_init_vert();
+    int Vert_num = vertsT.rows();
+    this -> R_opt.resize(Vert_num*3,3);
+
+    for(int Vert_index=0; Vert_index<Vert_num; Vert_index++)
+    {
+        Eigen::MatrixXd F_t;
+        F_t = F.block(Vert_index*3,0,3,3);
+
+        Eigen::MatrixXd U_t;
+        U_t = (T.block(Vert_index*3,0,3,3).transpose() * T.block(Vert_index*3,0,3,3)).inverse() * T.block(Vert_index*3,0,3,3).transpose() * F_t;
+
+        // Eigen::MatrixXd R_t;
+        this -> R_opt.block(Vert_index*3,0,3,3) = (T.block(Vert_index*3,0,3,3) + F_t*U_t.transpose()) * (Eigen::MatrixXd::Identity(3,3) + U_t*U_t.transpose());
+
+    }
+
+
+    // std::cout << R_t << std::endl;
+    // std::cout << T.block(0,0,3,3) << std::endl;
+
 
 }
 
@@ -2073,6 +2094,11 @@ Eigen::MatrixXd cloth_calc::GetStrTensor()
 Eigen::MatrixXd cloth_calc::GetRotTensor()
 {
     return this -> W;
+}
+
+Eigen::MatrixXd cloth_calc::GetRotationTensorOpt()
+{
+    return this -> R_opt;
 }
 
 Eigen::MatrixXd cloth_calc::GetStrTensorAsemmble()

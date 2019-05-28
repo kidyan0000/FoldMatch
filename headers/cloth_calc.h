@@ -71,7 +71,7 @@ public:
     void cloth_WriteVerts(Eigen::MatrixXd verts, const std::string &  ifileName);
 
     void cloth_ReadTransformationMat(std::string Transformation, std::string Frequency);
-    void cloth_Opt(Eigen::MatrixXd T);
+    void cloth_Opt(Eigen::MatrixXd T, Eigen::MatrixXd F);
 
     // COLLORMAP
     void cloth_vec_normalize(Eigen::MatrixXd Eigenval, int dim);
@@ -116,6 +116,7 @@ public:
     Eigen::MatrixXd GetWrinkVecField();
     Eigen::MatrixXd GetWrinkVecField_norm();
     Eigen::MatrixXd GetRotationTensor();
+    Eigen::MatrixXd GetRotationTensorOpt();
     Eigen::MatrixXd GetTranslationVec();
     Eigen::MatrixXd GetTransformationMat();
     Eigen::MatrixXd GetVertsUpdate();
@@ -192,6 +193,7 @@ private:
     Eigen::MatrixXd R;
     Eigen::MatrixXd t;
     Eigen::MatrixXd T;
+    Eigen::MatrixXd R_opt;
 
     //
     Eigen::MatrixXd Eigval_norm_dir1, Eigval_norm_dir2, Eigval_norm_dir3;

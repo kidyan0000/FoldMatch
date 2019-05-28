@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
     // MODE 4: Neighbor4x
     // MODE 5: KD-Tree
     // MODE 0: TEST
-    int MODE = 0;
+    int MODE = 4;
 
     // settings writing results
     // CAL 1: lambda
@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
     // CAL 5: lambda assemble Riemann
     // CAL 6: lambda assemble CCM
     // CAL 7: wrinkel vector field assemble CCM
-    int CAL = 6;
+    int CAL = 4;
 
     double Per = 0.01; // Kd-tree parameters
 
@@ -471,6 +471,7 @@ int main(int argc, char *argv[])
             }
             if(CAL == 4)
             {
+                /*
                 // calculate the stretch tensor U and U_assemble
                 slot_CR -> cloth_stretchTensor_3D(slot_CR->GetEigval_neighbor4x(), slot_CR->GetEigvec_neighbor4x());
                 slot_CR -> cloth_stretchTensor_assemble(slot_CR->GetStretchTensor_3D(), slot_map->GetMapNeighbor4x());
@@ -481,6 +482,13 @@ int main(int argc, char *argv[])
                 slot_CR -> cloth_update(slot_CR->GetRotationTensor(), slot_CR->GetTranslationVec());
                 slot_CR -> cloth_WriteVerts(slot_CR->GetVertsUpdate(), control->GetVertsUpdateOutput(CR));
                 // we update the vertices and do new calculation
+                */
+                slot_CR->cloth_ReadTransformationMat(control -> GetInputTransf(FILE), control -> GetInputFreq(FILE));
+                slot_CR->cloth_Opt(slot_CR->GetTransformationMat(), slot_CR->GetDefoGrad());
+
+                slot_CR -> cloth_translationVec(slot_CR->GetRotationTensorOpt(), slot_map->GetMapNeighbor4x());
+                slot_CR -> cloth_update(slot_CR->GetRotationTensorOpt(), slot_CR->GetTranslationVec());
+                slot_CR -> cloth_WriteVerts(slot_CR->GetVertsUpdate(), control->GetVertsUpdateOutput(CR));
             }
             if(CAL == 5)
             {
@@ -637,8 +645,16 @@ int main(int argc, char *argv[])
             std::cout << control -> GetInputTransf(FILE) << std::endl;
             std::cout << control -> GetInputFreq(FILE) << std::endl;
 
+            slot_map -> cloth_map_neighbor(4);
+            slot_CR -> cloth_eig_neighbor4x(slot_map->GetMapNeighbor4x());
+
             slot_CR->cloth_ReadTransformationMat(control -> GetInputTransf(FILE), control -> GetInputFreq(FILE));
-            slot_CR->cloth_Opt(slot_CR->GetTransformationMat());
+            slot_CR->cloth_Opt(slot_CR->GetTransformationMat(), slot_CR->GetDefoGrad());
+
+            slot_CR -> cloth_translationVec(slot_CR->GetRotationTensorOpt(), slot_map->GetMapNeighbor4x());
+            slot_CR -> cloth_update(slot_CR->GetRotationTensorOpt(), slot_CR->GetTranslationVec());
+            slot_CR -> cloth_WriteVerts(slot_CR->GetVertsUpdate(), "../test.ply");
+            // std::cout << slot_CR->GetRotTensorOpt()<<std::endl;
 
 
         }
@@ -673,7 +689,7 @@ int main(int argc, char *argv[])
     ////////////////////////////////
 
     // slot should be chosen from 1 to 74
-    for(int slot=2; slot<2; slot++)
+    for(int slot=2; slot<10; slot++)
     {
         CT = slot;
         CR = slot+1;
@@ -681,7 +697,7 @@ int main(int argc, char *argv[])
         FILE = slot;
 
         cloth_calc* slot_CT = new cloth_calc(control->GetInput(CT-1) , control->GetInput(CR-1), control->GetInput(BS-1));
-        cloth_calc* slot_CR = new cloth_calc(control->GetInput(CT) , control->GetInput(CR), control->GetInput(BS));
+        cloth_calc* slot_CR = new cloth_calc(control->GetVertsUpdateOutput(CT) , control->GetInput(CR), control->GetVertsUpdateOutput(BS));
 
         switch(MODE)
         {
@@ -978,6 +994,7 @@ int main(int argc, char *argv[])
                 }
                 if(CAL == 4)
                 {
+                    /*
                     // calculate the stretch tensor U and U_assemble
                     slot_CR -> cloth_stretchTensor_3D(slot_CR->GetEigval_neighbor4x(), slot_CR->GetEigvec_neighbor4x());
                     slot_CR -> cloth_stretchTensor_assemble(slot_CR->GetStretchTensor_3D(), slot_map->GetMapNeighbor4x());
@@ -988,6 +1005,13 @@ int main(int argc, char *argv[])
                     slot_CR -> cloth_update(slot_CR->GetRotationTensor(), slot_CR->GetTranslationVec());
                     slot_CR -> cloth_WriteVerts(slot_CR->GetVertsUpdate(), control->GetVertsUpdateOutput(CR));
                     // we update the vertices and do new calculation
+                    */
+                    slot_CR->cloth_ReadTransformationMat(control -> GetInputTransf(FILE), control -> GetInputFreq(FILE));
+                    slot_CR->cloth_Opt(slot_CR->GetTransformationMat(), slot_CR->GetDefoGrad());
+
+                    slot_CR -> cloth_translationVec(slot_CR->GetRotationTensorOpt(), slot_map->GetMapNeighbor4x());
+                    slot_CR -> cloth_update(slot_CR->GetRotationTensorOpt(), slot_CR->GetTranslationVec());
+                    slot_CR -> cloth_WriteVerts(slot_CR->GetVertsUpdate(), control->GetVertsUpdateOutput(CR));
                 }
                 if(CAL == 5)
                 {
