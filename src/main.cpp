@@ -637,7 +637,9 @@ int main(int argc, char *argv[])
             std::cout << control -> GetInputTransf(FILE) << std::endl;
             std::cout << control -> GetInputFreq(FILE) << std::endl;
 
-            slot_CR->cloth_optimierung(control -> GetInputTransf(FILE), control -> GetInputFreq(FILE));
+            slot_CR->cloth_ReadTransformationMat(control -> GetInputTransf(FILE), control -> GetInputFreq(FILE));
+            slot_CR->cloth_Opt(slot_CR->GetTransformationMat());
+
 
         }
         break;

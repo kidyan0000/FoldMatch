@@ -1424,16 +1424,33 @@ void cloth_calc::cloth_WriteVerts(Eigen::MatrixXd update, const std::string &ifi
 
 }
 
-void cloth_calc::cloth_optimierung(std::string Transformation, std::string Frequency)
+void cloth_calc::cloth_ReadTransformationMat(std::string Transformation, std::string Frequency)
 {
+    cloth_init_vert();
+    int Vert_num = this -> vertsT.rows();
+
+    this -> T.resize(3*Vert_num,9);
+
+    Eigen::MatrixXd T_assem;
+    T_assem.resize(3*Vert_num,9);
+
+    Eigen::MatrixXi Freq_assem;
+    Freq_assem.resize(Vert_num,1);
+
+
     std::ifstream Transf;
     Transf.open(Transformation);
     if (Transf.is_open())
     {
         std::string line;
+        std::stringstream string_steam;
+        int i=0;
         while (getline (Transf,line))
         {
-            // std::cout << line << std::endl;
+            string_steam << line;
+            string_steam >> T_assem(i,0) >> T_assem(i,1) >>T_assem(i,2) >>T_assem(i,3) >>T_assem(i,4) >>T_assem(i,5) >>T_assem(i,6)>>T_assem(i,7)>>T_assem(i,8);
+            i++;
+            string_steam.clear();
         }
     }
     Transf.close();
@@ -1443,12 +1460,29 @@ void cloth_calc::cloth_optimierung(std::string Transformation, std::string Frequ
     if (Freq.is_open())
     {
         std::string f;
+        std::string line;
+        std::stringstream string_steam;
+        int i=0;
         while (getline (Freq,f))
         {
-            std::cout << f << std::endl;
+            string_steam << f;
+            string_steam >> Freq_assem(i,0);
+            i++;
+            string_steam.clear();
         }
     }
     Freq.close();
+
+    // divide by frequency
+    for(int Vert_index=0; Vert_index < Vert_num;Vert_index++)
+    {
+        this -> T.block(Vert_index*3,0,3,9) = T_assem.block(Vert_index*3,0,3,9) / Freq_assem(Vert_index);
+    }
+}
+
+void cloth_calc::cloth_Opt(Eigen::MatrixXd T)
+{
+    std::cout << T << std::endl;
 
 }
 
