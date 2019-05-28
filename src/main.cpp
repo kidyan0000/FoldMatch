@@ -689,7 +689,7 @@ int main(int argc, char *argv[])
     ////////////////////////////////
 
     // slot should be chosen from 1 to 74
-    for(int slot=2; slot<10; slot++)
+    for(int slot=2; slot<51; slot++)
     {
         CT = slot;
         CR = slot+1;
