@@ -7,6 +7,8 @@
 #include <unistd.h>
 #include <cstdlib>
 #include <dirent.h>
+#include <iostream>
+#include <string>
 
 
 #include <sys/types.h>
@@ -40,7 +42,7 @@ int main(int argc, char *argv[])
     // MODE 4: Neighbor4x
     // MODE 5: KD-Tree
     // MODE 0: TEST
-    int MODE = 4;
+    int MODE = 0;
 
     // settings writing results
     // CAL 1: lambda
@@ -632,9 +634,13 @@ int main(int argc, char *argv[])
         }
     case 0:
         {
-            slot_CR->cloth_map_neighbor(MODE);
-            break;
+            std::cout << control -> GetInputTransf(FILE) << std::endl;
+            std::cout << control -> GetInputFreq(FILE) << std::endl;
+
+            slot_CR->cloth_optimierung(control -> GetInputTransf(FILE), control -> GetInputFreq(FILE));
+
         }
+        break;
     }
 
 
@@ -665,7 +671,7 @@ int main(int argc, char *argv[])
     ////////////////////////////////
 
     // slot should be chosen from 1 to 74
-    for(int slot=2; slot<75; slot++)
+    for(int slot=2; slot<2; slot++)
     {
         CT = slot;
         CR = slot+1;

@@ -69,6 +69,7 @@ public:
     void cloth_transformationMat(Eigen::MatrixXd R, Eigen::MatrixXd t);
     void cloth_update(Eigen::MatrixXd R, Eigen::MatrixXd t);
     void cloth_WriteVerts(Eigen::MatrixXd verts, const std::string &  ifileName);
+    void cloth_optimierung(std::string Transformation, std::string Frequency);
 
     // COLLORMAP
     void cloth_vec_normalize(Eigen::MatrixXd Eigenval, int dim);

@@ -1424,6 +1424,34 @@ void cloth_calc::cloth_WriteVerts(Eigen::MatrixXd update, const std::string &ifi
 
 }
 
+void cloth_calc::cloth_optimierung(std::string Transformation, std::string Frequency)
+{
+    std::ifstream Transf;
+    Transf.open(Transformation);
+    if (Transf.is_open())
+    {
+        std::string line;
+        while (getline (Transf,line))
+        {
+            // std::cout << line << std::endl;
+        }
+    }
+    Transf.close();
+
+    std::ifstream Freq;
+    Freq.open(Frequency);
+    if (Freq.is_open())
+    {
+        std::string f;
+        while (getline (Freq,f))
+        {
+            std::cout << f << std::endl;
+        }
+    }
+    Freq.close();
+
+}
+
 
 void cloth_calc::cloth_eig_neighbor(std::map<int, std::vector<int>> MapNeighbor)
 {

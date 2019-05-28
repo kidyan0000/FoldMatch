@@ -46,22 +46,52 @@ bool cloth_control::compare(std::string a, std::string b)
 
 void cloth_control::cloth_input(std::string inputpath)
 {
-    std::string input_file, output_file;
+    std::string input_file, output_file, input_file_ply, input_file_transf, input_file_freq;
 
-    boost::filesystem::path path(inputpath);
+    std::string inputpath_ply, inputpath_transf, inputpath_freq;
+    inputpath_ply = inputpath + "ply/";
+    inputpath_transf = inputpath+ "Transform/";
+    inputpath_freq = inputpath + "Freq/";
+
+    boost::filesystem::path path(inputpath_ply);
     boost::filesystem::recursive_directory_iterator end_iter;
 
-    for(boost::filesystem::recursive_directory_iterator iter(inputpath);iter!=end_iter;iter++)
+    for(boost::filesystem::recursive_directory_iterator iter(inputpath_ply);iter!=end_iter;iter++)
     {
         input_file = iter -> path().filename().string();
-        input_file = inputpath + input_file;
+        input_file = inputpath_ply + input_file;
         this -> _inputname.push_back(input_file);
-
-
     }
 
     std::sort(_inputname.begin(),_inputname.end(), compare);
 
+    // transformation informations
+    boost::filesystem::path path_transf(inputpath_transf);
+    boost::filesystem::recursive_directory_iterator end_iter_transf;
+
+    for(boost::filesystem::recursive_directory_iterator iter(inputpath_transf);iter!=end_iter_transf;iter++)
+    {
+        input_file_transf = iter -> path().filename().string();
+        input_file_transf = inputpath_transf + input_file_transf;
+        this -> _inputname_transf.push_back(input_file_transf);
+    }
+
+    std::sort(_inputname_transf.begin(),_inputname_transf.end(), compare);
+
+    // frequency informations
+    boost::filesystem::path path_freq(inputpath_freq);
+    boost::filesystem::recursive_directory_iterator end_iter_freq;
+
+    for(boost::filesystem::recursive_directory_iterator iter(inputpath_freq);iter!=end_iter_freq;iter++)
+    {
+        input_file_freq = iter -> path().filename().string();
+        input_file_freq = inputpath_freq + input_file_freq;
+        this -> _inputname_freq.push_back(input_file_freq);
+    }
+
+    std::sort(_inputname_freq.begin(),_inputname_freq.end(), compare);
+
+    //
     std::ofstream input_list("../output/input_list.txt");
     for(std::vector<std::string>::iterator it = _inputname.begin(); it != _inputname.end(); ++it) {
         input_list<<  *it <<std::endl;
@@ -282,6 +312,16 @@ void cloth_control::cloth_vertsUpdate_output(std::string outputpath)
 std::string cloth_control::GetInput(int i)
 {
     return this -> _inputname[i];
+}
+
+std::string cloth_control::GetInputTransf(int i)
+{
+    return this -> _inputname_transf[i];
+}
+
+std::string cloth_control::GetInputFreq(int i)
+{
+    return this -> _inputname_freq[i];
 }
 
 std::string cloth_control::GetLambdaOutput(int i)

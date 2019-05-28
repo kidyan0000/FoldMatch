@@ -27,6 +27,8 @@ public:
     static bool compare(std::string a, std::string b);
 
     std::string GetInput(int i);
+    std::string GetInputTransf(int i);
+    std::string GetInputFreq(int i);
     std::string GetLambda();
     std::string GetLambdaAssemble();
     std::string GetLambdaOutput(int i);
@@ -43,6 +45,7 @@ public:
 private:
     std::vector<std::string> _inputname, _lambdaname, _lambdaAssemblename, _stretchname, _wrinkVecFieldname, _input_vertsUpdatename, _output_vertsUpdatename;
     std::vector<std::string> _stretchCCMname, _stretchFreqname, _stretchMapname;
+    std::vector<std::string> _inputname_transf, _inputname_freq;
     std::vector<std::string> _readme;
     std::string lambda;
     std::string lambda_assemble;
