@@ -1,4 +1,4 @@
-Selected mode is: 4
+Selected mode is: 0
 We calculate for: 4
 Template is: ../data/flag/ply/STF_iter_2.ply
 Reference is: ../data/flag/ply/STF_iter_3.ply

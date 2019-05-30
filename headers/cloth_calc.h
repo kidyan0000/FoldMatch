@@ -18,7 +18,85 @@
 #include <Eigen/Geometry>
 #include <Eigen/Eigenvalues>
 
+#include <unsupported/Eigen/NonLinearOptimization>
+#include <unsupported/Eigen/NumericalDiff>
+
 #include <ply_Module.h>
+
+// Generic functor
+template<typename _Scalar, int NX = Eigen::Dynamic, int NY = Eigen::Dynamic>
+struct Functor
+{
+    typedef _Scalar Scalar;
+    enum {
+        InputsAtCompileTime = NX,
+        ValuesAtCompileTime = NY
+};
+typedef Eigen::Matrix<Scalar,InputsAtCompileTime,1> InputType;
+typedef Eigen::Matrix<Scalar,ValuesAtCompileTime,1> ValueType;
+typedef Eigen::Matrix<Scalar,ValuesAtCompileTime,InputsAtCompileTime> JacobianType;
+
+int m_inputs, m_values;
+
+Functor() : m_inputs(InputsAtCompileTime), m_values(ValuesAtCompileTime) {}
+Functor(int inputs, int values) : m_inputs(inputs), m_values(values) {}
+
+int inputs() const { return m_inputs; }
+int values() const { return m_values; }
+
+};
+
+/*
+struct opt_functor : Functor<double>
+{
+opt_functor(void): Functor<double>(2,2) {}
+int operator()(const Eigen::VectorXd &x, Eigen::VectorXd &fvec) const
+{
+    // Implement y = 10*(x0+3)^2 + (x1-5)^2
+    fvec(0) = 10.0*pow(x(0)+3.0,2) +  pow(x(1)-5.0,2);
+    fvec(1) = 0;
+
+    return 0;
+}
+};
+*/
+
+struct my_functor : Functor<double>
+{
+    private:
+        Eigen::MatrixXd     R_opt, U_opt;
+        Eigen::MatrixXd     T_input, U_input, R_input, F_input;
+    public:
+        void setValues(Eigen::MatrixXd T)
+        {
+            this -> T_input = T;
+            this -> F_input = T_input.block(0,0,3,3);
+            this -> R_input = T_input.block(0,3,3,3);
+
+            // this -> U_input = T_input.block(8,0,3,3);
+        }
+
+        my_functor(void): Functor<double>(3,6) {}
+        // functor(int src, int dst): Functor<double>(src,dst) {}
+        int operator()(const Eigen::MatrixXd X, double f_val) const
+        {
+            f_val = (X.block(0,0,3,3) - this->R_input).norm() + (X.block(3,0,3,3) - this->U_input).norm() + (X.block(0,0,3,3)*X.block(3,0,3,3) - this->F_input).norm();
+            return 0;
+        }
+        int df(const Eigen::MatrixXd X, Eigen::MatrixXd &R_der, Eigen::MatrixXd &U_der) const
+        {
+            R_der = (X.block(0,0,3,3) + this->F_input*X.block(3,0,3,3)) * (Eigen::MatrixXd::Identity(3,3) - X.block(3,0,3,3)*X.block(3,0,3,3)).inverse();
+            U_der = (X.block(3,0,3,3) + this->F_input*X.block(0,0,3,3)) * (Eigen::MatrixXd::Identity(3,3) - X.block(0,0,3,3)*X.block(0,0,3,3)).inverse();
+            return 0;
+        }
+        /*
+        float getError(const Eigen::VectorXf &x, float &maxError)
+        {
+
+            return result;
+        }
+        */
+};
 
 
 class cloth_calc
@@ -79,7 +157,7 @@ public:
 
 
 
-    void test(Eigen::MatrixXd U, std::map<int, std::vector<int>> mapNeighbor);
+    void test(Eigen::MatrixXd T);
 
     std::map<int, std::vector<int>> GetMapNeighbor();
     std::map<int, std::vector<int>> GetMapNeighbor2x();

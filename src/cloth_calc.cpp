@@ -1496,7 +1496,7 @@ void cloth_calc::cloth_Opt(Eigen::MatrixXd T, Eigen::MatrixXd F)
         U_t = (T.block(Vert_index*3,0,3,3).transpose() * T.block(Vert_index*3,0,3,3)).inverse() * T.block(Vert_index*3,0,3,3).transpose() * F_t;
 
         // Eigen::MatrixXd R_t;
-        this -> R_opt.block(Vert_index*3,0,3,3) = (T.block(Vert_index*3,0,3,3) + F_t*U_t.transpose()) * (Eigen::MatrixXd::Identity(3,3) + U_t*U_t.transpose());
+        this -> R_opt.block(Vert_index*3,0,3,3) = (T.block(Vert_index*3,0,3,3) + F_t*U_t) * (Eigen::MatrixXd::Identity(3,3) + U_t*U_t);
 
     }
 
@@ -2114,67 +2114,28 @@ Eigen::MatrixXd cloth_calc::GetStrTensor_norm_dir1()
 
 
 
-void cloth_calc::test(Eigen::MatrixXd U, std::map<int, std::vector<int>> MapNeighbor)
+void cloth_calc::test(Eigen::MatrixXd T)
 {
-    cloth_vec();
+    Eigen::MatrixXd X;
 
-    int Vert_num = verts.rows();
-    this -> U_3D_assem.resize(Vert_num*3,3);
-    for(int Vert_index=0; Vert_index<Vert_num; Vert_index++) // for all vertice
-    {
-        int Neighbor_num = MapNeighbor[Vert_index].size();
+    int Vert_num = T.rows() / 3.;
+    // std::cout << Vert_num << std::endl;
 
-        // we calculate here the adjacent area
-        Eigen::MatrixXd weight;
+    X.resize(6,3);
+    X.block(0,0,3,3) = T.block(0,0,3,3);
+    X.block(3,0,3,3) = T.block(0,5,3,3);
 
-        if(Neighbor_num!=0)
-        {
+    my_functor functor;
+    Eigen::NumericalDiff<my_functor> numDiff(functor);
+    Eigen::LevenbergMarquardt<Eigen::NumericalDiff<my_functor>,double> lm(numDiff);
+    lm.parameters.maxfev = 2000;
+    lm.parameters.xtol = 1.0e-10;
 
-            weight.resize(Neighbor_num,1);
-            for(int Neighbor_index=0; Neighbor_index<Neighbor_num; Neighbor_index++) // do loop for all adjacent triangles and save the area
-            {
-                weight(Neighbor_index) = 1./Neighbor_num;
+    // std::cout << T << std::endl;
+    functor.setValues(T.block(0,0,3,9));
 
-            }
-            // std::cout << weight << std::endl;
-            Eigen::MatrixXd U_j, U_sum, U_tmp, U_new;
-            U_j.resize(Neighbor_num*3,3); // neighboring vertices
+    // lm.minimize(X);
 
-            U_sum.resize(3,3);
-            U_tmp.resize(3,3);
-            U_new.resize(3,3);
-
-            for(int Neighbor_index=0; Neighbor_index<Neighbor_num; Neighbor_index++)
-            {
-                U_j.block(Neighbor_index*3,0,3,3) = U.block(MapNeighbor[Vert_index][Neighbor_index]*3,0,3,3);
-            }
-            // we sum up for all neighboring vertices
-            U_sum.Zero(3,3);
-            for(int Neighbor_index=0; Neighbor_index<Neighbor_num; Neighbor_index++)
-            {
-                // Logarithm of a matrix
-                // https://en.wikipedia.org/wiki/Logarithm_of_a_matrix
-                // U_tmp = ((U_i.inverse() * U_j.block(Neighbor_index*3,0,3,3) * U_i.inverse() - Eigen::MatrixXd::Identity(3, 3)) - 1./2.*(U_i.inverse() * U_j.block(Neighbor_index*3,0,3,3) * U_i.inverse() - Eigen::MatrixXd::Identity(3, 3))*(U_i.inverse() * U_j.block(Neighbor_index*3,0,3,3) * U_i.inverse() - Eigen::MatrixXd::Identity(3, 3)) ) * weight(Neighbor_index);
-                U_tmp = U_j.block(Neighbor_index*3,0,3,3) * weight(Neighbor_index);
-                U_sum = U_sum + U_tmp;
-                U_tmp.resize(0,0);
-            }
-
-            this -> U_3D_assem.block(Vert_index*3,0,3,3) =U_sum;
-
-            // erase the matrices
-            U_j.resize(0,0);
-            U_sum.resize(0,0);
-            U_tmp.resize(0,0);
-            U_new.resize(0,0);
-            weight.resize(0,0);
-        }
-        else
-        {
-            this -> U_3D_assem.block(Vert_index*3,0,3,3) = U.block(Vert_index*3,0,3,3);
-        }
-
-    }
 
 }
 
