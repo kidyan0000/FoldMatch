@@ -76,20 +76,26 @@ struct my_functor : Functor<double>
             // this -> U_input = T_input.block(8,0,3,3);
         }
 
-        my_functor(void): Functor<double>(3,6) {}
+        my_functor(void): Functor<double>(2,2) {}
         // functor(int src, int dst): Functor<double>(src,dst) {}
-        int operator()(const Eigen::MatrixXd X, double f_val) const
+        int operator()(const Eigen::MatrixXd &X, Eigen::VectorXd &f_val) const
         {
-            f_val = (X.block(0,0,3,3) - this->R_input).norm() + (X.block(3,0,3,3) - this->U_input).norm() + (X.block(0,0,3,3)*X.block(3,0,3,3) - this->F_input).norm();
-            return 0;
-        }
-        int df(const Eigen::MatrixXd X, Eigen::MatrixXd &R_der, Eigen::MatrixXd &U_der) const
-        {
-            R_der = (X.block(0,0,3,3) + this->F_input*X.block(3,0,3,3)) * (Eigen::MatrixXd::Identity(3,3) - X.block(3,0,3,3)*X.block(3,0,3,3)).inverse();
-            U_der = (X.block(3,0,3,3) + this->F_input*X.block(0,0,3,3)) * (Eigen::MatrixXd::Identity(3,3) - X.block(0,0,3,3)*X.block(0,0,3,3)).inverse();
+            // f_val(0) = (X.block(0,0,3,3) - this->R_input).norm() + (X.block(3,0,3,3) - this->U_input).norm() + (X.block(0,0,3,3)*X.block(3,0,3,3) - this->F_input).norm();
+            // f_val(1) = 0;
+
+            f_val(0) = 10.0*pow(X(0)+3.0,2) +  pow(X(1)-5.0,2);
+            f_val(1) = 0;
+
             return 0;
         }
         /*
+        int df(const Eigen::MatrixXd &X, Eigen::MatrixXd &f_der) const
+        {
+            f_der = (X.block(0,0,3,3) + this->F_input*X.block(3,0,3,3)) * (Eigen::MatrixXd::Identity(3,3) - X.block(3,0,3,3)*X.block(3,0,3,3)).inverse();
+            f_der = (X.block(3,0,3,3) + this->F_input*X.block(0,0,3,3)) * (Eigen::MatrixXd::Identity(3,3) - X.block(0,0,3,3)*X.block(0,0,3,3)).inverse();
+            return 0;
+        }
+
         float getError(const Eigen::VectorXf &x, float &maxError)
         {
 

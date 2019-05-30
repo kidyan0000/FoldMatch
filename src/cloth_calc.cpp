@@ -2116,6 +2116,7 @@ Eigen::MatrixXd cloth_calc::GetStrTensor_norm_dir1()
 
 void cloth_calc::test(Eigen::MatrixXd T)
 {
+    /*
     Eigen::MatrixXd X;
 
     int Vert_num = T.rows() / 3.;
@@ -2125,6 +2126,7 @@ void cloth_calc::test(Eigen::MatrixXd T)
     X.block(0,0,3,3) = T.block(0,0,3,3);
     X.block(3,0,3,3) = T.block(0,5,3,3);
 
+
     my_functor functor;
     Eigen::NumericalDiff<my_functor> numDiff(functor);
     Eigen::LevenbergMarquardt<Eigen::NumericalDiff<my_functor>,double> lm(numDiff);
@@ -2132,9 +2134,29 @@ void cloth_calc::test(Eigen::MatrixXd T)
     lm.parameters.xtol = 1.0e-10;
 
     // std::cout << T << std::endl;
-    functor.setValues(T.block(0,0,3,9));
+    // functor.setValues(T.block(0,0,3,9));
 
-    // lm.minimize(X);
+    lm.minimize(X);
+    */
+
+    Eigen::VectorXd X;
+
+    int Vert_num = T.rows() / 3.;
+    X.resize(2,1);
+    X << 2,3;
+
+    my_functor functor;
+    Eigen::NumericalDiff<my_functor> numDiff(functor);
+    Eigen::LevenbergMarquardt<Eigen::NumericalDiff<my_functor>,double> lm(numDiff);
+    lm.parameters.maxfev = 2000;
+    lm.parameters.xtol = 1.0e-10;
+
+    double ret = lm.minimize(X);
+
+    std::cout << lm.iter << std::endl;
+    std::cout << ret << std::endl;
+
+    std::cout << "X that minimizes the function: " << X.transpose() << std::endl;
 
 
 }
