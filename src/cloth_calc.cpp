@@ -2142,6 +2142,7 @@ void cloth_calc::test(Eigen::MatrixXd T)
     Eigen::VectorXd X;
 
     int Vert_num = T.rows() / 3.;
+
     X.resize(2,1);
     X << 2,3;
 
@@ -2151,7 +2152,7 @@ void cloth_calc::test(Eigen::MatrixXd T)
     lm.parameters.maxfev = 2000;
     lm.parameters.xtol = 1.0e-10;
 
-    double ret = lm.minimize(X);
+    int ret = lm.minimize(X);
 
     std::cout << lm.iter << std::endl;
     std::cout << ret << std::endl;

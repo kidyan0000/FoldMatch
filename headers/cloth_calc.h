@@ -72,8 +72,7 @@ struct my_functor : Functor<double>
             this -> T_input = T;
             this -> F_input = T_input.block(0,0,3,3);
             this -> R_input = T_input.block(0,3,3,3);
-
-            // this -> U_input = T_input.block(8,0,3,3);
+            this -> U_input = T_input.block(8,0,3,3);
         }
 
         my_functor(void): Functor<double>(2,2) {}
@@ -83,7 +82,8 @@ struct my_functor : Functor<double>
             // f_val(0) = (X.block(0,0,3,3) - this->R_input).norm() + (X.block(3,0,3,3) - this->U_input).norm() + (X.block(0,0,3,3)*X.block(3,0,3,3) - this->F_input).norm();
             // f_val(1) = 0;
 
-            f_val(0) = 10.0*pow(X(0)+3.0,2) +  pow(X(1)-5.0,2);
+            // f_val(0) = 10.0*pow(X(0)+3.0,2) +  pow(X(1)-5.0,2);
+            f_val(0) = (X(0) - 1) * (X(0) - 1) + (X(1) - 2) * (X(1) - 2) + (X(0) * X(1) - 2.5) * (X(0) * X(1) - 2.5);
             f_val(1) = 0;
 
             return 0;
@@ -91,6 +91,7 @@ struct my_functor : Functor<double>
         /*
         int df(const Eigen::MatrixXd &X, Eigen::MatrixXd &f_der) const
         {
+            // jacobian matrix
             f_der = (X.block(0,0,3,3) + this->F_input*X.block(3,0,3,3)) * (Eigen::MatrixXd::Identity(3,3) - X.block(3,0,3,3)*X.block(3,0,3,3)).inverse();
             f_der = (X.block(3,0,3,3) + this->F_input*X.block(0,0,3,3)) * (Eigen::MatrixXd::Identity(3,3) - X.block(0,0,3,3)*X.block(0,0,3,3)).inverse();
             return 0;
