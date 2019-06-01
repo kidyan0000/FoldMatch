@@ -85,18 +85,20 @@ struct my_functor : Functor<double>
         R_opt.resize(3,3);
         U_opt.resize(3,3);
 
+        // set R_opt
         R_opt.row(0) << F_tmp(0), F_tmp(1), F_tmp(2);
         R_opt.row(1) << F_tmp(3), F_tmp(4), F_tmp(5);
         R_opt.row(2) << F_tmp(6), F_tmp(7), F_tmp(8);
 
+        // set U_opt
         U_opt.row(0) << F_tmp(9), F_tmp(10), F_tmp(11);
         U_opt.row(1) << F_tmp(12), F_tmp(13), F_tmp(14);
         U_opt.row(2) << F_tmp(15), F_tmp(16), F_tmp(17);
 
         // std::cout << this->R_input << std::endl;
+        // f_val(0) = (F_tmp(3)*F_tmp(1)-1)*(F_tmp(3)*F_tmp(1)-1) + (F_tmp(3)-1)*(F_tmp(3));
 
-        f_val(0) = (F_tmp(3)*F_tmp(1)-1)*(F_tmp(3)*F_tmp(1)-1) + (F_tmp(3)-1)*(F_tmp(3));
-
+        f_val(0) = (R_opt - this-> R_input).norm() + (U_opt - this-> U_input).norm() + (R_opt*U_opt - this-> F_input).norm();
         for(int i=1;i<Vert_num;i++)
         {
             f_val(i) = 0;

@@ -2131,7 +2131,8 @@ void cloth_calc::test(Eigen::MatrixXd T)
 
     // functor.setValues(T);
 
-    // problem I can't pass the values in operator()
+    // T is the read form text file
+    // problem I can't pass the values in operator(), how could I pass this?
     functor.R_input = T.block(0,3,3,3);
     functor.U_input = T.block(0,8,3,3);
     functor.F_input = T.block(0,0,3,3);
