@@ -1429,10 +1429,10 @@ void cloth_calc::cloth_ReadTransformationMat(std::string Transformation, std::st
     cloth_init_vert();
     int Vert_num = this -> vertsT.rows();
 
-    this -> T.resize(3*Vert_num,9);
+    this -> T.resize(3*Vert_num,15);
 
     Eigen::MatrixXd T_assem;
-    T_assem.resize(3*Vert_num,9);
+    T_assem.resize(3*Vert_num,15);
 
     Eigen::MatrixXi Freq_assem;
     Freq_assem.resize(Vert_num,1);
@@ -1448,7 +1448,7 @@ void cloth_calc::cloth_ReadTransformationMat(std::string Transformation, std::st
         while (getline (Transf,line))
         {
             string_steam << line;
-            string_steam >> T_assem(i,0) >> T_assem(i,1) >>T_assem(i,2) >>T_assem(i,3) >>T_assem(i,4) >>T_assem(i,5) >>T_assem(i,6)>>T_assem(i,7)>>T_assem(i,8);
+            string_steam >> T_assem(i,0) >> T_assem(i,1) >>T_assem(i,2) >>T_assem(i,3) >>T_assem(i,4) >>T_assem(i,5) >>T_assem(i,6)>>T_assem(i,7)>>T_assem(i,8)>>T_assem(i,9)>>T_assem(i,10)>>T_assem(i,11)>>T_assem(i,12)>>T_assem(i,13)>>T_assem(i,14);
             i++;
             string_steam.clear();
         }
@@ -1476,8 +1476,9 @@ void cloth_calc::cloth_ReadTransformationMat(std::string Transformation, std::st
     // divide by frequency
     for(int Vert_index=0; Vert_index < Vert_num;Vert_index++)
     {
-        this -> T.block(Vert_index*3,0,3,9) = T_assem.block(Vert_index*3,0,3,9) / Freq_assem(Vert_index);
+        this -> T.block(Vert_index*3,0,3,15) = T_assem.block(Vert_index*3,0,3,15);
     }
+
 }
 
 void cloth_calc::cloth_Opt(Eigen::MatrixXd T, Eigen::MatrixXd F)
@@ -2116,41 +2117,27 @@ Eigen::MatrixXd cloth_calc::GetStrTensor_norm_dir1()
 
 void cloth_calc::test(Eigen::MatrixXd T)
 {
-    /*
-    Eigen::MatrixXd X;
-
-    int Vert_num = T.rows() / 3.;
-    // std::cout << Vert_num << std::endl;
-
-    X.resize(6,3);
-    X.block(0,0,3,3) = T.block(0,0,3,3);
-    X.block(3,0,3,3) = T.block(0,5,3,3);
-
-
-    my_functor functor;
-    Eigen::NumericalDiff<my_functor> numDiff(functor);
-    Eigen::LevenbergMarquardt<Eigen::NumericalDiff<my_functor>,double> lm(numDiff);
-    lm.parameters.maxfev = 2000;
-    lm.parameters.xtol = 1.0e-10;
-
-    // std::cout << T << std::endl;
-    // functor.setValues(T.block(0,0,3,9));
-
-    lm.minimize(X);
-    */
 
     Eigen::VectorXd X;
+    Eigen::MatrixXd U, R, F;
 
     int Vert_num = T.rows() / 3.;
 
-    X.resize(2,1);
-    X << 2,3;
-
-    my_functor functor;
+    my_functor functor(Vert_num);
     Eigen::NumericalDiff<my_functor> numDiff(functor);
     Eigen::LevenbergMarquardt<Eigen::NumericalDiff<my_functor>,double> lm(numDiff);
     lm.parameters.maxfev = 2000;
     lm.parameters.xtol = 1.0e-10;
+
+    // functor.setValues(T);
+
+    // problem I can't pass the values in operator()
+    functor.R_input = T.block(0,3,3,3);
+    functor.U_input = T.block(0,8,3,3);
+    functor.F_input = T.block(0,0,3,3);
+
+    X.resize(18);
+    X << 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18;
 
     int ret = lm.minimize(X);
 

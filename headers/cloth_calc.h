@@ -22,6 +22,7 @@
 #include <unsupported/Eigen/NumericalDiff>
 
 #include <ply_Module.h>
+using namespace Eigen;
 
 // Generic functor
 template<typename _Scalar, int NX = Eigen::Dynamic, int NY = Eigen::Dynamic>
@@ -46,63 +47,76 @@ int values() const { return m_values; }
 
 };
 
-/*
-struct opt_functor : Functor<double>
-{
-opt_functor(void): Functor<double>(2,2) {}
-int operator()(const Eigen::VectorXd &x, Eigen::VectorXd &fvec) const
-{
-    // Implement y = 10*(x0+3)^2 + (x1-5)^2
-    fvec(0) = 10.0*pow(x(0)+3.0,2) +  pow(x(1)-5.0,2);
-    fvec(1) = 0;
-
-    return 0;
-}
-};
-*/
-
 struct my_functor : Functor<double>
 {
-    private:
-        Eigen::MatrixXd     R_opt, U_opt;
-        Eigen::MatrixXd     T_input, U_input, R_input, F_input;
-    public:
-        void setValues(Eigen::MatrixXd T)
-        {
-            this -> T_input = T;
-            this -> F_input = T_input.block(0,0,3,3);
-            this -> R_input = T_input.block(0,3,3,3);
-            this -> U_input = T_input.block(8,0,3,3);
-        }
+ // private:
+    Eigen::MatrixXd     U_input, R_input, F_input;
+    int                 Vert_num;
+ // public:
+    /*
+    void setValues(Eigen::MatrixXd T)
+    {
+        this -> F_input = T.block(0,0,3,3);
+        this -> R_input = T.block(0,3,3,3);
+        this -> U_input = T.block(0,8,3,3);
 
-        my_functor(void): Functor<double>(2,2) {}
-        // functor(int src, int dst): Functor<double>(src,dst) {}
-        int operator()(const Eigen::MatrixXd &X, Eigen::VectorXd &f_val) const
-        {
-            // f_val(0) = (X.block(0,0,3,3) - this->R_input).norm() + (X.block(3,0,3,3) - this->U_input).norm() + (X.block(0,0,3,3)*X.block(3,0,3,3) - this->F_input).norm();
-            // f_val(1) = 0;
-
-            // f_val(0) = 10.0*pow(X(0)+3.0,2) +  pow(X(1)-5.0,2);
-            f_val(0) = (X(0) - 1) * (X(0) - 1) + (X(1) - 2) * (X(1) - 2) + (X(0) * X(1) - 2.5) * (X(0) * X(1) - 2.5);
-            f_val(1) = 0;
-
-            return 0;
-        }
+        std::cout << R_input << std::endl;
+    }
+    */
+    my_functor(int Vert_num): Functor<double>(18,Vert_num)
+    {
+        this -> R_input = Matrix<double, Dynamic, Dynamic>::Zero(3, 3);
+        this -> U_input = Matrix<double, Dynamic, Dynamic>::Zero(3, 3);
+        this -> F_input = Matrix<double, Dynamic, Dynamic>::Zero(3, 3);
+        this -> Vert_num = Vert_num;
+    }
+    int operator()(const Eigen::VectorXd &X, Eigen::VectorXd &f_val) const
+    {
         /*
-        int df(const Eigen::MatrixXd &X, Eigen::MatrixXd &f_der) const
-        {
-            // jacobian matrix
-            f_der = (X.block(0,0,3,3) + this->F_input*X.block(3,0,3,3)) * (Eigen::MatrixXd::Identity(3,3) - X.block(3,0,3,3)*X.block(3,0,3,3)).inverse();
-            f_der = (X.block(3,0,3,3) + this->F_input*X.block(0,0,3,3)) * (Eigen::MatrixXd::Identity(3,3) - X.block(0,0,3,3)*X.block(0,0,3,3)).inverse();
-            return 0;
-        }
-
-        float getError(const Eigen::VectorXf &x, float &maxError)
-        {
-
-            return result;
-        }
+        Eigen::Matrix<double, Dynamic , Dynamic> R_opt = Eigen::Matrix<double, Dynamic , Dynamic>::Zero(3, 3);
+        Eigen::Matrix<double, Dynamic , Dynamic> U_opt = Eigen::Matrix<double, Dynamic , Dynamic>::Zero(3, 3);
         */
+        Eigen::MatrixXd R_opt, U_opt;
+        Eigen::Matrix<double, Dynamic , 1> F_tmp(18);
+
+
+        F_tmp = X;
+
+        R_opt.resize(3,3);
+        U_opt.resize(3,3);
+
+        R_opt.row(0) << F_tmp(0), F_tmp(1), F_tmp(2);
+        R_opt.row(1) << F_tmp(3), F_tmp(4), F_tmp(5);
+        R_opt.row(2) << F_tmp(6), F_tmp(7), F_tmp(8);
+
+        U_opt.row(0) << F_tmp(9), F_tmp(10), F_tmp(11);
+        U_opt.row(1) << F_tmp(12), F_tmp(13), F_tmp(14);
+        U_opt.row(2) << F_tmp(15), F_tmp(16), F_tmp(17);
+
+        // std::cout << this->R_input << std::endl;
+
+        f_val(0) = (F_tmp(3)*F_tmp(1)-1)*(F_tmp(3)*F_tmp(1)-1) + (F_tmp(3)-1)*(F_tmp(3));
+
+        for(int i=1;i<Vert_num;i++)
+        {
+            f_val(i) = 0;
+        }
+
+        return 0;
+    }
+    /*
+    int df(const Eigen::MatrixXd &X, Eigen::MatrixXd &f_der) const
+    {
+        // jacobian matrix
+        return 0;
+    }
+
+    float getError(const Eigen::VectorXf &x, float &maxError)
+    {
+
+        return result;
+    }
+    */
 };
 
 

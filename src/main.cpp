@@ -643,8 +643,8 @@ int main(int argc, char *argv[])
         }
     case 0:
         {
-            std::cout << control -> GetInputTransf(FILE) << std::endl;
-            std::cout << control -> GetInputFreq(FILE) << std::endl;
+            // std::cout << control -> GetInputTransf(FILE) << std::endl;
+            // std::cout << control -> GetInputFreq(FILE) << std::endl;
 
             /*
             slot_map -> cloth_map_neighbor(4);
