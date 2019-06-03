@@ -50,7 +50,7 @@ int values() const { return m_values; }
 struct my_functor : Functor<double>
 {
  // private:
-    Eigen::MatrixXd     U_input, R_input, F_input;
+    Eigen::MatrixXd     U_input, R_input, F_input, T_input;
     int                 Vert_num;
  // public:
     /*
@@ -63,19 +63,20 @@ struct my_functor : Functor<double>
         std::cout << R_input << std::endl;
     }
     */
-    my_functor(int Vert_num): Functor<double>(18,Vert_num)
+    my_functor(int Vert_num, Eigen::MatrixXd T): Functor<double>(18,Vert_num)
     {
+        /*
         this -> R_input = Matrix<double, Dynamic, Dynamic>::Zero(3, 3);
         this -> U_input = Matrix<double, Dynamic, Dynamic>::Zero(3, 3);
         this -> F_input = Matrix<double, Dynamic, Dynamic>::Zero(3, 3);
+        */
+        this -> R_input = T.block(0,3,3,3);
+        this -> U_input = T.block(0,8,3,3);
+        this -> F_input = T.block(0,0,3,3);
         this -> Vert_num = Vert_num;
     }
     int operator()(const Eigen::VectorXd &X, Eigen::VectorXd &f_val) const
     {
-        /*
-        Eigen::Matrix<double, Dynamic , Dynamic> R_opt = Eigen::Matrix<double, Dynamic , Dynamic>::Zero(3, 3);
-        Eigen::Matrix<double, Dynamic , Dynamic> U_opt = Eigen::Matrix<double, Dynamic , Dynamic>::Zero(3, 3);
-        */
         Eigen::MatrixXd R_opt, U_opt;
         Eigen::Matrix<double, Dynamic , 1> F_tmp(18);
 
@@ -95,8 +96,7 @@ struct my_functor : Functor<double>
         U_opt.row(1) << F_tmp(12), F_tmp(13), F_tmp(14);
         U_opt.row(2) << F_tmp(15), F_tmp(16), F_tmp(17);
 
-        // std::cout << this->R_input << std::endl;
-        // f_val(0) = (F_tmp(3)*F_tmp(1)-1)*(F_tmp(3)*F_tmp(1)-1) + (F_tmp(3)-1)*(F_tmp(3));
+        // std::cout << R_opt << std::endl;
 
         f_val(0) = (R_opt - this-> R_input).norm() + (U_opt - this-> U_input).norm() + (R_opt*U_opt - this-> F_input).norm();
         for(int i=1;i<Vert_num;i++)
@@ -172,7 +172,7 @@ public:
     void cloth_WriteVerts(Eigen::MatrixXd verts, const std::string &  ifileName);
 
     void cloth_ReadTransformationMat(std::string Transformation, std::string Frequency);
-    void cloth_Opt(Eigen::MatrixXd T, Eigen::MatrixXd F);
+    void cloth_Opt(Eigen::MatrixXd T);
 
     // COLLORMAP
     void cloth_vec_normalize(Eigen::MatrixXd Eigenval, int dim);

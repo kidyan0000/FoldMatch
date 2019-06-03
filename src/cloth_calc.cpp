@@ -1481,13 +1481,14 @@ void cloth_calc::cloth_ReadTransformationMat(std::string Transformation, std::st
 
 }
 
-void cloth_calc::cloth_Opt(Eigen::MatrixXd T, Eigen::MatrixXd F)
+void cloth_calc::cloth_Opt(Eigen::MatrixXd T)
 {
-    // std::cout << T << std::endl;
+
     cloth_init_vert();
     int Vert_num = vertsT.rows();
     this -> R_opt.resize(Vert_num*3,3);
 
+    /*
     for(int Vert_index=0; Vert_index<Vert_num; Vert_index++)
     {
         Eigen::MatrixXd F_t;
@@ -1500,11 +1501,47 @@ void cloth_calc::cloth_Opt(Eigen::MatrixXd T, Eigen::MatrixXd F)
         this -> R_opt.block(Vert_index*3,0,3,3) = (T.block(Vert_index*3,0,3,3) + F_t*U_t) * (Eigen::MatrixXd::Identity(3,3) + U_t*U_t);
 
     }
+    */
+    Eigen::VectorXd X;
+    Eigen::MatrixXd U, R;
+
+    int i=0;
+
+    for(int Vert_index=0; Vert_index<Vert_num; Vert_index++)
+    {
+        my_functor functor(18, T.block(3*Vert_index,0,3,14));
+        Eigen::NumericalDiff<my_functor> numDiff(functor);
+        Eigen::LevenbergMarquardt<Eigen::NumericalDiff<my_functor>,double> lm(numDiff);
+        lm.parameters.maxfev = 2000;
+        lm.parameters.xtol = 1.0e-10;
+
+        // functor.setValues(T);
+
+        // T is the read form text file
+        R = T.block(3*Vert_index,3,3,3);
+        U = T.block(3*Vert_index,8,3,3);
+
+        R.resize(9,1);
+        U.resize(9,1);
+        X.resize(18);
+
+        X.head(9) << R;
+        X.tail<9>() << U;
 
 
-    // std::cout << R_t << std::endl;
-    // std::cout << T.block(0,0,3,3) << std::endl;
+        int ret = lm.minimize(X);
 
+        this -> R_opt.row(i)   << X(0), X(1), X(2);
+        this -> R_opt.row(i+1) << X(3), X(4), X(5);
+        this -> R_opt.row(i+2) << X(6), X(7), X(8);
+        i=i+3;
+
+
+        // std::cout << lm.iter << std::endl;
+        // std::cout << ret << std::endl;
+
+        // std::cout << "X that minimizes the function: " << X.transpose() << std::endl;
+    }
 
 }
 
@@ -2119,33 +2156,48 @@ void cloth_calc::test(Eigen::MatrixXd T)
 {
 
     Eigen::VectorXd X;
-    Eigen::MatrixXd U, R, F;
+    Eigen::MatrixXd U, R;
 
     int Vert_num = T.rows() / 3.;
+    int i=0;
 
-    my_functor functor(Vert_num);
-    Eigen::NumericalDiff<my_functor> numDiff(functor);
-    Eigen::LevenbergMarquardt<Eigen::NumericalDiff<my_functor>,double> lm(numDiff);
-    lm.parameters.maxfev = 2000;
-    lm.parameters.xtol = 1.0e-10;
+    this -> R_opt.resize(3*Vert_num,3);
 
-    // functor.setValues(T);
+    for(int Vert_index=0; Vert_index<Vert_num; Vert_index++)
+    {
+        my_functor functor(18, T.block(3*Vert_index,0,3,14));
+        Eigen::NumericalDiff<my_functor> numDiff(functor);
+        Eigen::LevenbergMarquardt<Eigen::NumericalDiff<my_functor>,double> lm(numDiff);
+        lm.parameters.maxfev = 2000;
+        lm.parameters.xtol = 1.0e-10;
 
-    // T is the read form text file
-    // problem I can't pass the values in operator(), how could I pass this?
-    functor.R_input = T.block(0,3,3,3);
-    functor.U_input = T.block(0,8,3,3);
-    functor.F_input = T.block(0,0,3,3);
+        // functor.setValues(T);
 
-    X.resize(18);
-    X << 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18;
+        // T is the read form text file
+        R = T.block(3*Vert_index,3,3,3);
+        U = T.block(3*Vert_index,8,3,3);
 
-    int ret = lm.minimize(X);
+        R.resize(9,1);
+        U.resize(9,1);
+        X.resize(18);
 
-    std::cout << lm.iter << std::endl;
-    std::cout << ret << std::endl;
+        X.head(9) << R;
+        X.tail<9>() << U;
 
-    std::cout << "X that minimizes the function: " << X.transpose() << std::endl;
+
+        int ret = lm.minimize(X);
+
+        this -> R_opt.row(i)   << X(0), X(1), X(2);
+        this -> R_opt.row(i+1) << X(3), X(4), X(5);
+        this -> R_opt.row(i+2) << X(6), X(7), X(8);
+        i=i+3;
+
+
+        // std::cout << lm.iter << std::endl;
+        // std::cout << ret << std::endl;
+
+        // std::cout << "X that minimizes the function: " << X.transpose() << std::endl;
+    }
 
 
 }
