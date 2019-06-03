@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
     // CAL 5: lambda assemble Riemann
     // CAL 6: lambda assemble CCM
     // CAL 7: wrinkel vector field assemble CCM
-    int CAL = 4;
+    int CAL = 6;
 
     double Per = 0.01; // Kd-tree parameters
 
@@ -693,7 +693,7 @@ int main(int argc, char *argv[])
     ////////////////////////////////
 
     // slot should be chosen from 1 to 74
-    for(int slot=10; slot<50 ; slot++)
+    for(int slot=2; slot<75; slot++)
     {
         CT = slot;
         CR = slot+1;
@@ -701,7 +701,8 @@ int main(int argc, char *argv[])
         FILE = slot;
 
         cloth_calc* slot_CT = new cloth_calc(control->GetInput(CT-1) , control->GetInput(CR-1), control->GetInput(BS-1));
-        cloth_calc* slot_CR = new cloth_calc(control->GetVertsUpdateOutput(CT) , control->GetInput(CR), control->GetVertsUpdateOutput(BS));
+        // cloth_calc* slot_CR = new cloth_calc(control->GetVertsUpdateOutput(CT) , control->GetInput(CR), control->GetVertsUpdateOutput(BS));
+        cloth_calc* slot_CR = new cloth_calc(control->GetInput(CT) , control->GetInput(CR), control->GetInput(BS));
 
         switch(MODE)
         {
