@@ -98,7 +98,7 @@ struct my_functor : Functor<double>
 
         // std::cout << R_opt << std::endl;
 
-        f_val(0) = (R_opt - this-> R_input).norm() + (U_opt - this-> U_input).norm() + (R_opt*U_opt - this-> F_input).norm();
+        f_val(0) = (R_opt - this-> R_input).norm() + (U_opt - this-> U_input).norm() + (this-> R_input*U_opt - this-> F_input).norm() + (R_opt*this-> U_input - this-> F_input).norm();
         for(int i=1;i<Vert_num;i++)
         {
             f_val(i) = 0;

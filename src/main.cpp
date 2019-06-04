@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
     // CAL 5: lambda assemble Riemann
     // CAL 6: lambda assemble CCM
     // CAL 7: wrinkel vector field assemble CCM
-    int CAL = 6;
+    int CAL = 4;
 
     double Per = 0.01; // Kd-tree parameters
 
@@ -146,10 +146,10 @@ int main(int argc, char *argv[])
     // the input and output list can be found in the output folder
     // the label of our cloth is from 1-0001 to 75-0075
 
-    int CT=1;   // cloth template
+    int CT=0;   // cloth template
     int CR=CT+1;   // cloth reference
-    int BS=1;   // cloth base
-    int FILE=1; // file name
+    int BS=0;   // cloth base
+    int FILE=0; // file name
 
     // create the folder
     std::string dir = "../output/debug/readme";
@@ -161,7 +161,7 @@ int main(int argc, char *argv[])
     // initialize the map neighbor and first update
     cloth_calc* slot_map = new cloth_calc(control->GetInput(0) , control->GetInput(1), control->GetInput(0));
 
-    cloth_calc* slot_CT = new cloth_calc(control->GetInput(CT-1) , control->GetInput(CR-1), control->GetInput(BS-1));
+    cloth_calc* slot_CT = new cloth_calc(control->GetInput(CT) , control->GetInput(CR), control->GetInput(BS));
     cloth_calc* slot_CR = new cloth_calc(control->GetInput(CT) , control->GetInput(CR), control->GetInput(BS));
 
     if(MODE == 1 || MODE == 2 ||MODE == 3 ||MODE == 4)
@@ -693,16 +693,16 @@ int main(int argc, char *argv[])
     ////////////////////////////////
 
     // slot should be chosen from 1 to 74
-    for(int slot=2; slot<75; slot++)
+    for(int slot=1; slot<75; slot++)
     {
         CT = slot;
         CR = slot+1;
         BS = slot;
         FILE = slot;
 
-        cloth_calc* slot_CT = new cloth_calc(control->GetInput(CT-1) , control->GetInput(CR-1), control->GetInput(BS-1));
-        // cloth_calc* slot_CR = new cloth_calc(control->GetVertsUpdateOutput(CT) , control->GetInput(CR), control->GetVertsUpdateOutput(BS));
-        cloth_calc* slot_CR = new cloth_calc(control->GetInput(CT) , control->GetInput(CR), control->GetInput(BS));
+        cloth_calc* slot_CT = new cloth_calc(control->GetInput(CT) , control->GetInput(CR), control->GetInput(BS));
+        cloth_calc* slot_CR = new cloth_calc(control->GetVertsUpdateOutput(CT) , control->GetInput(CR), control->GetVertsUpdateOutput(BS));
+        // cloth_calc* slot_CR = new cloth_calc(control->GetInput(CT) , control->GetInput(CR), control->GetInput(BS));
 
         switch(MODE)
         {

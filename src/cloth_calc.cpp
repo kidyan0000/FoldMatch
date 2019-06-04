@@ -1492,16 +1492,17 @@ void cloth_calc::cloth_Opt(Eigen::MatrixXd T)
     for(int Vert_index=0; Vert_index<Vert_num; Vert_index++)
     {
         Eigen::MatrixXd F_t;
-        F_t = F.block(Vert_index*3,0,3,3);
+        F_t = T.block(Vert_index*3,0,3,3);
 
         Eigen::MatrixXd U_t;
-        U_t = (T.block(Vert_index*3,0,3,3).transpose() * T.block(Vert_index*3,0,3,3)).inverse() * T.block(Vert_index*3,0,3,3).transpose() * F_t;
+        U_t = (T.block(3*Vert_index,3,3,3).transpose() * T.block(3*Vert_index,3,3,3)).inverse() * T.block(3*Vert_index,3,3,3).transpose() * F_t;
 
         // Eigen::MatrixXd R_t;
-        this -> R_opt.block(Vert_index*3,0,3,3) = (T.block(Vert_index*3,0,3,3) + F_t*U_t) * (Eigen::MatrixXd::Identity(3,3) + U_t*U_t);
+        this -> R_opt.block(Vert_index*3,0,3,3) = (T.block(3*Vert_index,3,3,3) + F_t*U_t) * (Eigen::MatrixXd::Identity(3,3) + U_t*U_t);
 
     }
     */
+
     Eigen::VectorXd X;
     Eigen::MatrixXd U, R;
 
@@ -1542,6 +1543,7 @@ void cloth_calc::cloth_Opt(Eigen::MatrixXd T)
 
         // std::cout << "X that minimizes the function: " << X.transpose() << std::endl;
     }
+
 
 }
 
