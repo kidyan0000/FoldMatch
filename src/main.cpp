@@ -146,10 +146,10 @@ int main(int argc, char *argv[])
     // the input and output list can be found in the output folder
     // the label of our cloth is from 1-0001 to 75-0075
 
-    int CT=0;   // cloth template
+    int CT=1;   // cloth template
     int CR=CT+1;   // cloth reference
-    int BS=0;   // cloth base
-    int FILE=0; // file name
+    int BS=1;   // cloth base
+    int FILE=1; // file name
 
     // create the folder
     std::string dir = "../output/debug/readme";
@@ -684,6 +684,7 @@ int main(int argc, char *argv[])
     if(CAL == 4)
     {
         outfile << "Template update is: "    << control->GetVertsUpdateOutput(CR) << std::endl;
+        outfile << "The Transformation txt file is: " << control->GetInputTransf(FILE) << std::endl;
     }
     outfile << "delta T is: "    << deltaT << std::endl;
     outfile.close();
@@ -693,7 +694,7 @@ int main(int argc, char *argv[])
     ////////////////////////////////
 
     // slot should be chosen from 1 to 74
-    for(int slot=1; slot<75; slot++)
+    for(int slot=2; slot<20; slot++)
     {
         CT = slot;
         CR = slot+1;
@@ -1200,6 +1201,7 @@ int main(int argc, char *argv[])
         if(CAL == 4)
         {
             outfile << "Template update is: "    << control->GetVertsUpdateOutput(CR) << std::endl;
+            outfile << "The Transformation txt file is: " << control->GetInputTransf(FILE) << std::endl;
         }
         outfile << "delta T is: "    << deltaT << std::endl;
         outfile.close();

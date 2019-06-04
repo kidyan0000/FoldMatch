@@ -96,9 +96,8 @@ struct my_functor : Functor<double>
         U_opt.row(1) << F_tmp(12), F_tmp(13), F_tmp(14);
         U_opt.row(2) << F_tmp(15), F_tmp(16), F_tmp(17);
 
+        f_val(0) = (R_opt - this-> R_input).norm() + (U_opt - this->U_input).norm() + (R_opt * U_opt - this-> F_input).norm();
         // std::cout << R_opt << std::endl;
-
-        f_val(0) = (R_opt - this-> R_input).norm() + (U_opt - this-> U_input).norm() + (this-> R_input*U_opt - this-> F_input).norm() + (R_opt*this-> U_input - this-> F_input).norm();
         for(int i=1;i<Vert_num;i++)
         {
             f_val(i) = 0;

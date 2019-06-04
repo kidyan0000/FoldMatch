@@ -1429,10 +1429,10 @@ void cloth_calc::cloth_ReadTransformationMat(std::string Transformation, std::st
     cloth_init_vert();
     int Vert_num = this -> vertsT.rows();
 
-    this -> T.resize(3*Vert_num,15);
+    this -> T.resize(3*Vert_num,14);
 
     Eigen::MatrixXd T_assem;
-    T_assem.resize(3*Vert_num,15);
+    T_assem.resize(3*Vert_num,14);
 
     Eigen::MatrixXi Freq_assem;
     Freq_assem.resize(Vert_num,1);
@@ -1448,7 +1448,7 @@ void cloth_calc::cloth_ReadTransformationMat(std::string Transformation, std::st
         while (getline (Transf,line))
         {
             string_steam << line;
-            string_steam >> T_assem(i,0) >> T_assem(i,1) >>T_assem(i,2) >>T_assem(i,3) >>T_assem(i,4) >>T_assem(i,5) >>T_assem(i,6)>>T_assem(i,7)>>T_assem(i,8)>>T_assem(i,9)>>T_assem(i,10)>>T_assem(i,11)>>T_assem(i,12)>>T_assem(i,13)>>T_assem(i,14);
+            string_steam >> T_assem(i,0) >> T_assem(i,1) >>T_assem(i,2) >>T_assem(i,3) >>T_assem(i,4) >>T_assem(i,5) >>T_assem(i,6)>>T_assem(i,7)>>T_assem(i,8)>>T_assem(i,9)>>T_assem(i,10)>>T_assem(i,11)>>T_assem(i,12)>>T_assem(i,13);
             i++;
             string_steam.clear();
         }
@@ -1472,11 +1472,11 @@ void cloth_calc::cloth_ReadTransformationMat(std::string Transformation, std::st
         }
     }
     Freq.close();
-
+    // std::cout << T_assem << std::endl;
     // divide by frequency
     for(int Vert_index=0; Vert_index < Vert_num;Vert_index++)
     {
-        this -> T.block(Vert_index*3,0,3,15) = T_assem.block(Vert_index*3,0,3,15);
+        this -> T.block(Vert_index*3,0,3,14) = T_assem.block(Vert_index*3,0,3,14);
     }
 
 }
@@ -1487,22 +1487,21 @@ void cloth_calc::cloth_Opt(Eigen::MatrixXd T)
     cloth_init_vert();
     int Vert_num = vertsT.rows();
     this -> R_opt.resize(Vert_num*3,3);
-
+    // std::cout << T << std::endl;
     /*
     for(int Vert_index=0; Vert_index<Vert_num; Vert_index++)
     {
         Eigen::MatrixXd F_t;
-        F_t = T.block(Vert_index*3,0,3,3);
+        F_t = F.block(Vert_index*3,0,3,3);
 
         Eigen::MatrixXd U_t;
-        U_t = (T.block(3*Vert_index,3,3,3).transpose() * T.block(3*Vert_index,3,3,3)).inverse() * T.block(3*Vert_index,3,3,3).transpose() * F_t;
+        U_t = (T.block(Vert_index*3,0,3,3).transpose() * T.block(Vert_index*3,0,3,3)).inverse() * T.block(Vert_index*3,0,3,3).transpose() * F_t;
 
         // Eigen::MatrixXd R_t;
-        this -> R_opt.block(Vert_index*3,0,3,3) = (T.block(3*Vert_index,3,3,3) + F_t*U_t) * (Eigen::MatrixXd::Identity(3,3) + U_t*U_t);
+        this -> R_opt.block(Vert_index*3,0,3,3) = (T.block(Vert_index*3,0,3,3) + F_t*U_t) * (Eigen::MatrixXd::Identity(3,3) + U_t*U_t);
 
     }
     */
-
     Eigen::VectorXd X;
     Eigen::MatrixXd U, R;
 
@@ -1522,12 +1521,17 @@ void cloth_calc::cloth_Opt(Eigen::MatrixXd T)
         R = T.block(3*Vert_index,3,3,3);
         U = T.block(3*Vert_index,8,3,3);
 
-        R.resize(9,1);
-        U.resize(9,1);
+        // R.resize(9,1);
+        // U.resize(9,1);
         X.resize(18);
 
-        X.head(9) << R;
-        X.tail<9>() << U;
+        X.segment(0,3) = R.row(0).transpose();
+        X.segment(3,3) = R.row(1).transpose();
+        X.segment(6,3) = R.row(2).transpose();
+        X.segment(9,3) = U.row(0).transpose();
+        X.segment(12,3) = U.row(1).transpose();
+        X.segment(15,3) = U.row(2).transpose();
+
 
 
         int ret = lm.minimize(X);
@@ -1543,7 +1547,6 @@ void cloth_calc::cloth_Opt(Eigen::MatrixXd T)
 
         // std::cout << "X that minimizes the function: " << X.transpose() << std::endl;
     }
-
 
 }
 
