@@ -173,12 +173,12 @@ for i in range(1, 72):
     #plt.zticks(fontsize = 25) # work on current fig
     #plt.tight_layout()
     cbar=fig.colorbar(sm)
-    cbar.ax.tick_params(labelsize=20)
+    cbar.ax.tick_params(labelsize=40)
     # plt.rcParams['font.size'] = 50
     font = {'family' : 'serif',
         'color'  : 'black',
         'weight' : 'normal',
-        'size'   : 20,
+        'size'   : 40,
         }
     cbar.set_label('$lambda \ 1$',fontdict=font)
     #cbar.ax.labelsize(20)

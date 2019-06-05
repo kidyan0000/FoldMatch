@@ -129,7 +129,7 @@ for i in range(1, 72):
     #clrs = shiftedJet_cmap(q)
     #clrs_jet = plt.cm.jet(q)
     
-    norm = colors.PowerNorm(gamma=1./0.25)    
+    norm = colors.PowerNorm(gamma=0.25)    
     clrs = plt.cm.jet(norm(q))
     print clrs 
     
@@ -156,7 +156,7 @@ for i in range(1, 72):
 
     #surf = ax.scatter(vertices[:,0],vertices[:,1], vertices[:,2], c=clrs)
     plt.axis('off')
-    sm = plt.cm.ScalarMappable(cmap=plt.cm.jet.reversed(), norm=norm)
+    sm = plt.cm.ScalarMappable(cmap=plt.cm.jet, norm=norm)
     sm.set_array(q)
     
     #ax.set_xlabel("x")
@@ -168,23 +168,23 @@ for i in range(1, 72):
     #plt.scatter(vertices[:,0],vertices[:,1], vertices[:,2], s=25, cmap='plasma', marker = 'o') #, edgecolor='k'
     #plt.colorbar(p,ax=ax)
     #plt.grid(True)
-    #plt.xticks(fontsize = 25) # work on current fig
+    plt.xticks(fontsize = 25) # work on current fig
     #plt.yticks(fontsize = 25) # work on current fig
     #plt.zticks(fontsize = 25) # work on current fig
     #plt.tight_layout()
     cbar=fig.colorbar(sm)
-    # cbar.set_label('$v$')
-    cbar.ax.tick_params(labelsize=20)
+    cbar.ax.tick_params(labelsize=40)
     # plt.rcParams['font.size'] = 50
     font = {'family' : 'serif',
         'color'  : 'black',
         'weight' : 'normal',
-        'size'   : 20,
+        'size'   : 40,
         }
     cbar.set_label('$v$',fontdict=font)
-    cbar.set_ticks(np.hstack([0,np.linspace(0.4,1,4)]))
+    #cbar.ax.labelsize(20)
+    #cbar = plt.colorbar(orientation='vertical')
     #cbar.ax.set_xticklabels(np.arange(np.amin(q), np.amax(q), 8))
-    cbar.set_ticklabels( ('0.0','0.4', '0.6',  '0.8',  '1'))
+    #cbar.set_ticklabels( ('0.0', '0.1', '0.2', '0.3', '0.4',  '0.5',  '0.8',  '1'))
     plt.savefig('colorbar_v.png')
     #plt.show()
 

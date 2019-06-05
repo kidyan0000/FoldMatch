@@ -1,5 +1,0 @@
-Selected mode is: 3
-Template is: ../data/Template-5_0005.ply
-Reference is: ../data/Template-8_0008.ply
-Base is: ../data/Template-5_0005.ply
-Lambda is: lambda1

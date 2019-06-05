@@ -1429,10 +1429,10 @@ void cloth_calc::cloth_ReadTransformationMat(std::string Transformation, std::st
     cloth_init_vert();
     int Vert_num = this -> vertsT.rows();
 
-    this -> T.resize(3*Vert_num,14);
+    this -> T.resize(3*Vert_num,15);
 
     Eigen::MatrixXd T_assem;
-    T_assem.resize(3*Vert_num,14);
+    T_assem.resize(3*Vert_num,15);
 
     Eigen::MatrixXi Freq_assem;
     Freq_assem.resize(Vert_num,1);
@@ -1448,7 +1448,7 @@ void cloth_calc::cloth_ReadTransformationMat(std::string Transformation, std::st
         while (getline (Transf,line))
         {
             string_steam << line;
-            string_steam >> T_assem(i,0) >> T_assem(i,1) >>T_assem(i,2) >>T_assem(i,3) >>T_assem(i,4) >>T_assem(i,5) >>T_assem(i,6)>>T_assem(i,7)>>T_assem(i,8)>>T_assem(i,9)>>T_assem(i,10)>>T_assem(i,11)>>T_assem(i,12)>>T_assem(i,13);
+            string_steam >> T_assem(i,0) >> T_assem(i,1) >>T_assem(i,2) >>T_assem(i,3) >>T_assem(i,4) >>T_assem(i,5) >>T_assem(i,6)>>T_assem(i,7)>>T_assem(i,8)>>T_assem(i,9)>>T_assem(i,10)>>T_assem(i,11)>>T_assem(i,12)>>T_assem(i,13)>>T_assem(i,14);
             i++;
             string_steam.clear();
         }
@@ -1476,7 +1476,7 @@ void cloth_calc::cloth_ReadTransformationMat(std::string Transformation, std::st
     // divide by frequency
     for(int Vert_index=0; Vert_index < Vert_num;Vert_index++)
     {
-        this -> T.block(Vert_index*3,0,3,14) = T_assem.block(Vert_index*3,0,3,14);
+        this -> T.block(Vert_index*3,0,3,15) = T_assem.block(Vert_index*3,0,3,15);
     }
 
 }
@@ -1722,16 +1722,52 @@ void cloth_calc::cloth_wrink_vec_field(Eigen::MatrixXd Eigenval, Eigen::MatrixXd
 
     for(int Vert_index=0;Vert_index<Vert_num;Vert_index++)
     {
-        if((1-Eigenval(Vert_index*3)) > 0)
+
+        if((Eigenval(Vert_index*3)) > 0)
         {
-            v.block(Vert_index*3,0,3,1) = (1 - Eigenval(Vert_index*3)) * Eigenvec.block(Vert_index*3,1,3,1);
+            v.block(Vert_index*3,0,3,1) = (Eigenval(Vert_index*3)) * Eigenvec.block(Vert_index*3,0,3,1);
         }
         else
         {
-            v.block(Vert_index*3,0,3,1) = 0 * Eigenvec.block(Vert_index*3,1,3,1);
+            v.block(Vert_index*3,0,3,1) = 0 * Eigenvec.block(Vert_index*3,0,3,1);
         }
         v_norm(Vert_index) = v.block(Vert_index*3,0,3,1).norm();
+
+        // std::max((Eigenval(Vert_index*3)) * Eigenvec.block(Vert_index*3,0,3,1), 0)
     }
+}
+
+void cloth_calc::cloth_wrink_vec_field_text(MatrixXd T)
+{
+    int Vert_num = verts.rows();
+    this -> v.resize(Vert_num*3,1);
+    this -> v_norm.resize(Vert_num,1);
+    Eigen::MatrixXd Eigenval, Eigenvec;
+    Eigenval.resize(Vert_num*3,1);
+    Eigenvec.resize(Vert_num*3,3);
+    Eigenval = T.block(0,11,Vert_num*3,1);
+    Eigenvec = T.block(0,12,Vert_num*3,3);
+
+
+    for(int Vert_index=0;Vert_index<Vert_num;Vert_index++)
+    {
+
+        if((Eigenval(Vert_index*3)) > 0)
+        {
+            v.block(Vert_index*3,0,3,1) = (Eigenval(Vert_index*3)) * Eigenvec.block(Vert_index*3,0,3,1);
+        }
+        else
+        {
+            v.block(Vert_index*3,0,3,1) = 0 * Eigenvec.block(Vert_index*3,0,3,1);
+        }
+        v_norm(Vert_index) = v.block(Vert_index*3,0,3,1).norm();
+
+        // std::max((Eigenval(Vert_index*3)) * Eigenvec.block(Vert_index*3,0,3,1), 0)
+    }
+
+    // std::cout << T << std::endl;
+
+
 }
 
 void cloth_calc::cloth_eig_neighbor2x(std::map<int, std::vector<int>> MapNeighbor)

@@ -157,6 +157,7 @@ public:
 
     // Wrinkel vector field v
     void cloth_wrink_vec_field(Eigen::MatrixXd Eigenval, Eigen::MatrixXd Eigenvec);
+    void cloth_wrink_vec_field_text(Eigen::MatrixXd T);
 
     // Stretching Tensor
     void cloth_velGrad_3D(Eigen::MatrixXd F_CT, Eigen::MatrixXd F_CR, double deltaT);
