@@ -96,7 +96,8 @@ struct my_functor : Functor<double>
         U_opt.row(1) << F_tmp(12), F_tmp(13), F_tmp(14);
         U_opt.row(2) << F_tmp(15), F_tmp(16), F_tmp(17);
 
-        f_val(0) = (R_opt - this-> R_input).norm() + (U_opt - this->U_input).norm() + (R_opt * U_opt - this-> F_input).norm();
+        // f_val(0) = (R_opt - this-> R_input).norm() + (U_opt - this->U_input).norm() + (R_opt * U_opt - this-> F_input).norm();
+        f_val(0) = ((R_opt.transpose()*this->F_input)*(R_opt.transpose()*this->F_input)).determinant()-3;
         // std::cout << R_opt << std::endl;
         for(int i=1;i<Vert_num;i++)
         {
@@ -171,11 +172,12 @@ public:
     void cloth_update(Eigen::MatrixXd R, Eigen::MatrixXd t);
     void cloth_WriteVerts(Eigen::MatrixXd verts, const std::string &  ifileName);
 
-    void cloth_ReadTransformationMat(std::string Transformation, std::string Frequency);
+    void cloth_ReadTransformationMat(std::string Transformation);
     void cloth_Opt(Eigen::MatrixXd T);
 
     // COLLORMAP
     void cloth_vec_normalize(Eigen::MatrixXd Eigenval, int dim);
+    void cloth_vec_normalize_text(Eigen::MatrixXd T, int dim);
     void cloth_WriteColor(Eigen::MatrixXd color, const std::string &  ifileName);
 
 

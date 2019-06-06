@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
     // CAL 6: lambda assemble CCM
     // CAL 7: wrinkel vector field assemble CCM
     //
-    int CAL = 2;
+    int CAL = 1;
 
     double Per = 0.01; // Kd-tree parameters
 
@@ -95,7 +95,7 @@ int main(int argc, char *argv[])
 
     }
 
-    control -> cloth_input("../data/flag/");
+    control -> cloth_input("../data/Tshirt/");
     switch(CAL)
     {
         case 1:
@@ -438,12 +438,14 @@ int main(int argc, char *argv[])
         case 4:
         {
             slot_CT -> cloth_eig_neighbor4x(slot_map->GetMapNeighbor4x());
-
             slot_CR -> cloth_eig_neighbor4x(slot_map->GetMapNeighbor4x());
 
             if(CAL == 1)
             {
-                slot_CR -> cloth_vec_normalize(slot_CR->GetEigval_neighbor4x(), 3);
+
+                slot_CR -> cloth_ReadTransformationMat(control -> GetInputTransf(FILE));
+                slot_CR -> cloth_vec_normalize_text(slot_CR->GetTransformationMat(), 3);
+                //slot_CR -> cloth_vec_normalize(slot_CR->GetEigval_neighbor4x(), 3);
                 switch(LAMBDA)
                 {
                     case 1:
@@ -461,7 +463,7 @@ int main(int argc, char *argv[])
             // setting wrinkel vector field
             if(CAL == 2)
             {
-                slot_CR -> cloth_ReadTransformationMat(control -> GetInputTransf(FILE), control -> GetInputFreq(FILE));
+                slot_CR -> cloth_ReadTransformationMat(control -> GetInputTransf(FILE));
                 slot_CR -> cloth_wrink_vec_field_text(slot_CR->GetTransformationMat());
                 slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(FILE));
 
@@ -488,12 +490,12 @@ int main(int argc, char *argv[])
                 slot_CR -> cloth_WriteVerts(slot_CR->GetVertsUpdate(), control->GetVertsUpdateOutput(CR));
                 // we update the vertices and do new calculation
                 */
-                slot_CR -> cloth_ReadTransformationMat(control -> GetInputTransf(FILE), control -> GetInputFreq(FILE));
+                slot_CR -> cloth_ReadTransformationMat(control -> GetInputTransf(FILE));
                 slot_CR -> cloth_Opt(slot_CR->GetTransformationMat());
                 // std::cout << slot_CR->GetRotationTensorOpt() << std::endl;
-                // slot_CR -> cloth_translationVec(slot_CR->GetRotationTensorOpt(), slot_map->GetMapNeighbor4x());
-                // slot_CR -> cloth_update(slot_CR->GetRotationTensorOpt(), slot_CR->GetTranslationVec());
-                // slot_CR -> cloth_WriteVerts(slot_CR->GetVertsUpdate(), control->GetVertsUpdateOutput(CR));
+                slot_CR -> cloth_translationVec(slot_CR->GetRotationTensorOpt(), slot_map->GetMapNeighbor4x());
+                slot_CR -> cloth_update(slot_CR->GetRotationTensorOpt(), slot_CR->GetTranslationVec());
+                slot_CR -> cloth_WriteVerts(slot_CR->GetVertsUpdate(), control->GetVertsUpdateOutput(CR));
             }
             if(CAL == 5)
             {
@@ -662,7 +664,7 @@ int main(int argc, char *argv[])
             slot_CR -> cloth_WriteVerts(slot_CR->GetVertsUpdate(), "../test.ply");
             // std::cout << slot_CR->GetRotTensorOpt()<<std::endl;
             */
-            slot_CR->cloth_ReadTransformationMat(control -> GetInputTransf(FILE), control -> GetInputFreq(FILE));
+            slot_CR->cloth_ReadTransformationMat(control -> GetInputTransf(FILE));
             slot_CR -> test(slot_CR->GetTransformationMat());
             slot_CR -> cloth_translationVec(slot_CR->GetRotationTensorOpt(), slot_map->GetMapNeighbor4x());
             slot_CR -> cloth_update(slot_CR->GetRotationTensorOpt(), slot_CR->GetTranslationVec());
@@ -700,7 +702,7 @@ int main(int argc, char *argv[])
     ////////////////////////////////
 
     // slot should be chosen from 1 to 74
-    for(int slot=2; slot<75; slot++)
+    for(int slot=2; slot<101; slot++)
     {
         CT = slot;
         CR = slot+1;
@@ -977,7 +979,11 @@ int main(int argc, char *argv[])
 
                 if(CAL == 1)
                 {
-                    slot_CR -> cloth_vec_normalize(slot_CR->GetEigval_neighbor4x(), 3);
+                    slot_CR -> cloth_ReadTransformationMat(control -> GetInputTransf(FILE));
+                    slot_CR -> cloth_vec_normalize_text(slot_CR->GetTransformationMat(), 3);
+
+                    // slot_CR -> cloth_vec_normalize(slot_CR->GetEigval_neighbor4x(), 3);
+
                     switch(LAMBDA)
                     {
                         case 1:
@@ -995,7 +1001,7 @@ int main(int argc, char *argv[])
                 // setting wrinkel vector field
                 if(CAL == 2)
                 {
-                    slot_CR -> cloth_ReadTransformationMat(control -> GetInputTransf(FILE), control -> GetInputFreq(FILE));
+                    slot_CR -> cloth_ReadTransformationMat(control -> GetInputTransf(FILE));
                     slot_CR -> cloth_wrink_vec_field_text(slot_CR->GetTransformationMat());
                     slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(FILE));
 
@@ -1022,7 +1028,7 @@ int main(int argc, char *argv[])
                     slot_CR -> cloth_WriteVerts(slot_CR->GetVertsUpdate(), control->GetVertsUpdateOutput(CR));
                     // we update the vertices and do new calculation
                     */
-                    slot_CR -> cloth_ReadTransformationMat(control -> GetInputTransf(FILE), control -> GetInputFreq(FILE));
+                    slot_CR -> cloth_ReadTransformationMat(control -> GetInputTransf(FILE));
                     slot_CR -> cloth_Opt(slot_CR->GetTransformationMat());
                     slot_CR -> cloth_translationVec(slot_CR->GetRotationTensorOpt(), slot_map->GetMapNeighbor4x());
                     slot_CR -> cloth_update(slot_CR->GetRotationTensorOpt(), slot_CR->GetTranslationVec());
@@ -1244,9 +1250,9 @@ int main(int argc, char *argv[])
     //     std::cout << control->GetLambdaAssembleOutput(i) << std::endl;
     // }
 
-    std::ofstream Test("../output/R_opt.txt");
-    Test << slot_CR->GetRotationTensorOpt()<< std::endl;
-    Test.close();
+    // std::ofstream Test("../output/R_opt.txt");
+    // Test << slot_CR->GetRotationTensorOpt()<< std::endl;
+    // Test.close();
 
     // slot_CR -> cloth_WriteColor(slot_CR->GetEigval_norm_dir1(), "../output/debug/lambda1_assemble.ply");
 

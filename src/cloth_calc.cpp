@@ -1424,7 +1424,7 @@ void cloth_calc::cloth_WriteVerts(Eigen::MatrixXd update, const std::string &ifi
 
 }
 
-void cloth_calc::cloth_ReadTransformationMat(std::string Transformation, std::string Frequency)
+void cloth_calc::cloth_ReadTransformationMat(std::string Transformation)
 {
     cloth_init_vert();
     int Vert_num = this -> vertsT.rows();
@@ -1454,7 +1454,7 @@ void cloth_calc::cloth_ReadTransformationMat(std::string Transformation, std::st
         }
     }
     Transf.close();
-
+    /*
     std::ifstream Freq;
     Freq.open(Frequency);
     if (Freq.is_open())
@@ -1472,6 +1472,8 @@ void cloth_calc::cloth_ReadTransformationMat(std::string Transformation, std::st
         }
     }
     Freq.close();
+    */
+
     // std::cout << T_assem << std::endl;
     // divide by frequency
     for(int Vert_index=0; Vert_index < Vert_num;Vert_index++)
@@ -1972,6 +1974,60 @@ void cloth_calc::cloth_vec_normalize(Eigen::MatrixXd Eigenval, int dim)
         this -> Eigval_norm_dir2 = (Eigval_norm_dir2 - Eigval_norm_dir2.minCoeff() * Eigen::MatrixXd::Identity(Eigval_norm_size, 1)) / (Eigval_norm_dir2.maxCoeff() - Eigval_norm_dir2.minCoeff());
         this -> Eigval_norm_dir3 = (Eigval_norm_dir3 - Eigval_norm_dir3.minCoeff() * Eigen::MatrixXd::Identity(Eigval_norm_size, 1)) / (Eigval_norm_dir3.maxCoeff() - Eigval_norm_dir3.minCoeff());
     }
+}
+
+void cloth_calc::cloth_vec_normalize_text(MatrixXd T, int dim)
+{
+    cloth_init_vert();
+
+    // initialize the eigenvalues and eigenvectors
+    int Vert_num = verts.rows();
+
+    Eigen::MatrixXd Eigenval, Eigenvec;
+    Eigenval.resize(Vert_num*3,1);
+    Eigenvec.resize(Vert_num*3,3);
+    Eigenval = T.block(0,11,Vert_num*3,1);
+    Eigenvec = T.block(0,12,Vert_num*3,3);
+    // std::cout << Eigenval <<std::endl;
+
+    int Eigval_norm_size = Eigenval.rows() / dim;
+
+    Eigval_norm_dir1.resize(Eigval_norm_size,1);
+    Eigval_norm_dir2.resize(Eigval_norm_size,1);
+    Eigval_norm_dir3.resize(Eigval_norm_size,1);
+
+    if(dim==2)
+    {
+        // this is to normlize the eigenvalue in order to smooth the solution space
+        Eigen::Map<Eigen::MatrixXd, 0, Eigen::InnerStride<2> >Eigval_norm_dir1(Eigenval.data()  ,Eigval_norm_size,1);
+        Eigen::Map<Eigen::MatrixXd, 0, Eigen::InnerStride<2> >Eigval_norm_dir2(Eigenval.data()+1,Eigval_norm_size,1);
+
+        this -> Eigval_norm_dir1 = (Eigval_norm_dir1 - Eigval_norm_dir1.minCoeff() * Eigen::MatrixXd::Identity(Eigval_norm_size, 1)) / (Eigval_norm_dir1.maxCoeff() - Eigval_norm_dir1.minCoeff());
+        this -> Eigval_norm_dir2 = (Eigval_norm_dir2 - Eigval_norm_dir2.minCoeff() * Eigen::MatrixXd::Identity(Eigval_norm_size, 1)) / (Eigval_norm_dir2.maxCoeff() - Eigval_norm_dir2.minCoeff());
+    }
+
+    if(dim==3)
+    {
+        /*
+        // this is to normlize the eigenvalue in order to smooth the solution space
+        Eigen::Map<Eigen::MatrixXd, 0, Eigen::InnerStride<3> >Eigval_norm_dir1(Eigenval.data()  ,Eigval_norm_size,1);
+        Eigen::Map<Eigen::MatrixXd, 0, Eigen::InnerStride<3> >Eigval_norm_dir2(Eigenval.data()+1,Eigval_norm_size,1);
+        Eigen::Map<Eigen::MatrixXd, 0, Eigen::InnerStride<3> >Eigval_norm_dir3(Eigenval.data()+2,Eigval_norm_size,1);
+
+        this -> Eigval_norm_dir1 = (Eigval_norm_dir1 - Eigval_norm_dir1.minCoeff() * Eigen::MatrixXd::Identity(Eigval_norm_size, 1)) / (Eigval_norm_dir1.maxCoeff() - Eigval_norm_dir1.minCoeff());
+        this -> Eigval_norm_dir2 = (Eigval_norm_dir2 - Eigval_norm_dir2.minCoeff() * Eigen::MatrixXd::Identity(Eigval_norm_size, 1)) / (Eigval_norm_dir2.maxCoeff() - Eigval_norm_dir2.minCoeff());
+        this -> Eigval_norm_dir3 = (Eigval_norm_dir3 - Eigval_norm_dir3.minCoeff() * Eigen::MatrixXd::Identity(Eigval_norm_size, 1)) / (Eigval_norm_dir3.maxCoeff() - Eigval_norm_dir3.minCoeff());
+        */
+        Eigen::Map<Eigen::MatrixXd, 0, Eigen::InnerStride<3> >Eigval_norm_dir1(Eigenval.data(), Eigval_norm_size,1);
+        // std::cout << Eigval_norm_dir1.maxCoeff() << std::endl;
+        for(int i=0;i<Eigval_norm_size;i++)
+        {
+            this -> Eigval_norm_dir1(i) = (Eigenval(3*i) - Eigval_norm_dir1.minCoeff()) /  (Eigval_norm_dir1.maxCoeff() - Eigval_norm_dir1.minCoeff());
+        }
+
+    }
+    // std::cout << Eigval_norm_dir1 << std::endl;
+
 }
 
 

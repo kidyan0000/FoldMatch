@@ -102,13 +102,13 @@ void cloth_control::cloth_input(std::string inputpath)
 void cloth_control::cloth_lambda_output(std::string outputpath)
 {
     std::string output_file;
-    for(int i=1; i<=75; i++)
+    for(int i=1; i<=101; i++)
     {
         output_file = outputpath + lambda + "_" + std::to_string(i) +".ply";
         this -> _lambdaname.push_back(output_file);
     }
     std::string readme_file;
-    for(int i=1; i<=75; i++)
+    for(int i=1; i<=101; i++)
     {
         readme_file = outputpath + "readme/" + lambda + "_" + std::to_string(i) + "_readme.txt";
         this -> _readme.push_back(readme_file);
@@ -124,13 +124,13 @@ void cloth_control::cloth_lambda_output(std::string outputpath)
 void cloth_control::cloth_lambdaAssemble_output(std::string outputpath)
 {
     std::string output_file;
-    for(int i=1; i<=75; i++)
+    for(int i=1; i<=101; i++)
     {
         output_file = outputpath + lambda_assemble + "_" + std::to_string(i) +".ply";
         this -> _lambdaAssemblename.push_back(output_file);
     }
     std::string readme_file;
-    for(int i=1; i<=75; i++)
+    for(int i=1; i<=101; i++)
     {
         readme_file = outputpath + "readme/" + lambda_assemble + "_" + std::to_string(i) + "_readme.txt";
         this -> _readme.push_back(readme_file);
@@ -147,13 +147,13 @@ void cloth_control::cloth_lambdaAssemble_output(std::string outputpath)
 void cloth_control::cloth_stretchCCM_output(std::string outputpath)
 {
     std::string output_file;
-    for(int i=1; i<=75; i++)
+    for(int i=1; i<=101; i++)
     {
         output_file = outputpath + "stretchCCM" + "_" + std::to_string(i) +".txt";
         this -> _stretchCCMname.push_back(output_file);
     }
     std::string readme_file;
-    for(int i=1; i<=75; i++)
+    for(int i=1; i<=101; i++)
     {
         readme_file = outputpath + "readme/" + "stretchCCM" + "_" + std::to_string(i) + "_readme.txt";
         this -> _readme.push_back(readme_file);
@@ -170,14 +170,14 @@ void cloth_control::cloth_stretchCCM_output(std::string outputpath)
 void cloth_control::cloth_stretchFreq_output(std::string outputpath)
 {
     std::string output_file;
-    for(int i=1; i<=75; i++)
+    for(int i=1; i<=101; i++)
     {
         output_file = outputpath + "stretchFreq" + "_" + std::to_string(i) +".txt";
         this -> _stretchFreqname.push_back(output_file);
     }
 
     std::string readme_file;
-    for(int i=1; i<=75; i++)
+    for(int i=1; i<=101; i++)
     {
         readme_file = outputpath + "readme/" + "stretchFreq" + "_" + std::to_string(i) + "_readme.txt";
         this -> _readme.push_back(readme_file);
@@ -194,13 +194,13 @@ void cloth_control::cloth_stretchFreq_output(std::string outputpath)
 void cloth_control::cloth_stretchMap_output(std::string outputpath)
 {
     std::string output_file;
-    for(int i=1; i<=75; i++)
+    for(int i=1; i<=101; i++)
     {
         output_file = outputpath + "stretchMap" + "_" + std::to_string(i) +".txt";
         this -> _stretchMapname.push_back(output_file);
     }
     std::string readme_file;
-    for(int i=1; i<=75; i++)
+    for(int i=1; i<=101; i++)
     {
         readme_file = outputpath + "readme/" + "stretchMap" + "_" + std::to_string(i) + "_readme.txt";
         this -> _readme.push_back(readme_file);
@@ -217,13 +217,13 @@ void cloth_control::cloth_stretchMap_output(std::string outputpath)
 void cloth_control::cloth_stretch_output(std::string outputpath)
 {
     std::string output_file;
-    for(int i=1; i<=75; i++)
+    for(int i=1; i<=101; i++)
     {
         output_file = outputpath + "stretch" + "_" + std::to_string(i) +".ply";
         this -> _stretchname.push_back(output_file);
     }
     std::string readme_file;
-    for(int i=1; i<=75; i++)
+    for(int i=1; i<=101; i++)
     {
         readme_file = outputpath + "readme/" + "stretch_" + std::to_string(i) + "_readme.txt";
         this -> _readme.push_back(readme_file);
@@ -240,13 +240,13 @@ void cloth_control::cloth_stretch_output(std::string outputpath)
 void cloth_control::cloth_wrinkVecField_output(std::string outputpath)
 {
     std::string output_file;
-    for(int i=1; i<=75; i++)
+    for(int i=1; i<=101; i++)
     {
         output_file = outputpath + "wrinkVecField" + "_" + std::to_string(i) +".ply";
         this -> _wrinkVecFieldname.push_back(output_file);
     }
     std::string readme_file;
-    for(int i=1; i<=75; i++)
+    for(int i=1; i<=101; i++)
     {
         readme_file = outputpath + "readme/" + "wrinkVecField_" + std::to_string(i) + "_readme.txt";
         this -> _readme.push_back(readme_file);
@@ -286,14 +286,14 @@ void cloth_control::cloth_vertsUpdate_input(std::string inputpath)
 void cloth_control::cloth_vertsUpdate_output(std::string outputpath)
 {
     std::string output_file;
-    for(int i=1; i<=75; i++)
+    for(int i=1; i<=101; i++)
     {
         output_file = outputpath + "Template-Update" + "_" + std::to_string(i) +".ply";
         this -> _output_vertsUpdatename.push_back(output_file);
     }
 
     std::string readme_file;
-    for(int i=1; i<=75; i++)
+    for(int i=1; i<=101; i++)
     {
         readme_file = outputpath + "readme/" + "Template-Update_" + std::to_string(i) + "_readme.txt";
         this -> _readme.push_back(readme_file);
