@@ -2249,53 +2249,102 @@ Eigen::MatrixXd cloth_calc::GetStrTensor_norm_dir1()
 
 
 
-void cloth_calc::test(Eigen::MatrixXd T)
+void cloth_calc::test(Eigen::MatrixXd T, double epsilon, std::string name)
 {
+    std::ofstream Test(name);
 
-    Eigen::VectorXd X;
-    Eigen::MatrixXd U, R;
+    Eigen::MatrixXd U_i, R_i, F_i, Rk ,Rk_new;
 
-    int Vert_num = T.rows() / 3.;
-    int i=0;
+    int size = T.rows();
 
-    this -> R_opt.resize(3*Vert_num,3);
+    R_i = T.block(0,3,size,3);
+    U_i = T.block(0,8,size,3);
+    F_i = T.block(0,0,size,3);
 
-    for(int Vert_index=0; Vert_index<Vert_num; Vert_index++)
+
+    Eigen::MatrixXd Eigvec;
+    Eigvec.resize(size,3);
+    Eigvec = T.block(0,12,size,3);
+
+    // std::cout << Eigvec << std::endl;
+
+    for(int i=0; i<1;i++)
     {
-        my_functor functor(18, T.block(3*Vert_index,0,3,14));
-        Eigen::NumericalDiff<my_functor> numDiff(functor);
-        Eigen::LevenbergMarquardt<Eigen::NumericalDiff<my_functor>,double> lm(numDiff);
-        lm.parameters.maxfev = 2000;
-        lm.parameters.xtol = 1.0e-10;
+        Eigen::MatrixXd U(3,3), VT(3,3), Fk(3,3);
+        Eigen::MatrixXd UVT, Sk(3,1), Uk(3,3);
+        Eigen::Matrix<double, Eigen::Dynamic, 1> S;
 
-        // functor.setValues(T);
+        Fk = F_i.block(3*i,0,3,3);
 
-        // T is the read form text file
-        R = T.block(3*Vert_index,3,3,3);
-        U = T.block(3*Vert_index,8,3,3);
-
-        R.resize(9,1);
-        U.resize(9,1);
-        X.resize(18);
-
-        X.head(9) << R;
-        X.tail<9>() << U;
+        Eigen::JacobiSVD<Eigen::MatrixXd> svd(Fk, Eigen::ComputeThinU | Eigen::ComputeThinV);
+        S = svd.singularValues();
+        U = svd.matrixU();
+        VT = svd.matrixV().transpose();
+        UVT = U * VT;
+        S(0) = 1.0f; S(1) = 1.0f;
+        S(2) = (UVT.determinant() <= 0) ? - 1.0f : 1.0f;
+        Rk = U * S.asDiagonal() * VT;
 
 
-        int ret = lm.minimize(X);
+        double s = std::sqrt((std::pow((svd.singularValues())(0) + epsilon, 2.0) +
+                              std::pow((svd.singularValues())(1) - epsilon/2, 2.0) +
+                              std::pow((svd.singularValues())(2) - epsilon/2, 2.0)) / 3.0f);
 
-        this -> R_opt.row(i)   << X(0), X(1), X(2);
-        this -> R_opt.row(i+1) << X(3), X(4), X(5);
-        this -> R_opt.row(i+2) << X(6), X(7), X(8);
-        i=i+3;
+        Sk << s, s, s;
+        Uk = (s * Eigvec.block(3*i,0,3,3).col(0) * Eigvec.block(3*i,0,3,3).col(0).transpose()) + (s * Eigvec.block(3*i,0,3,3).col(1) * Eigvec.block(3*i,0,3,3).col(1).transpose())+ ( s * Eigvec.block(3*i,0,3,3).col(2) * Eigvec.block(3*i,0,3,3).col(2).transpose());
+        Fk = Rk * Uk;
+
+        // std::cout << Fk << std::endl;
+        Eigen::JacobiSVD<Eigen::MatrixXd> svdFinal(Fk, Eigen::ComputeThinU | Eigen::ComputeThinV);
+        S = svdFinal.singularValues();
+        U = svdFinal.matrixU();
+        VT = svdFinal.matrixV().transpose();
+        UVT = U * VT;
+        S(0) = 1.0f; S(1) = 1.0f;
+        S(2) = (UVT.determinant() <= 0) ? - 1.0f : 1.0f;
+        Rk_new = U * S.asDiagonal() * VT;
+
+        // std::cout << Uk << std::endl;
+        Test << Rk_new << std::endl;
 
 
-        // std::cout << lm.iter << std::endl;
-        // std::cout << ret << std::endl;
-
-        // std::cout << "X that minimizes the function: " << X.transpose() << std::endl;
     }
 
+
+    Test.close();
+
+    /*
+            Eigen::MatrixXd U(3,3), VT(3,3);
+            Eigen::MatrixXd UVT;
+            Eigen::Matrix<double, Eigen::Dynamic, 1> S;
+            Eigen::JacobiSVD<Eigen::MatrixXd> svd(Fk, Eigen::ComputeThinU | Eigen::ComputeThinV);
+            S = svd.singularValues();
+            U = svd.matrixU();
+            VT = svd.matrixV().transpose();
+            UVT = U * VT;
+            S(0) = 1.0f; S(1) = 1.0f;
+            S(2) = (UVT.determinant() <= 0) ? - 1.0f : 1.0f;
+            Rk = U  S.asDiagonal()  VT;
+
+            double s = std::sqrt((std::pow((svd.singularValues())(0) + 0.01, 2.0) +
+                                  std::pow((svd.singularValues())(1) - 0.005, 2.0) +
+                                  std::pow((svd.singularValues())(2) - 0.005, 2.0)) / 3.0f);
+            Sk << s, s, s;
+            Uk = (s  Eigvec.col(0)  Eigvec.col(0).transpose()) + (s  Eigvec.col(1)  Eigvec.col(1).transpose())+ ( s  Eigvec.col(2)  Eigvec.col(2).transpose());
+            Fk = Rk * Uk;
+
+
+            Eigen::JacobiSVD<Eigen::MatrixXd> svdFinal(Fk, Eigen::ComputeThinU | Eigen::ComputeThinV);
+            S = svdFinal.singularValues();
+            U = svdFinal.matrixU();
+            VT = svdFinal.matrixV().transpose();
+            UVT = U * VT;
+            S(0) = 1.0f; S(1) = 1.0f;
+            S(2) = (UVT.determinant() <= 0) ? - 1.0f : 1.0f;
+            Rk = U  S.asDiagonal()  VT;
+     */
+
+    // std::cout << R << std::endl;
 
 }
 

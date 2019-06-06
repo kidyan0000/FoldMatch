@@ -182,7 +182,7 @@ public:
 
 
 
-    void test(Eigen::MatrixXd T);
+    void test(Eigen::MatrixXd T, double epsilon, std::string name);
 
     std::map<int, std::vector<int>> GetMapNeighbor();
     std::map<int, std::vector<int>> GetMapNeighbor2x();

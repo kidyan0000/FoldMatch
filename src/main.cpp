@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
     // MODE 4: Neighbor4x
     // MODE 5: KD-Tree
     // MODE 0: TEST
-    int MODE = 4;
+    int MODE = 0;
 
     // settings writing results
     // CAL 1: lambda
@@ -649,26 +649,10 @@ int main(int argc, char *argv[])
         }
     case 0:
         {
-            // std::cout << control -> GetInputTransf(FILE) << std::endl;
-            // std::cout << control -> GetInputFreq(FILE) << std::endl;
 
-            /*
-            slot_map -> cloth_map_neighbor(4);
-            slot_CR -> cloth_eig_neighbor4x(slot_map->GetMapNeighbor4x());
-
-            slot_CR->cloth_ReadTransformationMat(control -> GetInputTransf(FILE), control -> GetInputFreq(FILE));
-            slot_CR->cloth_Opt(slot_CR->GetTransformationMat(), slot_CR->GetDefoGrad());
-
-            slot_CR -> cloth_translationVec(slot_CR->GetRotationTensorOpt(), slot_map->GetMapNeighbor4x());
-            slot_CR -> cloth_update(slot_CR->GetRotationTensorOpt(), slot_CR->GetTranslationVec());
-            slot_CR -> cloth_WriteVerts(slot_CR->GetVertsUpdate(), "../test.ply");
-            // std::cout << slot_CR->GetRotTensorOpt()<<std::endl;
-            */
-            slot_CR->cloth_ReadTransformationMat(control -> GetInputTransf(FILE));
-            slot_CR -> test(slot_CR->GetTransformationMat());
-            slot_CR -> cloth_translationVec(slot_CR->GetRotationTensorOpt(), slot_map->GetMapNeighbor4x());
-            slot_CR -> cloth_update(slot_CR->GetRotationTensorOpt(), slot_CR->GetTranslationVec());
-            slot_CR -> cloth_WriteVerts(slot_CR->GetVertsUpdate(), control->GetVertsUpdateOutput(CR));
+        // trans 41
+            slot_CR->cloth_ReadTransformationMat(control -> GetInputTransf(40));
+            slot_CR -> test(slot_CR->GetTransformationMat(), 0.05, "../output/debug/Rk_0.05.txt");
         }
         break;
     }
@@ -702,7 +686,7 @@ int main(int argc, char *argv[])
     ////////////////////////////////
 
     // slot should be chosen from 1 to 74
-    for(int slot=2; slot<101; slot++)
+    for(int slot=2; slot<2; slot++)
     {
         CT = slot;
         CR = slot+1;
