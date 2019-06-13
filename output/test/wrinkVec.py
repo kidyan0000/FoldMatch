@@ -61,7 +61,6 @@ for i in range(2, 3):
     vertices = np.column_stack((x, y, z))
     
     q = plydata['vertex']['quality']
-    print(q)
     
     norm = colors.PowerNorm(gamma=0.25)    
     clrs = plt.cm.jet(norm(q))
@@ -73,11 +72,17 @@ for i in range(2, 3):
     color_255 = np.ceil(clrs * 255)
     #color_tri = np.concatenate((color_255[:,1],color_255[:,2],color_255[:,3]))
     #print(color_tri)
+    figure(bgcolor=(1, 1, 1))
     
     pts = quiver3d(vertices[:,0],vertices[:,1], vertices[:,2], eigvecData[0:ver_num:3,1], eigvecData[1:ver_num:3,1], eigvecData[2:ver_num:3,1],scalars=q, line_width=2)
     pts.glyph.color_mode = 'color_by_scalar'
     # points3d(vertices[:,0],vertices[:,1], vertices[:,2])
+    print(view())
+    view(-45, 45)
+    
     show()
+    #savefig('wrinkVecField_' + str(i) + '.png', size=(400,400))
+    close()
     
     
     
