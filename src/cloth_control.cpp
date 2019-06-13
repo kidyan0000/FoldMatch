@@ -245,6 +245,18 @@ void cloth_control::cloth_wrinkVecField_output(std::string outputpath)
         output_file = outputpath + "wrinkVecField" + "_" + std::to_string(i) +".ply";
         this -> _wrinkVecFieldname.push_back(output_file);
     }
+    std::string eigval_file;
+    for(int i=1; i<=101; i++)
+    {
+        eigval_file = outputpath + "eigval_" + std::to_string(i) + ".txt";
+        this -> _eigval.push_back(eigval_file);
+    }
+    std::string eigvec_file;
+    for(int i=1; i<=101; i++)
+    {
+        eigvec_file = outputpath + "eigvec_" + std::to_string(i) + ".txt";
+        this -> _eigvec.push_back(eigvec_file);
+    }
     std::string readme_file;
     for(int i=1; i<=101; i++)
     {
@@ -377,6 +389,16 @@ std::string cloth_control::GetVertsUpdateInput(int i)
 std::string cloth_control::GetVertsUpdateOutput(int i)
 {
     return this -> _output_vertsUpdatename[i];
+}
+
+std::string cloth_control::GetEigvalOutput(int i)
+{
+    return this -> _eigval[i];
+}
+
+std::string cloth_control::GetEigvecOutput(int i)
+{
+    return this -> _eigvec[i];
 }
 
 std::string cloth_control::Readme(int i)

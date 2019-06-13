@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
     // MODE 4: Neighbor4x
     // MODE 5: KD-Tree
     // MODE 0: TEST
-    int MODE = 0;
+    int MODE = 5;
 
     // settings writing results
     // CAL 1: lambda
@@ -53,9 +53,9 @@ int main(int argc, char *argv[])
     // CAL 6: lambda assemble CCM
     // CAL 7: wrinkel vector field assemble CCM
     //
-    int CAL = 1;
+    int CAL = 2;
 
-    double Per = 0.01; // Kd-tree parameters
+    double Per = 0.005; // Kd-tree parameters
 
     double deltaT = 0.006; // time step
 
@@ -204,6 +204,14 @@ int main(int argc, char *argv[])
             {
                 slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_neighbor(), slot_CR->GetEigvec_neighbor());
                 slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(FILE));
+
+                std::ofstream eigval(control->GetEigvalOutput(FILE));
+                eigval << slot_CR->GetEigval_neighbor()<< std::endl;
+                eigval.close();
+
+                std::ofstream eigvec(control->GetEigvecOutput(FILE));
+                eigvec << slot_CR->GetEigvec_neighbor()<< std::endl;
+                eigvec.close();
             }
             if(CAL == 5)
             {
@@ -254,6 +262,14 @@ int main(int argc, char *argv[])
                 // setting wrinkel vector field
                 slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_neighbor2x(), slot_CR->GetEigvec_neighbor2x());
                 slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(FILE));
+
+                std::ofstream eigval(control->GetEigvalOutput(FILE));
+                eigval << slot_CR->GetEigval_neighbor2x()<< std::endl;
+                eigval.close();
+
+                std::ofstream eigvec(control->GetEigvecOutput(FILE));
+                eigvec << slot_CR->GetEigvec_neighbor2x()<< std::endl;
+                eigvec.close();
             }
             if(CAL == 5)
             {
@@ -358,6 +374,14 @@ int main(int argc, char *argv[])
                 // setting wrinkel vector field
                 slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_neighbor3x(), slot_CR->GetEigvec_neighbor3x());
                 slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(FILE));
+
+                std::ofstream eigval(control->GetEigvalOutput(FILE));
+                eigval << slot_CR->GetEigval_neighbor3x()<< std::endl;
+                eigval.close();
+
+                std::ofstream eigvec(control->GetEigvecOutput(FILE));
+                eigvec << slot_CR->GetEigvec_neighbor3x()<< std::endl;
+                eigvec.close();
             }
             if(CAL == 5)
             {
@@ -463,12 +487,20 @@ int main(int argc, char *argv[])
             // setting wrinkel vector field
             if(CAL == 2)
             {
-                slot_CR -> cloth_ReadTransformationMat(control -> GetInputTransf(FILE));
-                slot_CR -> cloth_wrink_vec_field_text(slot_CR->GetTransformationMat());
+                // slot_CR -> cloth_ReadTransformationMat(control -> GetInputTransf(FILE));
+                // slot_CR -> cloth_wrink_vec_field_text(slot_CR->GetTransformationMat());
+                // slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(FILE));
+
+                slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_neighbor4x(), slot_CR->GetEigvec_neighbor4x());
                 slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(FILE));
 
-                // slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_neighbor4x(), slot_CR->GetEigvec_neighbor4x());
-                // slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(FILE));
+                std::ofstream eigval(control->GetEigvalOutput(FILE));
+                eigval << slot_CR->GetEigval_neighbor4x()<< std::endl;
+                eigval.close();
+
+                std::ofstream eigvec(control->GetEigvecOutput(FILE));
+                eigvec << slot_CR->GetEigvec_neighbor4x()<< std::endl;
+                eigvec.close();
             }
 
             if(CAL == 3)
@@ -599,6 +631,14 @@ int main(int argc, char *argv[])
             {
                 slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_neighborKdTree(), slot_CR->GetEigvec_neighborKdTree());
                 slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(FILE));
+
+                std::ofstream eigval(control->GetEigvalOutput(FILE));
+                eigval << slot_CR->GetEigval_neighborKdTree()<< std::endl;
+                eigval.close();
+
+                std::ofstream eigvec(control->GetEigvecOutput(FILE));
+                eigvec << slot_CR->GetEigvec_neighborKdTree()<< std::endl;
+                eigvec.close();
             }
             if(CAL == 3)
             {
@@ -686,7 +726,7 @@ int main(int argc, char *argv[])
     ////////////////////////////////
 
     // slot should be chosen from 1 to 74
-    for(int slot=2; slot<2; slot++)
+    for(int slot=2; slot<75; slot++)
     {
         CT = slot;
         CR = slot+1;
@@ -726,6 +766,14 @@ int main(int argc, char *argv[])
                 {
                     slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_neighbor(), slot_CR->GetEigvec_neighbor());
                     slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(FILE));
+
+                    std::ofstream eigval(control->GetEigvalOutput(FILE));
+                    eigval << slot_CR->GetEigval_neighbor()<< std::endl;
+                    eigval.close();
+
+                    std::ofstream eigvec(control->GetEigvecOutput(FILE));
+                    eigvec << slot_CR->GetEigvec_neighbor()<< std::endl;
+                    eigvec.close();
                 }
                 if(CAL == 5)
                 {
@@ -775,6 +823,14 @@ int main(int argc, char *argv[])
                     // setting wrinkel vector field
                     slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_neighbor2x(), slot_CR->GetEigvec_neighbor2x());
                     slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(FILE));
+
+                    std::ofstream eigval(control->GetEigvalOutput(FILE));
+                    eigval << slot_CR->GetEigval_neighbor2x()<< std::endl;
+                    eigval.close();
+
+                    std::ofstream eigvec(control->GetEigvecOutput(FILE));
+                    eigvec << slot_CR->GetEigvec_neighbor2x()<< std::endl;
+                    eigvec.close();
                 }
                 if(CAL == 5)
                 {
@@ -879,6 +935,14 @@ int main(int argc, char *argv[])
                     // setting wrinkel vector field
                     slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_neighbor3x(), slot_CR->GetEigvec_neighbor3x());
                     slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(CR));
+
+                    std::ofstream eigval(control->GetEigvalOutput(FILE));
+                    eigval << slot_CR->GetEigval_neighbor3x()<< std::endl;
+                    eigval.close();
+
+                    std::ofstream eigvec(control->GetEigvecOutput(FILE));
+                    eigvec << slot_CR->GetEigvec_neighbor3x()<< std::endl;
+                    eigvec.close();
                 }
                 if(CAL == 5)
                 {
@@ -985,12 +1049,20 @@ int main(int argc, char *argv[])
                 // setting wrinkel vector field
                 if(CAL == 2)
                 {
-                    slot_CR -> cloth_ReadTransformationMat(control -> GetInputTransf(FILE));
-                    slot_CR -> cloth_wrink_vec_field_text(slot_CR->GetTransformationMat());
+                    // slot_CR -> cloth_ReadTransformationMat(control -> GetInputTransf(FILE));
+                    // slot_CR -> cloth_wrink_vec_field_text(slot_CR->GetTransformationMat());
+                    // slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(FILE));
+
+                    slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_neighbor4x(), slot_CR->GetEigvec_neighbor4x());
                     slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(FILE));
 
-                    // slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_neighbor4x(), slot_CR->GetEigvec_neighbor4x());
-                    // slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(FILE));
+                    std::ofstream eigval(control->GetEigvalOutput(FILE));
+                    eigval << slot_CR->GetEigval_neighbor4x()<< std::endl;
+                    eigval.close();
+
+                    std::ofstream eigvec(control->GetEigvecOutput(FILE));
+                    eigvec << slot_CR->GetEigvec_neighbor4x()<< std::endl;
+                    eigvec.close();
                 }
 
                 if(CAL == 3)
@@ -1120,6 +1192,14 @@ int main(int argc, char *argv[])
                 {
                     slot_CR -> cloth_wrink_vec_field(slot_CR->GetEigval_neighborKdTree(), slot_CR->GetEigvec_neighborKdTree());
                     slot_CR -> cloth_WriteColor(slot_CR->GetWrinkVecField_norm(), control->GetWrinkVecFieldOutput(FILE));
+
+                    std::ofstream eigval(control->GetEigvalOutput(FILE));
+                    eigval << slot_CR->GetEigval_neighborKdTree()<< std::endl;
+                    eigval.close();
+
+                    std::ofstream eigvec(control->GetEigvecOutput(FILE));
+                    eigvec << slot_CR->GetEigvec_neighborKdTree()<< std::endl;
+                    eigvec.close();
                 }
                 if(CAL == 3)
                 {

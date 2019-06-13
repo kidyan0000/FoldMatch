@@ -1,1 +1,0 @@
-/usr/bin/c++  -O3 -DNDEBUG   CMakeFiles/tetcli.dir/tetcli.cpp.o  -o tetcli ../cubesim/libcubesim.a 

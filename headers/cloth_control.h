@@ -40,11 +40,14 @@ public:
     std::string GetWrinkVecFieldOutput(int i);
     std::string GetVertsUpdateInput(int i);
     std::string GetVertsUpdateOutput(int i);
+    std::string GetEigvalOutput(int i);
+    std::string GetEigvecOutput(int i);
     std::string Readme(int i);
 
 private:
     std::vector<std::string> _inputname, _lambdaname, _lambdaAssemblename, _stretchname, _wrinkVecFieldname, _input_vertsUpdatename, _output_vertsUpdatename;
     std::vector<std::string> _stretchCCMname, _stretchFreqname, _stretchMapname;
+    std::vector<std::string> _eigval, _eigvec;
     std::vector<std::string> _inputname_transf, _inputname_freq;
     std::vector<std::string> _readme;
     std::string lambda;

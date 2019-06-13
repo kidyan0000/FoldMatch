@@ -1,1 +1,0 @@
-/usr/bin/c++  -O3 -DNDEBUG   CMakeFiles/hexcli.dir/hexcli.cpp.o  -o hexcli ../cubesim/libcubesim.a 

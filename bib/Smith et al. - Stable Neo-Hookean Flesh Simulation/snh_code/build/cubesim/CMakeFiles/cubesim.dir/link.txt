@@ -1,2 +1,0 @@
-/usr/bin/ar qc libcubesim.a  CMakeFiles/cubesim.dir/CGInterface.cpp.o CMakeFiles/cubesim.dir/Cube.cpp.o CMakeFiles/cubesim.dir/CubeMesh.cpp.o CMakeFiles/cubesim.dir/CubeNewtonSolver.cpp.o CMakeFiles/cubesim.dir/EigenCG.cpp.o CMakeFiles/cubesim.dir/Material.cpp.o CMakeFiles/cubesim.dir/QuasistaticSolveResult.cpp.o CMakeFiles/cubesim.dir/StableNeoHookean.cpp.o CMakeFiles/cubesim.dir/TetMesh.cpp.o
-/usr/bin/ranlib libcubesim.a
