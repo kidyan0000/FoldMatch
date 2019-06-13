@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
     //
     int CAL = 2;
 
-    double Per = 0.005; // Kd-tree parameters
+    double Per = 0.01; // Kd-tree parameters
 
     double deltaT = 0.006; // time step
 
